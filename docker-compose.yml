@@ -10,31 +10,13 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-iamcare}
-      - MYSQL_HOST=${MYSQL_HOST:-database:3306}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER:-iamcare}
     networks:
       - iamcare-network
-    volumes:
-      - ./api/src/:/var/www/html/
-      - ./api/logs/php.log:/var/log/fpm-php.www.log
-
-  apiproxy:
-    build:
-      context: ./api
-      dockerfile: Dockerfile.proxy
-    networks:
-      - iamcare-network
-    # This should be removed
-    # No ports should be exposed to the outside world
-    # Locally the API should be proxied
     ports:
-      - "6222:80"
+      - "9222:8000"
     volumes:
-      - ./api/src/:/var/www/html/
-      - ./api/logs/nginx:/var/log/nginx/
+      - ./api/:/var/www/html/
+      - ./api/logs/php.log:/var/log/fpm-php.www.log
 
   database:
     build: ./database
