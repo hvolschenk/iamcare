@@ -1,0 +1,46 @@
+name: API
+on: pull_request
+
+jobs:
+  unit_tests:
+    name: 'Unit tests'
+    runs-on: ubuntu-latest
+
+    env:
+      APP_KEY: base64:JNtezjzdfbz1ROJ1Dcz4oH57VHdMk6Ju3s0UeBOk6n8=
+      DB_DATABASE: iamcare
+      DB_HOST: localhost
+      DB_PASSWORD: root
+      DB_USERNAME: root
+
+    steps:
+      - name: Enable MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql \
+            -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' \
+            -u${{ env.DB_USERNAME }} \
+            -p${{ env.DB_PASSWORD }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up environment
+        run: |
+          cp .env.example .env
+          cp .env.example .env.testing
+        working-directory: ./api
+
+      - name: Install dependencies
+        run: composer install
+        working-directory: ./api
+      
+      - name: Set up configuration
+        run: |
+          php artisan config:clear
+          php artisan config:cache
+        working-directory: ./api
+      
+      - name: Unit tests
+        run: php artisan test
+        working-directory: ./api

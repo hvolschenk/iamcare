@@ -25,18 +25,12 @@ through an `.env` file in the root. To create this file, copy the sample
 
 ```sh
 $ cp ./.env.sample .env
-```
-
-Unfortunately, [Laravel][] thinks it is better than that and forces us to read
-"environment variables" from disk. This means we also have to set up the `.env`
-file for that, and make sure the databse values match the ones defined above:
-
-> This is in my opinion a lot worse that reading the actual environment
-> variables from - you guessed it - the environment.
-
-```sh
 $ cp ./api/.env.example ./api/.env
+$ cp ./api/.env.example ./api/.env.testing
 ```
+
+In `./api/.env.testing` the `DB_HOST` needs to be set, but `DB_PASSWORD` should
+be the same as the normal database so should not need to be touched.
 
 ### Startup
 [Startup]: #startup
