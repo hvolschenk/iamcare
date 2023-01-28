@@ -10,6 +10,8 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
+    environment:
+      - DB_PASSWORD=${MYSQL_PASSWORD}
     networks:
       - iamcare-network
     ports:
@@ -29,3 +31,13 @@ services:
       - iamcare-network
     volumes:
       - ./database/data:/var/lib/mysql
+
+  database-testing:
+    build: ./database
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-iamcare}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER:-iamcare}
+    networks:
+      - iamcare-network
