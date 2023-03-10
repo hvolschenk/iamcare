@@ -14,6 +14,10 @@ services:
       - database
     environment:
       - DB_PASSWORD=${MYSQL_PASSWORD}
+      - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
+      - GOOGLE_OAUTH_CLIENT_SECRET=${GOOGLE_OAUTH_CLIENT_SECRET}
+      - SANCTUM_STATEFUL_DOMAINS=${API_STATEFUL_DOMAIN:-localhost:7222}
+      - SESSION_DOMAIN=${API_COOKIE_DOMAIN:-localhost}
     networks:
       - iamcare-network
     ports:
@@ -29,6 +33,7 @@ services:
       - api
     environment:
       - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
+      - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
       - PORT=3000
     networks:
       - iamcare-network

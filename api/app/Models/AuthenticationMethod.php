@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class User extends Authenticatable
+class AuthenticationMethod extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +16,21 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'avatar',
+        'type',
+        'provider_id',
         'name',
         'email',
+        'avatar',
+        'is_primary',
+    ];
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $guarded = [
+        'user_id',
     ];
 
     /**
@@ -30,7 +39,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'remember_token',
+        'user_id',
     ];
 
     /**
@@ -41,10 +50,10 @@ class User extends Authenticatable
     protected $casts = [];
 
     /**
-     * A list of authentication methods link to this user's account
+     * The user who this authentication method belongs to
      */
-    public function authenticationMethods(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(AuthenticationMethod::class);
+        return $this->belongsTo(User::class);
     }
 }
