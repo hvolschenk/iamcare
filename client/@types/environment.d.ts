@@ -2,6 +2,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       API_BASE_URL: string;
+      GOOGLE_OAUTH_CLIENT_ID: string;
       NODE_ENV: 'development' | 'production';
       PWD: string;
     }

@@ -1,13 +1,44 @@
+import { QueryClientConfig } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+import { Provider as AuthenticationProvider } from '~/src/providers/Authentication';
+import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
+import { User } from '~/src/types/User';
+
+const queryClientConfig: QueryClientConfig = {
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: 0,
+    },
+  },
+  logger: {
+    error: () => {},
+    // eslint-disable-next-line no-console
+    log: console.log,
+    // eslint-disable-next-line no-console
+    warn: console.warn,
+  },
+};
+
+const user: User = {
+  email: 'anonymous@iamcare.com',
+  id: 1,
+  name: 'Anonymous',
+};
 
 interface ProvidersProps {
   children: React.ReactNode;
 }
 
 const Providers: React.FC<ProvidersProps> = ({ children }) => (
-  <MemoryRouter>{children}</MemoryRouter>
+  <QueryClientProvider queryClientConfig={queryClientConfig}>
+    <AuthenticationProvider value={user}>
+      <MemoryRouter>{children}</MemoryRouter>
+    </AuthenticationProvider>
+  </QueryClientProvider>
 );
 
 const customRender = (ui: React.ReactElement) =>
