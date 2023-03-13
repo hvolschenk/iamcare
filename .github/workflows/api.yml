@@ -40,7 +40,6 @@ jobs:
       - name: Set up configuration
         run: |
           php artisan config:clear
-          php artisan config:cache
         working-directory: ./api
       
       - name: Unit tests
