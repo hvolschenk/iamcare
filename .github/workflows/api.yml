@@ -12,6 +12,8 @@ jobs:
       DB_HOST: localhost
       DB_PASSWORD: root
       DB_USERNAME: root
+      SANCTUM_STATEFUL_DOMAINS: localhost:7222
+      SESSION_DOMAIN: localhost
 
     steps:
       - name: Enable MySQL
@@ -38,7 +40,6 @@ jobs:
       - name: Set up configuration
         run: |
           php artisan config:clear
-          php artisan config:cache
         working-directory: ./api
       
       - name: Unit tests

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthenticationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::controller(AuthenticationController::class)->group(function () {
+    Route::post('/authenticate/{provider}', 'loginWithProvider')->where(['provider' => '^google$']);
+    Route::get('/authenticate/me', 'currentUser');
 });
 
 Route::controller(ArticleController::class)->group(function () {

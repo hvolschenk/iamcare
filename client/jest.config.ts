@@ -2,6 +2,11 @@ import { Config } from 'jest';
 
 const config: Config = {
   collectCoverage: true,
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "<rootDir>/src/.+/async.tsx",
+    "<rootDir>/src/testing/",
+  ],
   coverageThreshold: {
     global: {
       branches: 100,
@@ -10,10 +15,27 @@ const config: Config = {
       statements: 100,
     },
   },
+  moduleDirectories: [
+    'node_modules',
+    'src',
+  ],
+  moduleFileExtensions: [
+    'js',
+    'json',
+    'jsx',
+    'ts',
+    'tsx'
+  ],
   moduleNameMapper: {
-    '~/(.*)': '<rootDir>/$1'
+    '~/(.*)': '<rootDir>/$1',
   },
   preset: 'ts-jest',
+  roots: [
+    '<rootDir>/src',
+  ],
+  setupFilesAfterEnv: [
+    '<rootDir>/src/testing/setup.ts',
+  ],
   testEnvironment: 'jsdom',
 };
 
