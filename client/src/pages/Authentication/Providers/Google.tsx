@@ -1,9 +1,12 @@
+import Button from '@mui/material/Button';
+import SvgIcon from '@mui/material/SvgIcon';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 
 import csrfToken from '~/src/api/authenticate/csrfToken';
 import authenticateGoogle from '~/src/api/authenticate/google';
+import GoogleG from '~/src/images/GoogleG';
 import l10n from '~/src/l10n';
 
 import { AuthenticationProviderProps } from '../types';
@@ -46,14 +49,22 @@ const Google: React.FC<AuthenticationProviderProps> = ({
   }, [googleLogin, onStart]);
 
   return (
-    <button
+    <Button
+      color="primary"
       data-testid="authentication-button--google"
       disabled={isSubmitting}
+      fullWidth
       onClick={onClick}
+      startIcon={
+        <SvgIcon>
+          <GoogleG />
+        </SvgIcon>
+      }
       type="button"
+      variant="contained"
     >
       {l10n.authenticateGoogleActionLogin}
-    </button>
+    </Button>
   );
 };
 

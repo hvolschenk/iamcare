@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Provider as AuthenticationProvider } from '~/src/providers/Authentication';
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
+import { Provider as ThemeProvider } from '~/src/providers/ThemeProvider';
 import { User } from '~/src/types/User';
 
 const queryClientConfig: QueryClientConfig = {
@@ -36,7 +37,9 @@ interface ProvidersProps {
 const Providers: React.FC<ProvidersProps> = ({ children }) => (
   <QueryClientProvider queryClientConfig={queryClientConfig}>
     <AuthenticationProvider value={user}>
-      <MemoryRouter>{children}</MemoryRouter>
+      <ThemeProvider>
+        <MemoryRouter>{children}</MemoryRouter>
+      </ThemeProvider>
     </AuthenticationProvider>
   </QueryClientProvider>
 );
