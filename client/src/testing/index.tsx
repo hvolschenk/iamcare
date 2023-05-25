@@ -1,7 +1,7 @@
 import { QueryClientConfig } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, MemoryRouterProps } from 'react-router-dom';
 
 import { Provider as AuthenticationProvider } from '~/src/providers/Authentication';
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
@@ -30,23 +30,31 @@ const user: User = {
   name: 'Anonymous',
 };
 
-interface ProvidersProps {
-  children: React.ReactNode;
+interface Options {
+  router: MemoryRouterProps;
 }
 
-const Providers: React.FC<ProvidersProps> = ({ children }) => (
+interface ProvidersProps {
+  children: React.ReactNode;
+  options?: Partial<Options>;
+}
+
+const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
   <QueryClientProvider queryClientConfig={queryClientConfig}>
     <AuthenticationProvider value={user}>
       <ThemeProvider>
-        <MemoryRouter>{children}</MemoryRouter>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <MemoryRouter {...options?.router}>{children}</MemoryRouter>
       </ThemeProvider>
     </AuthenticationProvider>
   </QueryClientProvider>
 );
 
-const customRender = (ui: React.ReactElement) =>
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  render(ui, { wrapper: (props) => <Providers {...props} /> });
+const customRender = (ui: React.ReactElement, options?: Partial<Options>) =>
+  render(ui, {
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    wrapper: (props) => <Providers {...props} options={options} />,
+  });
 
 export * from '@testing-library/react';
 export { customRender as render };
