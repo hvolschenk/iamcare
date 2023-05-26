@@ -1,6 +1,8 @@
+// In ALL other cases `render` should be imported from `~/src/testing`.
+// In this ONE case we are testing all the Providers,
+// and don't need any mocks for them.
+import { render } from '@testing-library/react';
 import React from 'react';
-
-import { render } from '~/src/testing';
 
 import Application from './Application';
 

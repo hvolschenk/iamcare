@@ -12,8 +12,6 @@ import Authentication from './index';
 jest.mock('@react-oauth/google');
 jest.mock('~/src/api/authenticate/csrfToken');
 jest.mock('~/src/api/authenticate/google');
-jest.mock('~/src/providers/Authentication/Provider');
-jest.mock('~/src/providers/Authentication/useAuthentication');
 
 let wrapper: RenderResult;
 

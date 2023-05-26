@@ -8,6 +8,8 @@ import { User } from '~/src/types/User';
 import { Provider, useAuthentication } from './index';
 
 jest.mock('~/src/api/authenticate/me');
+jest.unmock('~/src/providers/Authentication/Provider');
+jest.unmock('~/src/providers/Authentication/useAuthentication');
 
 describe('When the user API call fails', () => {
   const ERROR = new Error('Failed to fetch the user');

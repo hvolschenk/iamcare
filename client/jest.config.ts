@@ -29,11 +29,15 @@ const config: Config = {
   moduleNameMapper: {
     '~/(.*)': '<rootDir>/$1',
   },
+  modulePathIgnorePatterns: [
+    '.*__mocks__.*',
+  ],
   preset: 'ts-jest',
   roots: [
     '<rootDir>/src',
   ],
   setupFilesAfterEnv: [
+    '<rootDir>/src/testing/mocks.ts',
     '<rootDir>/src/testing/setup.ts',
   ],
   testEnvironment: 'jsdom',
