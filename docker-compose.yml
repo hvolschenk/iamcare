@@ -34,6 +34,8 @@ services:
     environment:
       - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
       - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
+      - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
+      - GOOGLE_PLACES_COUNTRY_CODE=${GOOGLE_PLACES_COUNTRY_CODE}
       - PORT=3000
     networks:
       - iamcare-network

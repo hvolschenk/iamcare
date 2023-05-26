@@ -4,6 +4,7 @@ import React from 'react';
 import { MemoryRouter, MemoryRouterProps } from 'react-router-dom';
 
 import { Provider as AuthenticationProvider } from '~/src/providers/Authentication';
+import { Provider as GooglePlacesProvider } from '~/src/providers/GooglePlaces';
 import { Provider as NotificationsProvider } from '~/src/providers/Notifications';
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
 import { Provider as ThemeProvider } from '~/src/providers/ThemeProvider';
@@ -44,10 +45,12 @@ const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
   <QueryClientProvider queryClientConfig={queryClientConfig}>
     <AuthenticationProvider value={user}>
       <ThemeProvider>
-        <NotificationsProvider>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <MemoryRouter {...options?.router}>{children}</MemoryRouter>
-        </NotificationsProvider>
+        <GooglePlacesProvider>
+          <NotificationsProvider>
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <MemoryRouter {...options?.router}>{children}</MemoryRouter>
+          </NotificationsProvider>
+        </GooglePlacesProvider>
       </ThemeProvider>
     </AuthenticationProvider>
   </QueryClientProvider>
