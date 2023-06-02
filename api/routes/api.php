@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +26,8 @@ Route::controller(ArticleController::class)->group(function () {
     Route::get('articles/{article}', 'show');
     Route::post('articles', 'store');
     Route::put('articles/{article}', 'update');
+});
+
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('categories', 'index');
 });
