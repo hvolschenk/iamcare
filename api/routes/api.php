@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +31,10 @@ Route::controller(ArticleController::class)->group(function () {
 
 Route::controller(CategoryController::class)->group(function () {
     Route::get('categories', 'index');
+});
+
+Route::controller(ItemController::class)->group(function () {
+    Route::get('items', 'index');
+    Route::get('items/{item}', 'show');
+    Route::post('items', 'create');
 });
