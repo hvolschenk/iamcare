@@ -1,5 +1,9 @@
 export const authentication = () => '/authentication';
+export const itemCreate = () => '/items/create';
+export const items = () => '/items';
 export const root = () => '/';
+export const user = (userID = ':userID') => `/users/${userID}`;
+export const userItems = (userID = ':userID') => `/users/${userID}/items`;
 
 // -----------------------------------------------------------------------------
 // Helper methods
