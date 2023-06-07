@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Article;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ArticlesTableSeeder extends Seeder
+class ArticleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,8 +20,8 @@ class ArticlesTableSeeder extends Seeder
 
         for ($i = 0; $i < 50; $i++) {
             Article::create([
-                'title' => $faker->sentence,
-                'body' => $faker->paragraph,
+                'title' => $faker->sentence(),
+                'body' => $faker->paragraph(),
             ]);
         }
     }

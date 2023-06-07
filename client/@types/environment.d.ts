@@ -3,6 +3,8 @@ declare global {
     interface ProcessEnv {
       API_BASE_URL: string;
       GOOGLE_OAUTH_CLIENT_ID: string;
+      GOOGLE_PLACES_API_KEY: string;
+      GOOGLE_PLACES_COUNTRY_CODE: string;
       NODE_ENV: 'development' | 'production';
       PWD: string;
     }

@@ -20,6 +20,11 @@ return [
         'redirect' => 'http://localhost:7222'
     ],
 
+    'google_places' => [
+        'api_key' => env('GOOGLE_PLACES_API_KEY'),
+        'country_code' => env('GOOGLE_PLACES_COUNTRY_CODE'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

@@ -55,6 +55,7 @@
     ],
     "react/jsx-fragments": ["error", "element"],
     "react/jsx-key": ["error"],
+    "react/jsx-no-duplicate-props": ["error", { "ignoreCase": false }],
     "react/require-default-props": [
       "error",
       { "ignoreFunctionalComponents": true }

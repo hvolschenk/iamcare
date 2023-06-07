@@ -8,5 +8,25 @@ export interface L10n {
   authenticateProviderErrorLoading: string;
   authentication: string;
   home: string;
+  itemCategoryErrorRequired: string;
+  itemCategoryHelperText: string;
+  itemCategoryLabel: string;
+  itemCreateActionPrimary: string;
+  itemCreatePageTitle: string;
+  itemCreateSuccess: string;
+  itemDescriptionHelperText: string;
+  itemDescriptionLabel: string;
+  itemFormErrorCreating: string;
+  itemFormErrorLoading: string;
+  itemImagesHelperText: string;
+  itemImagesLabel: string;
+  itemImagesLabelUpload: string;
+  itemLocationErrorRequired: string;
+  itemLocationHelperText: string;
+  itemLocationLabel: string;
+  itemNameErrorRequired: string;
+  itemNameHelperText: string;
+  itemNameLabel: string;
+  items: string;
   temp: string;
 }
