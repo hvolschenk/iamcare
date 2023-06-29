@@ -13,6 +13,7 @@ services:
     depends_on:
       - database
     environment:
+      - APP_DEBUG=${API_DEBUG:-true}
       - DB_PASSWORD=${MYSQL_PASSWORD}
       - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
       - GOOGLE_OAUTH_CLIENT_SECRET=${GOOGLE_OAUTH_CLIENT_SECRET}
