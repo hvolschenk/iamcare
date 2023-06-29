@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ItemResource;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Item;
@@ -22,7 +23,7 @@ class ItemController extends Controller
 
     public function show(Item $item)
     {
-        return Item::with([ 'category', 'location', 'images', 'user' ])->find($item->id);
+        return new ItemResource(Item::with(['category', 'location', 'images', 'user'])->find($item->id));
     }
 
     public function create(Request $request, GooglePlaces $googlePlaces)
@@ -60,7 +61,7 @@ class ItemController extends Controller
                 $item->save();
             }, 1);
             Log::debug('Item: Create: Return', [ 'id' => $item->id ]);
-            return Item::with([ 'category', 'location', 'images', 'user' ])->find($item->id);
+            return new ItemResource(Item::with(['category', 'location', 'images', 'user'])->find($item->id));
         } catch (\Exception $error) {
             Log::debug('Item: Create: Undo: Delete Images');
             foreach ($images as $image) {
