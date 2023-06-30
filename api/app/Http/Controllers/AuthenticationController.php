@@ -59,7 +59,7 @@ class AuthenticationController extends Controller
                     count($user->authenticationMethods) > 0 &&
                     $user->authenticationMethods[0]->type === $provider
                 ) {
-                    Log::debug('Updating user');
+                    Log::debug('Login: Update user');
                     $user->avatar = $providerUser->getAvatar();
                     $user->name = $providerUser->getName();
                     $user->save();
