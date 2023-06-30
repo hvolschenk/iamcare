@@ -119,13 +119,13 @@ class ItemControllerTest extends TestCase
                         'mimeType' => $image1->getMimeType(),
                         'name' => $image1->getBasename(),
                         'sizeBytes' => $image1->getSize(),
-                        'url' => $disk->url($image1->hashName()),
+                        'url' => $disk->url("images/items/{$image1->hashName()}"),
                     ],
                     [
                         'mimeType' => $image2->getMimeType(),
                         'name' => $image2->getBasename(),
                         'sizeBytes' => $image2->getSize(),
-                        'url' => $disk->url($image2->hashName()),
+                        'url' => $disk->url("images/items/{$image2->hashName()}"),
                     ]
                 ],
                 'location' => [

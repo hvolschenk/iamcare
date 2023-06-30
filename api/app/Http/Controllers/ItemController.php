@@ -86,12 +86,12 @@ class ItemController extends Controller
         {
             /** @var $filesystem Illuminate\Filesystem\FilesystemAdapter */
             $filesystem = Storage::disk('public');
-            $filesystem->putFile('images/items', $uploadedFile);
+            $path = $filesystem->putFile('images/items', $uploadedFile);
             $image = new Image([
                 'mimeType' => $uploadedFile->getMimeType(),
                 'name' => $uploadedFile->getFilename(),
                 'sizeBytes' => $uploadedFile->getSize(),
-                'url' => $filesystem->url($uploadedFile->hashName()),
+                'url' => $filesystem->url($path),
             ]);
             array_push($images, $image);
         }
