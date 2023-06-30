@@ -68,7 +68,7 @@ class AuthenticationController extends Controller
 
             /** @var \App\Models\User $user */
             $user = User::where('email', $providerUser->getEmail())->first();
-            Auth::login($user);
+            Auth::login($user, true);
             $request->session()->regenerate();
             Log::info('Login: Success', ['email' => $user->email, 'id' => $user->id]);
             return new UserResource($user);
