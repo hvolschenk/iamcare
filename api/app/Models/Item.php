@@ -45,6 +45,19 @@ class Item extends Model
     ];
 
     /**
+     * Bootstrap the model and its traits.
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::deleting(function ($item) {
+            $item->images()->each(function ($image) {
+                $image->delete();
+            });
+        });
+    }
+
+    /**
      * The category that this item falls within
      */
     public function category(): BelongsTo
