@@ -9,6 +9,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', Category::class);
         return CategoryResource::collection(Category::all());
     }
 }

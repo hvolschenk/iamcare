@@ -18,17 +18,20 @@ class ItemController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', Item::class);
         return Item::all();
     }
 
     public function show(Item $item)
     {
+        $this->authorize('view', $item);
         return new ItemResource(Item::with(['category', 'location', 'images', 'user'])->find($item->id));
     }
 
     public function create(Request $request, GooglePlaces $googlePlaces)
     {
         Log::debug('Item: Create: Start', [ 'name' => $request->input(('name')) ]);
+        $this->authorize('create', Item::class);
         $request->validate([
             'category' => 'bail|required|alpha',
             'description' => 'bail|required',
