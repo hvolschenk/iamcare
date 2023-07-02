@@ -27,6 +27,7 @@ Route::controller(ItemController::class)->group(function () {
 
 Route::controller(UserController::class)->group(function () {
     Route::get('users/me', 'currentUser');
+    Route::get('users/{user}', 'show');
     Route::post('users/authenticate/{provider}', 'loginWithProvider')
         ->where(['provider' => '^google$']);
 });

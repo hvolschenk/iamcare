@@ -208,7 +208,7 @@ class UserControllerTest extends TestCase
     }
 
     /**
-     * Get a user profile when not logged-in.
+     * Get the current user when not logged-in.
      *
      * @return void
      */
@@ -219,7 +219,7 @@ class UserControllerTest extends TestCase
     }
 
     /**
-     * Get a user profile when logged-in.
+     * Get the current user when logged-in.
      *
      * @return void
      */
@@ -228,6 +228,73 @@ class UserControllerTest extends TestCase
         $user = UserModel::inRandomOrder()->first();
         $this->actingAs($user);
         $response = $this->getJson('/users/me');
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'avatar' => $user->avatar,
+                'dateCreated' => $user->created_at->toISOString(),
+                'dateUpdated' => $user->updated_at->toISOString(),
+                'email' => $user->email,
+                'id' => $user->id,
+                'name' => $user->name,
+            ]);
+    }
+
+    /**
+     * Get a user profile when not logged in.
+     *
+     * @return void
+     */
+    public function test_get_user_profile_not_logged_in()
+    {
+        $user = UserModel::inRandomOrder()->first();
+        $response = $this->getJson("/users/{$user->id}");
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'avatar' => $user->avatar,
+                'dateCreated' => $user->created_at->toISOString(),
+                'dateUpdated' => $user->updated_at->toISOString(),
+                'id' => $user->id,
+                'name' => $user->name,
+            ])
+            ->assertJsonMissingPath('email');
+    }
+
+    /**
+     * Get a user profile when logged in as a different user.
+     *
+     * @return void
+     */
+    public function test_get_user_profile_logged_in_as_other()
+    {
+        $users = UserModel::inRandomOrder()->get();
+        $user = $users[0];
+        $loggedInUser = $users[1];
+        $this->actingAs($loggedInUser);
+        $response = $this->getJson("/users/{$user->id}");
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'avatar' => $user->avatar,
+                'dateCreated' => $user->created_at->toISOString(),
+                'dateUpdated' => $user->updated_at->toISOString(),
+                'id' => $user->id,
+                'name' => $user->name,
+            ])
+            ->assertJsonMissingPath('email');
+    }
+
+    /**
+     * Get a user profile when logged in as a different user.
+     *
+     * @return void
+     */
+    public function test_get_user_profile_logged_in_as_user()
+    {
+        $user = UserModel::inRandomOrder()->first();
+        $this->actingAs($user);
+        $response = $this->getJson("/users/{$user->id}");
         $response
             ->assertStatus(200)
             ->assertJson([
