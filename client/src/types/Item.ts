@@ -19,5 +19,5 @@ export type ItemCreate = Omit<
 > & {
   category: string;
   images: File[];
-  location: Pick<LocationBasic, 'placeID'>;
+  location: Pick<LocationBasic, 'googlePlaceID'>;
 };

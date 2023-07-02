@@ -7,8 +7,10 @@ import itemCreate from '~/src/api/items/create';
 import l10n from '~/src/l10n';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
 import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
-import { Category } from '~/src/types/Category';
-import { Item } from '~/src/types/Item';
+import {
+  category as categoryMock,
+  item as itemMock,
+} from '~/src/testing/mocks';
 import { itemCreate as itemCreateURL, userItems } from '~/src/urls';
 
 import CreateItem from './index';
@@ -45,11 +47,7 @@ describe('When the categories fail to load', () => {
   });
 
   describe('When the categories load (on retry)', () => {
-    const categoriesList: Category[] = [
-      { id: 1, name: 'Love' },
-      { id: 2, name: 'Care' },
-      { id: 3, name: 'Respect' },
-    ];
+    const categoriesList = [categoryMock(), categoryMock(), categoryMock()];
 
     beforeEach(async () => {
       (categories as jest.Mock)
@@ -275,27 +273,7 @@ describe('When the categories fail to load', () => {
         });
 
         describe('When the API call succeeds', () => {
-          const item: Item = {
-            category: {
-              id: 22,
-              name: 'Care',
-            },
-            description: 'An item created with care',
-            id: 22,
-            images: [],
-            location: {
-              id: 22,
-              namePrimary: 'Centurion',
-              nameSecondary: 'Gauteng',
-              placeID: '22',
-            },
-            name: 'Care',
-            user: {
-              email: 'carer@iamcare.co.za',
-              id: 22,
-              name: 'Carer',
-            },
-          };
+          const item = itemMock();
 
           beforeEach(async () => {
             (itemCreate as jest.Mock)

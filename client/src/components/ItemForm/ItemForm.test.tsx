@@ -4,39 +4,17 @@ import React from 'react';
 
 import categories from '~/src/api/category/all';
 import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
-import { Category } from '~/src/types/Category';
-import { Item } from '~/src/types/Item';
+import {
+  category as categoryMock,
+  item as itemMock,
+} from '~/src/testing/mocks';
 
 import ItemForm from './index';
 
 jest.mock('~/src/api/category/all');
 
-const categoriesList: Category[] = [
-  { id: 1, name: 'Love' },
-  { id: 2, name: 'Care' },
-  { id: 3, name: 'Respect' },
-];
-const item: Item = {
-  category: {
-    id: 22,
-    name: 'Care',
-  },
-  description: 'I am care',
-  id: 22,
-  images: [],
-  location: {
-    id: 22,
-    namePrimary: 'Centurion',
-    nameSecondary: 'South Africa',
-    placeID: '22',
-  },
-  name: 'Care',
-  user: {
-    email: 'carer@iamcare.co.za',
-    id: 22,
-    name: 'Carer',
-  },
-};
+const categoriesList = [categoryMock(), categoryMock(), categoryMock()];
+const item = itemMock();
 const onSuccess = jest.fn();
 
 let wrapper: RenderResult;

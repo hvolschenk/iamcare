@@ -9,7 +9,7 @@ const formValues: ItemCreate = {
   category: 'Love',
   description: 'I am care',
   images: [new File(['<3'], 'care.png'), new File(['<3'], 'love.png')],
-  location: { placeID: '22' },
+  location: { googlePlaceID: '22' },
   name: 'Care',
 };
 const formData = new FormData();
@@ -18,7 +18,7 @@ formData.append('description', formValues.description);
 formValues.images.forEach((image) => {
   formData.append('image[]', image);
 });
-formData.append('location', formValues.location.placeID);
+formData.append('location', formValues.location.googlePlaceID);
 formData.append('name', formValues.name);
 
 beforeEach(() => {

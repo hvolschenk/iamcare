@@ -5,7 +5,7 @@ import csrfToken from '~/src/api/authenticate/csrfToken';
 import authenticateGoogle from '~/src/api/user/authenticateGoogle';
 import l10n from '~/src/l10n';
 import { act, fireEvent, render, RenderResult, waitFor } from '~/src/testing';
-import { User } from '~/src/types/User';
+import { user as userMock } from '~/src/testing/mocks';
 
 import Authentication from './index';
 
@@ -81,11 +81,7 @@ describe('Google Login', () => {
     });
 
     describe('When the API calls succeed', () => {
-      const user: User = {
-        email: 'atreyu@neverendingstory.com',
-        id: 22,
-        name: 'Atreyu',
-      };
+      const user = userMock();
 
       beforeEach(async () => {
         (csrfToken as jest.Mock).mockClear().mockResolvedValue({ status: 204 });
@@ -110,7 +106,7 @@ describe('Google Login', () => {
 
       test('Sets the user correctly', () => {
         expect(wrapper.queryByTestId('authentication__user')).toHaveTextContent(
-          user.email,
+          user.email || '',
         );
       });
     });
