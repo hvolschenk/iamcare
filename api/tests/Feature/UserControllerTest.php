@@ -10,7 +10,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User;
 use Tests\TestCase;
 
-class AuthenticationControllerTest extends TestCase
+class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -31,7 +31,7 @@ class AuthenticationControllerTest extends TestCase
     public function test_unsupported_provider()
     {
         $response = $this->postJson(
-            '/authenticate/unsupported',
+            '/users/authenticate/unsupported',
             ['accessToken' => 'ab702'],
             // This does not feel right.
             // If it is not here then the stateful middleware just falls over.
@@ -57,7 +57,7 @@ class AuthenticationControllerTest extends TestCase
         ]);
         Socialite::shouldReceive('driver->userFromToken')->andReturn($user);
         $response = $this->postJson(
-            '/authenticate/google',
+            '/users/authenticate/google',
             ['accessToken' => 'ab702'],
             // This does not feel right.
             // If it is not here then the stateful middleware just falls over.
@@ -108,7 +108,7 @@ class AuthenticationControllerTest extends TestCase
 
         Socialite::shouldReceive('driver->userFromToken')->andReturn($user);
         $response = $this->postJson(
-            '/authenticate/google',
+            '/users/authenticate/google',
             ['accessToken' => 'ab702'],
             // This does not feel right.
             // If it is not here then the stateful middleware just falls over.
@@ -162,7 +162,7 @@ class AuthenticationControllerTest extends TestCase
 
         Socialite::shouldReceive('driver->userFromToken')->andReturn($user);
         $response = $this->postJson(
-            '/authenticate/google',
+            '/users/authenticate/google',
             ['accessToken' => 'ab702'],
             // This does not feel right.
             // If it is not here then the stateful middleware just falls over.
@@ -198,12 +198,45 @@ class AuthenticationControllerTest extends TestCase
         $exception = new Exception('Failed to get user from provider');
         Socialite::shouldReceive('driver->userFromToken')->andThrow($exception);
         $response = $this->postJson(
-            '/authenticate/google',
+            '/users/authenticate/google',
             ['accessToken' => 'ab702'],
             // This does not feel right.
             // If it is not here then the stateful middleware just falls over.
             ['origin' => 'http://localhost:7222'],
         );
         $response->assertStatus(500);
+    }
+
+    /**
+     * Get a user profile when not logged-in.
+     *
+     * @return void
+     */
+    public function test_get_me_not_logged_in()
+    {
+        $response = $this->getJson('/users/me');
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Get a user profile when logged-in.
+     *
+     * @return void
+     */
+    public function test_get_me_logged_in()
+    {
+        $user = UserModel::inRandomOrder()->first();
+        $this->actingAs($user);
+        $response = $this->getJson('/users/me');
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'avatar' => $user->avatar,
+                'dateCreated' => $user->created_at->toISOString(),
+                'dateUpdated' => $user->updated_at->toISOString(),
+                'email' => $user->email,
+                'id' => $user->id,
+                'name' => $user->name,
+            ]);
     }
 }

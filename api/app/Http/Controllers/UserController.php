@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
-class AuthenticationController extends Controller
+class UserController extends Controller
 {
     public function currentUser(Request $request)
     {
+        $this->authorize('viewMe', User::class);
         $user = $request->user();
         if ($user) {
             return new UserResource($user);
@@ -23,6 +24,7 @@ class AuthenticationController extends Controller
 
     public function loginWithProvider(Request $request, string $provider)
     {
+        $this->authorize('authenticate', User::class);
         Log::withContext(['method' => $provider]);
         $accessToken = $request->input('accessToken');
         /** @var \Laravel\Socialite\Two\AbstractProvider $socialiteProvider */
