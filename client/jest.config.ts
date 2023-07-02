@@ -37,8 +37,8 @@ const config: Config = {
     '<rootDir>/src',
   ],
   setupFilesAfterEnv: [
-    '<rootDir>/src/testing/mocks.ts',
     '<rootDir>/src/testing/setup.ts',
+    '<rootDir>/src/testing/setupMocks.ts',
   ],
   testEnvironment: 'jsdom',
 };
