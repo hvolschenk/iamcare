@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -5,20 +6,19 @@ import ItemForm from '~/src/components/ItemForm';
 import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
-import { useAuthentication } from '~/src/providers/Authentication';
 import { useNotifications } from '~/src/providers/Notifications';
 import { Item } from '~/src/types/Item';
-import { User } from '~/src/types/User';
 import { root, user as userURL, userItems } from '~/src/urls';
 
-const ItemCreate: React.FC = () => {
-  useDocumentTitle([l10n.itemCreatePageTitle, 'MY ITEMS']);
+import { useUser } from '../../context';
 
-  // In this case the user 100% exists.
-  // This page is protected.
-  const { user } = useAuthentication() as { user: User };
+const ItemCreate: React.FC = () => {
+  const { user } = useUser();
+  useDocumentTitle([l10n.itemCreatePageTitle, l10n.items, user.name]);
+
   const navigate = useNavigate();
   const { notify } = useNotifications();
+  const queryClient = useQueryClient();
 
   const onSuccess = React.useCallback(
     (item: Item) => {
@@ -27,9 +27,10 @@ const ItemCreate: React.FC = () => {
           itemName: item.name,
         }),
       });
+      queryClient.invalidateQueries(['users', user.id, 'items']);
       navigate(userItems(user.id.toString()));
     },
-    [navigate, notify, user],
+    [navigate, notify, queryClient, user],
   );
 
   return (
