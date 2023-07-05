@@ -28,11 +28,10 @@ class CategoryControllerTest extends TestCase
 
         $response->assertJson(fn (AssertableJson $json) =>
             $json
-                ->has(10)
-                ->first(fn (AssertableJson $firstJson) =>
-                    $firstJson
-                        ->hasAll('name')
-                        ->etc()
+                ->has('data', 10)
+                ->has('data.0', fn (AssertableJson $jsonFirst) =>
+                    $jsonFirst
+                        ->hasAll(['dateCreated', 'dateUpdated', 'id', 'name'])
                 )
         );
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class AuthenticationController extends Controller
     {
         $user = $request->user();
         if ($user) {
-            return $user;
+            return new UserResource($user);
         }
         return response()->noContent();
     }
@@ -70,7 +71,7 @@ class AuthenticationController extends Controller
             Auth::login($user);
             $request->session()->regenerate();
             Log::info('Login: Success', ['email' => $user->email, 'id' => $user->id]);
-            return response($user);
+            return new UserResource($user);
         } catch (\Exception $error) {
             Log::error('Login: Failure', ['message' => $error->getMessage()]);
             return response(null, 500);
