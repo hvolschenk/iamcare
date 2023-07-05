@@ -59,7 +59,7 @@ class AuthenticationController extends Controller
                     count($user->authenticationMethods) > 0 &&
                     $user->authenticationMethods[0]->type === $provider
                 ) {
-                    Log::debug('Updating user');
+                    Log::debug('Login: Update user');
                     $user->avatar = $providerUser->getAvatar();
                     $user->name = $providerUser->getName();
                     $user->save();
@@ -68,7 +68,7 @@ class AuthenticationController extends Controller
 
             /** @var \App\Models\User $user */
             $user = User::where('email', $providerUser->getEmail())->first();
-            Auth::login($user);
+            Auth::login($user, true);
             $request->session()->regenerate();
             Log::info('Login: Success', ['email' => $user->email, 'id' => $user->id]);
             return new UserResource($user);
