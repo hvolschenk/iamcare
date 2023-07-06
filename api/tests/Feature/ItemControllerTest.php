@@ -27,6 +27,8 @@ class ItemControllerTest extends TestCase
      */
     public function test_validation_failed(): void
     {
+        $user = User::inRandomOrder()->first();
+        $this->actingAs($user);
         $response = $this->postJson('/items', []);
 
         $response
@@ -48,6 +50,8 @@ class ItemControllerTest extends TestCase
         });
         $image = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
 
+        $user = User::inRandomOrder()->first();
+        $this->actingAs($user);
         $response = $this->postJson(
             '/items',
             [
