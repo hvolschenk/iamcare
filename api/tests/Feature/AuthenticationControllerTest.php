@@ -16,6 +16,13 @@ class AuthenticationControllerTest extends TestCase
     use WithFaker;
 
     /**
+     * Indicates whether the default seeder should run before each test.
+     *
+     * @var bool
+     */
+    protected $seed = true;
+
+    /**
      * Log in with an unsupported provider
      * The allowed providers are controlled through the route definition
      *

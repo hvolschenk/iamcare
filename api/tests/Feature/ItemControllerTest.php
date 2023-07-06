@@ -79,7 +79,7 @@ class ItemControllerTest extends TestCase
         $disk = Storage::disk('public');
         $googlePlace = [
             'formatted_address' => str_replace("\n", ' ', $this->faker->address()),
-            'place_id' => $this->faker->randomNumber(5),
+            'place_id' => (string)$this->faker->randomNumber(5),
             'geometry' => [
                 'location' => [
                     'lat' => $this->faker->latitude(),
@@ -87,7 +87,7 @@ class ItemControllerTest extends TestCase
                 ],
             ],
             'name' => $this->faker->city(),
-            'utc_offset' => $this->faker->randomNumber(3, true),
+            'utc_offset' => (string)$this->faker->randomNumber(3, true),
         ];
         $this->mock(GooglePlaces::class, function ($mock) use ($googlePlace) {
             $mock
@@ -119,13 +119,13 @@ class ItemControllerTest extends TestCase
                         'mimeType' => $image1->getMimeType(),
                         'name' => $image1->getBasename(),
                         'sizeBytes' => $image1->getSize(),
-                        'url' => $disk->url($image1->hashName()),
+                        'url' => $disk->url("images/items/{$image1->hashName()}"),
                     ],
                     [
                         'mimeType' => $image2->getMimeType(),
                         'name' => $image2->getBasename(),
                         'sizeBytes' => $image2->getSize(),
-                        'url' => $disk->url($image2->hashName()),
+                        'url' => $disk->url("images/items/{$image2->hashName()}"),
                     ]
                 ],
                 'location' => [
