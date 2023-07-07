@@ -1,13 +1,13 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
 
-import authenticateMe from '~/src/api/authenticate/me';
+import authenticateMe from '~/src/api/user/me';
 import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
 import { User } from '~/src/types/User';
 
 import { Provider, useAuthentication } from './index';
 
-jest.mock('~/src/api/authenticate/me');
+jest.mock('~/src/api/user/me');
 jest.unmock('~/src/providers/Authentication/Provider');
 jest.unmock('~/src/providers/Authentication/useAuthentication');
 

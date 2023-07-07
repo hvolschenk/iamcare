@@ -1,4 +1,4 @@
-import google from './google';
+import google from './authenticateGoogle';
 import client from '../client';
 
 jest.mock('../client');
@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 test('Builds the URL call correctly', () => {
-  expect(client.post).toHaveBeenCalledWith('/authenticate/google', {
+  expect(client.post).toHaveBeenCalledWith('/users/authenticate/google', {
     accessToken,
   });
 });

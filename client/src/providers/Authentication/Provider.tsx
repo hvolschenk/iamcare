@@ -2,7 +2,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
-import authenticateMe from '~/src/api/authenticate/me';
+import authenticateMe from '~/src/api/user/me';
 import configuration from '~/src/configuration';
 import l10n from '~/src/l10n';
 import { User } from '~/src/types/User';
