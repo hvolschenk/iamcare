@@ -9,8 +9,11 @@ interface Payload {
 }
 
 const authenticateGoogle = (accessToken: string) =>
-  apiClient.post<User, AxiosResponse<User>, Payload>('/authenticate/google', {
-    accessToken,
-  });
+  apiClient.post<User, AxiosResponse<User>, Payload>(
+    '/users/authenticate/google',
+    {
+      accessToken,
+    },
+  );
 
 export default authenticateGoogle;

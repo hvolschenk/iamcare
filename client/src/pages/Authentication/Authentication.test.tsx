@@ -2,7 +2,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import React from 'react';
 
 import csrfToken from '~/src/api/authenticate/csrfToken';
-import authenticateGoogle from '~/src/api/authenticate/google';
+import authenticateGoogle from '~/src/api/user/authenticateGoogle';
 import l10n from '~/src/l10n';
 import { act, fireEvent, render, RenderResult, waitFor } from '~/src/testing';
 import { User } from '~/src/types/User';
@@ -11,7 +11,7 @@ import Authentication from './index';
 
 jest.mock('@react-oauth/google');
 jest.mock('~/src/api/authenticate/csrfToken');
-jest.mock('~/src/api/authenticate/google');
+jest.mock('~/src/api/user/authenticateGoogle');
 
 let wrapper: RenderResult;
 

@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 
 import csrfToken from '~/src/api/authenticate/csrfToken';
-import authenticateGoogle from '~/src/api/authenticate/google';
+import authenticateGoogle from '~/src/api/user/authenticateGoogle';
 import GoogleG from '~/src/images/GoogleG';
 import l10n from '~/src/l10n';
 

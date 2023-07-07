@@ -9,5 +9,5 @@ beforeEach(() => {
 });
 
 test('Builds the URL call correctly', () => {
-  expect(client.get).toHaveBeenCalledWith('/authenticate/me');
+  expect(client.get).toHaveBeenCalledWith('/users/me');
 });
