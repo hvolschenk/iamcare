@@ -7,6 +7,7 @@ export interface L10n {
   authenticateGoogleErrorLoginFailed: string;
   authenticateProviderErrorLoading: string;
   authentication: string;
+  errorLoading: string;
   home: string;
   itemCategoryErrorRequired: string;
   itemCategoryHelperText: string;
@@ -29,4 +30,5 @@ export interface L10n {
   itemNameLabel: string;
   items: string;
   temp: string;
+  userErrorLoading: string;
 }

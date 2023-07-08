@@ -11,6 +11,7 @@ const en: L10n = {
   authenticateProviderErrorLoading:
     'Failed to load the authentication provider',
   authentication: 'Authentication',
+  errorLoading: 'Error loading',
   home: 'Home',
   itemCategoryErrorRequired: 'Please select a category for the item',
   itemCategoryHelperText:
@@ -38,6 +39,7 @@ const en: L10n = {
   itemNameLabel: 'Item name',
   items: 'Items',
   temp: 'A temporary sting',
+  userErrorLoading: 'User profile failed to load. Please try again',
 };
 
 export default en;
