@@ -2,7 +2,14 @@ import { AxiosResponse } from 'axios';
 import React from 'react';
 
 import authenticateMe from '~/src/api/user/me';
-import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
+import {
+  fireEvent,
+  render,
+  RenderResult,
+  testUser,
+  waitFor,
+} from '~/src/testing';
+import { user as userMock } from '~/src/testing/mocks';
 import { User } from '~/src/types/User';
 
 import { Provider, useAuthentication } from './index';
@@ -72,11 +79,7 @@ describe('When the user API call fails', () => {
     });
 
     describe('With a user', () => {
-      const user: User = {
-        email: 'nicolai@iamcare.com',
-        id: 22,
-        name: 'Nicolai Tesla',
-      };
+      const user = userMock();
 
       beforeEach(async () => {
         (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
@@ -121,7 +124,7 @@ describe('useAuthentication', () => {
 
   test('Gets the user from context', () => {
     expect(wrapper.queryByTestId('user__email')).toHaveTextContent(
-      'anonymous@iamcare.com',
+      testUser.email || '',
     );
   });
 });

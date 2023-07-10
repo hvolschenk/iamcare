@@ -8,7 +8,8 @@ import { Provider as GooglePlacesProvider } from '~/src/providers/GooglePlaces';
 import { Provider as NotificationsProvider } from '~/src/providers/Notifications';
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
 import { Provider as ThemeProvider } from '~/src/providers/ThemeProvider';
-import { User } from '~/src/types/User';
+
+import { user } from './mocks';
 
 const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
@@ -26,11 +27,7 @@ const queryClientConfig: QueryClientConfig = {
   },
 };
 
-const user: User = {
-  email: 'anonymous@iamcare.com',
-  id: 1,
-  name: 'Anonymous',
-};
+export const testUser = user();
 
 interface Options {
   router: MemoryRouterProps;
@@ -43,7 +40,7 @@ interface ProvidersProps {
 
 const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
   <QueryClientProvider queryClientConfig={queryClientConfig}>
-    <AuthenticationProvider value={user}>
+    <AuthenticationProvider value={testUser}>
       <ThemeProvider>
         <GooglePlacesProvider>
           <NotificationsProvider>

@@ -47,12 +47,12 @@ const ItemForm: React.FC<ItemFormProps> = ({
     description: yup.string(),
     location: yup
       .object({
-        placeID: yup.string(),
+        googlePlaceID: yup.string(),
       })
       .test({
         message: l10n.itemLocationErrorRequired,
         name: 'location',
-        test: (value) => Boolean(value.placeID),
+        test: (value) => Boolean(value.googlePlaceID),
       }),
     name: yup.string().required(l10n.itemNameErrorRequired),
   });
@@ -63,7 +63,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
       description: item?.description || '',
       images: [],
       location: {
-        placeID: item?.location.placeID || '',
+        googlePlaceID: item?.location.googlePlaceID || '',
       },
       name: item?.name || '',
     }),
@@ -149,7 +149,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
 
   const onLocationChange: PlaceAutocompleteProps['onChange'] =
     React.useCallback((googlePlaceID) => {
-      setFieldValue('location', { placeID: googlePlaceID });
+      setFieldValue('location', { googlePlaceID });
     }, []);
 
   if (categoriesQuery.isError) {
@@ -248,7 +248,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
               'data-testid': 'item-form__location__helper-text',
             }}
             // This one is manually checked instead of using the helper
-            // as the error is on a sub-field (location.placeID)
+            // as the error is on a sub-field (location.googlePlaceID)
             // but the type system does not see it as a key.
             helperText={
               fieldHasError('location')

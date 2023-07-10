@@ -1,6 +1,11 @@
 export interface LocationBasic {
+  address: string;
+  dateCreated: string;
+  dateUpdated?: string;
+  googlePlaceID: string;
   id: number;
-  namePrimary: string;
-  nameSecondary: string;
-  placeID: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+  utcOffset: string;
 }

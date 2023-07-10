@@ -1,0 +1,23 @@
+// This will only ever be used in tests,
+// so importing `devDependencies` here is absolutely fine.
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { faker } from '@faker-js/faker';
+
+import { LocationBasic } from '~/src/types/LocationBasic';
+
+const locationBasic = (
+  partialLocationBasic?: Partial<LocationBasic>,
+): LocationBasic => ({
+  address: faker.location.streetAddress(),
+  dateCreated: faker.date.past().toString(),
+  dateUpdated: faker.date.past().toString(),
+  googlePlaceID: faker.string.uuid(),
+  id: faker.number.int(),
+  latitude: faker.location.latitude(),
+  longitude: faker.location.longitude(),
+  name: faker.location.city(),
+  utcOffset: faker.number.int({ max: 720, min: -720 }).toString(),
+  ...partialLocationBasic,
+});
+
+export default locationBasic;

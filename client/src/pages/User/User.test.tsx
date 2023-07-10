@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import getUser from '~/src/api/user/get';
 import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
-import { User as UserModel } from '~/src/types/User';
+import { user as userMock } from '~/src/testing/mocks';
 import { urlLayout, user as userURL } from '~/src/urls';
 
 import User from './index';
@@ -18,11 +18,7 @@ jest.mock('./Profile/async', () => {
   return ProfileMock;
 });
 
-const user: UserModel = {
-  email: 'atreyu@neverendingstory.com',
-  id: 22,
-  name: 'Atreyu',
-};
+const user = userMock();
 
 describe('When the API call fails', () => {
   let wrapper: RenderResult;

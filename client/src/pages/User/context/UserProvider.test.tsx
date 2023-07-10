@@ -1,15 +1,11 @@
 import React from 'react';
 
 import { render, RenderResult } from '~/src/testing';
-import { User as UserModel } from '~/src/types/User';
+import { user as userMock } from '~/src/testing/mocks';
 
 import { Provider, useUser } from './index';
 
-const userModel: UserModel = {
-  email: 'atreyu@neverendingstory.com',
-  id: 22,
-  name: 'Atreyu',
-};
+const userModel = userMock();
 
 const TestComponent: React.FC = () => {
   const { user } = useUser();

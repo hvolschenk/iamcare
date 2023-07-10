@@ -11,7 +11,7 @@ const itemCreate = (data: FormValues) => {
   data.images.forEach((image) => {
     formData.append('image[]', image);
   });
-  formData.append('location', data.location.placeID);
+  formData.append('location', data.location.googlePlaceID);
   formData.append('name', data.name);
 
   return apiClient.post<Item>('/items', formData);
