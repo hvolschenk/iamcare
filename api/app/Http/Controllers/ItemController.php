@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
+    public function destroy(Item $item)
+    {
+        $this->authorize('delete', $item);
+        $item->delete();
+        return response()->noContent();
+    }
+
     public function index()
     {
         $this->authorize('viewAny', Item::class);

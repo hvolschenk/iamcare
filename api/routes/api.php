@@ -20,6 +20,7 @@ Route::controller(CategoryController::class)->group(function () {
 });
 
 Route::controller(ItemController::class)->group(function () {
+    Route::delete('items/{item}', 'destroy');
     Route::get('items', 'index');
     Route::get('items/{item}', 'show');
     Route::post('items', 'create');

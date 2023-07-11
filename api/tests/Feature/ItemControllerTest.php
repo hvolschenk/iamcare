@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Item;
 use App\Models\User;
 use App\Services\GooglePlaces;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -93,7 +95,7 @@ class ItemControllerTest extends TestCase
             $mock
                 ->shouldReceive('placeDetails')
                 ->once()
-                ->andReturn([ 'result' => $googlePlace ]);
+                ->andReturn(['result' => $googlePlace]);
         });
         $image1 = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
         $image2 = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
@@ -112,7 +114,7 @@ class ItemControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'category' => [ 'name' => $values['category'] ],
+                'category' => ['name' => $values['category']],
                 'description' => $values['description'],
                 'images' => [
                     [
@@ -144,5 +146,36 @@ class ItemControllerTest extends TestCase
                     'name' => $user->name,
                 ],
             ]);
+    }
+
+    /**
+     * When the item cannot be deleted,
+     * as only the owner can delete an item.
+     */
+    public function test_delete_unauthorized()
+    {
+        $item = Item::inRandomOrder()->first();
+        $user = User::whereNot(function (Builder $query) use ($item) {
+            $query->where('id', '=', $item->user_id);
+        })->first();
+        $this->actingAs($user);
+        $response = $this->deleteJson("/items/{$item->id}");
+        $response->assertStatus(403);
+    }
+
+    /**
+     * When the item can be deleted
+     * as the current user is the owner.
+     */
+    public function test_delete()
+    {
+        $item = Item::inRandomOrder()->with(['category', 'location', 'images', 'user'])->first();
+        $this->actingAs($item->user);
+        $response = $this->deleteJson("/items/{$item->id}");
+        $response->assertStatus(204);
+        $this->assertSoftDeleted('items', ['id' => $item->id]);
+        foreach ($item->images as $image) {
+            $this->assertSoftDeleted('images', ['id' => $image->id]);
+        }
     }
 }
