@@ -1,11 +1,11 @@
 export const authentication = () => '/authentication';
-export const itemCreate = () => '/items/create';
-export const items = () => '/items';
 export const root = () => '/';
 
 export type UserParams = { userID: string };
 export const user = (userID = ':userID') => `/users/${userID}`;
 export const userItems = (userID = ':userID') => `/users/${userID}/items`;
+export const userItemsCreate = (userID = ':userID') =>
+  `/users/${userID}/items/create`;
 
 // -----------------------------------------------------------------------------
 // Helper methods
