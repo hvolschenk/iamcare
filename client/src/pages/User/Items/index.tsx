@@ -6,12 +6,14 @@ import { useAuthentication } from '~/src/providers/Authentication';
 import { urlRelative, userItems, userItemsCreate } from '~/src/urls';
 
 import ItemCreate from './Create/async';
+import ItemsPage from './Items/async';
 
 const Items: React.FC = () => {
   const { user } = useAuthentication();
 
   return (
     <Routes>
+      <Route element={<ItemsPage />} index />
       <Route
         element={
           <ProtectedRoute isAuthenticated={Boolean(user)}>

@@ -1,0 +1,143 @@
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CircularProgress from '@mui/material/CircularProgress';
+import List from '@mui/material/List';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Skeleton from '@mui/material/Skeleton';
+import Snackbar from '@mui/material/Snackbar';
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import getUserItems from '~/src/api/user/getItems';
+import l10n from '~/src/l10n';
+import { useAuthentication } from '~/src/providers/Authentication';
+import { userItemsCreate } from '~/src/urls';
+
+import ListItem from './ListItem';
+import { useUser } from '../../../context';
+
+const UserItemsList: React.FC = () => {
+  const [page, setPage] = React.useState<number>(1);
+
+  const { user: loggedInUser } = useAuthentication();
+  const { user } = useUser();
+
+  const { data, isError, isFetching, isLoading, isRefetching, refetch } =
+    useQuery(
+      ['users', user.id, 'items', page],
+      () => getUserItems(user.id, page),
+      { keepPreviousData: true },
+    );
+
+  const isLoggedInUser = React.useMemo(
+    () => loggedInUser?.id === user.id,
+    [loggedInUser, user],
+  );
+
+  const onPageChange = React.useCallback(
+    (event: React.ChangeEvent<unknown>, newPage: number) => {
+      setPage(newPage);
+    },
+    [setPage],
+  );
+
+  if (isLoading) {
+    return (
+      <React.Fragment>
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </React.Fragment>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Alert
+        action={
+          <Button
+            data-testid="user-items__error--loading__retry"
+            onClick={() => refetch()}
+          >
+            {l10n.actionTryAgain}
+          </Button>
+        }
+        severity="error"
+      >
+        {l10n.userItemsErrorLoading}
+      </Alert>
+    );
+  }
+
+  if (data.data.meta.total === 0) {
+    return (
+      <Alert
+        action={
+          isLoggedInUser ? (
+            <Button
+              color="inherit"
+              component={Link}
+              data-testid="user-items__error--no-items__create"
+              to={userItemsCreate(loggedInUser!.id.toString())}
+            >
+              {l10n.userItemsCreateNew}
+            </Button>
+          ) : undefined
+        }
+        data-testid="user-items__error--no-items"
+        severity="info"
+      >
+        {isLoggedInUser
+          ? l10n.userItemsErrorNoItemsSelf
+          : l10n.userItemsErrorNoItems}
+      </Alert>
+    );
+  }
+
+  return (
+    <React.Fragment>
+      <Snackbar
+        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        open={isRefetching}
+      >
+        <Alert
+          icon={<CircularProgress color="inherit" size="1em" />}
+          severity="info"
+        >
+          {l10n.itemsRefetching}
+        </Alert>
+      </Snackbar>
+      <Card>
+        <CardContent>
+          <List>
+            {data.data.data.map((item) => (
+              <ListItem item={item} key={item.id} refetch={refetch} />
+            ))}
+          </List>
+        </CardContent>
+      </Card>
+      <Box display="flex" justifyContent="center" marginTop={2}>
+        <Pagination
+          count={data.data.meta.last_page}
+          disabled={isFetching}
+          onChange={onPageChange}
+          page={page}
+          renderItem={(item) => (
+            <PaginationItem
+              data-testid="user-items__pagination__item"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...item}
+            />
+          )}
+        />
+      </Box>
+    </React.Fragment>
+  );
+};
+
+export default UserItemsList;
