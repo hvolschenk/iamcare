@@ -45,6 +45,7 @@ const en: L10n = {
     'The name of the item you are giving away. Keep it short but descriptive. This is the first thing people will see about your item while browsing.',
   itemNameLabel: 'Item name',
   items: 'Items',
+  itemsLatestX: 'Latest {countItems} items',
   itemsRefetching: 'Updating items list',
   temp: 'A temporary sting',
   userErrorLoading: 'User profile failed to load. Please try again',
@@ -52,6 +53,8 @@ const en: L10n = {
   userItemsErrorLoading: "Failed to load the user's items. Please try again",
   userItemsErrorNoItems: 'This user has not created any items',
   userItemsErrorNoItemsSelf: 'You have not created any items yet',
+  userItemsManage: 'Manage my items',
+  userItemsView: 'View user items',
 };
 
 export default en;
