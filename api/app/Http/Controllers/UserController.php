@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ItemResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,6 +27,17 @@ class UserController extends Controller
             return new UserResource($user);
         }
         return response()->noContent();
+    }
+
+    public function items(Request $request, User $user)
+    {
+        $this->authorize('viewItems', $user);
+        return ItemResource::collection(
+            $user
+                ->items()
+                ->latest()
+                ->paginate(intval($request->query('perPage', 15))),
+        );
     }
 
     public function loginWithProvider(Request $request, string $provider)

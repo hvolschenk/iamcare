@@ -1,4 +1,5 @@
 export interface L10n {
+  actionCancel: string;
   actionTryAgain: string;
   applicationName: string;
   authenticateActionLogin: string;
@@ -15,6 +16,11 @@ export interface L10n {
   itemCreateActionPrimary: string;
   itemCreatePageTitle: string;
   itemCreateSuccess: string;
+  itemDeleteAction: string;
+  itemDeleteConfirmation: string;
+  itemDeleteErrorDeleting: string;
+  itemDeleteSuccess: string;
+  itemDeleteTitle: string;
   itemDescriptionHelperText: string;
   itemDescriptionLabel: string;
   itemFormErrorCreating: string;
@@ -29,6 +35,14 @@ export interface L10n {
   itemNameHelperText: string;
   itemNameLabel: string;
   items: string;
+  itemsLatestX: string;
+  itemsRefetching: string;
   temp: string;
   userErrorLoading: string;
+  userItemsCreateNew: string;
+  userItemsErrorLoading: string;
+  userItemsErrorNoItems: string;
+  userItemsErrorNoItemsSelf: string;
+  userItemsManage: string;
+  userItemsView: string;
 }

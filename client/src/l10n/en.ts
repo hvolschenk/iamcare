@@ -1,6 +1,7 @@
 import { L10n } from './types';
 
 const en: L10n = {
+  actionCancel: 'Cancel',
   actionTryAgain: 'Try again',
   applicationName: 'iamcare',
   authenticateActionLogin: 'Login',
@@ -20,6 +21,12 @@ const en: L10n = {
   itemCreateActionPrimary: 'Create item',
   itemCreatePageTitle: 'Create item',
   itemCreateSuccess: "The item '{itemName}' has been created successfully",
+  itemDeleteAction: 'Delete item',
+  itemDeleteConfirmation:
+    "Are you sure you want to delete the item '{itemName}'? This action is permanent and cannot be undone.",
+  itemDeleteErrorDeleting: 'Failed to delete the item. Please try again.',
+  itemDeleteSuccess: 'The item has been deleted successfully',
+  itemDeleteTitle: "Delete item: '{itemName}'?",
   itemDescriptionHelperText:
     'A full description of your item. Please include as much information as possible. Please do not give away any personal information.',
   itemDescriptionLabel: 'Description',
@@ -38,8 +45,16 @@ const en: L10n = {
     'The name of the item you are giving away. Keep it short but descriptive. This is the first thing people will see about your item while browsing.',
   itemNameLabel: 'Item name',
   items: 'Items',
+  itemsLatestX: 'Latest {countItems} items',
+  itemsRefetching: 'Updating items list',
   temp: 'A temporary sting',
   userErrorLoading: 'User profile failed to load. Please try again',
+  userItemsCreateNew: 'Create item',
+  userItemsErrorLoading: "Failed to load the user's items. Please try again",
+  userItemsErrorNoItems: 'This user has not created any items',
+  userItemsErrorNoItemsSelf: 'You have not created any items yet',
+  userItemsManage: 'Manage my items',
+  userItemsView: 'View user items',
 };
 
 export default en;

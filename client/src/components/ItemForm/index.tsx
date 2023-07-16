@@ -224,7 +224,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
           />
 
           <CategoryAutocomplete
-            categories={categoriesQuery.data.data}
+            categories={categoriesQuery.data.data.data}
             error={fieldHasError('category')}
             FormHelperTextProps={{
               // @ts-ignore

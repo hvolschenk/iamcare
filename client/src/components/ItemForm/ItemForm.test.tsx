@@ -22,7 +22,7 @@ let wrapper: RenderResult;
 beforeEach(async () => {
   (categories as jest.Mock)
     .mockClear()
-    .mockResolvedValue({ data: categoriesList, status: 200 });
+    .mockResolvedValue({ data: { data: categoriesList }, status: 200 });
   wrapper = render(
     <ItemForm item={item} labelActionPrimary="Update" onSuccess={onSuccess} />,
   );

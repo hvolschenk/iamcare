@@ -10,8 +10,11 @@ import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
 import {
   category as categoryMock,
   item as itemMock,
+  user as userMock,
 } from '~/src/testing/mocks';
-import { itemCreate as itemCreateURL, userItems } from '~/src/urls';
+import { userItems, userItemsCreate } from '~/src/urls';
+
+import { Provider as UserProvider } from '../../context';
 
 import CreateItem from './index';
 
@@ -26,11 +29,16 @@ describe('When the categories fail to load', () => {
       .mockClear()
       .mockRejectedValue(new Error('Failed to fetch categories'));
     wrapper = render(
-      <Routes>
-        <Route element={<CreateItem />} path={itemCreateURL()} />
-        <Route element={<div data-testid="user-items" />} path={userItems()} />
-      </Routes>,
-      { router: { initialEntries: [itemCreateURL()] } },
+      <UserProvider value={userMock()}>
+        <Routes>
+          <Route element={<CreateItem />} path={userItemsCreate()} />
+          <Route
+            element={<div data-testid="user-items" />}
+            path={userItems()}
+          />
+        </Routes>
+      </UserProvider>,
+      { router: { initialEntries: [userItemsCreate('22')] } },
     );
     await waitFor(() => expect(categories).toHaveBeenCalledTimes(1));
     await waitFor(() =>
@@ -52,7 +60,7 @@ describe('When the categories fail to load', () => {
     beforeEach(async () => {
       (categories as jest.Mock)
         .mockClear()
-        .mockResolvedValue({ data: categoriesList, status: 200 });
+        .mockResolvedValue({ data: { data: categoriesList }, status: 200 });
       fireEvent.click(wrapper.getByTestId('item-form__error__loading__retry'));
       await waitFor(() => expect(categories).toHaveBeenCalledTimes(1));
       await waitFor(() =>

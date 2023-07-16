@@ -1,9 +1,9 @@
 import Skeleton from '@mui/material/Skeleton';
 import React from 'react';
 
-const ItemsLazy = React.lazy(() => import('./index'));
+const UserItemsListLazy = React.lazy(() => import('./index'));
 
-const ItemsAsync: React.FC = () => (
+const UserItemsListAsync: React.FC = () => (
   <React.Suspense
     fallback={
       <React.Fragment>
@@ -13,8 +13,8 @@ const ItemsAsync: React.FC = () => (
       </React.Fragment>
     }
   >
-    <ItemsLazy />
+    <UserItemsListLazy />
   </React.Suspense>
 );
 
-export default ItemsAsync;
+export default UserItemsListAsync;

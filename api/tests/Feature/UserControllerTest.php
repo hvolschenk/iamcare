@@ -306,4 +306,17 @@ class UserControllerTest extends TestCase
                 'name' => $user->name,
             ]);
     }
+
+    /**
+     * Get the items for a specific user
+     *
+     * @return void
+     */
+    public function test_user_items()
+    {
+        $user = UserModel::inRandomOrder()->with(['items'])->first();
+        $response = $this->getJson("/users/{$user->id}/items");
+        $response->assertStatus(200);
+        $response->assertJsonCount(count($user->items->toArray()), 'data');
+    }
 }
