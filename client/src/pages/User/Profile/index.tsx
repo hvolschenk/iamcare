@@ -2,7 +2,6 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -42,10 +41,6 @@ const Profile: React.FC = () => {
 
       <Box marginTop={2}>
         <Card>
-          <CardHeader
-            subheader={l10n.formatString(l10n.itemsLatestX, { countItems: 5 })}
-            title={l10n.items}
-          />
           <CardContent>
             <List>
               <ListItem disablePadding>
