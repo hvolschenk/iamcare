@@ -58,6 +58,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
     [allowedTypes],
   );
 
+  const tileSize = React.useMemo(
+    () => parseInt(theme.spacing(1), 10) * 20,
+    [theme],
+  );
+
   const onAddButtonClick = React.useCallback(() => {
     if (inputElementRef.current) {
       inputElementRef.current.click();
@@ -96,8 +101,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
     <FormControl component="fieldset" fullWidth margin="normal">
       <FormLabel component="legend">{label}</FormLabel>
 
-      {/* Having to specify the gap like this is horrendous. No direct theme support here. */}
-      <ImageList cols={columnCount} gap={parseInt(theme.spacing(1), 10)}>
+      <ImageList
+        cols={columnCount}
+        // Having to specify the gap like this is horrendous.
+        // No direct theme support here.
+        gap={parseInt(theme.spacing(1), 10)}
+        rowHeight={tileSize}
+      >
         {files.map((file, index) => (
           <ImageListItem
             data-testid="file-upload__uploaded-item"
@@ -137,8 +147,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
             onClick={onAddButtonClick}
             size="small"
             startIcon={<AddIcon />}
-            sx={{ marginY: 'auto' }}
-            variant="contained"
+            sx={{
+              height: tileSize,
+              marginY: 'auto',
+              width: tileSize,
+            }}
+            variant="outlined"
           >
             {labelUploadButton}
           </Button>
