@@ -45,7 +45,6 @@ const en: L10n = {
     'The name of the item you are giving away. Keep it short but descriptive. This is the first thing people will see about your item while browsing.',
   itemNameLabel: 'Item name',
   items: 'Items',
-  itemsLatestX: 'Latest {countItems} items',
   itemsRefetching: 'Updating items list',
   temp: 'A temporary sting',
   userErrorLoading: 'User profile failed to load. Please try again',

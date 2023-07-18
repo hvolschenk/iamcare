@@ -35,7 +35,6 @@ export interface L10n {
   itemNameHelperText: string;
   itemNameLabel: string;
   items: string;
-  itemsLatestX: string;
   itemsRefetching: string;
   temp: string;
   userErrorLoading: string;
