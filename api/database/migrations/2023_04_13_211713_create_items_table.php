@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
+            $table->string('name')->fulltext();
+            $table->string('description')->fulltext();
             $table->foreignIdFor(Category::class)->nullable();
             $table->foreignIdFor(Location::class)->nullable();
             $table->foreignIdFor(User::class)->nullable();

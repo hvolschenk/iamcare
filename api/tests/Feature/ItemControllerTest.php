@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Item;
+use App\Models\Location;
 use App\Models\User;
 use App\Services\GooglePlaces;
 use Illuminate\Database\Eloquent\Builder;
@@ -177,5 +178,35 @@ class ItemControllerTest extends TestCase
         foreach ($item->images as $image) {
             $this->assertSoftDeleted('images', ['id' => $image->id]);
         }
+    }
+
+    /**
+     * When searching with no inputs given
+     * This just returns all results available (paginated)
+     */
+    public function test_search_no_input()
+    {
+        $response = $this->getJson('/items/search');
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(10, 'data');
+    }
+
+    /**
+     * When searching given all inputs
+     * Filters the results to the inputs given
+     */
+    public function test_search_all_inputs()
+    {
+        $item = Item::inRandomOrder()->first();
+        $location = Location::find($item->location_id);
+
+        $response = $this->getJson(
+            "/items/search?distance=50&location={$location->googlePlaceID}&query={$item->name}",
+            [ "Accept-Language" => $location->language ],
+        );
+
+        $response->assertStatus(200);
+        $this->assertGreaterThanOrEqual(1, count($response->json('data')));
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Models\Item;
 use App\Models\Location;
 use App\Services\GooglePlaces;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -78,6 +79,56 @@ class ItemController extends Controller
             }
             response(null, 500);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $distance = $request->input('distance') ?: null;
+        $googlePlaceID = $request->input('location') ?: null;
+        $searchQuery = $request->input('query') ?: null;
+        Log::withContext([
+            'distance' => $distance,
+            'googlePlaceID' => $googlePlaceID,
+            'query' => $searchQuery,
+        ]);
+        Log::debug('Item: Search: Start');
+
+        $itemsQuery = Item::query()->select();
+
+        if ($searchQuery !== null) {
+            $itemsQuery->where(function (Builder $builder) use ($searchQuery) {
+                $builder
+                    ->whereFullText('name', $searchQuery)
+                    ->orWhereFullText('description', $searchQuery);
+            });
+        }
+
+        if ($googlePlaceID !== null) {
+            $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
+            $location = Location::fromGooglePlaceID($googlePlaceID, $language);
+            $locationsQuery = Location::query()
+                ->select(['id'])
+                ->selectRaw(
+                    'ST_Distance_Sphere(point(?, ?), point(`latitude`, `longitude`)) * .001 AS `distance`',
+                    [$location->latitude, $location->longitude]
+                );
+            if ($distance !== null && $distance !== '0') {
+                $locationsQuery->having('distance', '<=', $distance);
+            }
+            $locationsQuery->orderBy('distance');
+            $locations = $locationsQuery->get();
+            $locationIds = array_map(function ($location) {
+                return $location['id'];
+            }, $locations->toArray());
+            $locationIdsJoined = implode(',', $locationIds);
+
+            $itemsQuery
+                ->whereIn('location_id', $locationIds)
+                ->orderByRaw("FIELD(`location_id`, {$locationIdsJoined})");
+        }
+
+        Log::debug('Item: Search: Done');
+        return ItemResource::collection($itemsQuery->paginate(15));
     }
 
     /**
