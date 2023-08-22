@@ -24,8 +24,8 @@ class UserResource extends JsonResource
         $user = $request->user();
         return [
             'avatar' => $this->avatar,
-            'dateCreated' => $this->created_at,
-            'dateUpdated' => $this->updated_at,
+            'dateCreated' => $this->created_at->toISOString(),
+            'dateUpdated' => $this->updated_at->toISOString(),
             'email' => $this->when($user !== null && $user->id === $this->id, $this->email),
             'id' => $this->id,
             'name' => $this->name,
