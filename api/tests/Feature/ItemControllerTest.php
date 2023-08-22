@@ -28,7 +28,7 @@ class ItemControllerTest extends TestCase
     /**
      * When validation of the POSTed fields fails
      */
-    public function test_validation_failed(): void
+    public function test_create_validation_failed(): void
     {
         $user = User::inRandomOrder()->first();
         $this->actingAs($user);
@@ -42,7 +42,7 @@ class ItemControllerTest extends TestCase
     /**
      * When validation passes, but something goes wrong during processing the request
      */
-    public function test_server_error(): void
+    public function test_create_server_error(): void
     {
         Storage::fake('public');
         $this->mock(GooglePlaces::class, function ($mock) {
@@ -75,7 +75,7 @@ class ItemControllerTest extends TestCase
     /**
      * When the request goes through successfully
      */
-    public function test_success()
+    public function test_create_success()
     {
         Storage::fake('public');
         /** @var $disk \Illuminate\Filesystem\FilesystemAdapter */
