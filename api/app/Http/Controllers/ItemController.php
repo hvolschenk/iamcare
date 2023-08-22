@@ -35,7 +35,7 @@ class ItemController extends Controller
         return new ItemResource(Item::with(['category', 'location', 'images', 'user'])->find($item->id));
     }
 
-    public function create(Request $request, GooglePlaces $googlePlaces)
+    public function create(Request $request)
     {
         Log::debug('Item: Create: Start', [ 'name' => $request->input(('name')) ]);
         $this->authorize('create', Item::class);
@@ -49,7 +49,7 @@ class ItemController extends Controller
         $googlePlaceID = $request->input('location');
         $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
 
-        $location = $this->locationFromGooglePlaceID($googlePlaces, $googlePlaceID, $language);
+        $location = Location::fromGooglePlaceID($googlePlaceID, $language);
         $category = Category::firstOrNew(['name' => $request->input('category')]);
         $images = $this->imagesFromInput($request->file('image'));
         $user = $request->user();
@@ -63,7 +63,6 @@ class ItemController extends Controller
                 Log::debug('Item: Create: Save', [ 'name' => $item->name ]);
                 $item->save();
                 $category->save();
-                $location->save();
                 $item->location()->associate($location);
                 $item->category()->associate($category);
                 $item->images()->saveMany($images);
@@ -103,20 +102,5 @@ class ItemController extends Controller
             array_push($images, $image);
         }
         return $images;
-    }
-
-    private function locationFromGooglePlaceID (GooglePlaces $googlePlaces, string $googlePlaceID, string $language): Location
-    {
-        $googlePlace = $googlePlaces->placeDetails($googlePlaceID, $language);
-        $location = new Location([
-            'address' => $googlePlace['result']['formatted_address'],
-            'googlePlaceID' => $googlePlace['result']['place_id'],
-            'language' => $language,
-            'latitude' => $googlePlace['result']['geometry']['location']['lat'],
-            'longitude' => $googlePlace['result']['geometry']['location']['lng'],
-            'name' => $googlePlace['result']['name'],
-            'utcOffset' => $googlePlace['result']['utc_offset'],
-        ]);
-        return $location;
     }
 }

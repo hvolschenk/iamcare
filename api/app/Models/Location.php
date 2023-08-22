@@ -37,7 +37,7 @@ class Location extends Model
                 'googlePlaceID' => $googlePlaceID,
                 'language' => $language,
             ])->firstOrFail();
-            Log::debug('Location: From Google Place ID: Found');
+            Log::debug('Location: From Google Place ID: Found', [ 'id' => $location->id ]);
             return $location;
         } catch (\Exception $error) {
             $googlePlaces = App::make(GooglePlaces::class);
@@ -52,7 +52,7 @@ class Location extends Model
                 'utcOffset' => $googlePlaceDetails['result']['utc_offset'],
             ]);
             $location->save();
-            Log::debug('Location: From Google Place ID: Fetched');
+            Log::debug('Location: From Google Place ID: Fetched', [ 'id' => $location->id ]);
             return $location;
         }
     }
