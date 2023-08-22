@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('language');
             $table->string('address');
-            $table->float('latitude', 10, 6);
-            $table->float('longitude', 10, 6);
-            $table->string('googlePlaceID');
+            $table->float('latitude', 10, 6)->index();
+            $table->float('longitude', 10, 6)->index();
+            $table->string('googlePlaceID')->index();
             $table->string('utcOffset');
             $table->timestamps();
             $table->softDeletes();
