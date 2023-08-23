@@ -6,11 +6,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import debounce from 'lodash.debounce';
 import React from 'react';
 
+import locationByGooglePlaceID from '~/src/api/locations/google';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
+import { LocationBasic } from '~/src/types/LocationBasic';
 
 export interface PlaceAutocompleteProps {
   error?: TextFieldProps['error'];
@@ -18,8 +20,10 @@ export interface PlaceAutocompleteProps {
   helperText?: TextFieldProps['helperText'];
   inputProps?: TextFieldProps['inputProps'];
   label: TextFieldProps['label'];
+  margin?: TextFieldProps['margin'];
   name?: TextFieldProps['name'];
   onChange(googlePlaceID: string): void;
+  value?: LocationBasic['googlePlaceID'];
 }
 
 const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
@@ -28,16 +32,48 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
   helperText,
   inputProps,
   label,
+  margin = 'none',
   name,
   onChange,
+  value,
 }) => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [options, setOptions] = React.useState<
     google.maps.places.AutocompletePrediction[]
   >([]);
-  const [value, setValue] =
+  const [selectedValue, setSelectedValue] =
     React.useState<google.maps.places.AutocompletePrediction | null>(null);
+
+  const isQueryEnabled = React.useMemo<boolean>(() => Boolean(value), [value]);
+  const {
+    data,
+    isLoading: isQueryLoading,
+    isSuccess,
+  } = useQuery(
+    ['location', 'google', value],
+    () => locationByGooglePlaceID({ googlePlaceID: value! }),
+    { enabled: isQueryEnabled },
+  );
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      const prediction: google.maps.places.AutocompletePrediction = {
+        description: data.data.address,
+        matched_substrings: [],
+        place_id: data.data.googlePlaceID,
+        structured_formatting: {
+          main_text: data.data.name,
+          main_text_matched_substrings: [],
+          secondary_text: data.data.address,
+        },
+        terms: [],
+        types: [],
+      };
+      setOptions((currentOptions) => [prediction, ...currentOptions]);
+      setSelectedValue(prediction);
+    }
+  }, [data, isSuccess, setOptions, setSelectedValue]);
 
   const { autocomplete, generateAutocompleteSessionToken } = useGooglePlaces();
 
@@ -62,18 +98,18 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       autocompletePrediction: google.maps.places.AutocompletePrediction | null,
     ) => {
       if (autocompletePrediction) {
-        setValue(autocompletePrediction);
+        setSelectedValue(autocompletePrediction);
         if (onChange) {
           onChange(autocompletePrediction.place_id);
         }
       } else {
-        setValue(null);
+        setSelectedValue(null);
         if (onChange) {
           onChange('');
         }
       }
     },
-    [],
+    [onChange, setSelectedValue],
   );
 
   const onInputChange = React.useCallback(
@@ -100,12 +136,13 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       clearIcon={
         <ClearIcon data-testid="place-autocomplete__clear" fontSize="small" />
       }
+      disabled={isQueryLoading && isQueryEnabled}
       filterOptions={(x) => x}
       getOptionLabel={(autocompletePrediction) =>
         autocompletePrediction.structured_formatting.main_text
       }
       inputValue={inputValue}
-      loading={isLoading}
+      loading={isLoading || (isQueryLoading && isQueryEnabled)}
       onChange={handleChange}
       onInputChange={onInputChange}
       options={options}
@@ -128,7 +165,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
             ),
           }}
           label={label}
-          margin="normal"
+          margin={margin}
           name={name}
         />
       )}
@@ -141,7 +178,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
           />
         </ListItem>
       )}
-      value={value}
+      value={selectedValue}
     />
   );
 };
