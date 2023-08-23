@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Location;
+use App\Services\GooglePlaces;
 use Illuminate\Database\Seeder;
 
 class LocationSeeder extends Seeder
@@ -20,9 +21,9 @@ class LocationSeeder extends Seeder
             Location::create([
                 'address' => $faker->streetName(),
                 'googlePlaceID' => $faker->uuid(),
-                'language' => $faker->locale(),
-                'latitude' => $faker->latitude(),
-                'longitude' => $faker->longitude(),
+                'language' => $faker->randomElement(GooglePlaces::SUPPORTED_LANGUAGES),
+                'latitude' => $faker->latitude(-90, 90),
+                'longitude' => $faker->longitude(-90, 90),
                 'name' => $faker->word(),
                 'utcOffset' => strval($faker->numberBetween(0, 780)),
             ]);

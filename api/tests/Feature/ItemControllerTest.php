@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Item;
+use App\Models\Location;
 use App\Models\User;
 use App\Services\GooglePlaces;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,7 +28,7 @@ class ItemControllerTest extends TestCase
     /**
      * When validation of the POSTed fields fails
      */
-    public function test_validation_failed(): void
+    public function test_create_validation_failed(): void
     {
         $user = User::inRandomOrder()->first();
         $this->actingAs($user);
@@ -41,7 +42,7 @@ class ItemControllerTest extends TestCase
     /**
      * When validation passes, but something goes wrong during processing the request
      */
-    public function test_server_error(): void
+    public function test_create_server_error(): void
     {
         Storage::fake('public');
         $this->mock(GooglePlaces::class, function ($mock) {
@@ -74,7 +75,7 @@ class ItemControllerTest extends TestCase
     /**
      * When the request goes through successfully
      */
-    public function test_success()
+    public function test_create_success()
     {
         Storage::fake('public');
         /** @var $disk \Illuminate\Filesystem\FilesystemAdapter */
@@ -177,5 +178,35 @@ class ItemControllerTest extends TestCase
         foreach ($item->images as $image) {
             $this->assertSoftDeleted('images', ['id' => $image->id]);
         }
+    }
+
+    /**
+     * When searching with no inputs given
+     * This just returns all results available (paginated)
+     */
+    public function test_search_no_input()
+    {
+        $response = $this->getJson('/items/search');
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(10, 'data');
+    }
+
+    /**
+     * When searching given all inputs
+     * Filters the results to the inputs given
+     */
+    public function test_search_all_inputs()
+    {
+        $item = Item::inRandomOrder()->first();
+        $location = Location::find($item->location_id);
+
+        $response = $this->getJson(
+            "/items/search?distance=50&location={$location->googlePlaceID}&query={$item->name}",
+            [ "Accept-Language" => $location->language ],
+        );
+
+        $response->assertStatus(200);
+        $this->assertGreaterThanOrEqual(1, count($response->json('data')));
     }
 }

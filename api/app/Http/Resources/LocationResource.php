@@ -8,6 +8,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LocationResource extends JsonResource
 {
     /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string|null
+     */
+    public static $wrap = null;
+
+    /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
@@ -16,8 +23,8 @@ class LocationResource extends JsonResource
     {
         return [
             'address' => $this->address,
-            'dateCreated' => $this->created_at,
-            'dateUpdated' => $this->updated_at,
+            'dateCreated' => $this->created_at->toISOString(),
+            'dateUpdated' => $this->updated_at->toISOString(),
             'googlePlaceID' => $this->googlePlaceID,
             'id' => $this->id,
             'language' => $this->language, // HENDRIK THIS SEEMS WRONG? HOW DO I GET FOR A SPECIFIC LANGUAGE?

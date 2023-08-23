@@ -36,7 +36,7 @@ class ItemSeeder extends Seeder
             $user = User::inRandomOrder()->first();
             $item = Item::create([
                 'name' => $faker->words($faker->numberBetween(1, 5), true),
-                'description' => $faker->paragraph(),
+                'description' => $faker->paragraph(2),
             ]);
             $item->location()->associate($location);
             $item->category()->associate($category);

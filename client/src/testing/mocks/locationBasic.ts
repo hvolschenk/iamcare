@@ -13,6 +13,7 @@ const locationBasic = (
   dateUpdated: faker.date.past().toString(),
   googlePlaceID: faker.string.uuid(),
   id: faker.number.int(),
+  language: faker.helpers.arrayElement(['af', 'en', 'nl']),
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   name: faker.location.city(),

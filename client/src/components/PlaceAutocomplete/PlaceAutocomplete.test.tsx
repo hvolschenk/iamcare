@@ -1,50 +1,21 @@
 import React from 'react';
 
+import locationByGooglePlaceID from '~/src/api/locations/google';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
 import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
+import {
+  autocompleteResponse as autocompleteResponseMock,
+  locationBasic as locationBasicMock,
+} from '~/src/testing/mocks';
 
 import PlaceAutocomplete from './index';
 
+jest.mock('~/src/api/locations/google');
+
+const locationBasic = locationBasicMock();
 const onChange = jest.fn();
 
-const autocompleteResponse: google.maps.places.AutocompleteResponse = {
-  predictions: [
-    {
-      description: 'A caring place',
-      matched_substrings: [{ length: 4, offset: 1 }],
-      place_id: '22',
-      structured_formatting: {
-        main_text: 'Care',
-        main_text_matched_substrings: [{ length: 4, offset: 1 }],
-        secondary_text: 'Care',
-      },
-      terms: [
-        {
-          offset: 1,
-          value: 'Care',
-        },
-      ],
-      types: ['sublocality'],
-    },
-    {
-      description: 'A loving place',
-      matched_substrings: [{ length: 4, offset: 1 }],
-      place_id: '222',
-      structured_formatting: {
-        main_text: 'Love',
-        main_text_matched_substrings: [{ length: 4, offset: 1 }],
-        secondary_text: 'Love',
-      },
-      terms: [
-        {
-          offset: 1,
-          value: 'Love',
-        },
-      ],
-      types: ['sublocality'],
-    },
-  ],
-};
+const autocompleteResponse = autocompleteResponseMock();
 
 describe('When searching for a place', () => {
   let wrapper: RenderResult;
@@ -97,5 +68,36 @@ describe('When searching for a place', () => {
     test('Calls the change handler without a place ID', () => {
       expect(onChange).toHaveBeenCalledWith('');
     });
+  });
+});
+
+describe('When given a place ID initially', () => {
+  let wrapper: RenderResult;
+
+  beforeEach(async () => {
+    (locationByGooglePlaceID as jest.Mock).mockClear().mockResolvedValue({
+      data: locationBasic,
+      status: 200,
+    });
+    wrapper = render(
+      <PlaceAutocomplete
+        helperText="I am care"
+        inputProps={{ 'data-testid': 'input' }}
+        label="Care"
+        name="care"
+        onChange={onChange}
+        value={locationBasic.googlePlaceID}
+      />,
+    );
+    await waitFor(() =>
+      expect(locationByGooglePlaceID).toHaveBeenCalledTimes(1),
+    );
+    await waitFor(() =>
+      expect(wrapper.queryByTestId('input')).toHaveValue(locationBasic.name),
+    );
+  });
+
+  test('Has the value from the API auto selected', () => {
+    expect(wrapper.queryByTestId('input')).toHaveValue(locationBasic.name);
   });
 });

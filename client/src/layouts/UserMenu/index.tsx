@@ -15,6 +15,7 @@ const UserMenu: React.FC = () => {
     return (
       <Button
         component={Link}
+        data-testid="authentication__user-menu__login"
         startIcon={<AccountCircleIcon />}
         to={authentication()}
       >
@@ -27,6 +28,7 @@ const UserMenu: React.FC = () => {
     <Avatar
       alt={user.name}
       component={Link}
+      data-testid="authentication__user-menu__avatar"
       imgProps={{
         referrerPolicy: 'no-referrer',
       }}

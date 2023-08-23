@@ -36,6 +36,17 @@ export interface L10n {
   itemNameLabel: string;
   items: string;
   itemsRefetching: string;
+  search: string;
+  searchErrorLoading: string;
+  searchErrorNoResults: string;
+  searchFieldClear: string;
+  searchFieldLabel: string;
+  searchFieldPlaceholder: string;
+  searchFilterActionFilter: string;
+  searchFilterFieldDistance: string;
+  searchFilterFieldDistanceAny: string;
+  searchFilterFieldDistanceLength: string;
+  searchFilterFieldLocation: string;
   temp: string;
   userErrorLoading: string;
   userItemsCreateNew: string;

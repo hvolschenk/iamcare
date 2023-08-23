@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +23,14 @@ Route::controller(CategoryController::class)->group(function () {
 Route::controller(ItemController::class)->group(function () {
     Route::delete('items/{item}', 'destroy');
     Route::get('items', 'index');
+    Route::get('items/search', 'search');
     Route::get('items/{item}', 'show');
     Route::post('items', 'create');
+});
+
+Route::controller(LocationController::class)->group(function () {
+    Route::get('locations/{location}', 'show');
+    Route::get('locations/google/{googlePlaceID}', 'google');
 });
 
 Route::controller(UserController::class)->group(function () {
