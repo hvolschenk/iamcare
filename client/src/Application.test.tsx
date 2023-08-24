@@ -9,7 +9,7 @@ import Application from './Application';
 jest.mock(
   './Router',
   () =>
-    function () {
+    function Router() {
       return <div />;
     },
 );
