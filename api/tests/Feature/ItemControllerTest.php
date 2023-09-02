@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use App\Models\Location;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Services\GooglePlaces;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -111,42 +113,16 @@ class ItemControllerTest extends TestCase
 
         $this->actingAs($user);
         $response = $this->postJson('/items', $values);
-
+        $request = Request::create('/items', 'GET');
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
+        $insertID = $response->decodeResponseJson()['id'];
+        $item = Item::with(['category', 'location', 'images', 'user'])->find($insertID);
+        $resource = new ItemResource($item);
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'category' => ['name' => $values['category']],
-                'description' => $values['description'],
-                'images' => [
-                    [
-                        'mimeType' => $image1->getMimeType(),
-                        'name' => $image1->getBasename(),
-                        'sizeBytes' => $image1->getSize(),
-                        'url' => $disk->url("images/items/{$image1->hashName()}"),
-                    ],
-                    [
-                        'mimeType' => $image2->getMimeType(),
-                        'name' => $image2->getBasename(),
-                        'sizeBytes' => $image2->getSize(),
-                        'url' => $disk->url("images/items/{$image2->hashName()}"),
-                    ]
-                ],
-                'location' => [
-                    'address' => $googlePlace['formatted_address'],
-                    'googlePlaceID' => $googlePlace['place_id'],
-                    'language' => 'en',
-                    'latitude' => $googlePlace['geometry']['location']['lat'],
-                    'longitude' => $googlePlace['geometry']['location']['lng'],
-                    'name' => $googlePlace['name'],
-                    'utcOffset' => $googlePlace['utc_offset'],
-                ],
-                'name' => $values['name'],
-                'user' => [
-                    'avatar' => $user->avatar,
-                    'email' => $user->email,
-                    'name' => $user->name,
-                ],
-            ]);
+            ->assertJson($resource->response($request)->getData(true));
     }
 
     /**

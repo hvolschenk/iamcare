@@ -27,7 +27,7 @@ class ItemController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Item::class);
-        return Item::all();
+        return ItemResource::collection(Item::paginate(15));
     }
 
     public function show(Item $item)

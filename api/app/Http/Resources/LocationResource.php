@@ -23,8 +23,8 @@ class LocationResource extends JsonResource
     {
         return [
             'address' => $this->address,
-            'dateCreated' => $this->created_at->toISOString(),
-            'dateUpdated' => $this->updated_at->toISOString(),
+            'dateCreated' => $this->created_at,
+            'dateUpdated' => $this->updated_at,
             'googlePlaceID' => $this->googlePlaceID,
             'id' => $this->id,
             'language' => $this->language, // HENDRIK THIS SEEMS WRONG? HOW DO I GET FOR A SPECIFIC LANGUAGE?
