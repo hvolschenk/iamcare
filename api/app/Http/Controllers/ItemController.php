@@ -38,7 +38,7 @@ class ItemController extends Controller
 
     public function create(Request $request)
     {
-        Log::debug('Item: Create: Start', [ 'name' => $request->input(('name')) ]);
+        Log::debug('Item: Create: Start', ['name' => $request->input(('name'))]);
         $this->authorize('create', Item::class);
         $request->validate([
             'category' => 'bail|required|alpha',
@@ -61,7 +61,7 @@ class ItemController extends Controller
 
         try {
             DB::transaction(function () use ($category, $images, $item, $location, $user) {
-                Log::debug('Item: Create: Save', [ 'name' => $item->name ]);
+                Log::debug('Item: Create: Save', ['name' => $item->name]);
                 $item->save();
                 $category->save();
                 $item->location()->associate($location);
@@ -70,7 +70,7 @@ class ItemController extends Controller
                 $item->user()->associate($user);
                 $item->save();
             }, 1);
-            Log::debug('Item: Create: Return', [ 'id' => $item->id ]);
+            Log::debug('Item: Create: Return', ['id' => $item->id]);
             return new ItemResource(Item::with(['category', 'location', 'images', 'user'])->find($item->id));
         } catch (\Exception $error) {
             Log::debug('Item: Create: Undo: Delete Images');
@@ -136,11 +136,10 @@ class ItemController extends Controller
      *
      * @return Image[]
      */
-    private function imagesFromInput (array $uploadedFiles): array
+    private function imagesFromInput(array $uploadedFiles): array
     {
         $images = [];
-        foreach ($uploadedFiles as $uploadedFile)
-        {
+        foreach ($uploadedFiles as $uploadedFile) {
             /** @var $filesystem Illuminate\Filesystem\FilesystemAdapter */
             $filesystem = Storage::disk('public');
             $path = $filesystem->putFile('images/items', $uploadedFile);
