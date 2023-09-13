@@ -44,10 +44,18 @@ services:
       - iamcare-network
     ports:
       - "7222:3000"
-    volumes:
-      - ./client:/home/node/application/app:delegated
-      - /home/node/application/app/dist/
-      - /home/node/application/app/node_modules/
+    x-develop:
+      watch:
+        - action: sync
+          ignore:
+            - .parcel-cache/
+            - coverage/
+            - dist/
+            - node_modules/
+          path: ./client
+          target: /home/node/application/app
+        - action: rebuild
+          path: ./client/package.json
 
   database:
     build: ./database

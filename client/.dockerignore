@@ -1,5 +1,4 @@
-.npm/
-node_modules/
-
-.ash_history
-Dockerfile*
+.npm
+coverage
+dist
+node_modules
