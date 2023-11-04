@@ -13,7 +13,11 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-w
 RUN docker-php-ext-install gd pdo pdo_mysql
 
 COPY --from=composer/composer:latest-bin /composer /usr/local/bin/composer
+
+COPY composer.json composer.lock .
+RUN composer install --no-autoloader
+
 COPY . .
-RUN composer install
+RUN composer dump-autoload
 
 CMD ["php", "artisan", "serve", "--host=0.0.0.0"]
