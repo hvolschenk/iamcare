@@ -6,7 +6,6 @@ use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class LocationControllerTest extends TestCase
@@ -45,7 +44,7 @@ class LocationControllerTest extends TestCase
         $this->app->setLocale($location->language);
         $response = $this->getJson(
             "/locations/google/{$location->googlePlaceID}",
-            [ "Accept-Language" => $location->language ],
+            ["Accept-Language" => $location->language],
         );
 
         $resource = new LocationResource($location);

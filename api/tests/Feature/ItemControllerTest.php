@@ -203,7 +203,7 @@ class ItemControllerTest extends TestCase
 
         $response = $this->getJson(
             "/items/search?distance=50&location={$location->googlePlaceID}&query={$item->name}",
-            [ "Accept-Language" => $location->language ],
+            ["Accept-Language" => $location->language],
         );
 
         $response->assertStatus(200);
