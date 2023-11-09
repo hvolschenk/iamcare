@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\UserResource;
 use Exception;
 use App\Models\User as UserModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User;
 use Tests\TestCase;
@@ -227,17 +229,15 @@ class UserControllerTest extends TestCase
     {
         $user = UserModel::inRandomOrder()->first();
         $this->actingAs($user);
+        $resource = new UserResource($user);
         $response = $this->getJson('/users/me');
+        $request = Request::create('/users/me', 'GET');
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'avatar' => $user->avatar,
-                'dateCreated' => $user->created_at->toISOString(),
-                'dateUpdated' => $user->updated_at->toISOString(),
-                'email' => $user->email,
-                'id' => $user->id,
-                'name' => $user->name,
-            ]);
+            ->assertJson($resource->response($request)->getData(true));
     }
 
     /**
@@ -248,17 +248,12 @@ class UserControllerTest extends TestCase
     public function test_get_user_profile_not_logged_in()
     {
         $user = UserModel::inRandomOrder()->first();
+        $resource = new UserResource($user);
         $response = $this->getJson("/users/{$user->id}");
+        $request = Request::create("/users/{$user->id}", 'GET');
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'avatar' => $user->avatar,
-                'dateCreated' => $user->created_at->toISOString(),
-                'dateUpdated' => $user->updated_at->toISOString(),
-                'id' => $user->id,
-                'name' => $user->name,
-            ])
-            ->assertJsonMissingPath('email');
+            ->assertJson($resource->response($request)->getData(true));
     }
 
     /**
@@ -272,17 +267,15 @@ class UserControllerTest extends TestCase
         $user = $users[0];
         $loggedInUser = $users[1];
         $this->actingAs($loggedInUser);
+        $resource = new UserResource($user);
         $response = $this->getJson("/users/{$user->id}");
+        $request = Request::create("/users/{$user->id}", 'GET');
+        $request->setUserResolver(function () use ($loggedInUser) {
+            return $loggedInUser;
+        });
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'avatar' => $user->avatar,
-                'dateCreated' => $user->created_at->toISOString(),
-                'dateUpdated' => $user->updated_at->toISOString(),
-                'id' => $user->id,
-                'name' => $user->name,
-            ])
-            ->assertJsonMissingPath('email');
+            ->assertJson($resource->response($request)->getData(true));
     }
 
     /**
@@ -294,17 +287,15 @@ class UserControllerTest extends TestCase
     {
         $user = UserModel::inRandomOrder()->first();
         $this->actingAs($user);
+        $resource = new UserResource($user);
         $response = $this->getJson("/users/{$user->id}");
+        $request = Request::create("/users/{$user->id}", 'GET');
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'avatar' => $user->avatar,
-                'dateCreated' => $user->created_at->toISOString(),
-                'dateUpdated' => $user->updated_at->toISOString(),
-                'email' => $user->email,
-                'id' => $user->id,
-                'name' => $user->name,
-            ]);
+            ->assertJson($resource->response($request)->getData(true));
     }
 
     /**

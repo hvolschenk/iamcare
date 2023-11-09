@@ -32,7 +32,7 @@ class LocationControllerTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJson($resource->toArray($request));
+            ->assertJson($resource->response($request)->getData(true));
     }
 
     /**
@@ -52,6 +52,6 @@ class LocationControllerTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJson($resource->toArray($request));
+            ->assertJson($resource->response($request)->getData(true));
     }
 }
