@@ -5,13 +5,21 @@ networks:
     driver: bridge
 
 services:
-
   api:
     build:
       context: ./api
       dockerfile: Dockerfile
     depends_on:
       - database
+    develop:
+      watch:
+        - action: sync
+          ignore:
+            - .phpunit.cache/
+            - logs/
+            - vendor/
+          path: ./api
+          target: /var/www/html
     environment:
       - APP_DEBUG=${API_DEBUG:-true}
       - DB_PASSWORD=${MYSQL_PASSWORD}
@@ -27,15 +35,6 @@ services:
       - "9222:8000"
     volumes:
       - ./api/logs/php.log:/var/log/fpm-php.www.log
-    x-develop:
-      watch:
-        - action: sync
-          ignore:
-            - .phpunit.cache/
-            - logs/
-            - vendor/
-          path: ./api
-          target: /var/www/html
 
   client:
     build:
@@ -44,17 +43,7 @@ services:
     command: npm start
     depends_on:
       - api
-    environment:
-      - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
-      - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
-      - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
-      - GOOGLE_PLACES_COUNTRY_CODE=${GOOGLE_PLACES_COUNTRY_CODE}
-      - PORT=3000
-    networks:
-      - iamcare-network
-    ports:
-      - "7222:3000"
-    x-develop:
+    develop:
       watch:
         - action: sync
           ignore:
@@ -66,6 +55,16 @@ services:
           target: /home/node/application/app
         - action: rebuild
           path: ./client/package.json
+    environment:
+      - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
+      - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
+      - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
+      - GOOGLE_PLACES_COUNTRY_CODE=${GOOGLE_PLACES_COUNTRY_CODE}
+      - PORT=3000
+    networks:
+      - iamcare-network
+    ports:
+      - "7222:3000"
 
   database:
     build: ./database
