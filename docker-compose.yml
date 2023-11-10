@@ -17,6 +17,7 @@ services:
           ignore:
             - .phpunit.cache/
             - logs/
+            - storage/
             - vendor/
           path: ./api
           target: /var/www/html
@@ -34,6 +35,7 @@ services:
     ports:
       - "9222:8000"
     volumes:
+      - ./api/storage/:/var/www/html/storage
       - ./api/logs/php.log:/var/log/fpm-php.www.log
 
   client:
