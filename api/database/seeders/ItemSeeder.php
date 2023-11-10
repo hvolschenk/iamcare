@@ -19,6 +19,7 @@ class ItemSeeder extends Seeder
         Item::truncate();
 
         $faker = \Faker\Factory::create();
+        $users = User::inRandomOrder()->get();
 
         for ($i = 0; $i < 10; $i++) {
             $category = Category::inRandomOrder()->first();
@@ -33,7 +34,7 @@ class ItemSeeder extends Seeder
                 array_push($images, $image);
             }
             $location = Location::inRandomOrder()->first();
-            $user = User::inRandomOrder()->first();
+            $user = $users[2 - ($i % 3)];
             $item = Item::create([
                 'name' => $faker->words($faker->numberBetween(1, 5), true),
                 'description' => $faker->paragraph(2),
