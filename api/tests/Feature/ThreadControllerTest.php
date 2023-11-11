@@ -88,4 +88,26 @@ class ThreadControllerTest extends TestCase
             ->assertJson($resource->response($request)->getData(true));
     }
 
+    /**
+     * View a single thread
+     */
+    public function test_view_thread(): void
+    {
+        $user = User::inRandomOrder()->first();
+        $this->actingAs($user);
+        $thread = Thread::with(['item', 'messages.user', 'userGiver', 'userReceiver'])
+            ->where(['user_id_giver' => $user->id])
+            ->inRandomOrder()
+            ->first();
+        $resource = new ThreadResource($thread);
+        $response = $this->getJson("/threads/{$thread->id}");
+        $request = Request::create("/threads/{$thread->id}", 'GET');
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
+        $response
+            ->assertStatus(200)
+            ->assertJson($resource->response($request)->getData(true));
+    }
+
 }
