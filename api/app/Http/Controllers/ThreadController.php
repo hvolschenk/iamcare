@@ -99,6 +99,18 @@ class ThreadController extends Controller
     }
 
     /**
+     * Mark the unread messages as read
+     */
+    public function markAsRead(Request $request, Thread $thread)
+    {
+        $this->authorize('markAsRead', $thread);
+        $user = $request->user();
+        Log::debug('Thread: Mark Read', ['threadID' => $thread->id, 'userID' => $user->id]);
+        $thread->messages()->whereNot('user_id', $user->id)->update(['isRead' => true]);
+        return response()->noContent();
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Thread $thread)

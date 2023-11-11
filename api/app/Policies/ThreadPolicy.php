@@ -25,6 +25,15 @@ class ThreadPolicy
     }
 
     /**
+     * Determine whether the user can mark a thread as read
+     */
+    public function markAsRead(User $user, Thread $thread): bool
+    {
+        return $thread->user_id_giver === $user->id
+            || $thread->user_id_receiver === $user->id;
+    }
+
+    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
