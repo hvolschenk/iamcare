@@ -39,6 +39,7 @@ Route::controller(ThreadController::class)->group(function () {
     Route::get('threads', 'index');
     Route::get('threads/{thread}', 'show');
     Route::post('threads', 'create');
+    Route::post('threads/{thread}/mark-as-read', 'markAsRead');
     Route::post('threads/{thread}/reply', 'reply');
 });
 

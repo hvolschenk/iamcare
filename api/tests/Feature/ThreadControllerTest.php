@@ -110,4 +110,29 @@ class ThreadControllerTest extends TestCase
             ->assertJson($resource->response($request)->getData(true));
     }
 
+    /**
+     * Mark a thread as read
+     */
+    public function test_mark_as_read(): void
+    {
+        $user = User::inRandomOrder()->first();
+        $this->actingAs($user);
+        $thread = Thread::with(['messages'])
+            ->where(['user_id_giver' => $user->id])
+            ->inRandomOrder()
+            ->first();
+        $messagesUnread = $thread->messages->filter(function ($message) {
+            return $message->isRead === false;
+        })->all();
+        $messagesCountBefore = count($messagesUnread);
+        $response = $this->postJson("/threads/{$thread->id}/mark-as-read");
+        $response->assertStatus(204);
+        $threadUpdated = Thread::with(['messages'])->find($thread->id);
+        $messagesRead = $threadUpdated->messages->filter(function ($message) {
+            return $message->isRead === true;
+        })->all();
+        $messagesCountAfter = count($messagesRead);
+        $this->assertEquals($messagesCountBefore, $messagesCountAfter);
+    }
+
 }
