@@ -34,6 +34,14 @@ class ThreadPolicy
     }
 
     /**
+     * Determine whether the user can view the unread thread count
+     */
+    public function unreadThreadCount(User $user)
+    {
+        return true;
+    }
+
+    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool

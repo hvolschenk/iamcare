@@ -6,6 +6,7 @@ use App\Http\Resources\ThreadResource;
 use App\Models\Item;
 use App\Models\Thread;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -135,4 +136,26 @@ class ThreadControllerTest extends TestCase
         $this->assertEquals($messagesCountBefore, $messagesCountAfter);
     }
 
+    /**
+     * Shows the amount of threads with unread messages
+     */
+    public function test_unread_threads_count()
+    {
+        $user = User::inRandomOrder()->first();
+        $this->actingAs($user);
+        $unreadThreadCount = Thread::distinct('threads.id')
+            ->join('messages', 'threads.id', '=', 'messages.thread_id')
+            ->where(function (Builder $query) use ($user) {
+                $query
+                    ->where('user_id_giver', $user->id)
+                    ->orWhere('user_id_receiver', $user->id);
+            })
+            ->where('messages.user_id', '<>', $user->id)
+            ->where('messages.isRead', false)
+            ->count('threads.id');
+        $response = $this->getJson("/threads/unread");
+        $response
+            ->assertStatus(200)
+            ->assertJson(['unreadThreads' => $unreadThreadCount]);
+    }
 }

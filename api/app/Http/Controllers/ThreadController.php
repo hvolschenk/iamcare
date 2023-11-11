@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Message;
 use App\Models\Thread;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -108,6 +109,26 @@ class ThreadController extends Controller
         Log::debug('Thread: Mark Read', ['threadID' => $thread->id, 'userID' => $user->id]);
         $thread->messages()->whereNot('user_id', $user->id)->update(['isRead' => true]);
         return response()->noContent();
+    }
+
+    /**
+     * Returns the amount of threads with unread messages
+     */
+    public function unreadThreadCount(Request $request)
+    {
+        $this->authorize('unreadThreadCount', Thread::class);
+        $user = $request->user();
+        $unreadThreadCount = Thread::distinct('threads.id')
+            ->join('messages', 'threads.id', '=', 'messages.thread_id')
+            ->where(function (Builder $query) use ($user) {
+                $query
+                    ->where('user_id_giver', $user->id)
+                    ->orWhere('user_id_receiver', $user->id);
+            })
+            ->where('messages.user_id', '<>', $user->id)
+            ->where('messages.isRead', false)
+            ->count('threads.id');
+        return response()->json(['unreadThreads' => $unreadThreadCount]);
     }
 
     /**
