@@ -6,7 +6,6 @@ use App\Http\Resources\ThreadResource;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Thread;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
