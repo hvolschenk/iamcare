@@ -64,6 +64,29 @@ class ThreadController extends Controller
     }
 
     /**
+     * Reply to a thread
+     */
+    public function reply(Request $request, Thread $thread)
+    {
+        $this->authorize('reply', $thread);
+        $request->validate([
+            'message' => 'bail|required',
+        ]);
+
+        $user = $request->user();
+        $messageText = $request->input('message');
+
+        $message = new Message(['message' => $messageText]);
+        $message->user()->associate($user);
+        $thread->messages()->save($message);
+
+        return new ThreadResource(
+            Thread::with(['item.images', 'messages', 'userGiver', 'userReceiver'])
+                ->find($thread->id),
+        );
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Thread $thread)

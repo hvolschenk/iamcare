@@ -24,6 +24,15 @@ class ThreadPolicy
     }
 
     /**
+     * Determine whether the user can reply to a thread
+     */
+    public function reply(User $user, Thread $thread): bool
+    {
+        return $thread->user_id_giver === $user->id
+            || $thread->user_id_receiver === $user->id;
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Thread $thread): bool
