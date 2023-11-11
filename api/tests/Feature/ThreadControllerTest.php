@@ -22,6 +22,18 @@ class ThreadControllerTest extends TestCase
     protected $seed = true;
 
     /**
+     * Get all threads for a specific user
+     */
+    public function test_all_threads(): void
+    {
+        $user = User::inRandomOrder()->first();
+        $this->actingAs($user);
+        $response = $this->getJson('/threads');
+        $response->assertStatus(200);
+        $this->assertGreaterThanOrEqual(1, count($response->json('data')));
+    }
+
+    /**
      * Create a thread with invalid data
      */
     public function test_thread_create_invalid_data(): void
