@@ -16,6 +16,15 @@ class ThreadPolicy
     }
 
     /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user, Thread $thread): bool
+    {
+        return $thread->user_id_giver === $user->id
+            || $thread->user_id_receiver === $user->id;
+    }
+
+    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
