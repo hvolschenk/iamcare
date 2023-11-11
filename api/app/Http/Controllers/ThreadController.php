@@ -13,6 +13,20 @@ use Illuminate\Support\Facades\Log;
 class ThreadController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $this->authorize('viewAny', Thread::class);
+        return ThreadResource::collection(
+            Thread::with(['item.images', 'userGiver', 'userReceiver'])
+                ->where(['user_id_giver' => $request->user()->id])
+                ->orWhere(['user_id_receiver' => $request->user()->id])
+                ->paginate(15),
+        );
+    }
+
+    /**
      * Create a new thread.
      */
     public function create(Request $request)

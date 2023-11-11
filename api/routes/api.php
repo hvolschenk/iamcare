@@ -36,6 +36,7 @@ Route::controller(LocationController::class)->group(function () {
 });
 
 Route::controller(ThreadController::class)->group(function () {
+    Route::get('threads', 'index');
     Route::post('threads', 'create');
 });
 
