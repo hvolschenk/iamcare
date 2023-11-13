@@ -1,17 +1,29 @@
 import { brown, pink } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
+import { ThemeOptions, alpha, createTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const useTheme = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-  return createTheme({
+  const themeDark: ThemeOptions = {
     palette: {
-      mode: prefersDarkMode ? 'dark' : 'light',
+      mode: 'dark',
       primary: { main: brown[400] },
       secondary: { main: pink[200] },
     },
-  });
+  };
+  const themeLight: ThemeOptions = {
+    palette: {
+      background: {
+        default: alpha(brown[400], 0.05),
+      },
+      mode: 'light',
+      primary: { main: brown[400] },
+      secondary: { main: pink[200] },
+    },
+  };
+
+  return createTheme(prefersDarkMode ? themeDark : themeLight);
 };
 
 export default useTheme;

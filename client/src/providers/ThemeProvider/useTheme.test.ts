@@ -3,7 +3,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import useTheme from './useTheme';
 
-jest.mock('@mui/material/styles', () => ({ createTheme: jest.fn() }));
+jest.mock('@mui/material/styles', () => ({
+  alpha: jest.fn(),
+  createTheme: jest.fn(),
+}));
 jest.mock('@mui/material/useMediaQuery');
 
 beforeEach(() => {
