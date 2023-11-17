@@ -2,6 +2,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import { alpha } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -46,6 +47,7 @@ const Search: React.FC = () => {
 
   return (
     <TextField
+      color="secondary"
       fullWidth
       inputProps={{
         'data-testid': 'search__input',
@@ -85,7 +87,14 @@ const Search: React.FC = () => {
       onKeyDown={onKeyDown}
       placeholder={l10n.searchFieldPlaceholder}
       size="small"
+      sx={{
+        '&:hover': {
+          backgroundColor: (theme) => alpha(theme.palette.common.white, 0.25),
+        },
+        backgroundColor: (theme) => alpha(theme.palette.common.white, 0.15),
+      }}
       value={query}
+      variant="filled"
     />
   );
 };

@@ -1,12 +1,14 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { authentication, user as userURL } from '~/src/urls';
+import { authentication } from '~/src/urls';
+
+import Profile from './Profile';
 
 const UserMenu: React.FC = () => {
   const { user } = useAuthentication();
@@ -25,16 +27,9 @@ const UserMenu: React.FC = () => {
   }
 
   return (
-    <Avatar
-      alt={user.name}
-      component={Link}
-      data-testid="authentication__user-menu__avatar"
-      imgProps={{
-        referrerPolicy: 'no-referrer',
-      }}
-      src={user.avatar}
-      to={userURL(user.id.toString())}
-    />
+    <Stack direction="row" spacing={2}>
+      <Profile user={user} />
+    </Stack>
   );
 };
 

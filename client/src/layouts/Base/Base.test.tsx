@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import { fireEvent, render, RenderResult } from '~/src/testing';
 import { authentication, itemsSearch, root, user } from '~/src/urls';
 
-import Base from './Base';
+import Base from './index';
 
 describe('Without a logged-in user', () => {
   let wrapper: RenderResult;
