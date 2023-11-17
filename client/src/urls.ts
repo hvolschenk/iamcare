@@ -1,5 +1,7 @@
 export const authentication = () => '/authentication';
 
+export type ItemParams = { itemID: string };
+export const item = (itemID = ':itemID') => `/items/${itemID}`;
 interface ItemsSearchOptions {
   distance?: number;
   location?: string;

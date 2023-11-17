@@ -13,6 +13,7 @@ export interface L10n {
   itemCategoryErrorRequired: string;
   itemCategoryHelperText: string;
   itemCategoryLabel: string;
+  itemContactGiver: string;
   itemCreateActionPrimary: string;
   itemCreatePageTitle: string;
   itemCreateSuccess: string;
@@ -23,6 +24,7 @@ export interface L10n {
   itemDeleteTitle: string;
   itemDescriptionHelperText: string;
   itemDescriptionLabel: string;
+  itemErrorLoading: string;
   itemFormErrorCreating: string;
   itemFormErrorLoading: string;
   itemImagesHelperText: string;

@@ -18,6 +18,7 @@ const en: L10n = {
   itemCategoryHelperText:
     'Please select a category for this item to be grouped under',
   itemCategoryLabel: 'Category',
+  itemContactGiver: 'Contact giver',
   itemCreateActionPrimary: 'Create item',
   itemCreatePageTitle: 'Create item',
   itemCreateSuccess: "The item '{itemName}' has been created successfully",
@@ -30,6 +31,7 @@ const en: L10n = {
   itemDescriptionHelperText:
     'A full description of your item. Please include as much information as possible. Please do not give away any personal information.',
   itemDescriptionLabel: 'Description',
+  itemErrorLoading: 'The item failed to load. Please try again',
   itemFormErrorCreating: 'There was an error creating the item',
   itemFormErrorLoading:
     'The was an error loading the item form, please try again',
