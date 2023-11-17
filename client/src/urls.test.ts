@@ -1,5 +1,6 @@
 import {
   authentication,
+  item,
   itemsSearch,
   root,
   user,
@@ -18,6 +19,8 @@ type TestCase = [
 
 test.each<TestCase>([
   ['authentication', authentication, [], '/authentication'],
+  ['item (no paramaters)', item, [], '/items/:itemID'],
+  ['item', item, ['22'], '/items/22'],
   ['itemsSearch (no paramaters)', itemsSearch, [], '/items/search?'],
   [
     'itemsSearch',
