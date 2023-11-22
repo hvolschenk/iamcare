@@ -9,6 +9,7 @@ import { useAuthentication } from '~/src/providers/Authentication';
 import { authentication } from '~/src/urls';
 
 import Profile from './Profile';
+import Threads from './Threads';
 
 const UserMenu: React.FC = () => {
   const { user } = useAuthentication();
@@ -28,6 +29,7 @@ const UserMenu: React.FC = () => {
 
   return (
     <Stack direction="row" spacing={2}>
+      <Threads />
       <Profile user={user} />
     </Stack>
   );

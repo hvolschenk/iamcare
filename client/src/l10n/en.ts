@@ -61,6 +61,30 @@ const en: L10n = {
   searchFilterFieldDistanceLength: '{distance}km',
   searchFilterFieldLocation: 'Location',
   temp: 'A temporary sting',
+  threadCreate: 'Create thread',
+  threadCreateActionCreate: 'Create',
+  threadCreateError:
+    'There was an error while trying to create the thread. Please try again',
+  threadCreateErrorLoadingItem:
+    'Failed to load the item this new thread is about. Please try again',
+  threadCreateFieldMessageErrorRequired:
+    'A message is required for creating a thread',
+  threadCreateFieldMessageErrorTooLong:
+    'This message is longer than the maximum allowed length',
+  threadCreateFieldMessageHelperText:
+    'The message asking for information about this item',
+  threadCreateFieldMessageLabel: 'Message',
+  threadCreateSuccess: 'The thread has been created successfully',
+  threadErrorLoading: 'Failed to fetch the thread. Please try again',
+  threadReplyError: 'Failed to reply. Please try again',
+  threadReplyFieldMessageErrorRequired:
+    'A message is required to be able to reply',
+  threadReplyFieldMessageLabel: 'Message',
+  threadReplySuccess: 'Reply added successfully',
+  threads: 'Threads',
+  threadsErrorLoading: 'Failed to load the list of threads. Please try again',
+  threadsErrorNoItems:
+    'No threads. Find an item you like and start a thread about it',
   userErrorLoading: 'User profile failed to load. Please try again',
   userItemsCreateNew: 'Create item',
   userItemsErrorLoading: "Failed to load the user's items. Please try again",
@@ -69,6 +93,9 @@ const en: L10n = {
   userItemsManageDescription: 'Create, update or delete items',
   userItemsManageTitle: 'Manage my items',
   userItemsView: 'View user items',
+  userThreads: 'Threads',
+  userThreadsDescription:
+    'Threads are conversations with other users about an item you/they are giving away',
 };
 
 export default en;

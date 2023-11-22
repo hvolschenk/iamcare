@@ -50,6 +50,23 @@ export interface L10n {
   searchFilterFieldDistanceLength: string;
   searchFilterFieldLocation: string;
   temp: string;
+  threadCreate: string;
+  threadCreateActionCreate: string;
+  threadCreateError: string;
+  threadCreateErrorLoadingItem: string;
+  threadCreateFieldMessageErrorRequired: string;
+  threadCreateFieldMessageErrorTooLong: string;
+  threadCreateFieldMessageHelperText: string;
+  threadCreateFieldMessageLabel: string;
+  threadCreateSuccess: string;
+  threadErrorLoading: string;
+  threadReplyError: string;
+  threadReplyFieldMessageErrorRequired: string;
+  threadReplyFieldMessageLabel: string;
+  threadReplySuccess: string;
+  threads: string;
+  threadsErrorLoading: string;
+  threadsErrorNoItems: string;
   userErrorLoading: string;
   userItemsCreateNew: string;
   userItemsErrorLoading: string;
@@ -58,4 +75,6 @@ export interface L10n {
   userItemsManageDescription: string;
   userItemsManageTitle: string;
   userItemsView: string;
+  userThreads: string;
+  userThreadsDescription: string;
 }

@@ -29,6 +29,13 @@ export const itemsSearch = (options: ItemsSearchOptions = {}) => {
   return `/items/search?${searchParams.toString()}`;
 };
 
+export type ThreadParams = { threadID: string };
+export const thread = (threadID = ':threadID') => `/threads/${threadID}`;
+export type ThreadCreateParams = { itemID: string };
+export const threadCreate = (itemID: string = ':itemID') =>
+  `/threads/create/${itemID}`;
+export const threads = () => '/threads';
+
 export const root = () => '/';
 
 export type UserParams = { userID: string };

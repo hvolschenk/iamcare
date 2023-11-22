@@ -1,4 +1,5 @@
 import ListIcon from '@mui/icons-material/List';
+import MailIcon from '@mui/icons-material/Mail';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -14,7 +15,7 @@ import { Link } from 'react-router-dom';
 import PageTitle from '~/src/components/PageTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { root, userItems } from '~/src/urls';
+import { root, threads, userItems } from '~/src/urls';
 
 import { useUser } from '../context';
 
@@ -70,6 +71,24 @@ const Profile: React.FC = () => {
                   />
                 </ListItemButton>
               </ListItem>
+
+              {isLoggedInUser && (
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    data-testid="user-profile__action--threads"
+                    to={threads()}
+                  >
+                    <ListItemIcon>
+                      <MailIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={l10n.userThreads}
+                      secondary={l10n.userThreadsDescription}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )}
             </List>
           </CardContent>
         </Card>
