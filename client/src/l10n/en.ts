@@ -66,7 +66,8 @@ const en: L10n = {
   userItemsErrorLoading: "Failed to load the user's items. Please try again",
   userItemsErrorNoItems: 'This user has not created any items',
   userItemsErrorNoItemsSelf: 'You have not created any items yet',
-  userItemsManage: 'Manage my items',
+  userItemsManageDescription: 'Create, update or delete items',
+  userItemsManageTitle: 'Manage my items',
   userItemsView: 'View user items',
 };
 

@@ -55,6 +55,7 @@ export interface L10n {
   userItemsErrorLoading: string;
   userItemsErrorNoItems: string;
   userItemsErrorNoItemsSelf: string;
-  userItemsManage: string;
+  userItemsManageDescription: string;
+  userItemsManageTitle: string;
   userItemsView: string;
 }
