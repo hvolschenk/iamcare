@@ -206,10 +206,10 @@ describe('When the categories fail to load', () => {
                 },
                 headers,
                 status: 422,
-                statusText: 'Unauthorized',
+                statusText: 'Unprocessable Content',
               };
               const error = new AxiosError(
-                'Failed to create the Item',
+                'Unprocessable Content',
                 '422',
                 undefined,
                 undefined,
