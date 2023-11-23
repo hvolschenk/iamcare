@@ -123,7 +123,7 @@ describe('When logged-in', () => {
     test('Renders the correct text for the "user items" link', () => {
       expect(
         wrapper.queryByTestId('user-profile__action--items__text'),
-      ).toHaveTextContent(l10n.userItemsManage);
+      ).toHaveTextContent(l10n.userItemsManageTitle);
     });
 
     describe('When clicking on the "user items" link', () => {
