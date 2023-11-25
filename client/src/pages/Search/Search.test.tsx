@@ -24,6 +24,13 @@ jest.mock('~/src/api/locations/google');
 const locationBasic = locationBasicMock();
 const searchQuery = faker.word.sample();
 
+beforeEach(() => {
+  (locationByGooglePlaceID as jest.Mock).mockClear().mockResolvedValue({
+    data: locationBasic,
+    status: 200,
+  });
+});
+
 describe('With no saved filters', () => {
   describe('When the API call fails', () => {
     let wrapper: RenderResult;
@@ -221,10 +228,7 @@ describe('With saved filters', () => {
     (itemsSearch as jest.Mock)
       .mockClear()
       .mockResolvedValue({ data: resultsEmpty, status: 200 });
-    (locationByGooglePlaceID as jest.Mock).mockClear().mockResolvedValue({
-      data: locationBasic,
-      status: 200,
-    });
+    (locationByGooglePlaceID as jest.Mock).mockClear();
     wrapper = render(
       <Routes>
         <Route element={<Search />} path={itemsSearchURL()} />

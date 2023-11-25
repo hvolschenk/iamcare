@@ -16,12 +16,12 @@ import Item from './Item';
 const ItemRoot: React.FC = () => {
   const { itemID } = useParams<ItemParams>() as ItemParams;
 
-  const { data, isError, isLoading, refetch } = useQuery(
-    ['items', itemID],
-    () => itemGet({ id: parseInt(itemID, 10) }),
-  );
+  const { data, refetch, status } = useQuery({
+    queryFn: () => itemGet({ id: parseInt(itemID, 10) }),
+    queryKey: ['items', itemID],
+  });
 
-  if (isError) {
+  if (status === 'error') {
     return (
       <React.Fragment>
         <PageTitle
@@ -45,7 +45,7 @@ const ItemRoot: React.FC = () => {
     );
   }
 
-  if (isLoading) {
+  if (status === 'pending') {
     return (
       <React.Fragment>
         <Skeleton />

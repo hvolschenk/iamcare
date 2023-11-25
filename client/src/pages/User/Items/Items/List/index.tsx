@@ -9,7 +9,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Skeleton from '@mui/material/Skeleton';
 import Snackbar from '@mui/material/Snackbar';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -27,12 +27,11 @@ const UserItemsList: React.FC = () => {
   const { user: loggedInUser } = useAuthentication();
   const { user } = useUser();
 
-  const { data, isError, isFetching, isLoading, isRefetching, refetch } =
-    useQuery(
-      ['users', user.id, 'items', page],
-      () => getUserItems(user.id, page),
-      { keepPreviousData: true },
-    );
+  const { data, isFetching, isRefetching, refetch, status } = useQuery({
+    placeholderData: keepPreviousData,
+    queryFn: () => getUserItems(user.id, page),
+    queryKey: ['users', user.id, 'items', page],
+  });
 
   const isLoggedInUser = React.useMemo(
     () => loggedInUser?.id === user.id,
@@ -46,7 +45,7 @@ const UserItemsList: React.FC = () => {
     [setPage],
   );
 
-  if (isLoading) {
+  if (status === 'pending') {
     return (
       <React.Fragment>
         <Skeleton />
@@ -56,7 +55,7 @@ const UserItemsList: React.FC = () => {
     );
   }
 
-  if (isError) {
+  if (status === 'error') {
     return (
       <Alert
         action={

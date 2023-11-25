@@ -27,7 +27,7 @@ const ItemCreate: React.FC = () => {
           itemName: item.name,
         }),
       });
-      queryClient.invalidateQueries(['users', user.id, 'items']);
+      queryClient.invalidateQueries({ queryKey: ['users', user.id, 'items'] });
       navigate(userItems(user.id.toString()));
     },
     [navigate, notify, queryClient, user],

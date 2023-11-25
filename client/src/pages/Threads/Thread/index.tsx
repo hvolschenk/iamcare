@@ -16,12 +16,12 @@ import Thread from './Thread';
 const ThreadLoader: React.FC = () => {
   const { threadID } = useParams<ThreadParams>() as ThreadParams;
 
-  const { data, isError, isLoading, refetch } = useQuery(
-    ['threads', threadID],
-    () => threadGet({ id: parseInt(threadID, 10) }),
-  );
+  const { data, refetch, status } = useQuery({
+    queryFn: () => threadGet({ id: parseInt(threadID, 10) }),
+    queryKey: ['threads', threadID],
+  });
 
-  if (isError) {
+  if (status === 'error') {
     return (
       <React.Fragment>
         <PageTitle
@@ -48,7 +48,7 @@ const ThreadLoader: React.FC = () => {
     );
   }
 
-  if (isLoading) {
+  if (status === 'pending') {
     return (
       <React.Fragment>
         <Skeleton />

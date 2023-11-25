@@ -14,18 +14,18 @@ import Results from './Results';
 const SearchPage: React.FC = () => {
   const { filters, page, setPage } = useSearch();
 
-  const { data, isError, isLoading, refetch } = useQuery(
-    ['items', 'search', filters, page],
-    () =>
+  const { data, refetch, status } = useQuery({
+    queryFn: () =>
       itemsSearch({
         distance: parseInt(filters.distance, 10),
         googlePlaceID: filters.location,
         page,
         query: filters.query,
       }),
-  );
+    queryKey: ['items', 'search', filters, page],
+  });
 
-  if (isError) {
+  if (status === 'error') {
     return (
       <Alert
         action={
@@ -40,7 +40,7 @@ const SearchPage: React.FC = () => {
     );
   }
 
-  if (isLoading) {
+  if (status === 'pending') {
     return (
       <React.Fragment>
         <Skeleton />

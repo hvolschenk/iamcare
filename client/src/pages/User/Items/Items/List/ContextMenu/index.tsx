@@ -53,8 +53,8 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
     notify({ message: l10n.itemDeleteErrorDeleting });
   }, [notify]);
   const onDeleteSuccess = React.useCallback(() => {
-    queryClient.invalidateQueries(['users', user!.id, 'items']);
-    queryClient.invalidateQueries(['items', item.id]);
+    queryClient.invalidateQueries({ queryKey: ['users', user!.id, 'items'] });
+    queryClient.invalidateQueries({ queryKey: ['items', item.id] });
     notify({ message: l10n.itemDeleteSuccess });
     onDeleteDialogClose();
     navigate(userItems(user!.id.toString()));

@@ -24,12 +24,12 @@ import Profile from './Profile/async';
 const User: React.FC = () => {
   const { userID } = useParams<UserParams>() as UserParams;
 
-  const { data, isError, isLoading, refetch } = useQuery(
-    ['users', userID],
-    () => getUser(parseInt(userID, 10)),
-  );
+  const { data, refetch, status } = useQuery({
+    queryFn: () => getUser(parseInt(userID, 10)),
+    queryKey: ['users', userID],
+  });
 
-  if (isError) {
+  if (status === 'error') {
     return (
       <React.Fragment>
         <PageTitle
@@ -53,7 +53,7 @@ const User: React.FC = () => {
     );
   }
 
-  if (isLoading) {
+  if (status === 'pending') {
     return (
       <React.Fragment>
         <Skeleton />
