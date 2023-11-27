@@ -25,11 +25,12 @@ const ItemDeleteDialog: React.FC<ItemDeleteDialogProps> = ({
   onError,
   onSuccess,
 }) => {
-  const { isLoading, mutate } = useMutation(
-    ['items', item.id, 'delete'],
-    () => deleteItem(item.id.toString()),
-    { onError, onSuccess },
-  );
+  const { mutate, status } = useMutation({
+    mutationFn: () => deleteItem(item.id.toString()),
+    mutationKey: ['items', item.id, 'delete'],
+    onError,
+    onSuccess,
+  });
 
   return (
     <Dialog onClose={onClose} open={isOpen}>
@@ -44,7 +45,7 @@ const ItemDeleteDialog: React.FC<ItemDeleteDialogProps> = ({
       <DialogActions>
         <Button
           color="primary"
-          disabled={isLoading}
+          disabled={status === 'pending'}
           onClick={onClose}
           variant="text"
         >
@@ -53,7 +54,7 @@ const ItemDeleteDialog: React.FC<ItemDeleteDialogProps> = ({
         <Button
           color="primary"
           data-testid="item__delete"
-          disabled={isLoading}
+          disabled={status === 'pending'}
           onClick={() => mutate()}
           variant="contained"
         >

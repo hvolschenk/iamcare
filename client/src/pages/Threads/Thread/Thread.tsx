@@ -22,17 +22,15 @@ const Thread: React.FC = () => {
   const queryClient = useQueryClient();
   const { thread } = useThread();
 
-  const { mutate } = useMutation(
-    ['threads', thread.id, 'mark-as-read'],
-    () => threadMarkAsRead({ id: thread.id }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['threads'],
-        });
-      },
+  const { mutate } = useMutation({
+    mutationFn: () => threadMarkAsRead({ id: thread.id }),
+    mutationKey: ['threads', thread.id, 'mark-as-read'],
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['threads'],
+      });
     },
-  );
+  });
 
   React.useEffect(() => {
     mutate();

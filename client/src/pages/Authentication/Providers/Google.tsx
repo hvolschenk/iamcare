@@ -17,11 +17,14 @@ const Google: React.FC<AuthenticationProviderProps> = ({
   onStart,
   onSuccess,
 }) => {
-  const queryCSRFToken = useMutation(['csrf'], csrfToken);
-  const queryGoogleLogin = useMutation(
-    ['authenticate', 'google'],
-    authenticateGoogle,
-  );
+  const queryCSRFToken = useMutation({
+    mutationFn: csrfToken,
+    mutationKey: ['csrf'],
+  });
+  const queryGoogleLogin = useMutation({
+    mutationFn: authenticateGoogle,
+    mutationKey: ['authenticate', 'google'],
+  });
 
   const googleLogin = useGoogleLogin({
     onError: () => {

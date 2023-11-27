@@ -49,15 +49,15 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
   const {
     data,
     isLoading: isQueryLoading,
-    isSuccess,
-  } = useQuery(
-    ['location', 'google', value],
-    () => locationByGooglePlaceID({ googlePlaceID: value! }),
-    { enabled: isQueryEnabled },
-  );
+    status,
+  } = useQuery({
+    enabled: isQueryEnabled,
+    queryFn: () => locationByGooglePlaceID({ googlePlaceID: value! }),
+    queryKey: ['location', 'google', value],
+  });
 
   React.useEffect(() => {
-    if (isSuccess) {
+    if (status === 'success') {
       const prediction: google.maps.places.AutocompletePrediction = {
         description: data.data.address,
         matched_substrings: [],
@@ -73,22 +73,21 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       setOptions((currentOptions) => [prediction, ...currentOptions]);
       setSelectedValue(prediction);
     }
-  }, [data, isSuccess, setOptions, setSelectedValue]);
+  }, [data, setOptions, setSelectedValue, status]);
 
   const { autocomplete, generateAutocompleteSessionToken } = useGooglePlaces();
 
-  const { mutate } = useMutation(
-    ['google', 'places', 'autocomplete'],
-    (query: string) => autocomplete(query, generateAutocompleteSessionToken()),
-    {
-      onSettled: () => {
-        setIsLoading(false);
-      },
-      onSuccess: (response) => {
-        setOptions(response.predictions);
-      },
+  const { mutate } = useMutation({
+    mutationFn: (query: string) =>
+      autocomplete(query, generateAutocompleteSessionToken()),
+    mutationKey: ['google', 'places', 'autocomplete'],
+    onSettled: () => {
+      setIsLoading(false);
     },
-  );
+    onSuccess: (response) => {
+      setOptions(response.predictions);
+    },
+  });
 
   const mutateDebounced = debounce(mutate, 500);
 

@@ -40,7 +40,10 @@ const ItemForm: React.FC<ItemFormProps> = ({
   onSuccess,
 }) => {
   const { notify } = useNotifications();
-  const categoriesQuery = useQuery(['categories'], () => categories());
+  const { data, refetch, status } = useQuery({
+    queryFn: () => categories(),
+    queryKey: ['categories'],
+  });
 
   const validationSchema = yup.object({
     category: yup.string().required(l10n.itemCategoryErrorRequired),
@@ -152,14 +155,14 @@ const ItemForm: React.FC<ItemFormProps> = ({
       setFieldValue('location', { googlePlaceID });
     }, []);
 
-  if (categoriesQuery.isError) {
+  if (status === 'error') {
     return (
       <Alert
         action={
           <Button
             color="inherit"
             data-testid="item-form__error__loading__retry"
-            onClick={() => categoriesQuery.refetch()}
+            onClick={() => refetch()}
           >
             {l10n.actionTryAgain}
           </Button>
@@ -171,7 +174,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
     );
   }
 
-  if (categoriesQuery.isLoading) {
+  if (status === 'pending') {
     return (
       <React.Fragment>
         <Skeleton />
@@ -224,7 +227,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
           />
 
           <CategoryAutocomplete
-            categories={categoriesQuery.data.data.data}
+            categories={data.data.data}
             error={fieldHasError('category')}
             FormHelperTextProps={{
               // @ts-ignore

@@ -9,9 +9,10 @@ import unreadThreadsCount from '~/src/api/threads/unread';
 import { threads as threadsURL } from '~/src/urls';
 
 const Threads: React.FC = () => {
-  const { data, isError, isLoading } = useQuery(['threads', 'unread'], () =>
-    unreadThreadsCount(),
-  );
+  const { data, status } = useQuery({
+    queryFn: () => unreadThreadsCount(),
+    queryKey: ['threads', 'unread'],
+  });
 
   return (
     <IconButton component={Link} to={threadsURL()}>
@@ -19,7 +20,11 @@ const Threads: React.FC = () => {
         badgeContent={data?.data.unreadThreads}
         color="secondary"
         data-testid="user__threads__unread"
-        invisible={isError || isLoading || data.data.unreadThreads <= 0}
+        invisible={
+          status === 'error' ||
+          status === 'pending' ||
+          data.data.unreadThreads <= 0
+        }
         variant="standard"
       >
         <MailIcon />

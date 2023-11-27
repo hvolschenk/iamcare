@@ -17,12 +17,12 @@ import Form from './Form';
 
 const ThreadCreate: React.FC = () => {
   const { itemID } = useParams<ThreadCreateParams>() as ThreadCreateParams;
-  const { data, isError, isLoading, refetch } = useQuery(
-    ['items', itemID],
-    () => itemGet({ id: parseInt(itemID, 10) }),
-  );
+  const { data, refetch, status } = useQuery({
+    queryFn: () => itemGet({ id: parseInt(itemID, 10) }),
+    queryKey: ['items', itemID],
+  });
 
-  if (isError) {
+  if (status === 'error') {
     return (
       <React.Fragment>
         <PageTitle
@@ -49,7 +49,7 @@ const ThreadCreate: React.FC = () => {
     );
   }
 
-  if (isLoading) {
+  if (status === 'pending') {
     return (
       <React.Fragment>
         <Skeleton />

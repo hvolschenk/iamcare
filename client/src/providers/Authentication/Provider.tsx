@@ -24,18 +24,19 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
     [setUser, user],
   );
 
-  const { isError, isLoading, refetch } = useQuery(
-    ['authenticate', 'me'],
-    authenticateMe,
-    {
-      enabled: !user,
-      onSuccess: (response) => {
-        setUser(response.data || undefined);
-      },
-    },
-  );
+  const { data, refetch, status } = useQuery({
+    enabled: !user,
+    queryFn: authenticateMe,
+    queryKey: ['authenticate', 'me'],
+  });
 
-  if (isError) {
+  React.useEffect(() => {
+    if (status === 'success') {
+      setUser(data.data || undefined);
+    }
+  }, [data, setUser, status]);
+
+  if (status === 'error') {
     return (
       <div data-testid="authentication-provider__error__loading">
         <p>{l10n.authenticateProviderErrorLoading}</p>
@@ -50,7 +51,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
     );
   }
 
-  if (isLoading && !user) {
+  if (status === 'pending' && !user) {
     return null;
   }
 

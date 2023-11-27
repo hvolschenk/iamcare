@@ -19,10 +19,10 @@ import List from './List';
 const Threads: React.FC = () => {
   const [page, setPage] = React.useState<number>(1);
 
-  const { data, isError, isFetching, isLoading, refetch } = useQuery(
-    ['threads', page],
-    () => threads(page),
-  );
+  const { data, isFetching, refetch, status } = useQuery({
+    queryFn: () => threads(page),
+    queryKey: ['threads', page],
+  });
 
   const onPageChange = React.useCallback(
     (event: React.ChangeEvent<unknown>, newPage: number) => {
@@ -41,7 +41,7 @@ const Threads: React.FC = () => {
         title={l10n.threads}
       />
 
-      {isError && (
+      {status === 'error' && (
         <Alert
           action={
             <Button
@@ -57,7 +57,7 @@ const Threads: React.FC = () => {
         </Alert>
       )}
 
-      {!isError && isLoading && (
+      {status === 'pending' && (
         <React.Fragment>
           <Skeleton />
           <Skeleton />
@@ -65,7 +65,7 @@ const Threads: React.FC = () => {
         </React.Fragment>
       )}
 
-      {!isError && !isLoading && (
+      {status === 'success' && (
         <React.Fragment>
           {data.data.meta.total === 0 && (
             <Alert data-testid="threads__error--no-items" severity="info">
