@@ -83,6 +83,7 @@ class ItemController extends Controller
 
     public function search(Request $request)
     {
+        $this->authorize('viewAny', Item::class);
         $distance = $request->input('distance') ?: null;
         $googlePlaceID = $request->input('location') ?: null;
         $searchQuery = $request->input('query') ?: null;
