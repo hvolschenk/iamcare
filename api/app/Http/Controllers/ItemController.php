@@ -33,7 +33,10 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         $this->authorize('view', $item);
-        return new ItemResource(Item::with(['category', 'location', 'images', 'user'])->find($item->id));
+        return new ItemResource(
+            Item::with(['category', 'location', 'images', 'user'])
+                ->find($item->id),
+        );
     }
 
     public function create(Request $request)
@@ -71,7 +74,10 @@ class ItemController extends Controller
                 $item->save();
             }, 1);
             Log::debug('Item: Create: Return', ['id' => $item->id]);
-            return new ItemResource(Item::with(['category', 'location', 'images', 'user'])->find($item->id));
+            return new ItemResource(
+                Item::with(['category', 'location', 'images', 'user'])
+                    ->find($item->id),
+            );
         } catch (\Exception $error) {
             Log::debug('Item: Create: Undo: Delete Images');
             foreach ($images as $image) {
