@@ -132,9 +132,7 @@ class ItemControllerTest extends TestCase
     public function test_delete_unauthorized()
     {
         $item = Item::inRandomOrder()->first();
-        $user = User::whereNot(function (Builder $query) use ($item) {
-            $query->where('id', '=', $item->user_id);
-        })->first();
+        $user = User::whereNot('id', $item->user_id)->first();
         $this->actingAs($user);
         $response = $this->deleteJson("/items/{$item->id}");
         $response->assertStatus(403);
