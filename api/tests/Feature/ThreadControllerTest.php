@@ -123,14 +123,14 @@ class ThreadControllerTest extends TestCase
             ->inRandomOrder()
             ->first();
         $messagesUnread = $thread->messages->filter(function ($message) {
-            return $message->isRead === false;
+            return $message->is_read === false;
         })->all();
         $messagesCountBefore = count($messagesUnread);
         $response = $this->postJson("/threads/{$thread->id}/mark-as-read");
         $response->assertStatus(204);
         $threadUpdated = Thread::with(['messages'])->find($thread->id);
         $messagesRead = $threadUpdated->messages->filter(function ($message) {
-            return $message->isRead === true;
+            return $message->is_read === true;
         })->all();
         $messagesCountAfter = count($messagesRead);
         $this->assertEquals($messagesCountBefore, $messagesCountAfter);
@@ -151,7 +151,7 @@ class ThreadControllerTest extends TestCase
                     ->orWhere('user_id_receiver', $user->id);
             })
             ->where('messages.user_id', '<>', $user->id)
-            ->where('messages.isRead', false)
+            ->where('messages.is_read', false)
             ->count('threads.id');
         $response = $this->getJson("/threads/unread");
         $response

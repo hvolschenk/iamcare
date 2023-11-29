@@ -24,7 +24,7 @@ class ThreadResource extends JsonResource
         $user = $request->user();
         $hasUnreadMessages = false;
         foreach ($this->messages as $message) {
-            if (!$message->isRead && $message->user->id !== $user->id) {
+            if (!$message->is_read && $message->user->id !== $user->id) {
                 $hasUnreadMessages = true;
                 break;
             }

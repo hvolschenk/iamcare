@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->text('message');
-            $table->boolean('isRead')->default(false);
+            $table->boolean('is_read')->default(false);
             $table->foreignIdFor(Thread::class)->nullable();
             $table->foreignIdFor(User::class)->nullable();
             $table->timestamps();

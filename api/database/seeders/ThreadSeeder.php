@@ -35,7 +35,7 @@ class ThreadSeeder extends Seeder
 
             for ($j = 0; $j < $faker->numberBetween(1, 5); $j++) {
                 $message = new Message([
-                    'isRead' => false,
+                    'is_read' => false,
                     'message' => $faker->sentences($faker->numberBetween(1, 3), true),
                 ]);
                 $message->user()->associate($faker->randomElement([$userGiver, $userReceiver]));
