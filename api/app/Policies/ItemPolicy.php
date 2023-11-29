@@ -32,6 +32,14 @@ class ItemPolicy
     }
 
     /**
+     * Determine whether the item can be marked as given
+     */
+    public function markAsGiven(User $user, Item $item): bool
+    {
+        return $user->id === $item->user_id;
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Item $item): bool

@@ -27,7 +27,9 @@ class ItemController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Item::class);
-        return ItemResource::collection(Item::paginate(15));
+        return ItemResource::collection(
+            Item::where(['is_given', false])->paginate(15),
+        );
     }
 
     public function show(Item $item)
@@ -87,6 +89,17 @@ class ItemController extends Controller
         }
     }
 
+    public function markAsGiven(Request $request, Item $item)
+    {
+        $this->authorize('markAsGiven', $item);
+        $item->is_given = true;
+        $item->save();
+        return new ItemResource(
+            Item::with(['category', 'location', 'images', 'user'])
+                ->find($item->id),
+        );
+    }
+
     public function search(Request $request)
     {
         $this->authorize('viewAny', Item::class);
@@ -100,7 +113,7 @@ class ItemController extends Controller
         ]);
         Log::debug('Item: Search: Start');
 
-        $itemsQuery = Item::query()->select();
+        $itemsQuery = Item::query()->select()->where('is_given', false);
 
         if ($searchQuery !== null) {
             $itemsQuery->where(function (Builder $builder) use ($searchQuery) {

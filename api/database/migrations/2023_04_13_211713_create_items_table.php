@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->fulltext();
             $table->string('description')->fulltext();
+            $table->boolean('is_given')->default(false);
             $table->foreignIdFor(Category::class)->nullable();
             $table->foreignIdFor(Location::class)->nullable();
             $table->foreignIdFor(User::class)->nullable();

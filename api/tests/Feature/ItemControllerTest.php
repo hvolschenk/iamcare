@@ -126,6 +126,35 @@ class ItemControllerTest extends TestCase
     }
 
     /**
+     * When a user tries to mark an item given
+     * but the item belongs to another user
+     */
+    public function test_mark_as_given_unauthorized()
+    {
+        $item = Item::inRandomOrder()->first();
+        $user = User::whereNot('id', $item->user_id)->first();
+        $this->actingAs($user);
+        $response = $this->postJson("/items/{$item->id}/mark-as-given");
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Marking an item as given
+     */
+    public function test_mark_as_given()
+    {
+        $item = Item::inRandomOrder()->first();
+        $user = User::find($item->user_id);
+        $this->actingAs($user);
+        $response = $this->postJson("/items/{$item->id}/mark-as-given");
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('items', [
+            'id' => $item->id,
+            'is_given' => true,
+        ]);
+    }
+
+    /**
      * When the item cannot be deleted,
      * as only the owner can delete an item.
      */

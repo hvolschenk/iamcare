@@ -28,6 +28,7 @@ class ItemResource extends JsonResource
             'description' => $this->description,
             'id' => $this->id,
             'images' => ImageResource::collection($this->images),
+            'isGiven' => $this->is_given,
             'location' => new LocationResource($this->location), // HENDRIK THESE NEED TO BE FOUND FOR A SPECIFIC LANGUAGE, NO?
             'name' => $this->name,
             'user' => new UserResource($this->user),
