@@ -33,6 +33,11 @@ export interface L10n {
   itemLocationErrorRequired: string;
   itemLocationHelperText: string;
   itemLocationLabel: string;
+  itemMarkAsGiven: string;
+  itemMarkAsGivenDescription: string;
+  itemMarkAsGivenError: string;
+  itemMarkAsGivenSuccess: string;
+  itemMarkAsGivenTitle: string;
   itemNameErrorRequired: string;
   itemNameHelperText: string;
   itemNameLabel: string;

@@ -28,6 +28,7 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('items/search', 'search');
     Route::get('items/{item}', 'show');
     Route::post('items', 'create');
+    Route::post('items/{item}/mark-as-given', 'markAsGiven');
 });
 
 Route::controller(LocationController::class)->group(function () {

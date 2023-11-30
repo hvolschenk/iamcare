@@ -42,6 +42,13 @@ const en: L10n = {
   itemLocationErrorRequired: 'Please provide a location for the item',
   itemLocationHelperText: 'The suburb where this item is available',
   itemLocationLabel: 'Location',
+  itemMarkAsGiven: 'Mark as given',
+  itemMarkAsGivenDescription:
+    'Mark "{itemName}" as given? Once an item is marked as given it is archived and no longer available through search',
+  itemMarkAsGivenError:
+    'There was an error marking the item as given. Please try again',
+  itemMarkAsGivenSuccess: 'The item was successfully marked as given',
+  itemMarkAsGivenTitle: 'Mark item as given?',
   itemNameErrorRequired: 'An item requires a name',
   itemNameHelperText:
     'The name of the item you are giving away. Keep it short but descriptive. This is the first thing people will see about your item while browsing.',
