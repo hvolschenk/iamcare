@@ -11,14 +11,13 @@ import ContextMenu from './ContextMenu';
 
 interface ItemListItemProps {
   item: Item;
-  refetch(): void;
 }
 
-const ItemListItem: React.FC<ItemListItemProps> = ({ item, refetch }) => (
+const ItemListItem: React.FC<ItemListItemProps> = ({ item }) => (
   <ListItem
     data-testid="user-items__item"
     disablePadding
-    secondaryAction={<ContextMenu item={item} refetch={refetch} />}
+    secondaryAction={<ContextMenu item={item} />}
   >
     <ListItemButton>
       <ListItemAvatar>

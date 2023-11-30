@@ -1,6 +1,10 @@
+import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,14 +16,11 @@ import { useNotifications } from '~/src/providers/Notifications';
 import { Item } from '~/src/types/Item';
 import { userItems } from '~/src/urls';
 
-import Delete from './Delete';
-
 interface ContextMenuProps {
   item: Item;
-  refetch(): void;
 }
 
-const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({ item }) => {
   const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(
     null,
   );
@@ -58,8 +59,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
     notify({ message: l10n.itemDeleteSuccess });
     onDeleteDialogClose();
     navigate(userItems(user!.id.toString()));
-    refetch();
-  }, [queryClient, navigate, notify, onDeleteDialogClose, refetch, user]);
+  }, [item, navigate, notify, onDeleteDialogClose, queryClient, user]);
 
   const isOpen = Boolean(anchorElement);
 
@@ -73,7 +73,15 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorElement} onClose={onClose} open={isOpen}>
-        <Delete onClick={onDeleteDialogOpen} />
+        <MenuItem
+          data-testid="user-items__item__delete-dialog"
+          onClick={onDeleteDialogOpen}
+        >
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText primary={l10n.itemDeleteAction} />
+        </MenuItem>
       </Menu>
 
       <ItemDeleteDialog
