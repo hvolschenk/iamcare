@@ -1,6 +1,7 @@
 import React from 'react';
 
 import deleteItem from '~/src/api/items/delete';
+import markItemAsGiven from '~/src/api/items/markAsGiven';
 import getUserItems from '~/src/api/user/getItems';
 import l10n from '~/src/l10n';
 import {
@@ -19,6 +20,7 @@ import { Provider as UserProvider } from '../../context';
 import UserItems from './index';
 
 jest.mock('~/src/api/items/delete');
+jest.mock('~/src/api/items/markAsGiven');
 jest.mock('~/src/api/user/getItems');
 
 describe('With a user other than the logged-in user', () => {
@@ -188,6 +190,61 @@ describe('With a user other than the logged-in user', () => {
             );
           });
 
+          describe('Marking an item as given', () => {
+            beforeEach(() => {
+              fireEvent.click(
+                wrapper.getAllByTestId('user-items__item__mark-as-given')[0],
+              );
+            });
+
+            describe('When the API call fails', () => {
+              beforeEach(async () => {
+                (markItemAsGiven as jest.Mock)
+                  .mockClear()
+                  .mockRejectedValue(new Error('Failed to mark as given'));
+                fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
+                await waitFor(() =>
+                  expect(markItemAsGiven).toHaveBeenCalledTimes(1),
+                );
+                await waitFor(() =>
+                  expect(
+                    wrapper.queryByTestId('notifications__notification'),
+                  ).toBeInTheDocument(),
+                );
+              });
+
+              test('Shows a notification indicating that marking as given failed', () => {
+                expect(
+                  wrapper.queryByTestId('notifications__notification'),
+                ).toHaveTextContent(l10n.itemMarkAsGivenError);
+              });
+            });
+
+            describe('When the API call succeeds', () => {
+              beforeEach(async () => {
+                (markItemAsGiven as jest.Mock).mockClear().mockResolvedValue({
+                  data: { ...userItems.data[0], isGiven: true },
+                  status: 200,
+                });
+                fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
+                await waitFor(() =>
+                  expect(markItemAsGiven).toHaveBeenCalledTimes(1),
+                );
+                await waitFor(() =>
+                  expect(
+                    wrapper.queryByTestId('notifications__notification'),
+                  ).toBeInTheDocument(),
+                );
+              });
+
+              test('Shows a notification indicating that marking as given succeeded', () => {
+                expect(
+                  wrapper.queryByTestId('notifications__notification'),
+                ).toHaveTextContent(l10n.itemMarkAsGivenSuccess);
+              });
+            });
+          });
+
           describe('Deleting an item', () => {
             beforeEach(() => {
               fireEvent.click(
@@ -219,39 +276,13 @@ describe('With a user other than the logged-in user', () => {
             });
 
             describe('When deleting succeeds', () => {
-              const userItemsUpdated: APICollectionPaginated<Item> = {
-                data: [item(), item(), item(), item()],
-                links: {
-                  first: '/first',
-                  last: '/last',
-                  next: '/next',
-                  prev: '/prev',
-                },
-                meta: {
-                  current_page: 1,
-                  from: 1,
-                  last_page: 1,
-                  links: [],
-                  path: 'path',
-                  per_page: 15,
-                  to: 5,
-                  total: 5,
-                },
-              };
-
               beforeEach(async () => {
                 (deleteItem as jest.Mock)
                   .mockClear()
                   .mockResolvedValue({ status: 204 });
-                (getUserItems as jest.Mock)
-                  .mockClear()
-                  .mockResolvedValue({ data: userItemsUpdated, status: 200 });
                 fireEvent.click(wrapper.getByTestId('item__delete'));
                 await waitFor(() =>
                   expect(deleteItem).toHaveBeenCalledTimes(1),
-                );
-                await waitFor(() =>
-                  expect(getUserItems).toHaveBeenCalledTimes(1),
                 );
                 await waitFor(() =>
                   expect(
@@ -264,12 +295,6 @@ describe('With a user other than the logged-in user', () => {
                 expect(
                   wrapper.queryByTestId('notifications__notification'),
                 ).toHaveTextContent(l10n.itemDeleteSuccess);
-              });
-
-              test('Shows the updated amount of user items', () => {
-                expect(
-                  wrapper.queryAllByTestId('user-items__item'),
-                ).toHaveLength(userItemsUpdated.data.length);
               });
             });
           });

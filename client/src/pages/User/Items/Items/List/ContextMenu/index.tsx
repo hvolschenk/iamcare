@@ -1,29 +1,34 @@
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ItemDeleteDialog from '~/src/components/ItemDeleteDialog';
+import ItemMarkAsGivenDialog from '~/src/components/ItemMarkAsGivenDialog';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useNotifications } from '~/src/providers/Notifications';
 import { Item } from '~/src/types/Item';
 import { userItems } from '~/src/urls';
 
-import Delete from './Delete';
-
 interface ContextMenuProps {
   item: Item;
-  refetch(): void;
 }
 
-const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({ item }) => {
   const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(
     null,
   );
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] =
+    React.useState<boolean>(false);
+  const [isMarkAsGivenDialogOpen, setIsMarkAsGivenDialogOpen] =
     React.useState<boolean>(false);
 
   const { user } = useAuthentication();
@@ -58,8 +63,26 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
     notify({ message: l10n.itemDeleteSuccess });
     onDeleteDialogClose();
     navigate(userItems(user!.id.toString()));
-    refetch();
-  }, [queryClient, navigate, notify, onDeleteDialogClose, refetch, user]);
+  }, [item, navigate, notify, onDeleteDialogClose, queryClient, user]);
+
+  const onMarkAsGivenDialogClose = React.useCallback(
+    () => setIsMarkAsGivenDialogOpen(false),
+    [setIsMarkAsGivenDialogOpen],
+  );
+  const onMarkAsGivenDialogOpen = React.useCallback(() => {
+    onClose();
+    setIsMarkAsGivenDialogOpen(true);
+  }, [onClose, setIsMarkAsGivenDialogOpen]);
+  const onMarkAsGivenError = React.useCallback(() => {
+    notify({ message: l10n.itemMarkAsGivenError });
+  }, [notify]);
+  const onMarkAsGivenSuccess = React.useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ['users', user!.id, 'items'] });
+    queryClient.invalidateQueries({ queryKey: ['items', item.id] });
+    notify({ message: l10n.itemMarkAsGivenSuccess });
+    onMarkAsGivenDialogClose();
+    navigate(userItems(user!.id.toString()));
+  }, [item, navigate, notify, onMarkAsGivenDialogClose, queryClient, user]);
 
   const isOpen = Boolean(anchorElement);
 
@@ -73,7 +96,25 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorElement} onClose={onClose} open={isOpen}>
-        <Delete onClick={onDeleteDialogOpen} />
+        <MenuItem
+          data-testid="user-items__item__mark-as-given"
+          onClick={onMarkAsGivenDialogOpen}
+        >
+          <ListItemIcon>
+            <CheckIcon />
+          </ListItemIcon>
+          <ListItemText primary={l10n.itemMarkAsGiven} />
+        </MenuItem>
+
+        <MenuItem
+          data-testid="user-items__item__delete-dialog"
+          onClick={onDeleteDialogOpen}
+        >
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText primary={l10n.itemDeleteAction} />
+        </MenuItem>
       </Menu>
 
       <ItemDeleteDialog
@@ -82,6 +123,14 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item, refetch }) => {
         onClose={onDeleteDialogClose}
         onError={onDeleteError}
         onSuccess={onDeleteSuccess}
+      />
+
+      <ItemMarkAsGivenDialog
+        isOpen={isMarkAsGivenDialogOpen}
+        item={item}
+        onClose={onMarkAsGivenDialogClose}
+        onError={onMarkAsGivenError}
+        onSuccess={onMarkAsGivenSuccess}
       />
     </React.Fragment>
   );

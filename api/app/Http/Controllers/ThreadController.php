@@ -106,7 +106,7 @@ class ThreadController extends Controller
         $this->authorize('markAsRead', $thread);
         $user = $request->user();
         Log::debug('Thread: Mark Read', ['threadID' => $thread->id, 'userID' => $user->id]);
-        $thread->messages()->whereNot('user_id', $user->id)->update(['isRead' => true]);
+        $thread->messages()->whereNot('user_id', $user->id)->update(['is_read' => true]);
         return response()->noContent();
     }
 
@@ -125,7 +125,7 @@ class ThreadController extends Controller
                     ->orWhere('user_id_receiver', $user->id);
             })
             ->where('messages.user_id', '<>', $user->id)
-            ->where('messages.isRead', false)
+            ->where('messages.is_read', false)
             ->count('threads.id');
         return response()->json(['unreadThreads' => $unreadThreadCount]);
     }

@@ -115,7 +115,7 @@ const UserItemsList: React.FC = () => {
         <CardContent>
           <List>
             {data.data.data.map((item) => (
-              <ListItem item={item} key={item.id} refetch={refetch} />
+              <ListItem item={item} key={item.id} />
             ))}
           </List>
         </CardContent>
