@@ -3,11 +3,13 @@
 namespace Tests\Feature;
 
 use App\Http\Resources\UserResource;
+use App\Mail\AccountCreated;
 use Exception;
 use App\Models\User as UserModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User;
 use Tests\TestCase;
@@ -50,6 +52,7 @@ class UserControllerTest extends TestCase
      */
     public function test_login_google()
     {
+        Mail::fake();
         $user = new User();
         $user->map([
             'avatar' => $this->faker->imageUrl(),
@@ -76,6 +79,7 @@ class UserControllerTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+        Mail::assertSent(AccountCreated::class);
     }
 
     /**
