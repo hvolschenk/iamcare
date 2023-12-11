@@ -21,7 +21,13 @@ const Message: React.FC<MessageProps> = ({ messages, position, user }) => (
     spacing={2}
   >
     <Grid item>
-      <Avatar alt={user.name} src={user.avatar} />
+      <Avatar
+        alt={user.name}
+        imgProps={{
+          referrerPolicy: 'no-referrer',
+        }}
+        src={user.avatar}
+      />
     </Grid>
     <Grid item xs={8}>
       {messages.map((message, index) => (

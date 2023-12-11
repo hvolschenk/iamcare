@@ -47,6 +47,9 @@ const ThreadsList: React.FC<ThreadsListProps> = ({ threads }) => {
                   badgeContent={
                     <Avatar
                       alt={getOtherUser(thread).name}
+                      imgProps={{
+                        referrerPolicy: 'no-referrer',
+                      }}
                       src={getOtherUser(thread).avatar}
                       sx={{
                         border: (theme) =>
