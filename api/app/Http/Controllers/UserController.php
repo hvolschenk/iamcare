@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ItemResource;
 use App\Http\Resources\UserResource;
+use App\Mail\AccountCreated;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 class UserController extends Controller
@@ -53,6 +55,7 @@ class UserController extends Controller
             Log::debug('Login: Start', ['email' => $providerUser->getEmail()]);
 
             DB::transaction(function () use ($provider, $providerUser) {
+                $userExists = User::where('email', $providerUser->getEmail())->exists();
                 $user = User::firstOrCreate(
                     ['email' => $providerUser->getEmail()],
                     [
@@ -70,7 +73,7 @@ class UserController extends Controller
                         'name' => $providerUser->getName(),
                         'avatar' => $providerUser->getAvatar(),
                         'is_primary' =>
-                            count($user->authenticationMethods) === 0 ||
+                        count($user->authenticationMethods) === 0 ||
                             $user->authenticationMethods[0]->type === $provider,
                     ],
                 );
@@ -83,6 +86,10 @@ class UserController extends Controller
                     $user->avatar = $providerUser->getAvatar();
                     $user->name = $providerUser->getName();
                     $user->save();
+                }
+
+                if (!$userExists) {
+                    Mail::to($user->email)->send(new AccountCreated($user));
                 }
             });
 

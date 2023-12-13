@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Http\Resources\ThreadResource;
+use App\Mail\ThreadCreated;
+use App\Mail\ThreadReplied;
 use App\Models\Item;
 use App\Models\Thread;
 use App\Models\User;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ThreadControllerTest extends TestCase
@@ -52,6 +55,7 @@ class ThreadControllerTest extends TestCase
      */
     public function test_thread_create(): void
     {
+        Mail::fake();
         $user = User::inRandomOrder()->first();
         $this->actingAs($user);
         $initialCount = Thread::where(['user_id_receiver' => $user->id])->count();
@@ -60,6 +64,7 @@ class ThreadControllerTest extends TestCase
         $response->assertStatus(200);
         $afterCount = Thread::where(['user_id_receiver' => $user->id])->count();
         $this->assertEquals($initialCount + 1, $afterCount);
+        Mail::assertSent(ThreadCreated::class);
     }
 
     /**
@@ -67,6 +72,7 @@ class ThreadControllerTest extends TestCase
      */
     public function test_reply_to_thread(): void
     {
+        Mail::fake();
         $thread = Thread::with(['item.images', 'messages.user', 'userGiver', 'userReceiver'])
             ->inRandomOrder()
             ->first();
@@ -87,6 +93,8 @@ class ThreadControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson($resource->response($request)->getData(true));
+
+        Mail::assertSent(ThreadReplied::class);
     }
 
     /**

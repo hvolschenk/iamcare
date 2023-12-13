@@ -26,7 +26,8 @@ class Thread extends Model
      */
     protected $guarded = [
         'item_id',
-        'user_id',
+        'user_id_giver',
+        'user_id_receiver',
     ];
 
     /**
@@ -36,7 +37,8 @@ class Thread extends Model
      */
     protected $hidden = [
         'item_id',
-        'user_id',
+        'user_id_giver',
+        'user_id_receiver',
     ];
 
     /**

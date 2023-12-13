@@ -52,7 +52,7 @@ const ReplyForm: React.FC = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
-        disabled={formik.isSubmitting || formik.isValidating}
+        disabled={formik.isSubmitting}
         fullWidth
         inputProps={{
           'data-testid': 'thread__reply--message',

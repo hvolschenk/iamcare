@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ThreadResource;
+use App\Mail\ThreadCreated;
+use App\Mail\ThreadReplied;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ThreadController extends Controller
 {
@@ -56,6 +60,8 @@ class ThreadController extends Controller
         $message->user()->associate($user);
         $thread->messages()->save($message);
 
+        Mail::to($item->user->email)->send(new ThreadCreated($item->user, $item));
+
         Log::debug('Thread: Create: Done', ['id' => $thread->id]);
         return new ThreadResource(
             Thread::with(['item.images', 'messages', 'userGiver', 'userReceiver'])
@@ -73,12 +79,17 @@ class ThreadController extends Controller
             'message' => 'bail|required',
         ]);
 
-        $user = $request->user();
+        $sender = $request->user();
+        $receiver = $thread->userGiver->id === $sender->id
+            ? User::find($thread->userReceiver->id)
+            : User::find($thread->userGiver->id);
         $messageText = $request->input('message');
 
         $message = new Message(['message' => $messageText]);
-        $message->user()->associate($user);
+        $message->user()->associate($sender);
         $thread->messages()->save($message);
+
+        Mail::to($receiver->email)->send(new ThreadReplied($receiver, $sender, $thread->item));
 
         return new ThreadResource(
             Thread::with(['item.images', 'messages', 'userGiver', 'userReceiver'])
