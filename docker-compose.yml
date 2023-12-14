@@ -56,13 +56,13 @@ services:
         - action: sync
           ignore:
             - .parcel-cache/
+            - package-lock.json
+            - package.json
             - coverage/
             - dist/
             - node_modules/
           path: ./client
           target: /home/node/application/app
-        - action: rebuild
-          path: ./client/package.json
     environment:
       - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
       - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
@@ -73,6 +73,9 @@ services:
       - iamcare-network
     ports:
       - "7222:3000"
+    volumes:
+      - ./client/package-lock.json:/home/node/application/app/package-lock.json
+      - ./client/package.json:/home/node/application/app/package.json
 
   database:
     build: ./database
