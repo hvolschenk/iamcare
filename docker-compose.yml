@@ -16,6 +16,8 @@ services:
         - action: sync
           ignore:
             - .phpunit.cache/
+            - composer.json
+            - composer.lock
             - logs/
             - storage/
             - vendor/
@@ -41,8 +43,10 @@ services:
     ports:
       - "9222:8000"
     volumes:
-      - ./api/storage/:/var/www/html/storage
+      - ./api/composer.json:/var/www/html/composer.json
+      - ./api/composer.lock:/var/www/html/composer.lock
       - ./api/logs/php.log:/var/log/fpm-php.www.log
+      - ./api/storage/:/var/www/html/storage
 
   client:
     build:
