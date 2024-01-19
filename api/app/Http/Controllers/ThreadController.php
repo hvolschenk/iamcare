@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ThreadCreateRequest;
+use App\Http\Requests\ThreadReplyRequest;
 use App\Http\Resources\ThreadResource;
 use App\Mail\ThreadCreated;
 use App\Mail\ThreadReplied;
@@ -33,15 +35,14 @@ class ThreadController extends Controller
     /**
      * Create a new thread.
      */
-    public function create(Request $request)
+    public function create(ThreadCreateRequest $request)
     {
         $this->authorize('create', Thread::class);
-        $request->validate([
-            'item' => 'bail|required',
-            'message' => 'bail|required',
-        ]);
-        $itemID = $request->input('item');
-        $messageText = $request->input('message');
+
+        $validated = $request->safe(['item', 'message']);
+        $itemID = $validated['item'];
+        $messageText = $validated['message'];
+
         $user = $request->user();
         Log::withContext([
             'itemID' => $itemID,
@@ -72,18 +73,17 @@ class ThreadController extends Controller
     /**
      * Reply to a thread
      */
-    public function reply(Request $request, Thread $thread)
+    public function reply(ThreadReplyRequest $request, Thread $thread)
     {
         $this->authorize('reply', $thread);
-        $request->validate([
-            'message' => 'bail|required',
-        ]);
+
+        $validated = $request->safe(['message']);
+        $messageText = $validated['message'];
 
         $sender = $request->user();
         $receiver = $thread->userGiver->id === $sender->id
             ? User::find($thread->userReceiver->id)
             : User::find($thread->userGiver->id);
-        $messageText = $request->input('message');
 
         $message = new Message(['message' => $messageText]);
         $message->user()->associate($sender);
@@ -139,29 +139,5 @@ class ThreadController extends Controller
             ->where('messages.is_read', false)
             ->count('threads.id');
         return response()->json(['unreadThreads' => $unreadThreadCount]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Thread $thread)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Thread $thread)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Thread $thread)
-    {
-        //
     }
 }
