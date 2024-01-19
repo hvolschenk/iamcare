@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ThreadCreateRequest;
 use App\Http\Resources\ThreadResource;
 use App\Mail\ThreadCreated;
 use App\Mail\ThreadReplied;
@@ -33,15 +34,14 @@ class ThreadController extends Controller
     /**
      * Create a new thread.
      */
-    public function create(Request $request)
+    public function create(ThreadCreateRequest $request)
     {
         $this->authorize('create', Thread::class);
-        $request->validate([
-            'item' => 'bail|required',
-            'message' => 'bail|required',
-        ]);
-        $itemID = $request->input('item');
-        $messageText = $request->input('message');
+
+        $validated = $request->safe(['item', 'message']);
+        $itemID = $validated['item'];
+        $messageText = $validated['message'];
+
         $user = $request->user();
         Log::withContext([
             'itemID' => $itemID,
