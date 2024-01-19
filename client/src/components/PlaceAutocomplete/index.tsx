@@ -137,6 +137,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       }
       disabled={isQueryLoading && isQueryEnabled}
       filterOptions={(x) => x}
+      getOptionKey={(autocompletePrediction) => autocompletePrediction.place_id}
       getOptionLabel={(autocompletePrediction) =>
         autocompletePrediction.structured_formatting.main_text
       }
