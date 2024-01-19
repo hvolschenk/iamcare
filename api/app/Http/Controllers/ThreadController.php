@@ -140,28 +140,4 @@ class ThreadController extends Controller
             ->count('threads.id');
         return response()->json(['unreadThreads' => $unreadThreadCount]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Thread $thread)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Thread $thread)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Thread $thread)
-    {
-        //
-    }
 }
