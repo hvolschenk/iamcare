@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserLoginRequest;
 use App\Http\Resources\ItemResource;
 use App\Http\Resources\UserResource;
 use App\Mail\AccountCreated;
@@ -42,11 +43,14 @@ class UserController extends Controller
         );
     }
 
-    public function loginWithProvider(Request $request, string $provider)
+    public function loginWithProvider(UserLoginRequest $request, string $provider)
     {
         $this->authorize('authenticate', User::class);
         Log::withContext(['method' => $provider]);
-        $accessToken = $request->input('accessToken');
+
+        $validated = $request->safe(['accessToken']);
+        $accessToken = $validated['accessToken'];
+
         /** @var \Laravel\Socialite\Two\AbstractProvider $socialiteProvider */
         $socialiteProvider = Socialite::driver($provider);
 
