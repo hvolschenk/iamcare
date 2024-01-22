@@ -1,23 +1,23 @@
-import { Category } from '~/src/types/Category';
 import { Image } from '~/src/types/Image';
 import { LocationBasic } from '~/src/types/LocationBasic';
+import { Tag } from '~/src/types/Tag';
 import { User } from '~/src/types/User';
 
 export interface Item {
-  category: Category;
   description: string;
   id: number;
   images: Image[];
   location: LocationBasic;
   name: string;
+  tags: Tag[];
   user: User;
 }
 
 export type ItemCreate = Omit<
   Item,
-  'category' | 'id' | 'images' | 'location' | 'user'
+  'id' | 'images' | 'location' | 'tags' | 'user'
 > & {
-  category: string;
   images: File[];
   location: Pick<LocationBasic, 'googlePlaceID'>;
+  tags: Tag['id'][];
 };

@@ -8,5 +8,5 @@ beforeEach(() => {
 });
 
 test('Calls the API client correctly', () => {
-  expect(apiClient.get).toHaveBeenCalledWith('/categories');
+  expect(apiClient.get).toHaveBeenCalledWith('/tags');
 });

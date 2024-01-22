@@ -1,30 +1,26 @@
-import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Skeleton from '@mui/material/Skeleton';
 import TextField from '@mui/material/TextField';
-import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikConfig, useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
 
-import categories from '~/src/api/category/all';
 import parseErrors from '~/src/api/helpers/parseErrors';
 import itemCreate from '~/src/api/items/create';
 import FileUpload, { FileUploadProps } from '~/src/components/FileUpload';
 import PlaceAutocomplete, {
   PlaceAutocompleteProps,
 } from '~/src/components/PlaceAutocomplete';
+import TagsSelect from '~/src/components/TagsSelect';
 import l10n from '~/src/l10n';
 import { useNotifications } from '~/src/providers/Notifications';
 import { APIValidationError } from '~/src/types/APIValidationError';
 import { mimeTypes } from '~/src/types/Image';
 import { Item, ItemCreate as ItemCreateType } from '~/src/types/Item';
-
-import CategoryAutocomplete from './CategoryAutocomplete';
+import { Tag } from '~/src/types/Tag';
 
 type FormValues = ItemCreateType;
 
@@ -40,13 +36,8 @@ const ItemForm: React.FC<ItemFormProps> = ({
   onSuccess,
 }) => {
   const { notify } = useNotifications();
-  const { data, refetch, status } = useQuery({
-    queryFn: () => categories(),
-    queryKey: ['categories'],
-  });
 
   const validationSchema = yup.object({
-    category: yup.string().required(l10n.itemCategoryErrorRequired),
     description: yup.string(),
     location: yup
       .object({
@@ -58,17 +49,22 @@ const ItemForm: React.FC<ItemFormProps> = ({
         test: (value) => Boolean(value.googlePlaceID),
       }),
     name: yup.string().required(l10n.itemNameErrorRequired),
+    tags: yup
+      .array()
+      .of(yup.number())
+      .required(l10n.itemTagsErrorRequired)
+      .min(1, l10n.itemTagsErrorRequired),
   });
 
   const initialValues = React.useMemo<FormValues>(
     () => ({
-      category: item?.category.name || '',
       description: item?.description || '',
       images: [],
       location: {
         googlePlaceID: item?.location.googlePlaceID || '',
       },
       name: item?.name || '',
+      tags: [],
     }),
     [item],
   );
@@ -136,13 +132,6 @@ const ItemForm: React.FC<ItemFormProps> = ({
     [errors, fieldHasError],
   );
 
-  const onCategoryChange = React.useCallback(
-    (category: string) => {
-      setFieldValue('category', category);
-    },
-    [setFieldValue],
-  );
-
   const onFilesChange: FileUploadProps['onChange'] = React.useCallback(
     (images) => {
       setFieldValue('images', images);
@@ -151,38 +140,22 @@ const ItemForm: React.FC<ItemFormProps> = ({
   );
 
   const onLocationChange: PlaceAutocompleteProps['onChange'] =
-    React.useCallback((googlePlaceID) => {
-      setFieldValue('location', { googlePlaceID });
-    }, []);
-
-  if (status === 'error') {
-    return (
-      <Alert
-        action={
-          <Button
-            color="inherit"
-            data-testid="item-form__error__loading__retry"
-            onClick={() => refetch()}
-          >
-            {l10n.actionTryAgain}
-          </Button>
-        }
-        severity="error"
-      >
-        {l10n.itemFormErrorLoading}
-      </Alert>
+    React.useCallback(
+      (googlePlaceID) => {
+        setFieldValue('location', { googlePlaceID });
+      },
+      [setFieldValue],
     );
-  }
 
-  if (status === 'pending') {
-    return (
-      <React.Fragment>
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-      </React.Fragment>
-    );
-  }
+  const onTagsChange = React.useCallback(
+    (tags: Tag[]) => {
+      setFieldValue(
+        'tags',
+        tags.map((tag) => tag.id),
+      );
+    },
+    [setFieldValue],
+  );
 
   return (
     <Card data-testid="item-form">
@@ -226,22 +199,19 @@ const ItemForm: React.FC<ItemFormProps> = ({
             value={values.description}
           />
 
-          <CategoryAutocomplete
-            categories={data.data.data}
-            error={fieldHasError('category')}
+          <TagsSelect
+            error={fieldHasError('tags')}
             FormHelperTextProps={{
               // @ts-ignore
-              'data-testid': 'item-form__category__helper-text',
+              'data-testid': 'item-form__tags__helper-text',
             }}
-            helperText={fieldGetHelperText(
-              'category',
-              l10n.itemCategoryHelperText,
-            )}
-            inputProps={{
-              'data-testid': 'item-form__category',
-            }}
-            label={l10n.itemCategoryLabel}
-            onChange={onCategoryChange}
+            helperText={fieldGetHelperText('tags', l10n.itemTagsHelperText)}
+            inputProps={{ 'data-testid': 'item-form__tags' }}
+            label={l10n.itemTagsLabel}
+            margin="normal"
+            name="tags"
+            onChange={onTagsChange}
+            tagIDs={values.tags}
           />
 
           <PlaceAutocomplete
@@ -262,6 +232,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
               'data-testid': 'item-form__location',
             }}
             label={l10n.itemLocationLabel}
+            margin="normal"
             name="location"
             onChange={onLocationChange}
           />

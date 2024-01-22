@@ -5,18 +5,18 @@ import { faker } from '@faker-js/faker';
 
 import { Item } from '~/src/types/Item';
 
-import category from './category';
 import image from './image';
 import locationBasic from './locationBasic';
+import tag from './tag';
 import user from './user';
 
 const item = (partialItem?: Partial<Item>): Item => ({
-  category: category(),
   description: faker.commerce.productDescription(),
   id: faker.number.int(),
   images: [image(), image()],
   location: locationBasic(),
   name: faker.commerce.productName(),
+  tags: [tag(), tag()],
   user: user(),
   ...partialItem,
 });
