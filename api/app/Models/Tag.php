@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Tag extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+
+    /**
+     * Disable the use of timestamps for this model
+     */
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -16,6 +20,6 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'title',
     ];
 }

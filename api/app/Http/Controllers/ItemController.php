@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemCreateRequest;
+use App\Http\Requests\ItemSearchRequest;
 use App\Http\Resources\ItemResource;
-use App\Models\Category;
 use App\Models\Image;
 use App\Models\Item;
 use App\Models\Location;
 use App\Services\GooglePlaces;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,48 +36,47 @@ class ItemController extends Controller
     {
         $this->authorize('view', $item);
         return new ItemResource(
-            Item::with(['category', 'location', 'images', 'user'])
+            Item::with(['location', 'images', 'tags', 'user'])
                 ->find($item->id),
         );
     }
 
-    public function create(Request $request)
+    public function create(ItemCreateRequest $request)
     {
-        Log::debug('Item: Create: Start', ['name' => $request->input(('name'))]);
         $this->authorize('create', Item::class);
-        $request->validate([
-            'category' => 'bail|required|alpha',
-            'description' => 'bail|required',
-            'location' => 'bail|required',
-            'name' => 'bail|required'
-        ]);
 
-        $googlePlaceID = $request->input('location');
+        $validated = $request->safe(['description', 'image', 'location', 'name', 'tag']);
+        $description = $validated['description'];
+        $googlePlaceID = $validated['location'];
+        $images = $validated['image'];
+        $name = $validated['name'];
+        $tags = $validated['tag'];
+
+        Log::debug('Item: Create: Start', ['name' => $name]);
+
         $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
 
         $location = Location::fromGooglePlaceID($googlePlaceID, $language);
-        $category = Category::firstOrNew(['name' => $request->input('category')]);
-        $images = $this->imagesFromInput($request->file('image'));
+        $images = $this->imagesFromInput($images);
         $user = $request->user();
         $item = new Item([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
+            'name' => $name,
+            'description' => $description,
         ]);
 
         try {
-            DB::transaction(function () use ($category, $images, $item, $location, $user) {
+            DB::transaction(function () use ($images, $item, $location, $tags, $user) {
                 Log::debug('Item: Create: Save', ['name' => $item->name]);
                 $item->save();
-                $category->save();
                 $item->location()->associate($location);
-                $item->category()->associate($category);
                 $item->images()->saveMany($images);
+                $item->tags()->attach($tags);
                 $item->user()->associate($user);
                 $item->save();
             }, 1);
             Log::debug('Item: Create: Return', ['id' => $item->id]);
             return new ItemResource(
-                Item::with(['category', 'location', 'images', 'user'])
+                Item::with(['location', 'images', 'tags', 'user'])
                     ->find($item->id),
             );
         } catch (\Exception $error) {
@@ -89,27 +88,32 @@ class ItemController extends Controller
         }
     }
 
-    public function markAsGiven(Request $request, Item $item)
+    public function markAsGiven(Item $item)
     {
         $this->authorize('markAsGiven', $item);
         $item->is_given = true;
         $item->save();
         return new ItemResource(
-            Item::with(['category', 'location', 'images', 'user'])
+            Item::with(['location', 'images', 'tags', 'user'])
                 ->find($item->id),
         );
     }
 
-    public function search(Request $request)
+    public function search(ItemSearchRequest $request)
     {
         $this->authorize('viewAny', Item::class);
-        $distance = $request->input('distance') ?: null;
-        $googlePlaceID = $request->input('location') ?: null;
-        $searchQuery = $request->input('query') ?: null;
+
+        $validated = $request->safe(['distance', 'location', 'query', 'tags']);
+        $distance = $validated['distance'] ?? null;
+        $googlePlaceID = $validated['location'] ?? null;
+        $searchQuery = $validated['query'] ?? null;
+        $tagIDs = $validated['tags'] ?? null;
+
         Log::withContext([
             'distance' => $distance,
             'googlePlaceID' => $googlePlaceID,
             'query' => $searchQuery,
+            'tagIDs' => $tagIDs,
         ]);
         Log::debug('Item: Search: Start');
 
@@ -145,6 +149,18 @@ class ItemController extends Controller
             $itemsQuery
                 ->whereIn('location_id', $locationIds)
                 ->orderByRaw("FIELD(`location_id`, {$locationIdsJoined})");
+        }
+
+        if ($tagIDs !== null) {
+            $itemsQuery->whereHas('tags', function (Builder $builder) use ($tagIDs) {
+                foreach ($tagIDs as $tagIDIndex => $tagID) {
+                    if ($tagIDIndex === 0) {
+                        $builder->where('id', $tagID);
+                    } else {
+                        $builder->orWhere('id', $tagID);
+                    }
+                }
+            });
         }
 
         Log::debug('Item: Search: Done');
