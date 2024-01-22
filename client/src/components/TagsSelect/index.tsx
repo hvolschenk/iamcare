@@ -1,4 +1,5 @@
 import SyncProblemIcon from '@mui/icons-material/SyncProblem';
+import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
@@ -48,10 +49,9 @@ const TagsSelect: React.FC<TagsSelectProps> = ({
 
   const handleChange = React.useCallback(
     (event: SelectChangeEvent<number[]>) => {
-      const { value } = event.target;
-      const selectedIDs = typeof value === 'string' ? value.split(',') : value;
+      const selectedIDs = event.target.value as number[];
       const selectedTags = selectedIDs.map(
-        (selectedID) => data?.data.data.find((tag) => tag.id === selectedID)!,
+        (selectedID) => data!.data.data.find((tag) => tag.id === selectedID)!,
       );
       onChange(selectedTags);
     },
@@ -69,17 +69,25 @@ const TagsSelect: React.FC<TagsSelectProps> = ({
       helperText={helperText}
       inputProps={inputProps}
       InputProps={{
-        endAdornment:
-          status === 'error' ? (
-            <InputAdornment position="end">
-              <IconButton
-                data-testid="tags-autocomplete__error__retry"
-                onClick={() => refetch()}
-              >
-                <SyncProblemIcon />
-              </IconButton>
-            </InputAdornment>
-          ) : undefined,
+        endAdornment: (
+          <React.Fragment>
+            {status === 'error' && (
+              <InputAdornment position="end">
+                <IconButton
+                  data-testid="tags-autocomplete__error__retry"
+                  onClick={() => refetch()}
+                >
+                  <SyncProblemIcon />
+                </IconButton>
+              </InputAdornment>
+            )}
+            {status === 'pending' && (
+              <InputAdornment position="end">
+                <CircularProgress size={24} />
+              </InputAdornment>
+            )}
+          </React.Fragment>
+        ),
       }}
       label={label}
       margin={margin}
@@ -105,9 +113,6 @@ const TagsSelect: React.FC<TagsSelectProps> = ({
             {getOptionLabel(tag)}
           </MenuItem>
         ))}
-      {status !== 'success' && (
-        <MenuItem disabled>{l10n.itemTagsStatusLoading}</MenuItem>
-      )}
     </TextField>
   );
 };

@@ -3,6 +3,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import React from 'react';
@@ -10,29 +11,57 @@ import React from 'react';
 import PlaceAutocomplete, {
   PlaceAutocompleteProps,
 } from '~/src/components/PlaceAutocomplete';
+import TagsSelect, { TagsSelectProps } from '~/src/components/TagsSelect';
 import l10n from '~/src/l10n';
-
-import { useSearch } from './context';
-import { SearchFilters } from './context/types';
+import { useSearch } from '~/src/providers/Search';
+import { SearchFilters } from '~/src/providers/Search/types';
 
 const Filters: React.FC = () => {
-  const { filters, setFilters } = useSearch();
+  const { filters, hasFilter, search } = useSearch();
 
-  const { handleBlur, handleChange, handleSubmit, setFieldValue, values } =
-    useFormik<SearchFilters>({
-      initialValues: filters,
-      onSubmit: (newFilters) => {
-        setFilters(newFilters);
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    resetForm,
+    setFieldValue,
+    submitForm,
+    values,
+  } = useFormik<SearchFilters>({
+    initialValues: filters,
+    onSubmit: (newFilters) => {
+      search({ filters: { ...filters, ...newFilters }, page: 1 });
+    },
+  });
+
+  const onClearSearch = React.useCallback(async () => {
+    resetForm({
+      values: {
+        distance: 0,
+        googlePlaceID: '',
+        tagIDs: [],
       },
     });
+    await submitForm();
+  }, [resetForm, submitForm]);
 
   const onLocationChange: PlaceAutocompleteProps['onChange'] =
     React.useCallback(
       (googlePlaceID) => {
-        setFieldValue('location', googlePlaceID);
+        setFieldValue('googlePlaceID', googlePlaceID);
       },
       [setFieldValue],
     );
+
+  const onTagsChange: TagsSelectProps['onChange'] = React.useCallback(
+    (tags) => {
+      setFieldValue(
+        'tagIDs',
+        tags.map((tag) => tag.id.toString()),
+      );
+    },
+    [setFieldValue],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -48,7 +77,7 @@ const Filters: React.FC = () => {
                 label={l10n.searchFilterFieldLocation}
                 margin="none"
                 onChange={onLocationChange}
-                value={values.location}
+                value={values.googlePlaceID}
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -74,6 +103,15 @@ const Filters: React.FC = () => {
                 ))}
               </TextField>
             </Grid>
+
+            <Grid item md={6} xs={12}>
+              <TagsSelect
+                inputProps={{ 'data-testid': 'search__filters__tags' }}
+                label={l10n.itemTags}
+                onChange={onTagsChange}
+                tagIDs={values.tagIDs!}
+              />
+            </Grid>
           </Grid>
         </CardContent>
         <CardActions>
@@ -86,6 +124,19 @@ const Filters: React.FC = () => {
             {l10n.searchFilterActionFilter}
           </Button>
         </CardActions>
+        {hasFilter && (
+          <CardActions sx={{ justifyContent: 'flex-end' }}>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <Link
+              component="button"
+              data-testid="search__filters__clear"
+              onClick={onClearSearch}
+              type="button"
+            >
+              {l10n.searchFiltersClear}
+            </Link>
+          </CardActions>
+        )}
       </Card>
     </form>
   );

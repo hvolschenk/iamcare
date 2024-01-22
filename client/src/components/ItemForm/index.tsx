@@ -64,7 +64,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
         googlePlaceID: item?.location.googlePlaceID || '',
       },
       name: item?.name || '',
-      tags: [],
+      tags: item?.tags.map((tag) => tag.id) || [],
     }),
     [item],
   );

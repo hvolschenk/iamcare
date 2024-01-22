@@ -1,13 +1,16 @@
+import { Tag } from '~/src/types/Tag';
+
 export const authentication = () => '/authentication';
 
 export type ItemParams = { itemID: string };
 export const item = (itemID = ':itemID') => `/items/${itemID}`;
-interface ItemsSearchOptions {
+export interface ItemsSearchOptions {
   distance?: number;
   location?: string;
   page?: number;
   perPage?: number;
   query?: string;
+  tag?: Tag['id'][];
 }
 export const itemsSearch = (options: ItemsSearchOptions = {}) => {
   const searchParams = new URLSearchParams();
@@ -15,7 +18,7 @@ export const itemsSearch = (options: ItemsSearchOptions = {}) => {
     searchParams.set('distance', options.distance.toString());
   }
   if (options.location) {
-    searchParams.set('location', options.location);
+    searchParams.set('googlePlaceID', options.location);
   }
   if (options.page) {
     searchParams.set('page', options.page.toString());
@@ -26,7 +29,14 @@ export const itemsSearch = (options: ItemsSearchOptions = {}) => {
   if (options.query) {
     searchParams.set('query', options.query);
   }
-  return `/items/search?${searchParams.toString()}`;
+  if (options.tag) {
+    options.tag.forEach((tag) => {
+      searchParams.append('tag', tag.toString());
+    });
+  }
+  const stringParams = searchParams.toString();
+  const queryString = stringParams ? `?${stringParams}` : '';
+  return `/items/search${queryString}`;
 };
 
 export type ThreadParams = { threadID: string };

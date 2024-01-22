@@ -78,7 +78,6 @@ export interface L10n {
   itemTagsNoOptions: string;
   itemTagsOpen: string;
   itemTagSports: string;
-  itemTagsStatusLoading: string;
   itemTagStationery: string;
   itemTagSustainable: string;
   itemTagTechnology: string;
@@ -97,6 +96,8 @@ export interface L10n {
   searchFilterFieldDistanceAny: string;
   searchFilterFieldDistanceLength: string;
   searchFilterFieldLocation: string;
+  searchFilters: string;
+  searchFiltersClear: string;
   temp: string;
   threadCreate: string;
   threadCreateActionCreate: string;

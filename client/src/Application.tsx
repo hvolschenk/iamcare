@@ -5,6 +5,7 @@ import { Provider as AuthenticationProvider } from '~/src/providers/Authenticati
 import { Provider as GooglePlacesProvider } from '~/src/providers/GooglePlaces';
 import { Provider as NotificationsProvider } from '~/src/providers/Notifications';
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
+import { Provider as SearchProvider } from '~/src/providers/Search';
 import { Provider as ThemeProvider } from '~/src/providers/ThemeProvider';
 
 import Router from './Router';
@@ -16,7 +17,9 @@ const Application: React.FC = () => (
         <GooglePlacesProvider>
           <NotificationsProvider>
             <BrowserRouter>
-              <Router />
+              <SearchProvider>
+                <Router />
+              </SearchProvider>
             </BrowserRouter>
           </NotificationsProvider>
         </GooglePlacesProvider>
