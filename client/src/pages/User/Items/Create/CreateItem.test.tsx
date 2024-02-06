@@ -14,6 +14,7 @@ import {
   within,
 } from '~/src/testing';
 import {
+  autocompleteResponse as autocompleteResponseMock,
   item as itemMock,
   tag as tagMock,
   user as userMock,
@@ -132,44 +133,7 @@ describe('When the tags load', () => {
 
     describe('When the validation errors are corrected', () => {
       beforeEach(async () => {
-        const autocompleteResponse: google.maps.places.AutocompleteResponse = {
-          predictions: [
-            {
-              description: 'A caring place',
-              matched_substrings: [{ length: 4, offset: 1 }],
-              place_id: '22',
-              structured_formatting: {
-                main_text: 'Care',
-                main_text_matched_substrings: [{ length: 4, offset: 1 }],
-                secondary_text: 'Care',
-              },
-              terms: [
-                {
-                  offset: 1,
-                  value: 'Care',
-                },
-              ],
-              types: ['sublocality'],
-            },
-            {
-              description: 'A loving place',
-              matched_substrings: [{ length: 4, offset: 1 }],
-              place_id: '222',
-              structured_formatting: {
-                main_text: 'Love',
-                main_text_matched_substrings: [{ length: 4, offset: 1 }],
-                secondary_text: 'Love',
-              },
-              terms: [
-                {
-                  offset: 1,
-                  value: 'Love',
-                },
-              ],
-              types: ['sublocality'],
-            },
-          ],
-        };
+        const autocompleteResponse = autocompleteResponseMock();
         const { autocomplete } = useGooglePlaces();
         (autocomplete as jest.Mock)
           .mockClear()
