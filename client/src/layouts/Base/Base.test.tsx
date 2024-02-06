@@ -124,15 +124,22 @@ describe('With a logged-in user', () => {
     });
 
     describe('Search', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
+        const query = faker.word.sample();
         fireEvent.change(wrapper.getByTestId('search__input'), {
-          target: { value: faker.word.sample() },
+          target: { value: query },
         });
+        await waitFor(() =>
+          expect(wrapper.getByTestId('search__input')).toHaveValue(query),
+        );
       });
 
       describe('Clearing search', () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           fireEvent.click(wrapper.getByTestId('search__action--clear'));
+          await waitFor(() =>
+            expect(wrapper.queryByTestId('search__input')).toHaveValue(''),
+          );
         });
 
         test('Clears the search field', () => {
@@ -142,8 +149,11 @@ describe('With a logged-in user', () => {
 
       describe('Searching', () => {
         describe('By clicking', () => {
-          beforeEach(() => {
+          beforeEach(async () => {
             fireEvent.click(wrapper.getByTestId('search__action--search'));
+            await waitFor(() =>
+              expect(wrapper.queryByTestId('search')).toBeInTheDocument(),
+            );
           });
 
           test('Redirects to the search page', () => {
@@ -152,10 +162,13 @@ describe('With a logged-in user', () => {
         });
 
         describe('By pressing enter', () => {
-          beforeEach(() => {
+          beforeEach(async () => {
             fireEvent.keyDown(wrapper.getByTestId('search__input'), {
               key: 'Enter',
             });
+            await waitFor(() =>
+              expect(wrapper.queryByTestId('search')).toBeInTheDocument(),
+            );
           });
 
           test('Redirects to the search page', () => {

@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,10 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(CategoryController::class)->group(function () {
-    Route::get('categories', 'index');
-});
-
 Route::controller(ItemController::class)->group(function () {
     Route::delete('items/{item}', 'destroy');
     Route::get('items', 'index');
@@ -34,6 +30,10 @@ Route::controller(ItemController::class)->group(function () {
 Route::controller(LocationController::class)->group(function () {
     Route::get('locations/{location}', 'show');
     Route::get('locations/google/{googlePlaceID}', 'google');
+});
+
+Route::controller(TagController::class)->group(function () {
+    Route::get('tags', 'index');
 });
 
 Route::controller(ThreadController::class)->group(function () {

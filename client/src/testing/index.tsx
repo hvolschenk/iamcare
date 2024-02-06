@@ -7,6 +7,7 @@ import { Provider as AuthenticationProvider } from '~/src/providers/Authenticati
 import { Provider as GooglePlacesProvider } from '~/src/providers/GooglePlaces';
 import { Provider as NotificationsProvider } from '~/src/providers/Notifications';
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
+import { Provider as SearchProvider } from '~/src/providers/Search';
 import { Provider as ThemeProvider } from '~/src/providers/ThemeProvider';
 import { User } from '~/src/types/User';
 
@@ -45,7 +46,9 @@ const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
         <GooglePlacesProvider>
           <NotificationsProvider>
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <MemoryRouter {...options?.router}>{children}</MemoryRouter>
+            <MemoryRouter {...options?.router}>
+              <SearchProvider>{children}</SearchProvider>
+            </MemoryRouter>
           </NotificationsProvider>
         </GooglePlacesProvider>
       </ThemeProvider>

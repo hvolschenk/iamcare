@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
@@ -29,7 +30,6 @@ class Item extends Model
      * @var array<int, string>
      */
     protected $guarded = [
-        'category_id',
         'location_id',
         'user_id',
     ];
@@ -40,7 +40,6 @@ class Item extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'category_id',
         'location_id',
         'user_id',
     ];
@@ -59,14 +58,6 @@ class Item extends Model
     }
 
     /**
-     * The category that this item falls within
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    /**
      * Get all of the item's images.
      */
     public function images(): MorphMany
@@ -80,6 +71,14 @@ class Item extends Model
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
+    }
+
+    /**
+     * All tags for the item
+     */
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     /**

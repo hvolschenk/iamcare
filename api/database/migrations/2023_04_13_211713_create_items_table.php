@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Category;
 use App\Models\Location;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -19,7 +18,6 @@ return new class extends Migration
             $table->string('name')->fulltext();
             $table->string('description')->fulltext();
             $table->boolean('is_given')->default(false);
-            $table->foreignIdFor(Category::class)->nullable();
             $table->foreignIdFor(Location::class)->nullable();
             $table->foreignIdFor(User::class)->nullable();
             $table->timestamps();

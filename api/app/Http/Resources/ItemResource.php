@@ -22,7 +22,6 @@ class ItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'category' => new CategoryResource($this->category),
             'dateCreated' => $this->created_at,
             'dateUpdated' => $this->updated_at,
             'description' => $this->description,
@@ -31,6 +30,7 @@ class ItemResource extends JsonResource
             'isGiven' => $this->is_given,
             'location' => new LocationResource($this->location), // HENDRIK THESE NEED TO BE FOUND FOR A SPECIFIC LANGUAGE, NO?
             'name' => $this->name,
+            'tags' => TagResource::collection($this->tags),
             'user' => new UserResource($this->user),
         ];
     }

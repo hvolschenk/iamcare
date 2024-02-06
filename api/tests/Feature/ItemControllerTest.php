@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use App\Models\Location;
+use App\Models\Tag;
 use App\Models\User;
 use App\Services\GooglePlaces;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,7 +39,7 @@ class ItemControllerTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertJsonValidationErrors(['category', 'description', 'location', 'name']);
+            ->assertJsonValidationErrors(['description', 'location', 'name']);
     }
 
     /**
@@ -54,17 +55,17 @@ class ItemControllerTest extends TestCase
                 ->andThrow(new \Exception('Could not get place details'));
         });
         $image = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
-
+        $tag = Tag::inRandomOrder()->first();
         $user = User::inRandomOrder()->first();
         $this->actingAs($user);
         $response = $this->postJson(
             '/items',
             [
-                'category' => $this->faker->word(),
                 'description' => $this->faker->sentence(),
                 'image' => [$image],
                 'location' => strval($this->faker->randomNumber(4, true)),
                 'name' => $this->faker->word(),
+                'tag' => [$tag->id],
             ],
         );
 
@@ -102,13 +103,14 @@ class ItemControllerTest extends TestCase
         });
         $image1 = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
         $image2 = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
+        $tag = Tag::inRandomOrder()->first();
         $user = User::inRandomOrder()->first();
         $values = [
-            'category' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'image' => [$image1, $image2],
             'location' => strval($this->faker->randomNumber(4, true)),
             'name' => $this->faker->word(),
+            'tag' => [$tag->id],
         ];
 
         $this->actingAs($user);
@@ -118,7 +120,7 @@ class ItemControllerTest extends TestCase
             return $user;
         });
         $insertID = $response->decodeResponseJson()['id'];
-        $item = Item::with(['category', 'location', 'images', 'user'])->find($insertID);
+        $item = Item::with(['location', 'images', 'tags', 'user'])->find($insertID);
         $resource = new ItemResource($item);
         $response
             ->assertStatus(200)
@@ -173,7 +175,7 @@ class ItemControllerTest extends TestCase
      */
     public function test_delete()
     {
-        $item = Item::inRandomOrder()->with(['category', 'location', 'images', 'user'])->first();
+        $item = Item::inRandomOrder()->with(['location', 'images', 'tags', 'user'])->first();
         $this->actingAs($item->user);
         $response = $this->deleteJson("/items/{$item->id}");
         $response->assertStatus(204);
