@@ -85,7 +85,11 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       setIsLoading(false);
     },
     onSuccess: (response) => {
-      setOptions(response.predictions);
+      if (selectedValue) {
+        setOptions([...response.predictions, selectedValue]);
+      } else {
+        setOptions(response.predictions);
+      }
     },
   });
 
@@ -159,7 +163,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
             ...params.InputProps,
             endAdornment: (
               <React.Fragment>
-                {isLoading && <CircularProgress color="inherit" size={20} />}
+                {isLoading && <CircularProgress color="inherit" size={24} />}
                 {params.InputProps.endAdornment}
               </React.Fragment>
             ),
