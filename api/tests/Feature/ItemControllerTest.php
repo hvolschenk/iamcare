@@ -39,7 +39,7 @@ class ItemControllerTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertJsonValidationErrors(['description', 'location', 'name']);
+            ->assertJsonValidationErrors(['description', 'location', 'name', 'tag']);
     }
 
     /**
