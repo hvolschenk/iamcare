@@ -1,33 +1,33 @@
 import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText, {
   FormHelperTextProps as MUIFormHelperTextProps,
 } from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
-import IconButton from '@mui/material/IconButton';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { InputBaseComponentProps } from '@mui/material/InputBase';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
-import Preview from './Preview';
+import { Image } from '~/src/types/Image';
 
-export interface FileUploadProps {
+import ImageUploadImage from './Image';
+
+export interface ImageUploadProps {
   allowedTypes: string[];
   FormHelperTextProps?: MUIFormHelperTextProps;
   helperText: string;
   inputProps: InputBaseComponentProps;
   label: string;
   labelUploadButton: string;
-  onChange(files: File[]): void;
+  onChange(files: (File | Image)[]): void;
+  values: Image[];
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({
+const ImageUpload: React.FC<ImageUploadProps> = ({
   allowedTypes,
   FormHelperTextProps,
   helperText,
@@ -35,8 +35,17 @@ const FileUpload: React.FC<FileUploadProps> = ({
   label,
   labelUploadButton,
   onChange,
+  values,
 }) => {
+  /**
+   * The values between `files` and `removedFiles`
+   * as well as the values between `values` and `removedValues` are repeated.
+   * This is to be able to keep the original order set by `files` and `values`.
+   */
   const [files, setFiles] = React.useState<File[]>([]);
+  const [removedFiles, setRemovedFiles] = React.useState<File[]>([]);
+  const [removedValues, setRemovedValues] = React.useState<Image[]>([]);
+
   const inputElementRef = React.useRef<HTMLInputElement | null>(null);
 
   const theme = useTheme();
@@ -63,6 +72,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
     [theme],
   );
 
+  // The dependency array here purposefully DOES NOT contain `values`.
+  // The `onChange` call will update `values`
+  // and this will cause an infinite loop
+  React.useEffect(() => {
+    const allFiles = files.filter((file) => !removedFiles.includes(file));
+    const allValues = values.filter((value) => !removedValues.includes(value));
+    onChange([...allValues, ...allFiles]);
+  }, [files, onChange, removedFiles, removedValues]);
+
   const onAddButtonClick = React.useCallback(() => {
     if (inputElementRef.current) {
       inputElementRef.current.click();
@@ -70,14 +88,21 @@ const FileUpload: React.FC<FileUploadProps> = ({
   }, [inputElementRef]);
 
   const onFileRemove = React.useCallback(
-    (index: number) => {
-      setFiles((currentFiles) =>
-        currentFiles.filter(
-          (currentFile, currentFileIndex) => currentFileIndex !== index,
+    (file: File) => {
+      setRemovedFiles((currentRemovedFiles) => [...currentRemovedFiles, file]);
+    },
+    [setRemovedFiles],
+  );
+
+  const onFileRestore = React.useCallback(
+    (file: File) => {
+      setRemovedFiles((currentRemovedFiles) =>
+        currentRemovedFiles.filter(
+          (currentRemovedFile) => currentRemovedFile !== file,
         ),
       );
     },
-    [setFiles],
+    [setRemovedFiles],
   );
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> =
@@ -93,9 +118,26 @@ const FileUpload: React.FC<FileUploadProps> = ({
       [setFiles],
     );
 
-  React.useEffect(() => {
-    onChange(files);
-  }, [files, onChange]);
+  const onValueRemove = React.useCallback(
+    (value: Image) => {
+      setRemovedValues((currentRemovedValues) => [
+        ...currentRemovedValues,
+        value,
+      ]);
+    },
+    [setRemovedValues],
+  );
+
+  const onValueRestore = React.useCallback(
+    (image: Image) => {
+      setRemovedValues((currentRemovedValues) =>
+        currentRemovedValues.filter(
+          (currentRemovedValue) => currentRemovedValue !== image,
+        ),
+      );
+    },
+    [setRemovedValues],
+  );
 
   return (
     <FormControl component="fieldset" fullWidth margin="normal">
@@ -108,27 +150,25 @@ const FileUpload: React.FC<FileUploadProps> = ({
         gap={parseInt(theme.spacing(1), 10)}
         rowHeight={tileSize}
       >
-        {files.map((file, index) => (
-          <ImageListItem
-            data-testid="file-upload__uploaded-item"
+        {values.map((value, index) => (
+          <ImageUploadImage
+            file={value}
+            isRemoved={removedValues.indexOf(value) > -1}
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            sx={{ alignItems: 'center', justifyContent: 'center' }}
-          >
-            <Preview file={file} />
-            <ImageListItemBar
-              actionIcon={
-                <IconButton
-                  data-testid={`file-upload__uploaded-item__remove--${index}`}
-                  onClick={() => onFileRemove(index)}
-                >
-                  <CloseIcon />
-                </IconButton>
-              }
-              position="top"
-              title={file.name}
-            />
-          </ImageListItem>
+            onImageRemove={() => onValueRemove(value)}
+            onImageRestore={() => onValueRestore(value)}
+          />
+        ))}
+        {files.map((file, index) => (
+          <ImageUploadImage
+            file={file}
+            isRemoved={removedFiles.indexOf(file) > -1}
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            onImageRemove={() => onFileRemove(file)}
+            onImageRestore={() => onFileRestore(file)}
+          />
         ))}
         <ImageListItem>
           <input
@@ -164,4 +204,4 @@ const FileUpload: React.FC<FileUploadProps> = ({
   );
 };
 
-export default FileUpload;
+export default ImageUpload;

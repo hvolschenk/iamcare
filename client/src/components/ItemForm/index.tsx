@@ -15,6 +15,7 @@ import itemCreate, {
 import itemUpdate, {
   ItemUpdate as ItemUpdateType,
 } from '~/src/api/items/update';
+import ImageUpload, { ImageUploadProps } from '~/src/components/ImageUpload';
 import PlaceAutocomplete, {
   PlaceAutocompleteProps,
 } from '~/src/components/PlaceAutocomplete';
