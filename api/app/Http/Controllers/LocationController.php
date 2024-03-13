@@ -11,7 +11,6 @@ class LocationController extends Controller
 {
     public function show(Location $location)
     {
-        $this->authorize('view', $location);
         return new LocationResource($location);
     }
 
@@ -19,7 +18,6 @@ class LocationController extends Controller
     {
         $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
         $location = Location::fromGooglePlaceID($googlePlaceID, $language);
-        $this->authorize('view', $location);
         return new LocationResource($location);
     }
 }

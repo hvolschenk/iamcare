@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadCreateRequest;
+use App\Http\Requests\ThreadMarkAsReadRequest;
 use App\Http\Requests\ThreadReplyRequest;
+use App\Http\Requests\ThreadViewRequest;
 use App\Http\Resources\ThreadResource;
 use App\Mail\ThreadCreated;
 use App\Mail\ThreadReplied;
@@ -23,7 +25,6 @@ class ThreadController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Thread::class);
         return ThreadResource::collection(
             Thread::with(['item.images', 'userGiver', 'userReceiver'])
                 ->where(['user_id_giver' => $request->user()->id])
@@ -37,8 +38,6 @@ class ThreadController extends Controller
      */
     public function create(ThreadCreateRequest $request)
     {
-        $this->authorize('create', Thread::class);
-
         $validated = $request->safe(['item', 'message']);
         $itemID = $validated['item'];
         $messageText = $validated['message'];
@@ -75,8 +74,6 @@ class ThreadController extends Controller
      */
     public function reply(ThreadReplyRequest $request, Thread $thread)
     {
-        $this->authorize('reply', $thread);
-
         $validated = $request->safe(['message']);
         $messageText = $validated['message'];
 
@@ -100,9 +97,8 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Thread $thread)
+    public function show(ThreadViewRequest $request, Thread $thread)
     {
-        $this->authorize('view', $thread);
         return new ThreadResource(
             Thread::with(['item.images', 'messages', 'userGiver', 'userReceiver'])
                 ->find($thread->id),
@@ -112,9 +108,8 @@ class ThreadController extends Controller
     /**
      * Mark the unread messages as read
      */
-    public function markAsRead(Request $request, Thread $thread)
+    public function markAsRead(ThreadMarkAsReadRequest $request, Thread $thread)
     {
-        $this->authorize('markAsRead', $thread);
         $user = $request->user();
         Log::debug('Thread: Mark Read', ['threadID' => $thread->id, 'userID' => $user->id]);
         $thread->messages()->whereNot('user_id', $user->id)->update(['is_read' => true]);
@@ -126,7 +121,6 @@ class ThreadController extends Controller
      */
     public function unreadThreadCount(Request $request)
     {
-        $this->authorize('unreadThreadCount', Thread::class);
         $user = $request->user();
         $unreadThreadCount = Thread::distinct('threads.id')
             ->join('messages', 'threads.id', '=', 'messages.thread_id')

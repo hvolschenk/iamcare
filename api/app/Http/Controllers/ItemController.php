@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemCreateRequest;
+use App\Http\Requests\ItemDeleteRequest;
+use App\Http\Requests\ItemMarkAsGivenRequest;
 use App\Http\Requests\ItemSearchRequest;
+use App\Http\Requests\ItemUpdateRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Image;
 use App\Models\Item;
@@ -17,16 +20,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
-    public function destroy(Item $item)
+    public function destroy(ItemDeleteRequest $request, Item $item)
     {
-        $this->authorize('delete', $item);
         $item->delete();
         return response()->noContent();
     }
 
     public function index()
     {
-        $this->authorize('viewAny', Item::class);
         return ItemResource::collection(
             Item::where(['is_given', false])->paginate(15),
         );
@@ -34,7 +35,6 @@ class ItemController extends Controller
 
     public function show(Item $item)
     {
-        $this->authorize('view', $item);
         return new ItemResource(
             Item::with(['location', 'images', 'tags', 'user'])
                 ->find($item->id),
@@ -43,8 +43,6 @@ class ItemController extends Controller
 
     public function create(ItemCreateRequest $request)
     {
-        $this->authorize('create', Item::class);
-
         $validated = $request->safe(['description', 'image', 'location', 'name', 'tag']);
         $description = $validated['description'];
         $googlePlaceID = $validated['location'];
@@ -88,9 +86,8 @@ class ItemController extends Controller
         }
     }
 
-    public function markAsGiven(Item $item)
+    public function markAsGiven(ItemMarkAsGivenRequest $request, Item $item)
     {
-        $this->authorize('markAsGiven', $item);
         $item->is_given = true;
         $item->save();
         return new ItemResource(
@@ -101,8 +98,6 @@ class ItemController extends Controller
 
     public function search(ItemSearchRequest $request)
     {
-        $this->authorize('viewAny', Item::class);
-
         $validated = $request->safe(['distance', 'location', 'query', 'tags']);
         $distance = $validated['distance'] ?? null;
         $googlePlaceID = $validated['location'] ?? null;

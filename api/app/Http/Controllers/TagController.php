@@ -12,7 +12,6 @@ class TagController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', Tag::class);
         return TagResource::collection(Tag::all());
     }
 }
