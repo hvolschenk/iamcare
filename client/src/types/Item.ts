@@ -12,12 +12,3 @@ export interface Item {
   tags: Tag[];
   user: User;
 }
-
-export type ItemCreate = Omit<
-  Item,
-  'id' | 'images' | 'location' | 'tags' | 'user'
-> & {
-  images: File[];
-  location: Pick<LocationBasic, 'googlePlaceID'>;
-  tags: Tag['id'][];
-};

@@ -1,6 +1,4 @@
-import { ItemCreate } from '~/src/types/Item';
-
-import itemCreate from './create';
+import itemCreate, { ItemCreate } from './create';
 import apiClient from '../client';
 
 jest.mock('../client');

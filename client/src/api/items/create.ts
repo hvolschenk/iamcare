@@ -1,10 +1,18 @@
-import { Item, ItemCreate } from '~/src/types/Item';
+import { Item } from '~/src/types/Item';
+import { LocationBasic } from '~/src/types/LocationBasic';
+import { Tag } from '~/src/types/Tag';
 
 import apiClient from '../client';
 
-type FormValues = ItemCreate;
+export interface ItemCreate {
+  description: Item['description'];
+  images: File[];
+  location: Pick<LocationBasic, 'googlePlaceID'>;
+  name: Item['name'];
+  tags: Tag['id'][];
+}
 
-const itemCreate = (data: FormValues) => {
+const itemCreate = (data: ItemCreate) => {
   const formData = new FormData();
   formData.append('description', data.description);
   data.images.forEach((image) => {

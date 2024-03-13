@@ -9,8 +9,12 @@ import React from 'react';
 import * as yup from 'yup';
 
 import parseErrors from '~/src/api/helpers/parseErrors';
-import itemCreate from '~/src/api/items/create';
-import FileUpload, { FileUploadProps } from '~/src/components/FileUpload';
+import itemCreate, {
+  ItemCreate as ItemCreateType,
+} from '~/src/api/items/create';
+import itemUpdate, {
+  ItemUpdate as ItemUpdateType,
+} from '~/src/api/items/update';
 import PlaceAutocomplete, {
   PlaceAutocompleteProps,
 } from '~/src/components/PlaceAutocomplete';
@@ -20,6 +24,7 @@ import { useNotifications } from '~/src/providers/Notifications';
 import { APIValidationError } from '~/src/types/APIValidationError';
 import { mimeTypes } from '~/src/types/Image';
 import { Item, ItemCreate as ItemCreateType } from '~/src/types/Item';
+import { Item } from '~/src/types/Item';
 import { Tag } from '~/src/types/Tag';
 
 type FormValues = ItemCreateType;
