@@ -23,12 +23,11 @@ import TagsSelect from '~/src/components/TagsSelect';
 import l10n from '~/src/l10n';
 import { useNotifications } from '~/src/providers/Notifications';
 import { APIValidationError } from '~/src/types/APIValidationError';
-import { mimeTypes } from '~/src/types/Image';
-import { Item, ItemCreate as ItemCreateType } from '~/src/types/Item';
+import { type Image, mimeTypes } from '~/src/types/Image';
 import { Item } from '~/src/types/Item';
 import { Tag } from '~/src/types/Tag';
 
-type FormValues = ItemCreateType;
+type FormValues = ItemCreateType | ItemUpdateType;
 
 interface ItemFormProps {
   item?: Item;
@@ -41,6 +40,8 @@ const ItemForm: React.FC<ItemFormProps> = ({
   labelActionPrimary,
   onSuccess,
 }) => {
+  const [removedImages, setRemovedImages] = React.useState<Image[]>([]);
+
   const { notify } = useNotifications();
 
   const validationSchema = yup.object({
@@ -78,33 +79,39 @@ const ItemForm: React.FC<ItemFormProps> = ({
   const onSubmit: FormikConfig<FormValues>['onSubmit'] = React.useCallback(
     async (values, formikBag) => {
       formikBag.setSubmitting(true);
-      if (item) {
-        // HENDRIK put the update code here
-      } else {
-        try {
+      try {
+        if (item) {
+          const updateValues: ItemUpdateType = {
+            ...values,
+            id: item.id,
+            removeImages: removedImages.map((removedImage) => removedImage.id),
+          };
+          const response = await itemUpdate(updateValues);
+          onSuccess(response.data);
+        } else {
           const response = await itemCreate(values);
           onSuccess(response.data);
-        } catch (error) {
-          if (
-            error instanceof AxiosError &&
-            error.response &&
-            error.response.status === 422
-          ) {
-            const parsedErrors = parseErrors<FormValues>(
-              (error as AxiosError<APIValidationError<FormValues>>).response!
-                .data,
-            );
-            Object.keys(parsedErrors).forEach((fieldName) => {
-              formikBag.setFieldError(fieldName, parsedErrors[fieldName]);
-            });
-          } else {
-            notify({ message: l10n.itemFormErrorCreating });
-          }
+        }
+      } catch (error) {
+        if (
+          error instanceof AxiosError &&
+          error.response &&
+          error.response.status === 422
+        ) {
+          const parsedErrors = parseErrors<FormValues>(
+            (error as AxiosError<APIValidationError<FormValues>>).response!
+              .data,
+          );
+          Object.keys(parsedErrors).forEach((fieldName) => {
+            formikBag.setFieldError(fieldName, parsedErrors[fieldName]);
+          });
+        } else {
+          notify({ message: l10n.itemFormErrorCreating });
         }
       }
       formikBag.setSubmitting(false);
     },
-    [item, onSuccess],
+    [item, onSuccess, removedImages],
   );
 
   const {
@@ -138,11 +145,17 @@ const ItemForm: React.FC<ItemFormProps> = ({
     [errors, fieldHasError],
   );
 
-  const onFilesChange: FileUploadProps['onChange'] = React.useCallback(
+  const onFilesChange: ImageUploadProps['onChange'] = React.useCallback(
     (images) => {
-      setFieldValue('images', images);
+      const allFiles = images.filter((image) => image instanceof File);
+      const allImages = images.filter((image) => image instanceof Image);
+      const newRemovedImages = item?.images.filter(
+        (image) => !allImages.includes(image),
+      );
+      setFieldValue('images', allFiles);
+      setRemovedImages(newRemovedImages || []);
     },
-    [setFieldValue],
+    [setFieldValue, setRemovedImages, item],
   );
 
   const onLocationChange: PlaceAutocompleteProps['onChange'] =
@@ -241,8 +254,9 @@ const ItemForm: React.FC<ItemFormProps> = ({
             margin="normal"
             name="location"
             onChange={onLocationChange}
+            value={values.location.googlePlaceID}
           />
-          <FileUpload
+          <ImageUpload
             allowedTypes={[...mimeTypes]}
             FormHelperTextProps={{
               // When rendered, `<HelperText />` allows html props,
@@ -257,6 +271,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
             label={l10n.itemImagesLabel}
             labelUploadButton={l10n.itemImagesLabelUpload}
             onChange={onFilesChange}
+            values={item?.images || []}
           />
         </CardContent>
         <CardActions>

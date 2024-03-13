@@ -53,6 +53,11 @@ export const user = (userID = ':userID') => `/users/${userID}`;
 export const userItems = (userID = ':userID') => `/users/${userID}/items`;
 export const userItemsCreate = (userID = ':userID') =>
   `/users/${userID}/items/create`;
+export type UserItemParams = UserParams & {
+  itemID: string;
+};
+export const userItemsItem = (userID = ':userID', itemID = ':itemID') =>
+  `/users/${userID}/items/${itemID}`;
 
 // -----------------------------------------------------------------------------
 // Helper methods

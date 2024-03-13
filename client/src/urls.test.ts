@@ -11,6 +11,7 @@ import {
   userItemsCreate,
   urlLayout,
   urlRelative,
+  userItemsItem,
 } from './urls';
 
 type TestCase = [
@@ -57,6 +58,13 @@ test.each<TestCase>([
     '/users/:userID/items/create',
   ],
   ['userItemsCreate', userItemsCreate, ['22'], '/users/22/items/create'],
+  [
+    'userItemsItem (no parameters)',
+    userItemsItem,
+    [],
+    '/users/:userID/items/:itemID',
+  ],
+  ['userItemsItem', userItemsItem, ['22', '33'], '/users/22/items/33'],
   ['urlLayout', urlLayout, ['/one/two'], '/one/two/*'],
   ['urlRelative', urlRelative, ['/one/two', '/one'], '/two'],
 ])('Renders the %s URL', (name, method, parameters, result) => {

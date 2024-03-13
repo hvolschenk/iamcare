@@ -85,6 +85,9 @@ export interface L10n {
   itemTagTravel: string;
   itemTagVintage: string;
   itemTagWellness: string;
+  itemUpdateActionPrimary: string;
+  itemUpdateErrorLoading: string;
+  itemUpdatePageTitle: string;
   search: string;
   searchErrorLoading: string;
   searchErrorNoResults: string;

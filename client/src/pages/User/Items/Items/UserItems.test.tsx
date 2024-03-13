@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import deleteItem from '~/src/api/items/delete';
 import markItemAsGiven from '~/src/api/items/markAsGiven';
@@ -14,6 +15,7 @@ import {
 import { item, user } from '~/src/testing/mocks';
 import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
 import { Item } from '~/src/types/Item';
+import { userItems as userItemsURL, userItemsItem } from '~/src/urls';
 
 import { Provider as UserProvider } from '../../context';
 
@@ -28,13 +30,26 @@ describe('With a user other than the logged-in user', () => {
     let wrapper: RenderResult;
 
     beforeEach(async () => {
+      const otherUser = user();
       (getUserItems as jest.Mock)
         .mockClear()
         .mockRejectedValue(new Error('Failed to fetch'));
       wrapper = render(
-        <UserProvider value={user()}>
-          <UserItems />
-        </UserProvider>,
+        <Routes>
+          <Route
+            element={<div data-testid="user-items-item" />}
+            path={userItemsItem()}
+          />
+          <Route
+            element={
+              <UserProvider value={otherUser}>
+                <UserItems />
+              </UserProvider>
+            }
+            path={userItemsURL()}
+          />
+        </Routes>,
+        { router: { initialEntries: [userItemsURL(otherUser.id.toString())] } },
       );
       await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
       await waitFor(() =>
@@ -138,6 +153,20 @@ describe('With a user other than the logged-in user', () => {
 
         test('Shows the correct amount of items', () => {
           expect(wrapper.queryAllByTestId('user-items__item')).toHaveLength(3);
+        });
+
+        describe('Clicking on an item', () => {
+          beforeEach(() => {
+            fireEvent.click(
+              wrapper.queryAllByTestId('user-items__item__link')[0],
+            );
+          });
+
+          test('Redirects to the item page', () => {
+            expect(
+              wrapper.queryByTestId('user-items-item'),
+            ).toBeInTheDocument();
+          });
         });
 
         describe('Paginating', () => {
@@ -332,9 +361,21 @@ describe('With the logged-in user', () => {
       .mockClear()
       .mockResolvedValue({ data: userItems, status: 200 });
     wrapper = render(
-      <UserProvider value={testUser}>
-        <UserItems />
-      </UserProvider>,
+      <Routes>
+        <Route
+          element={<div data-testid="user-items-item" />}
+          path={userItemsItem()}
+        />
+        <Route
+          element={
+            <UserProvider value={testUser}>
+              <UserItems />
+            </UserProvider>
+          }
+          path={userItemsURL()}
+        />
+      </Routes>,
+      { router: { initialEntries: [userItemsURL(testUser.id.toString())] } },
     );
     await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
     await waitFor(() =>

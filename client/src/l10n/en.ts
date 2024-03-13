@@ -98,6 +98,9 @@ const en: L10n = {
   itemTagTravel: 'Travel',
   itemTagVintage: 'Vintage',
   itemTagWellness: 'Wellness',
+  itemUpdateActionPrimary: 'Update',
+  itemUpdateErrorLoading: 'Failed to load the item, please try again',
+  itemUpdatePageTitle: 'Update item',
   search: 'Search',
   searchErrorLoading: 'Failed to load search results, please try again',
   searchErrorNoResults:
