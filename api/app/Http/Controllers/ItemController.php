@@ -86,6 +86,58 @@ class ItemController extends Controller
         }
     }
 
+    public function update(ItemUpdateRequest $request, Item $item)
+    {
+        Log::withContext(['id' => $item->id]);
+
+        $validated = $request->safe([
+            'description',
+            'image',
+            'location',
+            'name',
+            'removeImage',
+            'tag',
+        ]);
+        $description = $validated['description'];
+        $googlePlaceID = $validated['location'];
+        $images = $validated['image'] ?? [];
+        $name = $validated['name'];
+        $removeImages = $validated['removeImage'] ?? [];
+        $tags = $validated['tag'];
+
+        Log::debug('Item: Update: Start');
+
+        $isLocationUpdated = $item->location->googlePlaceID !== $googlePlaceID;
+        if ($isLocationUpdated === true) {
+            $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
+            $location = Location::fromGooglePlaceID($googlePlaceID, $language);
+            Log::debug('Item: Update: Update Location', ['locationID' => $location->id]);
+            $item->location()->associate($location);
+        }
+
+        if ($images && count($images) > 0) {
+            $images = $this->imagesFromInput($images);
+            $item->images()->saveMany($images);
+        }
+
+        if ($removeImages && count($removeImages) > 0) {
+            $removeImagesIDs = array_Map(fn ($id) => intval($id), $removeImages);
+            Image::destroy($removeImagesIDs);
+        }
+
+        $item->tags()->detach();
+        $item->tags()->attach($tags);
+
+        $item->description = $description;
+        $item->name = $name;
+        $item->save();
+
+        return new ItemResource(
+            Item::with(['location', 'images', 'tags', 'user'])
+                ->find($item->id),
+        );
+    }
+
     public function markAsGiven(ItemMarkAsGivenRequest $request, Item $item)
     {
         $item->is_given = true;
