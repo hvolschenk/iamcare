@@ -8,7 +8,6 @@ use App\Models\Location;
 use App\Models\Tag;
 use App\Models\User;
 use App\Services\GooglePlaces;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -39,7 +38,7 @@ class ItemControllerTest extends TestCase
 
         $response
             ->assertStatus(422)
-            ->assertJsonValidationErrors(['description', 'location', 'name']);
+            ->assertJsonValidationErrors(['description', 'location', 'name', 'tag']);
     }
 
     /**
@@ -213,5 +212,150 @@ class ItemControllerTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertGreaterThanOrEqual(1, count($response->json('data')));
+    }
+
+    /**
+     * When trying to update an item that does not belong to you
+     */
+    public function test_update_not_owned(): void
+    {
+        $item = Item::inRandomOrder()->with(['user'])->first();
+        $user = User::inRandomOrder()->first();
+        while ($user->id === $item->user_id) {
+            $user = User::inRandomOrder()->first();
+        }
+        $this->actingAs($user);
+
+        $response = $this->putJson("/items/{$item->id}", []);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * When validation of the POSTed fields fails
+     */
+    public function test_update_validation_failed(): void
+    {
+        $item = Item::inRandomOrder()->with(['user'])->first();
+        $this->actingAs($item->user);
+        $response = $this->putJson("/items/{$item->id}", []);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['description', 'location', 'name', 'tag']);
+    }
+
+    /**
+     * When validatin fails because all images are deleted.
+     * This validation is tested in isolation
+     * as it is a special case which is manually checked.
+     */
+    public function test_update_validation_failed_all_images_deleted(): void
+    {
+        $item = Item::inRandomOrder()->with(['images', 'user'])->first();
+        $this->actingAs($item->user);
+        $response = $this->putJson(
+            "/items/{$item->id}",
+            [
+                'description' => $this->faker->sentence(),
+                'image' => [],
+                'location' => strval($this->faker->randomNumber(4, true)),
+                'name' => $this->faker->word(),
+                'tag' => array_map(function ($tag) {
+                    return $tag->id;
+                }, $item->tags->all()),
+                'removeImage' => array_map(function ($image) {
+                    return $image->id;
+                }, $item->images->all()),
+            ],
+        );
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['image']);
+    }
+
+    /**
+     * When validation passes, but something goes wrong during processing the request
+     */
+    public function test_update_server_error(): void
+    {
+        Storage::fake('public');
+        $this->mock(GooglePlaces::class, function ($mock) {
+            $mock
+                ->shouldReceive('placeDetails')
+                ->once()
+                ->andThrow(new \Exception('Could not get place details'));
+        });
+        $image = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
+        $tag = Tag::inRandomOrder()->first();
+        $item = Item::inRandomOrder()->with(['user'])->first();
+        $this->actingAs($item->user);
+        $response = $this->putJson(
+            "/items/{$item->id}",
+            [
+                'description' => $this->faker->sentence(),
+                'image' => [$image],
+                'location' => strval($this->faker->randomNumber(4, true)),
+                'name' => $this->faker->word(),
+                'tag' => [$tag->id],
+            ],
+        );
+
+        $response->assertStatus(500);
+        /** @var $disk \Illuminate\Filesystem\FilesystemAdapter */
+        $disk = Storage::disk('public');
+        $disk->assertMissing($disk->url($image->hashName()));
+    }
+
+    /**
+     * When the request goes through successfully
+     */
+    public function test_update_success()
+    {
+        Storage::fake('public');
+        /** @var $disk \Illuminate\Filesystem\FilesystemAdapter */
+        $disk = Storage::disk('public');
+        $googlePlace = [
+            'formatted_address' => str_replace("\n", ' ', $this->faker->address()),
+            'place_id' => (string)$this->faker->randomNumber(5),
+            'geometry' => [
+                'location' => [
+                    'lat' => $this->faker->latitude(),
+                    'lng' => $this->faker->longitude(),
+                ],
+            ],
+            'name' => $this->faker->city(),
+            'utc_offset' => (string)$this->faker->randomNumber(3, true),
+        ];
+        $this->mock(GooglePlaces::class, function ($mock) use ($googlePlace) {
+            $mock
+                ->shouldReceive('placeDetails')
+                ->once()
+                ->andReturn(['result' => $googlePlace]);
+        });
+        $image1 = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
+        $image2 = UploadedFile::fake()->image("{$this->faker->word()}.jpg");
+        $tag = Tag::inRandomOrder()->first();
+        $values = [
+            'description' => $this->faker->sentence(),
+            'image' => [$image1, $image2],
+            'location' => strval($this->faker->randomNumber(4, true)),
+            'name' => $this->faker->word(),
+            'tag' => [$tag->id],
+        ];
+
+        $item = Item::inRandomOrder()->with(['user'])->first();
+        $user = $item->user;
+        $this->actingAs($user);
+
+        $response = $this->putJson("/items/{$item->id}", $values);
+        $request = Request::create("/items/{$item->id}", 'PUT');
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
+        $item = Item::with(['location', 'images', 'tags', 'user'])->find($item->id);
+        $resource = new ItemResource($item);
+        $response
+            ->assertStatus(200)
+            ->assertJson($resource->response($request)->getData(true));
     }
 }

@@ -18,13 +18,11 @@ class UserController extends Controller
 {
     public function show(User $user)
     {
-        $this->authorize('view', $user);
         return new UserResource($user);
     }
 
     public function currentUser(Request $request)
     {
-        $this->authorize('viewMe', User::class);
         $user = $request->user();
         if ($user) {
             return new UserResource($user);
@@ -34,7 +32,6 @@ class UserController extends Controller
 
     public function items(Request $request, User $user)
     {
-        $this->authorize('viewItems', $user);
         return ItemResource::collection(
             $user
                 ->items()
@@ -45,7 +42,6 @@ class UserController extends Controller
 
     public function loginWithProvider(UserLoginRequest $request, string $provider)
     {
-        $this->authorize('authenticate', User::class);
         Log::withContext(['method' => $provider]);
 
         $validated = $request->safe(['accessToken']);
