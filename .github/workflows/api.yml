@@ -16,6 +16,14 @@ jobs:
       SESSION_DOMAIN: localhost
 
     steps:
+      # It's disappointing that this has to be done.
+      # PHP is included in the `ubuntu-latest` image,
+      # but they only support `8.1`.
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
       - name: Enable MySQL
         run: |
           sudo /etc/init.d/mysql start
