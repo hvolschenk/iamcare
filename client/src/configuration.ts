@@ -2,6 +2,9 @@ interface Configuration {
   api: {
     baseURL(): string;
   };
+  gitHub: {
+    url(): string;
+  };
   google: {
     oAuth: {
       clientID(): string;
@@ -16,6 +19,9 @@ interface Configuration {
 const configuration: Configuration = {
   api: {
     baseURL: () => process.env.API_BASE_URL,
+  },
+  gitHub: {
+    url: () => process.env.GITHUB_URL,
   },
   google: {
     oAuth: {

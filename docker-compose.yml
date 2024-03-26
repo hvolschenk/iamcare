@@ -69,6 +69,7 @@ services:
           target: /home/node/application/app
     environment:
       - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
+      - GITHUB_URL=${GITHUB_URL:-https://github.com/hvolschenk/iamcare}
       - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
       - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
       - GOOGLE_PLACES_COUNTRY_CODE=${GOOGLE_PLACES_COUNTRY_CODE}
