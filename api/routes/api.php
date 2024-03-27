@@ -29,6 +29,7 @@ Route::controller(ItemController::class)->group(function () {
 });
 
 Route::controller(LocationController::class)->group(function () {
+    Route::get('locations/popular', 'popular');
     Route::get('locations/{location}', 'show');
     Route::get('locations/google/{googlePlaceID}', 'google');
 });

@@ -20,4 +20,12 @@ class LocationController extends Controller
         $location = Location::fromGooglePlaceID($googlePlaceID, $language);
         return new LocationResource($location);
     }
+
+    public function popular()
+    {
+        $locations = Location::withCount(['items'])
+            ->orderBy('items_count', 'DESC')
+            ->paginate(15);
+        return LocationResource::collection($locations);
+    }
 }

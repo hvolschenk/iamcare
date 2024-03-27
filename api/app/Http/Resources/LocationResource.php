@@ -27,6 +27,7 @@ class LocationResource extends JsonResource
             'dateUpdated' => $this->updated_at,
             'googlePlaceID' => $this->googlePlaceID,
             'id' => $this->id,
+            'itemsCount' => $this->whenHas('items_count'),
             'language' => $this->language, // HENDRIK THIS SEEMS WRONG? HOW DO I GET FOR A SPECIFIC LANGUAGE?
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,

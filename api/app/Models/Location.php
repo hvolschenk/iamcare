@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\GooglePlaces;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -27,6 +28,14 @@ class Location extends Model
         'name',
         'utcOffset',
     ];
+
+    /**
+     * The items in this location
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class);
+    }
 
     public static function fromGooglePlaceID(string $googlePlaceID, string $language): Location
     {
