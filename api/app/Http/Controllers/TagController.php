@@ -14,4 +14,10 @@ class TagController extends Controller
     {
         return TagResource::collection(Tag::all());
     }
+
+    public function popular()
+    {
+        $tags = Tag::withCount(['items'])->orderBy('items_count', 'DESC')->paginate(15);
+        return TagResource::collection($tags);
+    }
 }

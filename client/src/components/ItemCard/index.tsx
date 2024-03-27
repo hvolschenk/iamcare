@@ -17,11 +17,11 @@ import { Item } from '~/src/types/Item';
 import { Tag } from '~/src/types/Tag';
 import { item as itemURL } from '~/src/urls';
 
-interface ResultProps {
+interface ItemCardProps {
   item: Item;
 }
 
-const Result: React.FC<ResultProps> = ({ item }) => {
+const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
   const { search } = useSearch();
   const theme = useTheme();
 
@@ -78,4 +78,4 @@ const Result: React.FC<ResultProps> = ({ item }) => {
   );
 };
 
-export default Result;
+export default ItemCard;

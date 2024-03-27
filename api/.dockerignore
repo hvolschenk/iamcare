@@ -1,3 +1,4 @@
 .phpunit.cache
 bootstrap/cache/!.gitignore
+storage/framework/cache/
 vendor

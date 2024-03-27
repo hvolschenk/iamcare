@@ -4,6 +4,7 @@ export interface LocationBasic {
   dateUpdated?: string;
   googlePlaceID: string;
   id: number;
+  itemsCount?: number;
   language: 'af' | 'en' | 'nl';
   latitude: number;
   longitude: number;

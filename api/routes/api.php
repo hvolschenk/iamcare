@@ -29,12 +29,14 @@ Route::controller(ItemController::class)->group(function () {
 });
 
 Route::controller(LocationController::class)->group(function () {
+    Route::get('locations/popular', 'popular');
     Route::get('locations/{location}', 'show');
     Route::get('locations/google/{googlePlaceID}', 'google');
 });
 
 Route::controller(TagController::class)->group(function () {
     Route::get('tags', 'index');
+    Route::get('tags/popular', 'popular');
 });
 
 Route::controller(ThreadController::class)->group(function () {

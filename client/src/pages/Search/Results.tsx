@@ -2,11 +2,10 @@ import Alert from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 
+import ItemCard from '~/src/components/ItemCard';
 import l10n from '~/src/l10n';
 import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
 import { Item } from '~/src/types/Item';
-
-import Result from './Result';
 
 interface ResultsProps {
   results: APICollectionPaginated<Item>;
@@ -25,7 +24,7 @@ const Results: React.FC<ResultsProps> = ({ results }) => {
     <Grid container spacing={2}>
       {results.data.map((item) => (
         <Grid item key={item.id} lg={3} md={4} xs={12}>
-          <Result item={item} />
+          <ItemCard item={item} />
         </Grid>
       ))}
     </Grid>

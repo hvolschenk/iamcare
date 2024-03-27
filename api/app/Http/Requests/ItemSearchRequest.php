@@ -24,6 +24,7 @@ class ItemSearchRequest extends FormRequest
         return [
             'distance' => ['nullable', 'numeric'],
             'location' => ['nullable', 'string'],
+            'orderBy' => ['in:latest'],
             'query' => ['nullable', 'string'],
             'tags' => ['nullable', 'array'],
         ];
