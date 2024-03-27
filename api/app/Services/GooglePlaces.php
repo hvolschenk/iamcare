@@ -5,15 +5,16 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class GooglePlaces {
+class GooglePlaces
+{
     // This is an intersection between languages supported by iamcare
     // and languages supported by the Google Places API.
     // https://developers.google.com/maps/faq#languagesupport
-    public const SUPPORTED_LANGUAGES = [ 'af', 'en', 'nl' ];
+    public const SUPPORTED_LANGUAGES = ['af', 'en', 'nl'];
 
     public function placeDetails(string $placeID, string $language)
     {
-        Log::debug('Place details', [ 'language' => $language, 'placeID' => $placeID ]);
+        Log::debug('Place details', ['language' => $language, 'placeID' => $placeID]);
         $request = Http::googlePlaces()
             ->get('/place/details/json', [
                 'fields' => 'formatted_address,geometry,name,place_id,utc_offset',
