@@ -148,7 +148,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
   const onFilesChange: ImageUploadProps['onChange'] = React.useCallback(
     (images) => {
       const allFiles = images.filter((image) => image instanceof File);
-      const allImages = images.filter((image) => image instanceof Image);
+      const allImages = images.filter((image) => !(image instanceof File));
       const newRemovedImages = item?.images.filter(
         (image) => !allImages.includes(image),
       );
