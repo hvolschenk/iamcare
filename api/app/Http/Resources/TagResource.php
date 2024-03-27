@@ -16,6 +16,7 @@ class TagResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'itemsCount' => $this->whenHas('items_count'),
             'title' => $this->title,
         ];
     }

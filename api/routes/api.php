@@ -36,6 +36,7 @@ Route::controller(LocationController::class)->group(function () {
 
 Route::controller(TagController::class)->group(function () {
     Route::get('tags', 'index');
+    Route::get('tags/popular', 'popular');
 });
 
 Route::controller(ThreadController::class)->group(function () {
