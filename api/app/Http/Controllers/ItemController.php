@@ -153,6 +153,7 @@ class ItemController extends Controller
         $validated = $request->safe(['distance', 'location', 'query', 'tags']);
         $distance = $validated['distance'] ?? null;
         $googlePlaceID = $validated['location'] ?? null;
+        $orderBy = $validated['orderBy'] ?? null;
         $searchQuery = $validated['query'] ?? null;
         $tagIDs = $validated['tags'] ?? null;
 
@@ -208,6 +209,10 @@ class ItemController extends Controller
                     }
                 }
             });
+        }
+
+        if ($orderBy === 'latest') {
+            $itemsQuery->orderByDesc('created_at');
         }
 
         Log::debug('Item: Search: Done');
