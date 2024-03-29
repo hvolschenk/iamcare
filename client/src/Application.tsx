@@ -12,8 +12,8 @@ import Router from './Router';
 
 const Application: React.FC = () => (
   <QueryClientProvider>
-    <AuthenticationProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <AuthenticationProvider>
         <GooglePlacesProvider>
           <NotificationsProvider>
             <BrowserRouter>
@@ -23,8 +23,8 @@ const Application: React.FC = () => (
             </BrowserRouter>
           </NotificationsProvider>
         </GooglePlacesProvider>
-      </ThemeProvider>
-    </AuthenticationProvider>
+      </AuthenticationProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
