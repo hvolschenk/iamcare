@@ -41,7 +41,6 @@ class Item extends Model
      */
     protected $hidden = [
         'location_id',
-        'user_id',
     ];
 
     /**
