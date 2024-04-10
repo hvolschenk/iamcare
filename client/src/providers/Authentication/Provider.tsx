@@ -1,3 +1,7 @@
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Skeleton from '@mui/material/Skeleton';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
@@ -38,21 +42,33 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
 
   if (status === 'error') {
     return (
-      <div data-testid="authentication-provider__error__loading">
-        <p>{l10n.authenticateProviderErrorLoading}</p>
-        <button
-          data-testid="authentication-provider__error__loading__action"
-          onClick={() => refetch()}
-          type="button"
+      <Container>
+        <Alert
+          action={
+            <Button
+              data-testid="authentication-provider__error__loading__action"
+              onClick={() => refetch()}
+            >
+              {l10n.actionTryAgain}
+            </Button>
+          }
+          data-testid="authentication-provider__error__loading"
+          severity="error"
         >
-          {l10n.actionTryAgain}
-        </button>
-      </div>
+          {l10n.authenticateProviderErrorLoading}
+        </Alert>
+      </Container>
     );
   }
 
   if (status === 'pending' && !user) {
-    return null;
+    return (
+      <Container>
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </Container>
+    );
   }
 
   return (

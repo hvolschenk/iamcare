@@ -17,7 +17,7 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_OAUTH_CLIENT_ID'),
         'client_secret' => env('GOOGLE_OAUTH_CLIENT_SECRET'),
-        'redirect' => 'http://localhost:7222'
+        'redirect' => env('GOOGLE_OAUTH_REDIRECT_URL'),
     ],
 
     'google_places' => [
