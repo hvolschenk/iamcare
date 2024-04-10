@@ -93,7 +93,7 @@ jobs:
     environment: STAGING
     env:
       API_BASE_URL: ${{ vars.CLIENT_API_BASE_URL }}
-      GITHUB_URL: "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+      GITHUB_URL: ${{ github.server_url }}/${{ github.repository }}
       GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
       GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
       GOOGLE_PLACES_COUNTRY_CODE: ${{ vars.GOOGLE_PLACES_COUNTRY_CODE }}
