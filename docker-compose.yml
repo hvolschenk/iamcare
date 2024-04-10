@@ -25,6 +25,7 @@ services:
           target: /var/www/html
     environment:
       - APP_DEBUG=${API_DEBUG:-true}
+      - APP_URL=${API_URL:-http://localhost:7222}
       - DB_PASSWORD=${MYSQL_PASSWORD}
       - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
       - GOOGLE_OAUTH_CLIENT_SECRET=${GOOGLE_OAUTH_CLIENT_SECRET}
