@@ -1,0 +1,167 @@
+name: Deploy STAGING
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  api:
+    name: API
+    runs-on: ubuntu-latest
+    environment: STAGING
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      # It's disappointing that this has to be done.
+      # PHP is included in the `ubuntu-latest` image,
+      # but they only support `8.1`.
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      
+      - name: Install dependencies
+        run: composer install
+        working-directory: ./api
+      
+      - name: Generate .env
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_APP_DEBUG: true
+          envkey_APP_ENV: production
+          envkey_APP_KEY: ${{ secrets.API_APP_KEY }}
+          envkey_APP_NAME: ${{ vars.API_APPLICATION_NAME }}
+          envkey_APP_URL: ${{ vars.API_URL }}
+          envkey_LOG_CHANNEL: stack
+          envkey_LOG_LEVEL: ${{ vars.API_LOG_LEVEL }}
+          envkey_DB_CONNECTION: mysql
+          envkey_DB_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          envkey_DB_HOST: localhost
+          envkey_DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          envkey_DB_PORT: ${{ secrets.MYSQL_PORT }}
+          envkey_DB_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          envkey_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          envkey_GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          envkey_GOOGLE_OAUTH_REDIRECT_URL: ${{ vars.GOOGLE_OAUTH_REDIRECT_URL }}
+          envkey_GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          envkey_GOOGLE_PLACES_COUNTRY_CODE: ${{ vars.GOOGLE_PLACES_COUNTRY_CODE }}
+          envkey_MAIL_FROM_ADDRESS: ${{ vars.MAIL_FROM_ADDRESS }}
+          envkey_MAIL_FROM_NAME: ${{ vars.MAIL_FROM_NAME }}
+          envkey_MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          envkey_MAIL_MAILER: smtp
+          envkey_MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          envkey_MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          envkey_MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          envkey_SANCTUM_STATEFUL_DOMAINS: ${{ vars.API_STATEFUL_DOMAIN }}
+          envkey_SESSION_DOMAIN: ${{ vars.API_COOKIE_DOMAIN }}
+          directory: ./api
+          file_name: .env
+          fail_on_empty: false
+          sort_keys: false
+      
+      - name: Prepare
+        run: php artisan optimize
+        working-directory: ./api
+      
+      - name: Modify headers
+        run: |
+          echo "$(echo 'Header set Access-Control-Allow-Origin "${{ vars.CLIENT_URL }}"'; cat ./public/.htaccess)" > ./public/.htaccess
+          echo "$(echo 'Header set Access-Control-Allow-Credentials "true"'; cat ./public/.htaccess)" > ./public/.htaccess
+          echo "$(echo 'Header set Access-Control-Allow-Headers "content-type, X-Request-ID, x-xsrf-token"'; cat ./public/.htaccess)" > ./public/.htaccess
+        working-directory: ./api
+      
+      - name: Fix config paths
+        run: sed -i 's@'$GITHUB_WORKSPACE'/api@..@g' bootstrap/cache/config.php
+        working-directory: ./api
+
+      - name: Upload
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          local-dir: ./api/
+          log-level: minimal
+          password: ${{ secrets.API_FTP_PASSWORD }}
+          port: ${{ secrets.API_FTP_PORT }}
+          protocol: ftps
+          server: ${{ secrets.API_FTP_HOST }}
+          server-dir: ./
+          username: ${{ secrets.API_FTP_USERNAME }}
+
+  client:
+    name: Client
+    runs-on: ubuntu-latest
+    environment: STAGING
+    env:
+      API_BASE_URL: ${{ vars.CLIENT_API_BASE_URL }}
+      GITHUB_URL: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
+      GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+      GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+      GOOGLE_PLACES_COUNTRY_CODE: ${{ vars.GOOGLE_PLACES_COUNTRY_CODE }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./client
+      
+      - name: Build
+        run: npm run build
+        working-directory: ./client
+      
+      - name: Upload
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          local-dir: ./client/dist/
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          protocol: ftps
+          server: ${{ secrets.FTP_HOST }}
+          server-dir: ./
+          username: ${{ secrets.FTP_USERNAME }}
+
+  database:
+    name: Database
+    runs-on: ubuntu-latest
+    environment: STAGING
+    env:
+      DB_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      DB_HOST: ${{ secrets.MYSQL_HOST }}
+      DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      DB_PORT: ${{ secrets.MYSQL_PORT }}
+      DB_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+    steps:
+      # It's disappointing that this has to be done.
+      # PHP is included in the `ubuntu-latest` image,
+      # but they only support `8.1`.
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      
+      - name: Enable MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up environment
+        run: |
+          cp .env.example .env
+          cp .env.example .env.testing
+        working-directory: ./api
+
+      - name: Install dependencies
+        run: composer install
+        working-directory: ./api
+      
+      - name: Set up configuration
+        run: |
+          php artisan config:clear
+        working-directory: ./api
+      
+      - name: Migrate
+        run: |
+          php artisan migrate
+        working-directory: ./api
