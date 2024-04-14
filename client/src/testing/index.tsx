@@ -40,7 +40,7 @@ interface ProvidersProps {
 const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
   <QueryClientProvider queryClientConfig={queryClientConfig}>
     <AuthenticationProvider
-      value={options?.user === null ? undefined : testUser}
+      value={options?.user === null ? undefined : options?.user || testUser}
     >
       <ThemeProvider>
         <GooglePlacesProvider>
