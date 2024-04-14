@@ -14,6 +14,7 @@ import { User } from '~/src/types/User';
 import { threads, root } from '~/src/urls';
 
 import { useThread } from './context';
+import MarkAsGiven from './MarkAsGiven';
 import Messages from './Messages';
 import ReplyForm from './ReplyForm';
 
@@ -87,6 +88,7 @@ const Thread: React.FC = () => {
           ))}
           <ReplyForm />
         </CardContent>
+        <MarkAsGiven />
       </Card>
     </React.Fragment>
   );

@@ -69,7 +69,17 @@ const ThreadsList: React.FC<ThreadsListProps> = ({ threads }) => {
             </ListItemAvatar>
             <ListItemText
               primary={thread.item.name}
+              primaryTypographyProps={{
+                sx: {
+                  textDecoration: thread.item.isGiven ? 'line-through' : 'none',
+                },
+              }}
               secondary={thread.messages[thread.messages.length - 1].message}
+              secondaryTypographyProps={{
+                sx: {
+                  textDecoration: thread.item.isGiven ? 'line-through' : 'none',
+                },
+              }}
             />
           </ListItemButton>
         </ListItem>

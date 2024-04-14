@@ -1,4 +1,5 @@
 import SendIcon from '@mui/icons-material/Send';
+import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
@@ -53,6 +54,14 @@ const ReplyForm: React.FC = () => {
     () => formik.isSubmitting || formik.isValidating,
     [formik],
   );
+
+  if (thread.item.isGiven) {
+    return (
+      <Alert data-testid="thread__reply__marked-as-given" severity="info">
+        {l10n.itemMarkedAsGiven}
+      </Alert>
+    );
+  }
 
   return (
     <form onSubmit={formik.handleSubmit}>

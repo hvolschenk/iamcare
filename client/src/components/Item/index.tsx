@@ -21,7 +21,16 @@ const Item: React.FC<ItemProps> = ({ item }) => (
         <ListItemAvatar>
           <Avatar alt={item.name} src={item.images[0].url} variant="square" />
         </ListItemAvatar>
-        <ListItemText primary={item.name} secondary={item.description} />
+        <ListItemText
+          primary={item.name}
+          primaryTypographyProps={{
+            sx: { textDecoration: item.isGiven ? 'line-through' : 'none' },
+          }}
+          secondary={item.description}
+          secondaryTypographyProps={{
+            sx: { textDecoration: item.isGiven ? 'line-through' : 'none' },
+          }}
+        />
       </ListItemButton>
     </ListItem>
   </List>

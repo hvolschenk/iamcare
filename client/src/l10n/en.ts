@@ -66,6 +66,8 @@ const en: L10n = {
     'There was an error marking the item as given. Please try again',
   itemMarkAsGivenSuccess: 'The item was successfully marked as given',
   itemMarkAsGivenTitle: 'Mark item as given?',
+  itemMarkedAsGiven:
+    'This item has been marked as given, and this thread can no longer be replied to.',
   itemNameErrorRequired: 'An item requires a name',
   itemNameHelperText:
     'The name of the item you are giving away. Keep it short but descriptive. This is the first thing people will see about your item while browsing.',
