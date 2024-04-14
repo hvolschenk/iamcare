@@ -21,7 +21,7 @@ const Threads: React.FC = () => {
 
   const { data, isFetching, refetch, status } = useQuery({
     queryFn: () => threads(page),
-    queryKey: ['threads', page],
+    queryKey: ['threads', { page }],
   });
 
   const onPageChange = React.useCallback(

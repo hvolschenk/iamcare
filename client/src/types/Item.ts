@@ -7,6 +7,7 @@ export interface Item {
   description: string;
   id: number;
   images: Image[];
+  isGiven: boolean;
   location: LocationBasic;
   name: string;
   tags: Tag[];

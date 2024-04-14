@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
+import markItemAsGiven from '~/src/api/items/markAsGiven';
 import threadGet from '~/src/api/threads/get';
 import threadMarkAsRead from '~/src/api/threads/markAsRead';
 import threadReply from '~/src/api/threads/reply';
@@ -16,12 +18,16 @@ import {
   message as messageMock,
   thread as threadMock,
 } from '~/src/testing/mocks';
+import { thread as threadURL } from '~/src/urls';
 
 import Thread from './index';
 
+jest.mock('~/src/api/items/markAsGiven');
 jest.mock('~/src/api/threads/get');
 jest.mock('~/src/api/threads/markAsRead');
 jest.mock('~/src/api/threads/reply');
+
+const thread = threadMock({ userGiver: testUser });
 
 describe('When the API call fails', () => {
   let wrapper: RenderResult;
@@ -30,7 +36,12 @@ describe('When the API call fails', () => {
     (threadGet as jest.Mock)
       .mockClear()
       .mockRejectedValue(new Error('Failed to fetch'));
-    wrapper = render(<Thread />);
+    wrapper = render(
+      <Routes>
+        <Route element={<Thread />} path={threadURL()} />
+      </Routes>,
+      { router: { initialEntries: [threadURL(thread.id.toString())] } },
+    );
     await waitFor(() => expect(threadGet).toHaveBeenCalledTimes(1));
     await waitFor(() =>
       expect(wrapper.queryByTestId('thread__error__retry')).toBeInTheDocument(),
@@ -42,8 +53,6 @@ describe('When the API call fails', () => {
   });
 
   describe('When retrying and the API call succeeds', () => {
-    const thread = threadMock({ userGiver: testUser });
-
     beforeEach(async () => {
       (threadGet as jest.Mock)
         .mockClear()
@@ -147,5 +156,98 @@ describe('When the API call fails', () => {
         });
       });
     });
+
+    describe('Marking the item as given', () => {
+      const threadGiven = {
+        ...thread,
+        item: { ...thread.item, isGiven: true },
+      };
+
+      beforeEach(() => {
+        (threadGet as jest.Mock)
+          .mockClear()
+          .mockResolvedValue({ data: threadGiven, status: 200 });
+        fireEvent.click(wrapper.getByTestId('thread__item__mark-as-given'));
+      });
+
+      describe('When the API call fails', () => {
+        beforeEach(async () => {
+          (markItemAsGiven as jest.Mock)
+            .mockClear()
+            .mockRejectedValue(new Error('Failed to mark as given'));
+          fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
+          await waitFor(() => expect(markItemAsGiven).toHaveBeenCalledTimes(1));
+          await waitFor(() =>
+            expect(
+              wrapper.queryByTestId('notifications__notification'),
+            ).toBeInTheDocument(),
+          );
+        });
+
+        test('Shows a notification indicating that marking as given failed', () => {
+          expect(
+            wrapper.queryByTestId('notifications__notification'),
+          ).toHaveTextContent(l10n.itemMarkAsGivenError);
+        });
+      });
+
+      describe('When the API call succeeds', () => {
+        beforeEach(async () => {
+          (markItemAsGiven as jest.Mock).mockClear().mockResolvedValue({
+            data: { ...thread.item, isGiven: true },
+            status: 200,
+          });
+          fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
+          await waitFor(() => expect(markItemAsGiven).toHaveBeenCalledTimes(1));
+          await waitFor(() =>
+            expect(
+              wrapper.queryByTestId('notifications__notification'),
+            ).toBeInTheDocument(),
+          );
+          await waitFor(() => expect(threadGet).toHaveBeenCalledTimes(1));
+        });
+
+        test('Shows a notification indicating that marking as given succeeded', () => {
+          expect(
+            wrapper.queryByTestId('notifications__notification'),
+          ).toHaveTextContent(l10n.itemMarkAsGivenSuccess);
+        });
+
+        test('Hides the reply form', () => {
+          expect(
+            wrapper.queryByTestId('thread__reply__marked-as-given'),
+          ).toBeInTheDocument();
+        });
+      });
+    });
+  });
+});
+
+describe('As the receiving user', () => {
+  let wrapper: RenderResult;
+
+  beforeEach(async () => {
+    (threadGet as jest.Mock)
+      .mockClear()
+      .mockResolvedValue({ data: thread, status: 200 });
+    (threadMarkAsRead as jest.Mock)
+      .mockClear()
+      .mockResolvedValue({ status: 204 });
+    wrapper = render(
+      <Routes>
+        <Route element={<Thread />} path={threadURL()} />
+      </Routes>,
+      {
+        router: { initialEntries: [threadURL(thread.id.toString())] },
+        user: thread.userReceiver,
+      },
+    );
+    await waitFor(() => expect(threadGet).toHaveBeenCalledTimes(1));
+  });
+
+  test("Does not render the 'mark as given' button", () => {
+    expect(
+      wrapper.queryByTestId('thread__item__mark-as-given'),
+    ).not.toBeInTheDocument();
   });
 });

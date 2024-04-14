@@ -53,6 +53,7 @@ export interface L10n {
   itemMarkAsGivenError: string;
   itemMarkAsGivenSuccess: string;
   itemMarkAsGivenTitle: string;
+  itemMarkedAsGiven: string;
   itemNameErrorRequired: string;
   itemNameHelperText: string;
   itemNameLabel: string;

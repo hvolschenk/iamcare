@@ -1,4 +1,5 @@
 import SendIcon from '@mui/icons-material/Send';
+import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
@@ -49,10 +50,23 @@ const ReplyForm: React.FC = () => {
     validationSchema,
   });
 
+  const isDisabled = React.useMemo<boolean>(
+    () => formik.isSubmitting || formik.isValidating,
+    [formik],
+  );
+
+  if (thread.item.isGiven) {
+    return (
+      <Alert data-testid="thread__reply__marked-as-given" severity="info">
+        {l10n.itemMarkedAsGiven}
+      </Alert>
+    );
+  }
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
-        disabled={formik.isSubmitting}
+        disabled={isDisabled}
         fullWidth
         inputProps={{
           'data-testid': 'thread__reply--message',
@@ -61,11 +75,12 @@ const ReplyForm: React.FC = () => {
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
+                color="secondary"
                 data-testid="thread__reply__action--primary"
-                disabled={formik.isSubmitting || formik.isValidating}
+                disabled={isDisabled}
                 type="submit"
               >
-                <SendIcon color="secondary" />
+                <SendIcon />
               </IconButton>
             </InputAdornment>
           ),

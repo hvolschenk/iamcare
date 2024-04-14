@@ -18,7 +18,7 @@ const ThreadLoader: React.FC = () => {
 
   const { data, refetch, status } = useQuery({
     queryFn: () => threadGet({ id: parseInt(threadID, 10) }),
-    queryKey: ['threads', threadID],
+    queryKey: ['threads', parseInt(threadID, 10)],
   });
 
   if (status === 'error') {

@@ -10,7 +10,7 @@ import {
   testUser,
   waitFor,
 } from '~/src/testing';
-import { thread as threadMock } from '~/src/testing/mocks';
+import { item as itemMock, thread as threadMock } from '~/src/testing/mocks';
 import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
 import { Thread } from '~/src/types/Thread';
 import { thread, threads as threadsURL } from '~/src/urls';
@@ -87,7 +87,7 @@ describe('When the API call fails', () => {
         data: [
           threadMock({ userGiver: testUser }),
           threadMock({ userReceiver: testUser }),
-          threadMock(),
+          threadMock({ item: itemMock({ isGiven: true }) }),
           threadMock(),
         ],
         links: { first: '', last: '', next: null, prev: null },

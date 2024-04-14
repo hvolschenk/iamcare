@@ -14,6 +14,7 @@ const item = (partialItem?: Partial<Item>): Item => ({
   description: faker.commerce.productDescription(),
   id: faker.number.int(),
   images: [image(), image()],
+  isGiven: false,
   location: locationBasic(),
   name: faker.commerce.productName(),
   tags: [tag(), tag()],
