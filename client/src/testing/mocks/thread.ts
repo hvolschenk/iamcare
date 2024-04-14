@@ -17,7 +17,7 @@ const thread = (partialThread?: Partial<Thread>): Thread => {
     dateCreated: faker.date.past().toString(),
     hasUnreadMessages: faker.datatype.boolean(),
     id: faker.number.int(),
-    item: item(),
+    item: item(partialThread?.item),
     messages: [
       message({
         userID: userReceiver.id,
