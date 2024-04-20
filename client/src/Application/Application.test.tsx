@@ -4,20 +4,17 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import Application from './Application';
+import Application from './index';
 
-jest.mock(
-  './Router',
-  () =>
-    function Router() {
-      return <div />;
-    },
-);
+// eslint-disable-next-line react/function-component-definition
+jest.mock('./Bootstrap', () => () => <div />);
+// eslint-disable-next-line react/function-component-definition
+jest.mock('./Router', () => () => <div />);
 
 beforeEach(() => {
   render(<Application />);
 });
 
-test('Vanity test', () => {
+test('Vanity', () => {
   expect(true).toBe(true);
 });

@@ -8,6 +8,7 @@ import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
 import { Provider as SearchProvider } from '~/src/providers/Search';
 import { Provider as ThemeProvider } from '~/src/providers/ThemeProvider';
 
+import Bootstrap from './Bootstrap';
 import Router from './Router';
 
 const Application: React.FC = () => (
@@ -18,7 +19,9 @@ const Application: React.FC = () => (
           <NotificationsProvider>
             <BrowserRouter>
               <SearchProvider>
-                <Router />
+                <Bootstrap>
+                  <Router />
+                </Bootstrap>
               </SearchProvider>
             </BrowserRouter>
           </NotificationsProvider>
