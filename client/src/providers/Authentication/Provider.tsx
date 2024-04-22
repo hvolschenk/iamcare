@@ -12,6 +12,7 @@ import l10n from '~/src/l10n';
 import { User } from '~/src/types/User';
 
 import AuthenticationContext from './context';
+import { AuthenticationProviderValues } from './types';
 
 interface AuthenticationProviderProps {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
   value,
 }) => {
   const [user, setUser] = React.useState<User | undefined>(value);
-  const providerValue = React.useMemo(
+  const providerValue = React.useMemo<AuthenticationProviderValues>(
     () => ({ setUser, user }),
     [setUser, user],
   );
