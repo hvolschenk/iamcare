@@ -5,7 +5,12 @@ module.exports = function (app) {
     if (!request.url.startsWith('/api')) {
       const contentSecurityPolicy = [
         ['default-src', "'self'"].join(' '),
-        ['connect-src', "'self'", 'https://maps.googleapis.com'].join(' '),
+        [
+          'connect-src',
+          "'self'",
+          'https://*.google-analytics.com',
+          'https://maps.googleapis.com',
+        ].join(' '),
         ['font-src', 'https://fonts.gstatic.com'].join(' '),
         [
           'img-src',
@@ -18,6 +23,7 @@ module.exports = function (app) {
           "'self'",
           'https://accounts.google.com',
           'https://maps.googleapis.com',
+          'https://www.googletagmanager.com',
         ].join(' '),
         [
           'style-src',
