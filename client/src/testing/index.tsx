@@ -4,6 +4,7 @@ import React from 'react';
 import { MemoryRouter, MemoryRouterProps } from 'react-router-dom';
 
 import { Provider as AuthenticationProvider } from '~/src/providers/Authentication';
+import { Provider as GoogleAnalyticsProvider } from '~/src/providers/GoogleAnalytics';
 import { Provider as GooglePlacesProvider } from '~/src/providers/GooglePlaces';
 import { Provider as NotificationsProvider } from '~/src/providers/Notifications';
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
@@ -39,20 +40,22 @@ interface ProvidersProps {
 
 const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
   <QueryClientProvider queryClientConfig={queryClientConfig}>
-    <AuthenticationProvider
-      value={options?.user === null ? undefined : options?.user || testUser}
-    >
-      <ThemeProvider>
-        <GooglePlacesProvider>
-          <NotificationsProvider>
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <MemoryRouter {...options?.router}>
-              <SearchProvider>{children}</SearchProvider>
-            </MemoryRouter>
-          </NotificationsProvider>
-        </GooglePlacesProvider>
-      </ThemeProvider>
-    </AuthenticationProvider>
+    <GoogleAnalyticsProvider>
+      <AuthenticationProvider
+        value={options?.user === null ? undefined : options?.user || testUser}
+      >
+        <ThemeProvider>
+          <GooglePlacesProvider>
+            <NotificationsProvider>
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+              <MemoryRouter {...options?.router}>
+                <SearchProvider>{children}</SearchProvider>
+              </MemoryRouter>
+            </NotificationsProvider>
+          </GooglePlacesProvider>
+        </ThemeProvider>
+      </AuthenticationProvider>
+    </GoogleAnalyticsProvider>
   </QueryClientProvider>
 );
 

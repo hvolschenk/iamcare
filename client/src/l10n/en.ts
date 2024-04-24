@@ -12,6 +12,11 @@ const en: L10n = {
   authenticateProviderErrorLoading:
     'Failed to load the authentication provider',
   authentication: 'Authentication',
+  cookiesActionAccept: 'Accept all',
+  cookiesActionDecline: 'Reject all',
+  cookiesDescription:
+    'We use cookies to enable analytics through Google Analytics. Your experience will not be affected by your choice. We will only (anonymously) track the analytics if you accept.',
+  cookiesTitle: 'We use cookies',
   errorLoading: 'Error loading',
   home: 'Home',
   homeGiveCallToAction: 'Give an item',

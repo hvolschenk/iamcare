@@ -8,6 +8,10 @@ export interface L10n {
   authenticateGoogleErrorLoginFailed: string;
   authenticateProviderErrorLoading: string;
   authentication: string;
+  cookiesActionAccept: string;
+  cookiesActionDecline: string;
+  cookiesDescription: string;
+  cookiesTitle: string;
   errorLoading: string;
   home: string;
   homeGiveCallToAction: string;
