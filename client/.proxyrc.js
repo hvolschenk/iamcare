@@ -15,6 +15,7 @@ module.exports = function (app) {
         [
           'img-src',
           "'self'",
+          'blob:',
           process.env.API_URL,
           'https://*.googleusercontent.com',
         ].join(' '),
