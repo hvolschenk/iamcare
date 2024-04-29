@@ -20,7 +20,7 @@ describe('Without a logged-in user', () => {
           <Route element={<div data-testid="root" />} index />
           <Route
             element={<div data-testid="authentication" />}
-            path={authentication()}
+            path={authentication({})}
           />
         </Route>
       </Routes>,

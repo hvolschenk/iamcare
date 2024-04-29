@@ -22,7 +22,13 @@ type TestCase = [
 ];
 
 test.each<TestCase>([
-  ['authentication', authentication, [], '/authentication'],
+  ['authentication (no parameters)', authentication, [{}], '/authentication'],
+  [
+    'authentication',
+    authentication,
+    [{ redirectURI: 'redirectURI' }],
+    '/authentication?redirectURI=redirectURI',
+  ],
   ['item (no paramaters)', item, [], '/items/:itemID'],
   ['item', item, ['22'], '/items/22'],
   ['itemsSearch (no paramaters)', itemsSearch, [], '/items/search'],

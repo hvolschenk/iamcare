@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import FormHelperText from '@mui/material/FormHelperText';
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import PageTitle from '~/src/components/PageTitle';
 import l10n from '~/src/l10n';
@@ -25,7 +26,9 @@ const Authentication: React.FC = () => {
   const [error, setError] = React.useState<string>('');
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
 
-  const { setUser, user: authenticatedUser } = useAuthentication();
+  const { setUser } = useAuthentication();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const onError = React.useCallback(
     (errorMessage: string): void => {
@@ -40,13 +43,18 @@ const Authentication: React.FC = () => {
     setIsSubmitting(true);
   }, [setError, setIsSubmitting]);
 
+  const onSuccessRedirect = React.useCallback(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const redirectURI = searchParams.get('redirectURI');
+    navigate(redirectURI || root());
+  }, [location, navigate]);
+
   const onSuccess = React.useCallback(
     (user: User) => {
-      setError('');
-      setIsSubmitting(false);
       setUser(user);
+      onSuccessRedirect();
     },
-    [setError, setIsSubmitting, setUser],
+    [onSuccessRedirect, setUser],
   );
 
   return (
@@ -67,9 +75,6 @@ const Authentication: React.FC = () => {
               })}
             </Alert>
           </Box>
-          {authenticatedUser && (
-            <p data-testid="authentication__user">{authenticatedUser.email}</p>
-          )}
           {(
             Object.keys(authenticationProviders) as AuthenticationProviders[]
           ).map((key) => {
