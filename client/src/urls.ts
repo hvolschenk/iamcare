@@ -1,6 +1,17 @@
 import { Tag } from '~/src/types/Tag';
 
-export const authentication = () => '/authentication';
+interface AuthenticationOptions {
+  redirectURI?: string;
+}
+export const authentication = (options: AuthenticationOptions) => {
+  const searchParams = new URLSearchParams();
+  if (options.redirectURI) {
+    searchParams.set('redirectURI', options.redirectURI.toString());
+  }
+  const stringParams = searchParams.toString();
+  const queryString = stringParams ? `?${stringParams}` : '';
+  return `/authentication${queryString}`;
+};
 
 export type ItemParams = { itemID: string };
 export const item = (itemID = ':itemID') => `/items/${itemID}`;

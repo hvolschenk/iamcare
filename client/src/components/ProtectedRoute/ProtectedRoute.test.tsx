@@ -9,26 +9,22 @@ import ProtectedRoute from './index';
 interface SampleApplicationProps {
   isAuthenticated: boolean;
   isAuthorised?: boolean;
-  redirectURL?: string;
 }
 
 const SampleApplication: React.FC<SampleApplicationProps> = ({
   isAuthenticated,
   isAuthorised,
-  redirectURL,
 }) => (
   <Routes>
     <Route
       element={<div data-testid="authentication" />}
-      path={authentication()}
+      path={authentication({})}
     />
-    <Route element={<div data-testid="home" />} path="/home" />
     <Route
       element={
         <ProtectedRoute
           isAuthenticated={isAuthenticated}
           isAuthorised={isAuthorised}
-          redirectURL={redirectURL}
         >
           <div data-testid="protected" />
         </ProtectedRoute>
@@ -60,7 +56,6 @@ describe.each(table)(
         <SampleApplication
           isAuthenticated={isAuthenticated}
           isAuthorised={isAuthorised}
-          redirectURL="/home"
         />,
         { router: { initialEntries: ['/'] } },
       );

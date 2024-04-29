@@ -20,7 +20,7 @@ const UserMenu: React.FC = () => {
         component={Link}
         data-testid="authentication__user-menu__login"
         startIcon={<AccountCircleIcon />}
-        to={authentication()}
+        to={authentication({})}
       >
         {l10n.authenticateActionLogin}
       </Button>

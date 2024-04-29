@@ -29,7 +29,7 @@ const Router: React.FC = () => (
     </Route>
     <Route
       element={<LayoutBase containerWidth="sm" />}
-      path={urlLayout(authentication())}
+      path={urlLayout(authentication({}))}
     >
       <Route element={<Authentication />} index />
     </Route>
