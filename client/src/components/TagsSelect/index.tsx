@@ -9,8 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 import tags from '~/src/api/tag/all';
-import l10n from '~/src/l10n';
-import { L10n } from '~/src/l10n/types';
+import { getTagLabel } from '~/src/shared/tags';
 import { Tag } from '~/src/types/Tag';
 
 export interface TagsSelectProps {
@@ -40,12 +39,6 @@ const TagsSelect: React.FC<TagsSelectProps> = ({
     queryFn: () => tags(),
     queryKey: ['tags'],
   });
-
-  const getOptionLabel = (tag: Tag): string => {
-    const title = `${tag.title.charAt(0).toUpperCase()}${tag.title.slice(1)}`;
-    const l10nKey: keyof L10n = `itemTag${title}` as keyof L10n;
-    return l10n[l10nKey];
-  };
 
   const handleChange = React.useCallback(
     (event: SelectChangeEvent<number[]>) => {
@@ -110,7 +103,7 @@ const TagsSelect: React.FC<TagsSelectProps> = ({
             key={tag.id}
             value={tag.id}
           >
-            {getOptionLabel(tag)}
+            {getTagLabel(tag)}
           </MenuItem>
         ))}
     </TextField>
