@@ -22,7 +22,7 @@ const Image: React.FC<ImageProps> = ({ image, item }) => {
 
   return (
     <React.Fragment>
-      <ImageListItem onClick={onOpen}>
+      <ImageListItem onClick={onOpen} sx={{ cursor: 'pointer' }}>
         <img alt={item.name} data-testid="item__image" src={image.url} />
       </ImageListItem>
       <Dialog onClose={onClose} open={isOpen}>

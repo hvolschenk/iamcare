@@ -57,7 +57,13 @@ const PageTitle: React.FC<PageTitleProps> = ({
         </Typography>
       </Grid>
       {actions && (
-        <Grid data-testid="page-title__actions" item xs>
+        <Grid
+          data-testid="page-title__actions"
+          display="flex"
+          item
+          justifyContent="end"
+          xs
+        >
           {actions}
         </Grid>
       )}

@@ -10,7 +10,6 @@ import PageTitle from '~/src/components/PageTitle';
 import l10n from '~/src/l10n';
 import { ItemParams, root } from '~/src/urls';
 
-import ContextMenu from './ContextMenu';
 import Item from './Item';
 
 const ItemRoot: React.FC = () => {
@@ -58,7 +57,6 @@ const ItemRoot: React.FC = () => {
   return (
     <React.Fragment>
       <PageTitle
-        actions={<ContextMenu />}
         breadcrumbs={[
           { title: l10n.home, url: root() },
           { title: data.data.name },
