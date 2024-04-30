@@ -13,6 +13,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSearch } from '~/src/providers/Search';
+import { getTagLabel } from '~/src/shared/tags';
 import { Item } from '~/src/types/Item';
 import { Tag } from '~/src/types/Tag';
 import { item as itemURL } from '~/src/urls';
@@ -64,7 +65,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
                 <Chip
                   data-testid="search-item__tag"
                   key={tag.id}
-                  label={tag.title}
+                  label={getTagLabel(tag)}
                   onClick={(event) => onGoToTag(event, tag)}
                   size="small"
                 />
