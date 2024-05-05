@@ -54,4 +54,5 @@ Route::controller(UserController::class)->group(function () {
     Route::get('users/{user}/items', 'items');
     Route::post('users/authenticate/{provider}', 'loginWithProvider')
         ->where(['provider' => '^google$']);
+    Route::post('users/logout', 'logout');
 });

@@ -104,4 +104,10 @@ class UserController extends Controller
             return response(null, 500);
         }
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->noContent();
+    }
 }

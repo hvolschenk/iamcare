@@ -314,4 +314,17 @@ class UserControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonCount(count($user->items->toArray()), 'data');
     }
+
+    /**
+     * Logs the user out
+     *
+     * @return void
+     */
+    public function test_logout()
+    {
+        $user = UserModel::inRandomOrder()->first();
+        $this->actingAs($user);
+        $response = $this->postJson('/users/logout');
+        $response->assertStatus(204);
+    }
 }
