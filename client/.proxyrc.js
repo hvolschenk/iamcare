@@ -41,7 +41,6 @@ module.exports = function (app) {
         ].join(' '),
       ].join('; ');
       response.setHeader('Content-Security-Policy', contentSecurityPolicy);
-      response.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
     }
     next();
   });
