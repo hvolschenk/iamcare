@@ -99,6 +99,7 @@ jobs:
       GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
       GOOGLE_PLACES_COUNTRY_CODE: ${{ vars.GOOGLE_PLACES_COUNTRY_CODE }}
       HAS_COOKIES_BANNER: ${{ vars.CLIENT_HAS_COOKIES_BANNER }}
+      QUERY_DEVTOOLS_VISIBLE: ${{ vars.CLIENT_QUERY_DEVTOOLS_VISIBLE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3

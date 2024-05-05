@@ -11,6 +11,7 @@ declare global {
       HAS_COOKIES_BANNER: 'false' | 'true';
       NODE_ENV: 'development' | 'production';
       PWD: string;
+      QUERY_DEVTOOLS_VISIBLE: 'false' | 'true';
     }
   }
 }

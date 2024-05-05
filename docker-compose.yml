@@ -80,6 +80,7 @@ services:
       - GOOGLE_PLACES_COUNTRY_CODE=${GOOGLE_PLACES_COUNTRY_CODE}
       - HAS_COOKIES_BANNER=${CLIENT_HAS_COOKIES_BANNER:-true}
       - PORT=3000
+      - QUERY_DEVTOOLS_VISIBLE=${CLIENT_QUERY_DEVTOOLS_VISIBLE:-false}
     networks:
       - iamcare-network
     ports:

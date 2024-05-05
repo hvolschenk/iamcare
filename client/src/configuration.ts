@@ -21,6 +21,9 @@ interface Configuration {
       countryCode(): string;
     };
   };
+  query: {
+    isDevtoolsVisible(): boolean;
+  };
 }
 
 const configuration: Configuration = {
@@ -45,6 +48,9 @@ const configuration: Configuration = {
       apiKey: () => process.env.GOOGLE_PLACES_API_KEY,
       countryCode: () => process.env.GOOGLE_PLACES_COUNTRY_CODE,
     },
+  },
+  query: {
+    isDevtoolsVisible: () => process.env.QUERY_DEVTOOLS_VISIBLE === 'true',
   },
 };
 

@@ -6,6 +6,8 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 
+import configuration from '~/src/configuration';
+
 const queryClient = (queryClientConfig?: QueryClientConfig): QueryClient => {
   const queryClientConfigDefault: QueryClientConfig = {
     defaultOptions: { queries: { staleTime: Infinity } },
@@ -24,7 +26,7 @@ const QueryClientProvider: React.FC<QueryClientProviderProps> = ({
 }) => (
   <ReactQueryQueryClientProvider client={queryClient(queryClientConfig)}>
     {children}
-    <ReactQueryDevtools />
+    {configuration.query.isDevtoolsVisible() && <ReactQueryDevtools />}
   </ReactQueryQueryClientProvider>
 );
 
