@@ -1,4 +1,5 @@
 import ListIcon from '@mui/icons-material/List';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MailIcon from '@mui/icons-material/Mail';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -9,24 +10,45 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useMutation } from '@tanstack/react-query';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
+import logout from '~/src/api/user/logout';
 import PageTitle from '~/src/components/PageTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
+import { useNotifications } from '~/src/providers/Notifications';
 import { root, threads, userItems } from '~/src/urls';
 
 import { useUser } from '../context';
 
 const Profile: React.FC = () => {
-  const { user: loggedInUser } = useAuthentication();
+  const { setUser, user: loggedInUser } = useAuthentication();
+  const navigate = useNavigate();
+  const { notify } = useNotifications();
   const { user } = useUser();
 
   const isLoggedInUser = React.useMemo(
     () => loggedInUser?.id === user.id,
     [loggedInUser, user],
   );
+
+  const onLogoutError = React.useCallback(() => {
+    notify({ message: l10n.userLogoutError });
+  }, [notify]);
+
+  const onLogoutSuccess = React.useCallback(() => {
+    navigate(root());
+    setUser(undefined);
+  }, [navigate, setUser]);
+
+  const logoutMutation = useMutation({
+    mutationFn: () => logout(),
+    mutationKey: ['user', 'logout'],
+    onError: onLogoutError,
+    onSuccess: onLogoutSuccess,
+  });
 
   return (
     <React.Fragment>
@@ -85,6 +107,25 @@ const Profile: React.FC = () => {
                     <ListItemText
                       primary={l10n.userThreads}
                       secondary={l10n.userThreadsDescription}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )}
+
+              {isLoggedInUser && (
+                <ListItem disablePadding>
+                  <ListItemButton
+                    data-testid="user-profile__action--logout"
+                    onClick={() => logoutMutation.mutate()}
+                  >
+                    <ListItemIcon>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={l10n.userLogout}
+                      secondary={l10n.formatString(l10n.userLogoutDescription, {
+                        applicationName: l10n.applicationName,
+                      })}
                     />
                   </ListItemButton>
                 </ListItem>

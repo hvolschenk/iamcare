@@ -150,6 +150,9 @@ export interface L10n {
   userItemsManageDescription: string;
   userItemsManageTitle: string;
   userItemsView: string;
+  userLogout: string;
+  userLogoutDescription: string;
+  userLogoutError: string;
   userThreads: string;
   userThreadsDescription: string;
 }
