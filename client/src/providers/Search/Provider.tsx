@@ -51,7 +51,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     () =>
       Boolean(filters.distance) ||
       Boolean(filters.googlePlaceID) ||
-      Boolean(filters.tagIDs),
+      Boolean(filters.tagIDs?.length),
     [filters],
   );
 
