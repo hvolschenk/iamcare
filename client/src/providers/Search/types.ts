@@ -17,7 +17,8 @@ export interface Search {
   filters: SearchFilters;
   hasFilter: boolean;
   hasQuery: boolean;
-  search(options: SearchOptions): void;
   page: number;
   query?: string;
+  search(options: SearchOptions): void;
+  searchDialogOpen(): void;
 }

@@ -126,6 +126,7 @@ describe('With a logged-in user', () => {
     describe('Search', () => {
       beforeEach(async () => {
         const query = faker.word.sample();
+        fireEvent.click(wrapper.getByTestId('search__open-dialog'));
         fireEvent.change(wrapper.getByTestId('search__input'), {
           target: { value: query },
         });
@@ -134,46 +135,16 @@ describe('With a logged-in user', () => {
         );
       });
 
-      describe('Clearing search', () => {
+      describe('Searching', () => {
         beforeEach(async () => {
-          fireEvent.click(wrapper.getByTestId('search__action--clear'));
+          fireEvent.click(wrapper.getByTestId('search__action--search'));
           await waitFor(() =>
-            expect(wrapper.queryByTestId('search__input')).toHaveValue(''),
+            expect(wrapper.queryByTestId('search')).toBeInTheDocument(),
           );
         });
 
-        test('Clears the search field', () => {
-          expect(wrapper.queryByTestId('search__input')).toHaveValue('');
-        });
-      });
-
-      describe('Searching', () => {
-        describe('By clicking', () => {
-          beforeEach(async () => {
-            fireEvent.click(wrapper.getByTestId('search__action--search'));
-            await waitFor(() =>
-              expect(wrapper.queryByTestId('search')).toBeInTheDocument(),
-            );
-          });
-
-          test('Redirects to the search page', () => {
-            expect(wrapper.queryByTestId('search')).toBeInTheDocument();
-          });
-        });
-
-        describe('By pressing enter', () => {
-          beforeEach(async () => {
-            fireEvent.keyDown(wrapper.getByTestId('search__input'), {
-              key: 'Enter',
-            });
-            await waitFor(() =>
-              expect(wrapper.queryByTestId('search')).toBeInTheDocument(),
-            );
-          });
-
-          test('Redirects to the search page', () => {
-            expect(wrapper.queryByTestId('search')).toBeInTheDocument();
-          });
+        test('Redirects to the search page', () => {
+          expect(wrapper.queryByTestId('search')).toBeInTheDocument();
         });
       });
     });
