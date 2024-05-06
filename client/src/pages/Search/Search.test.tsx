@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -259,6 +260,10 @@ describe('When the API call fails', () => {
           (itemsSearch as jest.Mock)
             .mockClear()
             .mockResolvedValue({ data: itemsCollectionFiltered, status: 200 });
+
+          fireEvent.change(wrapper.getByTestId('search__filters--query'), {
+            target: { value: faker.word.sample() },
+          });
 
           fireEvent.click(wrapper.getByTestId('search__filters__summary'));
 
