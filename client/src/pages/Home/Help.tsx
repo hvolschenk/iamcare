@@ -13,7 +13,12 @@ const Help: React.FC = () => (
       {l10n.homeHelpTitle}
     </Typography>
     <Typography gutterBottom>{l10n.homeHelpDescription}</Typography>
-    <Button href={configuration.gitHub.url()} startIcon={<GitHubIcon />}>
+    <Button
+      href={configuration.gitHub.url()}
+      rel="noopener noreferrer"
+      startIcon={<GitHubIcon />}
+      target="_blank"
+    >
       {l10n.homeHelpCallToAction}
     </Button>
   </Box>
