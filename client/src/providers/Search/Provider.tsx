@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ItemsSearchOptions, itemsSearch } from '~/src/urls';
 
 import SearchContext from './context';
+import SearchDialog from './SearchDialog';
 import { Search, SearchFilters } from './types';
 
 interface SearchProviderProps {
@@ -12,6 +13,8 @@ interface SearchProviderProps {
 
 const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [filters, setFilters] = React.useState<SearchFilters>({});
+  const [isSearchDialogOpen, setIsSearchDialogOpen] =
+    React.useState<boolean>(false);
   const [page, setPage] = React.useState<number>(1);
   const [query, setQuery] = React.useState<string | undefined>(undefined);
 
@@ -82,14 +85,35 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     [filters, navigate],
   );
 
+  const searchDialogClose = React.useCallback(() => {
+    setIsSearchDialogOpen(false);
+  }, [setIsSearchDialogOpen]);
+  const searchDialogOpen = React.useCallback(() => {
+    setIsSearchDialogOpen(true);
+  }, [setIsSearchDialogOpen]);
+
   const providerValue = React.useMemo<Search>(
-    () => ({ filters, hasFilter, hasQuery, page, query, search }),
-    [filters, hasFilter, hasQuery, page, query, search],
+    () => ({
+      filters,
+      hasFilter,
+      hasQuery,
+      page,
+      query,
+      search,
+      searchDialogOpen,
+    }),
+    [filters, hasFilter, hasQuery, page, query, search, searchDialogOpen],
   );
 
   return (
     <SearchContext.Provider value={providerValue}>
       {children}
+      <SearchDialog
+        isOpen={isSearchDialogOpen}
+        onClose={searchDialogClose}
+        query={query}
+        search={search}
+      />
     </SearchContext.Provider>
   );
 };
