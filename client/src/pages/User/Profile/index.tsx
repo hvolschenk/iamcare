@@ -58,8 +58,10 @@ const Profile: React.FC = () => {
       />
       <Avatar
         alt={user.name}
-        imgProps={{
-          referrerPolicy: 'no-referrer',
+        slotProps={{
+          img: {
+            referrerPolicy: 'no-referrer',
+          },
         }}
         src={user.avatar}
       />
