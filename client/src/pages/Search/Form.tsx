@@ -127,7 +127,7 @@ const SearchForm: React.FC = () => {
                   }}
                   label={l10n.searchFilterFieldDistance}
                   margin="none"
-                  name="distance"
+                  name="filters.distance"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   select
