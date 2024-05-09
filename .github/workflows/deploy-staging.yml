@@ -109,8 +109,10 @@ jobs:
         working-directory: ./client
       
       - name: Generate nonce
-        run: echo "GOOGLE_ANALYTICS_NONCE=$(uuidgen)" >> $GITHUB_ENV
-      
+        run: |
+          echo "GOOGLE_ANALYTICS_NONCE=$(uuidgen)" >> $GITHUB_ENV
+          echo "GOOGLE_PLACES_NONCE=$(uuidgen)" >> $GITHUB_ENV
+
       - name: Build
         run: npm run build
         working-directory: ./client
@@ -118,7 +120,7 @@ jobs:
       - name: Create .htaccess
         run: |
           touch ./dist/.htaccess
-          echo "$(echo "Header set Content-Security-Policy \"default-src 'self'; connect-src 'self' ${{ vars.API_URL }} https://*.google-analytics.com https://maps.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' blob: ${{ vars.API_URL }} https://*.googleusercontent.com https://www.googletagmanager.com; script-src 'self' nonce-${{ secrets.GOOGLE_ANALYTICS_NONCE }} https://accounts.google.com https://maps.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com\""; cat ./dist/.htaccess)" > ./dist/.htaccess
+          echo "$(echo "Header set Content-Security-Policy \"default-src 'self'; connect-src 'self' ${{ vars.API_URL }} https://*.google-analytics.com https://maps.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' blob: ${{ vars.API_URL }} https://*.googleusercontent.com https://www.googletagmanager.com; script-src 'self' nonce-${{ secrets.GOOGLE_ANALYTICS_NONCE }} nonce-${{ secrets.GOOGLE_PLACES_NONCE }} https://accounts.google.com https://maps.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com\""; cat ./dist/.htaccess)" > ./dist/.htaccess
           echo "$(echo "Header set Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\""; cat ./dist/.htaccess)" > ./dist/.htaccess
         working-directory: ./client
       

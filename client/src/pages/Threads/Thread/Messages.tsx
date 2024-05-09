@@ -23,8 +23,10 @@ const Message: React.FC<MessageProps> = ({ messages, position, user }) => (
     <Grid item>
       <Avatar
         alt={user.name}
-        imgProps={{
-          referrerPolicy: 'no-referrer',
+        slotProps={{
+          img: {
+            referrerPolicy: 'no-referrer',
+          },
         }}
         src={user.avatar}
       />

@@ -51,27 +51,25 @@ const predictions: google.maps.places.AutocompletePrediction[] = [
 const generateToken = jest.fn().mockImplementation(() => 'TOKEN');
 const getPlacePredictions = jest.fn().mockResolvedValue({ predictions });
 const service = jest.fn().mockImplementation(() => ({ getPlacePredictions }));
-const load = jest.fn().mockResolvedValue({
-  maps: {
-    places: {
-      AutocompleteService: service,
-      AutocompleteSessionToken: generateToken,
-    },
-  },
+const importLibrary = jest.fn().mockResolvedValue({
+  AutocompleteService: service,
+  AutocompleteSessionToken: generateToken,
 });
 
 let wrapper: RenderResult;
 
 beforeEach(async () => {
   getPlacePredictions.mockClear();
-  load.mockClear();
-  (Loader as unknown as jest.Mock).mockImplementation(() => ({ load }));
+  importLibrary.mockClear();
+  (Loader as unknown as jest.Mock).mockImplementation(() => ({
+    importLibrary,
+  }));
   wrapper = render(
     <Provider>
       <Consumer />
     </Provider>,
   );
-  await waitFor(() => expect(load).toHaveBeenCalledTimes(1));
+  await waitFor(() => expect(importLibrary).toHaveBeenCalledTimes(1));
   await waitFor(() => expect(wrapper.getByTestId('get')).toBeInTheDocument());
   fireEvent.click(wrapper.getByTestId('get'));
   await waitFor(() => expect(getPlacePredictions).toHaveBeenCalledTimes(1));

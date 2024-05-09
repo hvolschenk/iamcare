@@ -13,25 +13,28 @@ interface GooglePlacesProviderProps {
 const GooglePlacesProvider: React.FC<GooglePlacesProviderProps> = ({
   children,
 }) => {
-  const [googleJS, setGoogleJS] = React.useState<typeof google | null>(null);
+  const [googlePlaces, setGooglePlaces] =
+    React.useState<google.maps.PlacesLibrary | null>(null);
 
   React.useEffect(() => {
     const loader = new Loader({
       apiKey: configuration.google.places.apiKey(),
       libraries: ['places'],
+      nonce: configuration.google.places.nonce(),
       version: 'quarterly',
     });
-    loader.load().then((google) => {
-      setGoogleJS(google);
+
+    loader.importLibrary('places').then((google) => {
+      setGooglePlaces(google);
     });
   }, []);
 
   const autocomplete: GooglePlacesProviderValues['autocomplete'] =
     React.useCallback(
       (query, sessionToken) => {
-        // We can assume that `googleJS` exists at this time.
+        // We can assume that `googlePlaces` exists at this time.
         // The provider value is only passed down to the children (consumers) after is exists.
-        const service = new googleJS!.maps.places.AutocompleteService();
+        const service = new googlePlaces!.AutocompleteService();
         return service.getPlacePredictions({
           componentRestrictions: {
             country: configuration.google.places.countryCode(),
@@ -41,15 +44,15 @@ const GooglePlacesProvider: React.FC<GooglePlacesProviderProps> = ({
           types: ['sublocality'],
         });
       },
-      [googleJS],
+      [googlePlaces],
     );
 
   const generateAutocompleteSessionToken: GooglePlacesProviderValues['generateAutocompleteSessionToken'] =
     React.useCallback(
-      // We can assume that `googleJS` exists at this time.
+      // We can assume that `googlePlaces` exists at this time.
       // The provider value is only passed down to the children (consumers) after is exists.
-      () => new googleJS!.maps.places.AutocompleteSessionToken(),
-      [googleJS],
+      () => new googlePlaces!.AutocompleteSessionToken(),
+      [googlePlaces],
     );
 
   const providerValue: GooglePlacesProviderValues = React.useMemo(
@@ -60,7 +63,7 @@ const GooglePlacesProvider: React.FC<GooglePlacesProviderProps> = ({
     [autocomplete, generateAutocompleteSessionToken],
   );
 
-  if (googleJS === null) {
+  if (googlePlaces === null) {
     return null;
   }
 

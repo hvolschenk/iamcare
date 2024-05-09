@@ -69,6 +69,8 @@ services:
             - node_modules/
           path: ./client
           target: /home/node/application/app
+        - action: rebuild
+          path: ./client/.proxyrc.js
     environment:
       - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
       - API_URL=${API_URL:-http://localhost:9222}
@@ -78,6 +80,7 @@ services:
       - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
       - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
       - GOOGLE_PLACES_COUNTRY_CODE=${GOOGLE_PLACES_COUNTRY_CODE}
+      - GOOGLE_PLACES_NONCE=${GOOGLE_PLACES_NONCE:-4d405690-1991-4dea-9e30-8859a65fc394}
       - HAS_COOKIES_BANNER=${CLIENT_HAS_COOKIES_BANNER:-true}
       - PORT=3000
       - QUERY_DEVTOOLS_VISIBLE=${CLIENT_QUERY_DEVTOOLS_VISIBLE:-false}

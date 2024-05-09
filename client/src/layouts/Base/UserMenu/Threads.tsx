@@ -10,7 +10,7 @@ import { threads as threadsURL } from '~/src/urls';
 
 const Threads: React.FC = () => {
   const { data, status } = useQuery({
-    queryFn: () => unreadThreadsCount(),
+    queryFn: unreadThreadsCount,
     queryKey: ['threads', 'unread'],
   });
 

@@ -14,8 +14,10 @@ const Profile: React.FC<ProfileProps> = ({ user }) => (
     alt={user.name}
     component={Link}
     data-testid="authentication__user-menu__avatar"
-    imgProps={{
-      referrerPolicy: 'no-referrer',
+    slotProps={{
+      img: {
+        referrerPolicy: 'no-referrer',
+      },
     }}
     src={user.avatar}
     to={userURL(user.id.toString())}

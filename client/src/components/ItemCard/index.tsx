@@ -41,8 +41,10 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
           avatar={
             <Avatar
               alt={item.user.name}
-              imgProps={{
-                referrerPolicy: 'no-referrer',
+              slotProps={{
+                img: {
+                  referrerPolicy: 'no-referrer',
+                },
               }}
               src={item.user.avatar}
             />

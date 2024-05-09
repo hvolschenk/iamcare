@@ -180,6 +180,7 @@ const en: L10n = {
   userLogoutDescription:
     'Log out of {applicationName}. You will still be logged in to your social account you used to login into {applicationName}',
   userLogoutError: 'There was an error logging you out. Please try again',
+  userProfile: 'Profile',
   userThreads: 'Threads',
   userThreadsDescription:
     'Threads are conversations with other users about an item you/they are giving away',
