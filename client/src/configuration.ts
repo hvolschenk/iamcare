@@ -19,6 +19,7 @@ interface Configuration {
     places: {
       apiKey(): string;
       countryCode(): string;
+      nonce(): string;
     };
   };
   query: {
@@ -47,6 +48,7 @@ const configuration: Configuration = {
     places: {
       apiKey: () => process.env.GOOGLE_PLACES_API_KEY,
       countryCode: () => process.env.GOOGLE_PLACES_COUNTRY_CODE,
+      nonce: () => process.env.GOOGLE_PLACES_NONCE,
     },
   },
   query: {

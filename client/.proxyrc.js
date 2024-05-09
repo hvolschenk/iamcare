@@ -29,6 +29,7 @@ module.exports = function (app) {
           // and provides no alternative.
           "'unsafe-inline'",
           `nonce-${process.env.GOOGLE_ANALYTICS_NONCE}`,
+          `nonce-${process.env.GOOGLE_PLACES_NONCE}`,
           'https://accounts.google.com',
           'https://maps.googleapis.com',
           'https://www.googletagmanager.com',

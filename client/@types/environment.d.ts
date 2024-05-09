@@ -8,6 +8,7 @@ declare global {
       GOOGLE_OAUTH_CLIENT_ID: string;
       GOOGLE_PLACES_API_KEY: string;
       GOOGLE_PLACES_COUNTRY_CODE: string;
+      GOOGLE_PLACES_NONCE: string;
       HAS_COOKIES_BANNER: 'false' | 'true';
       NODE_ENV: 'development' | 'production';
       PWD: string;
