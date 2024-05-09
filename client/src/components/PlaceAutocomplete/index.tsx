@@ -70,7 +70,12 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
         terms: [],
         types: [],
       };
-      setOptions((currentOptions) => [prediction, ...currentOptions]);
+      setOptions((currentOptions) => [
+        ...currentOptions.filter(
+          (currentOption) => currentOption.place_id !== prediction.place_id,
+        ),
+        prediction,
+      ]);
       setSelectedValue(prediction);
     }
   }, [data, setOptions, setSelectedValue, status]);
@@ -86,7 +91,12 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
     },
     onSuccess: (response) => {
       if (selectedValue) {
-        setOptions([...response.predictions, selectedValue]);
+        setOptions([
+          ...response.predictions.filter(
+            (prediction) => prediction.place_id !== selectedValue.place_id,
+          ),
+          selectedValue,
+        ]);
       } else {
         setOptions(response.predictions);
       }
