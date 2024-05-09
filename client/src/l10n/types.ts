@@ -153,6 +153,7 @@ export interface L10n {
   userLogout: string;
   userLogoutDescription: string;
   userLogoutError: string;
+  userProfile: string;
   userThreads: string;
   userThreadsDescription: string;
 }

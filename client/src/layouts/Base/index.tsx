@@ -11,6 +11,8 @@ import { Outlet } from 'react-router-dom';
 import { useSearch } from '~/src/providers/Search';
 
 import ApplicationName from './ApplicationName';
+import Footer from './Footer';
+import MobileMenu from './MobileMenu';
 import UserMenu from './UserMenu';
 
 interface BaseProps {
@@ -21,7 +23,13 @@ const Base: React.FC<BaseProps> = ({ containerWidth = 'lg' }) => {
   const { searchDialogOpen } = useSearch();
 
   return (
-    <Box sx={{ paddingBottom: { md: 0, xs: 7 } }}>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        paddingBottom: 7,
+        position: 'relative',
+      }}
+    >
       <AppBar>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -49,6 +57,9 @@ const Base: React.FC<BaseProps> = ({ containerWidth = 'lg' }) => {
           <Outlet />
         </Box>
       </Container>
+
+      <Footer />
+      <MobileMenu />
     </Box>
   );
 };
