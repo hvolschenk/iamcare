@@ -16,6 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import logout from '~/src/api/user/logout';
 import PageTitle from '~/src/components/PageTitle';
+import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useNotifications } from '~/src/providers/Notifications';
@@ -28,6 +29,8 @@ const Profile: React.FC = () => {
   const navigate = useNavigate();
   const { notify } = useNotifications();
   const { user } = useUser();
+
+  useDocumentTitle([user.name]);
 
   const isLoggedInUser = React.useMemo(
     () => loggedInUser?.id === user.id,

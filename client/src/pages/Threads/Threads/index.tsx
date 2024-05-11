@@ -11,6 +11,7 @@ import React from 'react';
 
 import threads from '~/src/api/threads/all';
 import PageTitle from '~/src/components/PageTitle';
+import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { root } from '~/src/urls';
 
@@ -18,6 +19,8 @@ import List from './List';
 
 const Threads: React.FC = () => {
   const [page, setPage] = React.useState<number>(1);
+
+  useDocumentTitle([l10n.threads]);
 
   const { data, isFetching, refetch, status } = useQuery({
     queryFn: () => threads(page),

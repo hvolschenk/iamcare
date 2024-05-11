@@ -49,11 +49,12 @@ describe('When the API call fails', () => {
     (itemsSearch as jest.Mock)
       .mockClear()
       .mockRejectedValue(new Error('Failed to fetch'));
+    const query = faker.word.sample();
     wrapper = render(
       <Routes>
         <Route element={<Search />} path={itemsSearchURL()} />
       </Routes>,
-      { router: { initialEntries: [itemsSearchURL()] } },
+      { router: { initialEntries: [itemsSearchURL({ query })] } },
     );
     // This runs twice, initially. The filters take a second to update from URL
     await waitFor(() => expect(itemsSearch).toHaveBeenCalledTimes(2));
@@ -262,7 +263,7 @@ describe('When the API call fails', () => {
             .mockResolvedValue({ data: itemsCollectionFiltered, status: 200 });
 
           fireEvent.change(wrapper.getByTestId('search__filters--query'), {
-            target: { value: faker.word.sample() },
+            target: { value: '' },
           });
 
           fireEvent.click(wrapper.getByTestId('search__filters__summary'));
