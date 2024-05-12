@@ -7,6 +7,7 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import itemGet from '~/src/api/items/get';
 import PageTitle from '~/src/components/PageTitle';
+import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import {
@@ -29,6 +30,18 @@ const UserItem: React.FC = () => {
     queryFn: () => itemGet({ id: parseInt(itemID, 10) }),
     queryKey: ['item', itemID],
   });
+
+  const documentTitle = React.useMemo<string[]>(() => {
+    if (status === 'error') {
+      return [l10n.userItemDocumentTitleError, l10n.items, user.name];
+    }
+    if (status === 'pending') {
+      return [];
+    }
+    return [data.data.name, l10n.items, user.name];
+  }, [data, status, user]);
+
+  useDocumentTitle(documentTitle);
 
   if (status === 'error') {
     return (

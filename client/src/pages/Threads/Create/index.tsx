@@ -10,12 +10,15 @@ import { useParams } from 'react-router-dom';
 import itemGet from '~/src/api/items/get';
 import Item from '~/src/components/Item';
 import PageTitle from '~/src/components/PageTitle';
+import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { ThreadCreateParams, item, root } from '~/src/urls';
 
 import Form from './Form';
 
 const ThreadCreate: React.FC = () => {
+  useDocumentTitle([l10n.threadCreate]);
+
   const { itemID } = useParams<ThreadCreateParams>() as ThreadCreateParams;
   const { data, refetch, status } = useQuery({
     queryFn: () => itemGet({ id: parseInt(itemID, 10) }),

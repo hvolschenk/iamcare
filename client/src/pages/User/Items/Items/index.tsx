@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import PageTitle from '~/src/components/PageTitle';
+import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { root, user as userURL, userItemsCreate } from '~/src/urls';
@@ -14,6 +15,8 @@ import { useUser } from '../../context';
 const UserItemsList: React.FC = () => {
   const { user: loggedInUser } = useAuthentication();
   const { user } = useUser();
+
+  useDocumentTitle([l10n.items, user.name]);
 
   return (
     <React.Fragment>

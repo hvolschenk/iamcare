@@ -43,6 +43,7 @@ export interface L10n {
   itemDeleteTitle: string;
   itemDescriptionHelperText: string;
   itemDescriptionLabel: string;
+  itemDocumentTitleError: string;
   itemErrorLoading: string;
   itemFormErrorCreating: string;
   itemFormErrorLoading: string;
@@ -112,6 +113,10 @@ export interface L10n {
   itemUpdateErrorLoading: string;
   itemUpdatePageTitle: string;
   search: string;
+  searchDocumentTitleLocation: string;
+  searchDocumentTitlePage: string;
+  searchDocumentTitleQuery: string;
+  searchDocumentTitleTag: string;
   searchErrorLoading: string;
   searchErrorNoResults: string;
   searchFieldClear: string;
@@ -134,6 +139,8 @@ export interface L10n {
   threadCreateFieldMessageHelperText: string;
   threadCreateFieldMessageLabel: string;
   threadCreateSuccess: string;
+  threadDocumentTitleError: string;
+  threadDocumentTitleUser: string;
   threadErrorLoading: string;
   threadReplyError: string;
   threadReplyFieldMessageErrorRequired: string;
@@ -143,6 +150,7 @@ export interface L10n {
   threadsErrorLoading: string;
   threadsErrorNoItems: string;
   userErrorLoading: string;
+  userItemDocumentTitleError: string;
   userItemsCreateNew: string;
   userItemsErrorLoading: string;
   userItemsErrorNoItems: string;

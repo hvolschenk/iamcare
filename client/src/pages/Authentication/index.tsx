@@ -7,6 +7,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import PageTitle from '~/src/components/PageTitle';
+import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { User } from '~/src/types/User';
@@ -25,6 +26,8 @@ const authenticationProviders: Record<
 const Authentication: React.FC = () => {
   const [error, setError] = React.useState<string>('');
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+
+  useDocumentTitle([l10n.authentication]);
 
   const { setUser } = useAuthentication();
   const location = useLocation();

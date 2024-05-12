@@ -53,6 +53,7 @@ const en: L10n = {
   itemDescriptionHelperText:
     'A full description of your item. Please include as much information as possible. Please do not give away any personal information.',
   itemDescriptionLabel: 'Description',
+  itemDocumentTitleError: 'Could not load item',
   itemErrorLoading: 'The item failed to load. Please try again',
   itemFormErrorCreating: 'There was an error creating the item',
   itemFormErrorLoading:
@@ -130,6 +131,10 @@ const en: L10n = {
   itemUpdateErrorLoading: 'Failed to load the item, please try again',
   itemUpdatePageTitle: 'Update item',
   search: 'Search',
+  searchDocumentTitleLocation: 'Items by location',
+  searchDocumentTitlePage: 'Page {page}',
+  searchDocumentTitleQuery: 'Search results for "{query}"',
+  searchDocumentTitleTag: 'Items by tag',
   searchErrorLoading: 'Failed to load search results, please try again',
   searchErrorNoResults:
     'No results found, please try a different term or filters',
@@ -158,6 +163,8 @@ const en: L10n = {
     'The message asking for information about this item',
   threadCreateFieldMessageLabel: 'Message',
   threadCreateSuccess: 'The thread has been created successfully',
+  threadDocumentTitleError: 'Could not load thread',
+  threadDocumentTitleUser: 'A thread with {user}',
   threadErrorLoading: 'Failed to fetch the thread. Please try again',
   threadReplyError: 'Failed to reply. Please try again',
   threadReplyFieldMessageErrorRequired:
@@ -169,6 +176,7 @@ const en: L10n = {
   threadsErrorNoItems:
     'No threads. Find an item you like and start a thread about it',
   userErrorLoading: 'User profile failed to load. Please try again',
+  userItemDocumentTitleError: 'Could not load item',
   userItemsCreateNew: 'Create item',
   userItemsErrorLoading: "Failed to load the user's items. Please try again",
   userItemsErrorNoItems: 'This user has not created any items',

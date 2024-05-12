@@ -11,13 +11,13 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ meta }) => {
-  const { page, search } = useSearch();
+  const { filters, query, page, search } = useSearch();
 
   const onPageChange = React.useCallback(
     (event: React.ChangeEvent<unknown>, newPage: number) => {
-      search({ page: newPage });
+      search({ filters, page: newPage, query });
     },
-    [search],
+    [filters, query, search],
   );
 
   return (
