@@ -1,4 +1,4 @@
-import { useGoogleLogin } from '@react-oauth/google';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -47,7 +47,17 @@ describe('With a redirect URL', () => {
 
     describe('When an error occurs', () => {
       beforeEach(() => {
-        act((useGoogleLogin as jest.Mock).mock.calls[0][0].onError);
+        const error: Pick<
+          TokenResponse,
+          'error' | 'error_description' | 'error_uri'
+        > = {
+          error: 'invalid_request',
+          error_description: 'The request is invalid',
+          error_uri: 'http://error.com',
+        };
+        act(() =>
+          (useGoogleLogin as jest.Mock).mock.calls[0][0].onError(error),
+        );
       });
 
       test('Shows the error', () => {
@@ -59,7 +69,11 @@ describe('With a redirect URL', () => {
 
     describe('When a non-oauth error occurs', () => {
       beforeEach(() => {
-        act((useGoogleLogin as jest.Mock).mock.calls[0][0].onNonOAuthError);
+        act(() =>
+          (useGoogleLogin as jest.Mock).mock.calls[0][0].onNonOAuthError({
+            type: 'popup_closed',
+          }),
+        );
       });
 
       test('Shows the error', () => {

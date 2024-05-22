@@ -9,7 +9,7 @@ import authenticateGoogle from '~/src/api/user/authenticateGoogle';
 import GoogleG from '~/src/images/GoogleG';
 import l10n from '~/src/l10n';
 
-import { AuthenticationProviderProps } from '../types';
+import { AuthenticationProviderProps, AuthenticationProviders } from '../types';
 
 const Google: React.FC<AuthenticationProviderProps> = ({
   isSubmitting,
@@ -39,7 +39,7 @@ const Google: React.FC<AuthenticationProviderProps> = ({
         const { data: user } = await queryGoogleLogin.mutateAsync(
           tokenResponse.access_token,
         );
-        onSuccess(user);
+        onSuccess(user, AuthenticationProviders.GOOGLE);
       } catch (error) {
         onError(l10n.authenticateGoogleErrorLoginFailed);
       }
