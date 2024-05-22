@@ -9,6 +9,7 @@ import * as yup from 'yup';
 
 import threadReply from '~/src/api/threads/reply';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
 
 import { useThread } from './context';
@@ -20,6 +21,7 @@ interface FormValues {
 const ReplyForm: React.FC = () => {
   const initialValues = React.useMemo<FormValues>(() => ({ message: '' }), []);
 
+  const { trackCustomEvent } = useGoogleAnalytics();
   const { notify } = useNotifications();
   const { thread, setThread } = useThread();
 
@@ -28,6 +30,10 @@ const ReplyForm: React.FC = () => {
       formikBag.setSubmitting(true);
       try {
         const { data: updatedThread } = await threadReply(thread.id, values);
+        trackCustomEvent(
+          { action: 'reply_to_thread', category: 'threads' },
+          { threadID: thread.id },
+        );
         setThread(updatedThread);
         notify({ message: l10n.threadReplySuccess });
         formikBag.resetForm();
@@ -37,7 +43,7 @@ const ReplyForm: React.FC = () => {
         formikBag.setSubmitting(false);
       }
     },
-    [notify, setThread, thread],
+    [notify, setThread, thread, trackCustomEvent],
   );
 
   const validationSchema = yup.object<FormValues>({

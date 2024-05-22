@@ -9,6 +9,7 @@ import Item from '~/src/components/Item';
 import PageTitle from '~/src/components/PageTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { Message as ThreadMessage } from '~/src/types/Thread';
 import { User } from '~/src/types/User';
 import { threads, root } from '~/src/urls';
@@ -20,6 +21,7 @@ import ReplyForm from './ReplyForm';
 
 const Thread: React.FC = () => {
   const { user } = useAuthentication();
+  const { trackCustomEvent } = useGoogleAnalytics();
   const queryClient = useQueryClient();
   const { thread } = useThread();
 
@@ -30,6 +32,10 @@ const Thread: React.FC = () => {
       queryClient.invalidateQueries({
         queryKey: ['threads'],
       });
+      trackCustomEvent(
+        { action: 'read_thread', category: 'threads' },
+        { threadID: thread.id },
+      );
     },
   });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { ItemsSearchOptions, itemsSearch } from '~/src/urls';
 
 import SearchContext from './context';
@@ -18,6 +19,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [page, setPage] = React.useState<number>(1);
   const [query, setQuery] = React.useState<string | undefined>(undefined);
 
+  const { trackSearch } = useGoogleAnalytics();
   const navigate = useNavigate();
   const [urlSearchParams] = useSearchParams();
 
@@ -62,6 +64,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
 
   const search: Search['search'] = React.useCallback(
     (options) => {
+      trackSearch({ filters: options.filters, query: options.query });
       const itemsSearchOptions: ItemsSearchOptions = {};
       if (options.page) {
         itemsSearchOptions.page = options.page;

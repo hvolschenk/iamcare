@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import parseErrors from '~/src/api/helpers/parseErrors';
 import threadCreate from '~/src/api/threads/create';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
 import { APIValidationError } from '~/src/types/APIValidationError';
 import { Item } from '~/src/types/Item';
@@ -23,6 +24,7 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ item }) => {
+  const { trackCustomEvent } = useGoogleAnalytics();
   const navigate = useNavigate();
   const { notify } = useNotifications();
 
@@ -33,6 +35,10 @@ const Form: React.FC<FormProps> = ({ item }) => {
       formikBag.setSubmitting(true);
       try {
         await threadCreate({ item: item.id, message: formValues.message });
+        trackCustomEvent(
+          { action: 'create_thread', category: 'threads' },
+          { itemID: item.id },
+        );
         notify({ message: l10n.threadCreateSuccess });
         navigate(threads());
       } catch (error) {
@@ -55,7 +61,7 @@ const Form: React.FC<FormProps> = ({ item }) => {
         formikBag.setSubmitting(false);
       }
     },
-    [navigate, notify],
+    [navigate, notify, trackCustomEvent],
   );
 
   const validationSchema = yup.object({

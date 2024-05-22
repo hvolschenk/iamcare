@@ -9,6 +9,7 @@ import itemsSearch from '~/src/api/items/search';
 import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
 import { root } from '~/src/urls';
 
@@ -17,6 +18,7 @@ import Pagination from './Pagination';
 import Results from './Results';
 
 const Search: React.FC = () => {
+  const { trackViewItemList } = useGoogleAnalytics();
   const { filters, page, query } = useSearch();
 
   const { data, refetch, status } = useQuery({
@@ -54,6 +56,16 @@ const Search: React.FC = () => {
   }, [filters, page, query]);
 
   useDocumentTitle(documentTitle);
+
+  React.useEffect(() => {
+    if (status === 'success') {
+      trackViewItemList({
+        items: data.data.data,
+        listIdentifier: 'search',
+        listName: 'Search',
+      });
+    }
+  }, [data, status, trackViewItemList]);
 
   return (
     <React.Fragment>

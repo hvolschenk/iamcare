@@ -10,8 +10,9 @@ import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
 import { getTagLabel } from '~/src/shared/tags';
 import { Item } from '~/src/types/Item';
@@ -23,20 +24,28 @@ interface ItemCardProps {
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
+  const { trackSelectContent, trackSelectItem } = useGoogleAnalytics();
+  const navigate = useNavigate();
   const { search } = useSearch();
   const theme = useTheme();
 
   const onGoToTag = React.useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>, tag: Tag) => {
-      event.preventDefault();
+      event.stopPropagation();
       search({ filters: { tagIDs: [tag.id] } });
+      trackSelectContent({ identifier: tag.id, type: 'tag' });
     },
-    [search],
+    [search, trackSelectContent],
   );
+
+  const onGoToItem = React.useCallback(() => {
+    trackSelectItem({ item });
+    navigate(itemURL(item.id.toString()));
+  }, [item, navigate, trackSelectItem]);
 
   return (
     <Card data-testid="search-item">
-      <CardActionArea component={Link} to={itemURL(item.id.toString())}>
+      <CardActionArea data-testid="search-item__link" onClick={onGoToItem}>
         <CardHeader
           avatar={
             <Avatar

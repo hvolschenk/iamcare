@@ -21,7 +21,7 @@ import {
 } from '~/src/testing/mocks';
 import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
 import { Item } from '~/src/types/Item';
-import { itemsSearch as itemsSearchURL } from '~/src/urls';
+import { item as itemURL, itemsSearch as itemsSearchURL } from '~/src/urls';
 
 import Search from './index';
 
@@ -53,6 +53,7 @@ describe('When the API call fails', () => {
     wrapper = render(
       <Routes>
         <Route element={<Search />} path={itemsSearchURL()} />
+        <Route element={<div data-testid="item" />} path={itemURL()} />
       </Routes>,
       { router: { initialEntries: [itemsSearchURL({ query })] } },
     );
@@ -329,6 +330,16 @@ describe('When the API call fails', () => {
               items.length,
             );
           });
+        });
+      });
+
+      describe('Clicking on an item', () => {
+        beforeEach(() => {
+          fireEvent.click(wrapper.getAllByTestId('search-item__link')[0]);
+        });
+
+        test('Directs to the item page', () => {
+          expect(wrapper.queryByTestId('item')).toBeInTheDocument();
         });
       });
     });

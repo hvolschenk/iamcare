@@ -15,10 +15,12 @@ import React from 'react';
 
 import locationsPopular from '~/src/api/locations/popular';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
 import { LocationBasic } from '~/src/types/LocationBasic';
 
 const Locations: React.FC = () => {
+  const { trackSelectContent } = useGoogleAnalytics();
   const { search } = useSearch();
 
   const { data, refetch, status } = useQuery({
@@ -28,11 +30,15 @@ const Locations: React.FC = () => {
 
   const onLocationClick = React.useCallback(
     (location: LocationBasic) => {
+      trackSelectContent({
+        identifier: location.googlePlaceID,
+        type: 'location',
+      });
       search({
         filters: { distance: 25, googlePlaceID: location.googlePlaceID },
       });
     },
-    [search],
+    [search, trackSelectContent],
   );
 
   return (

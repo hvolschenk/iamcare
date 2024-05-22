@@ -8,6 +8,7 @@ import csrfToken from '~/src/api/authenticate/csrfToken';
 import authenticateGoogle from '~/src/api/user/authenticateGoogle';
 import GoogleG from '~/src/images/GoogleG';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 
 import { AuthenticationProviderProps, AuthenticationProviders } from '../types';
 
@@ -17,6 +18,8 @@ const Google: React.FC<AuthenticationProviderProps> = ({
   onStart,
   onSuccess,
 }) => {
+  const { trackException } = useGoogleAnalytics();
+
   const queryCSRFToken = useMutation({
     mutationFn: csrfToken,
     mutationKey: ['csrf'],
@@ -27,10 +30,18 @@ const Google: React.FC<AuthenticationProviderProps> = ({
   });
 
   const googleLogin = useGoogleLogin({
-    onError: () => {
+    onError: (error) => {
+      trackException({
+        description: `Google login error: ${error.error}: ${error.error_description}`,
+        fatal: false,
+      });
       onError(l10n.authenticateGoogleErrorLoginFailed);
     },
-    onNonOAuthError: () => {
+    onNonOAuthError: (error) => {
+      trackException({
+        description: `Google login error: ${error.type}`,
+        fatal: false,
+      });
       onError(l10n.authenticateGoogleErrorLoginFailed);
     },
     onSuccess: async (tokenResponse) => {
