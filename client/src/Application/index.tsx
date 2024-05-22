@@ -14,8 +14,8 @@ import Bootstrap from './Bootstrap';
 import Router from './Router';
 
 const Application: React.FC = () => (
-  <QueryClientProvider>
-    <GoogleAnalyticsProvider>
+  <GoogleAnalyticsProvider>
+    <QueryClientProvider>
       <ThemeProvider>
         <AuthenticationProvider>
           <CookiesProvider>
@@ -33,8 +33,8 @@ const Application: React.FC = () => (
           </CookiesProvider>
         </AuthenticationProvider>
       </ThemeProvider>
-    </GoogleAnalyticsProvider>
-  </QueryClientProvider>
+    </QueryClientProvider>
+  </GoogleAnalyticsProvider>
 );
 
 export default Application;
