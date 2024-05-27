@@ -16,6 +16,7 @@ import React from 'react';
 import tagsPopular from '~/src/api/tag/popular';
 import l10n from '~/src/l10n';
 import { L10n } from '~/src/l10n/types';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
 import { Tag } from '~/src/types/Tag';
 
@@ -26,6 +27,7 @@ const getTagLabel = (tag: Tag): string => {
 };
 
 const Tags: React.FC = () => {
+  const { trackSelectContent } = useGoogleAnalytics();
   const { search } = useSearch();
 
   const { data, refetch, status } = useQuery({
@@ -35,11 +37,12 @@ const Tags: React.FC = () => {
 
   const onTagClick = React.useCallback(
     (tag: Tag) => {
+      trackSelectContent({ identifier: tag.id, type: 'tag' });
       search({
         filters: { tagIDs: [tag.id] },
       });
     },
-    [search],
+    [search, trackSelectContent],
   );
 
   return (

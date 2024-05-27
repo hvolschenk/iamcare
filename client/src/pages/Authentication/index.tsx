@@ -10,7 +10,7 @@ import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { User } from '~/src/types/User';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { root } from '~/src/urls';
 
 import Google from './Providers/Google';
@@ -30,6 +30,7 @@ const Authentication: React.FC = () => {
   useDocumentTitle([l10n.authentication]);
 
   const { setUser } = useAuthentication();
+  const { set, trackLogin } = useGoogleAnalytics();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,12 +53,17 @@ const Authentication: React.FC = () => {
     navigate(redirectURI || root());
   }, [location, navigate]);
 
-  const onSuccess = React.useCallback(
-    (user: User) => {
+  const onSuccess: AuthenticationProviderProps['onSuccess'] = React.useCallback(
+    (user, provider) => {
+      const methods: Record<AuthenticationProviders, string> = {
+        [AuthenticationProviders.GOOGLE]: 'Google',
+      };
       setUser(user);
+      set({ userId: user.id });
+      trackLogin({ method: methods[provider] });
       onSuccessRedirect();
     },
-    [onSuccessRedirect, setUser],
+    [onSuccessRedirect, set, setUser, trackLogin],
   );
 
   return (

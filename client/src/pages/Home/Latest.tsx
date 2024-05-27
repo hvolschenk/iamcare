@@ -9,8 +9,11 @@ import React from 'react';
 import itemsSearch from '~/src/api/items/search';
 import ItemCard from '~/src/components/ItemCard';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 
 const Latest: React.FC = () => {
+  const { trackViewItemList } = useGoogleAnalytics();
+
   const { data, refetch, status } = useQuery({
     queryFn: () =>
       itemsSearch({
@@ -19,6 +22,16 @@ const Latest: React.FC = () => {
       }),
     queryKey: ['items', 'search', { orderBy: 'latest', page: 1 }],
   });
+
+  React.useEffect(() => {
+    if (status === 'success') {
+      trackViewItemList({
+        items: data.data.data,
+        listIdentifier: 'latest',
+        listName: 'Latest',
+      });
+    }
+  }, [data, status, trackViewItemList]);
 
   return (
     <React.Fragment>

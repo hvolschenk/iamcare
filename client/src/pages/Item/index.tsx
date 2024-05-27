@@ -9,12 +9,15 @@ import itemGet from '~/src/api/items/get';
 import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { ItemParams, root } from '~/src/urls';
 
 import Item from './Item';
 
 const ItemRoot: React.FC = () => {
   const { itemID } = useParams<ItemParams>() as ItemParams;
+
+  const { trackViewItem } = useGoogleAnalytics();
 
   const { data, refetch, status } = useQuery({
     queryFn: () => itemGet({ id: parseInt(itemID, 10) }),
@@ -32,6 +35,12 @@ const ItemRoot: React.FC = () => {
   }, [data, status]);
 
   useDocumentTitle(documentTitle);
+
+  React.useEffect(() => {
+    if (status === 'success') {
+      trackViewItem({ item: data.data });
+    }
+  }, [data, status, trackViewItem]);
 
   if (status === 'error') {
     return (

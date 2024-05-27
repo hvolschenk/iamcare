@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 import configuration from '~/src/configuration';
 import { useCookies } from '~/src/providers/Cookies';
@@ -10,7 +11,8 @@ interface BootstrapProps {
 
 const Bootstrap: React.FC<BootstrapProps> = ({ children }) => {
   const { areCookiesAccepted } = useCookies();
-  const { initialize } = useGoogleAnalytics();
+  const { initialize, set, trackPageView } = useGoogleAnalytics();
+  const location = useLocation();
 
   React.useEffect(() => {
     const analyticsDisableKey: string = `ga-disable-${configuration.google.analytics.measurementID()}`;
@@ -23,6 +25,12 @@ const Bootstrap: React.FC<BootstrapProps> = ({ children }) => {
       window[analyticsDisableKey] = true;
     }
   }, [areCookiesAccepted, initialize]);
+
+  React.useEffect(() => {
+    const page = `${location.pathname}${location.search}`;
+    set({ page });
+    trackPageView({ page });
+  }, [location, set, trackPageView]);
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment

@@ -9,6 +9,7 @@ import React from 'react';
 import authenticateMe from '~/src/api/user/me';
 import configuration from '~/src/configuration';
 import l10n from '~/src/l10n';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { User } from '~/src/types/User';
 
 import AuthenticationContext from './context';
@@ -24,6 +25,8 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
   value,
 }) => {
   const [user, setUser] = React.useState<User | undefined>(value);
+  const { set } = useGoogleAnalytics();
+
   const providerValue = React.useMemo<AuthenticationProviderValues>(
     () => ({ setUser, user }),
     [setUser, user],
@@ -38,8 +41,9 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
   React.useEffect(() => {
     if (status === 'success') {
       setUser(data.data || undefined);
+      set({ userId: data.data?.id || null });
     }
-  }, [data, setUser, status]);
+  }, [data, set, setUser, status]);
 
   if (status === 'error') {
     return (

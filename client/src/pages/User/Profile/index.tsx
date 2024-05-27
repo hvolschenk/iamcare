@@ -19,6 +19,7 @@ import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
 import { root, threads, userItems } from '~/src/urls';
 
@@ -26,6 +27,7 @@ import { useUser } from '../context';
 
 const Profile: React.FC = () => {
   const { setUser, user: loggedInUser } = useAuthentication();
+  const { set, trackCustomEvent } = useGoogleAnalytics();
   const navigate = useNavigate();
   const { notify } = useNotifications();
   const { user } = useUser();
@@ -42,9 +44,14 @@ const Profile: React.FC = () => {
   }, [notify]);
 
   const onLogoutSuccess = React.useCallback(() => {
+    trackCustomEvent(
+      { action: 'logout', category: 'users' },
+      { userID: user.id },
+    );
+    set({ userId: null });
     navigate(root());
     setUser(undefined);
-  }, [navigate, setUser]);
+  }, [navigate, set, setUser, trackCustomEvent]);
 
   const logoutMutation = useMutation({
     mutationFn: () => logout(),

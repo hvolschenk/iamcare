@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactGA from 'react-ga4';
+import { GA4 } from 'react-ga4/types/ga4';
 
 import { fireEvent, render, RenderResult } from '~/src/testing';
+import { item as itemMock, tag as tagMock } from '~/src/testing/mocks';
 
 import { Provider, useGoogleAnalytics } from './index';
 
@@ -10,7 +12,19 @@ jest.unmock('~/src/providers/GoogleAnalytics/Provider');
 jest.unmock('~/src/providers/GoogleAnalytics/useGoogleAnalytics');
 
 const TestComponent: React.FC = () => {
-  const { initialize, trackCustomEvent, trackPageView } = useGoogleAnalytics();
+  const {
+    initialize,
+    set,
+    trackCustomEvent,
+    trackException,
+    trackLogin,
+    trackPageView,
+    trackSearch,
+    trackSelectContent,
+    trackSelectItem,
+    trackViewItem,
+    trackViewItemList,
+  } = useGoogleAnalytics();
   return (
     <React.Fragment>
       <button
@@ -19,6 +33,29 @@ const TestComponent: React.FC = () => {
         type="button"
       >
         Initialize
+      </button>
+      <button
+        data-testid="set"
+        onClick={() => set({ key: 'value' })}
+        type="button"
+      >
+        Set
+      </button>
+      <button
+        data-testid="track-exception"
+        onClick={() =>
+          trackException({ description: 'exception', fatal: true })
+        }
+        type="button"
+      >
+        Track exception
+      </button>
+      <button
+        data-testid="track-login"
+        onClick={() => trackLogin({ method: 'Google' })}
+        type="button"
+      >
+        Track login
       </button>
       <button
         data-testid="track-custom-event"
@@ -36,6 +73,59 @@ const TestComponent: React.FC = () => {
       >
         Track page view
       </button>
+      <button
+        data-testid="track-search"
+        onClick={() => trackSearch({ query: 'query' })}
+        type="button"
+      >
+        Track search
+      </button>
+      <button
+        data-testid="track-search-empty"
+        onClick={() => trackSearch({})}
+        type="button"
+      >
+        Track search (empty)
+      </button>
+      <button
+        data-testid="track-select-content"
+        onClick={() =>
+          trackSelectContent({ identifier: 'identifier', type: 'tag' })
+        }
+        type="button"
+      >
+        Track select content
+      </button>
+      <button
+        data-testid="track-select-item"
+        onClick={() => trackSelectItem({ item: itemMock() })}
+        type="button"
+      >
+        Track select item
+      </button>
+      <button
+        data-testid="track-view-item"
+        onClick={() => trackViewItem({ item: itemMock() })}
+        type="button"
+      >
+        Track view item
+      </button>
+      <button
+        data-testid="track-view-item-list"
+        onClick={() =>
+          trackViewItemList({
+            items: [
+              itemMock({ tags: [] }),
+              itemMock({
+                tags: [tagMock(), tagMock(), tagMock(), tagMock(), tagMock()],
+              }),
+            ],
+          })
+        }
+        type="button"
+      >
+        Track view item list
+      </button>
     </React.Fragment>
   );
 };
@@ -50,35 +140,27 @@ beforeEach(() => {
   );
 });
 
-describe('initialize', () => {
+type TestCase = [name: string, selector: string, method: keyof GA4];
+describe.each<TestCase>([
+  ['initialize', 'initialize', 'initialize'],
+  ['set', 'set', 'set'],
+  ['trackCustomEvent', 'track-custom-event', 'event'],
+  ['trackException', 'track-exception', 'event'],
+  ['trackLogin', 'track-login', 'event'],
+  ['trackPageView', 'track-page-view', 'send'],
+  ['trackSearch', 'track-search', 'event'],
+  ['trackSearch (Empty)', 'track-search-empty', 'event'],
+  ['trackSelectContent', 'track-select-content', 'event'],
+  ['trackSelectItem', 'track-select-item', 'event'],
+  ['trackViewItem', 'track-view-item', 'event'],
+  ['trackViewItemList', 'track-view-item-list', 'event'],
+])('%s', (name, selector, method) => {
   beforeEach(() => {
-    (ReactGA.initialize as jest.Mock).mockClear();
-    fireEvent.click(wrapper.getByTestId('initialize'));
+    (ReactGA[method] as jest.Mock).mockClear();
+    fireEvent.click(wrapper.getByTestId(selector));
   });
 
-  test('Calls the initialize method', () => {
-    expect(ReactGA.initialize).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe('trackCustomEvent', () => {
-  beforeEach(() => {
-    (ReactGA.event as jest.Mock).mockClear();
-    fireEvent.click(wrapper.getByTestId('track-custom-event'));
-  });
-
-  test('Calls the event method', () => {
-    expect(ReactGA.event).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe('trackPageView', () => {
-  beforeEach(() => {
-    (ReactGA.send as jest.Mock).mockClear();
-    fireEvent.click(wrapper.getByTestId('track-page-view'));
-  });
-
-  test('Calls the send method', () => {
-    expect(ReactGA.send).toHaveBeenCalledTimes(1);
+  test(`Calls the ${method} method`, () => {
+    expect(ReactGA[method]).toHaveBeenCalledTimes(1);
   });
 });

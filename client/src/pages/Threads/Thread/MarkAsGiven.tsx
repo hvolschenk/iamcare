@@ -7,6 +7,7 @@ import React from 'react';
 import ItemMarkAsGivenDialog from '~/src/components/ItemMarkAsGivenDialog';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
+import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
 
 import { useThread } from './context';
@@ -16,6 +17,7 @@ const MarkAsGiven: React.FC = () => {
     React.useState<boolean>(false);
 
   const { user } = useAuthentication();
+  const { trackCustomEvent } = useGoogleAnalytics();
   const { notify } = useNotifications();
   const queryClient = useQueryClient();
   const { thread } = useThread();
@@ -33,6 +35,10 @@ const MarkAsGiven: React.FC = () => {
   }, [notify]);
 
   const onSuccess = React.useCallback(() => {
+    trackCustomEvent(
+      { action: 'mark_item_as_given', category: 'items' },
+      { itemID: thread.item.id, threadID: thread.id },
+    );
     queryClient.invalidateQueries({ queryKey: ['items', thread.item.id] });
     queryClient.invalidateQueries({ queryKey: ['threads', thread.id] });
     queryClient.invalidateQueries({
@@ -40,7 +46,7 @@ const MarkAsGiven: React.FC = () => {
     });
     notify({ message: l10n.itemMarkAsGivenSuccess });
     onClose();
-  }, [onClose, queryClient, thread]);
+  }, [onClose, queryClient, thread, trackCustomEvent]);
 
   if (user!.id !== thread.userGiver.id) {
     return null;

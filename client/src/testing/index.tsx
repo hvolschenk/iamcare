@@ -39,8 +39,8 @@ interface ProvidersProps {
 }
 
 const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
-  <QueryClientProvider queryClientConfig={queryClientConfig}>
-    <GoogleAnalyticsProvider>
+  <GoogleAnalyticsProvider>
+    <QueryClientProvider queryClientConfig={queryClientConfig}>
       <AuthenticationProvider
         value={options?.user === null ? undefined : options?.user || testUser}
       >
@@ -55,8 +55,8 @@ const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
           </GooglePlacesProvider>
         </ThemeProvider>
       </AuthenticationProvider>
-    </GoogleAnalyticsProvider>
-  </QueryClientProvider>
+    </QueryClientProvider>
+  </GoogleAnalyticsProvider>
 );
 
 const customRender = (ui: React.ReactElement, options?: Partial<Options>) =>

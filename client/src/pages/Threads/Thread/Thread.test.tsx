@@ -18,7 +18,7 @@ import {
   message as messageMock,
   thread as threadMock,
 } from '~/src/testing/mocks';
-import { thread as threadURL } from '~/src/urls';
+import { item as itemURL, thread as threadURL } from '~/src/urls';
 
 import Thread from './index';
 
@@ -39,6 +39,7 @@ describe('When the API call fails', () => {
     wrapper = render(
       <Routes>
         <Route element={<Thread />} path={threadURL()} />
+        <Route element={<div data-testid="item" />} path={itemURL()} />
       </Routes>,
       { router: { initialEntries: [threadURL(thread.id.toString())] } },
     );
@@ -218,6 +219,19 @@ describe('When the API call fails', () => {
             wrapper.queryByTestId('thread__reply__marked-as-given'),
           ).toBeInTheDocument();
         });
+      });
+    });
+
+    describe('Clicking the item', () => {
+      beforeEach(async () => {
+        fireEvent.click(wrapper.getByTestId('item__link'));
+        await waitFor(() =>
+          expect(wrapper.queryByTestId('item')).toBeInTheDocument(),
+        );
+      });
+
+      test('Navigates to the item page', () => {
+        expect(wrapper.queryByTestId('item')).toBeInTheDocument();
       });
     });
   });
