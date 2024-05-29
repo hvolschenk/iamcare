@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Mail\AccountCreated;
 use Exception;
 use App\Models\User as UserModel;
+use App\Services\GooglePlaces;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -309,6 +310,23 @@ class UserControllerTest extends TestCase
      */
     public function test_user_items()
     {
+        $this->mock(GooglePlaces::class, function ($mock) {
+            $googlePlace = [
+                'formatted_address' => str_replace("\n", ' ', $this->faker->address()),
+                'place_id' => (string)$this->faker->randomNumber(5),
+                'geometry' => [
+                    'location' => [
+                        'lat' => $this->faker->latitude(),
+                        'lng' => $this->faker->longitude(),
+                    ],
+                ],
+                'name' => $this->faker->city(),
+                'utc_offset' => (string)$this->faker->randomNumber(3, true),
+            ];
+            $mock
+                ->shouldReceive('placeDetails')
+                ->andReturn(['result' => $googlePlace]);
+        });
         $user = UserModel::inRandomOrder()->with(['items'])->first();
         $response = $this->getJson("/users/{$user->id}/items");
         $response->assertStatus(200);
