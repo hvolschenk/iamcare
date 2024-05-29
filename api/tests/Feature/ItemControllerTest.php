@@ -145,9 +145,14 @@ class ItemControllerTest extends TestCase
     public function test_mark_as_given()
     {
         $item = Item::inRandomOrder()->first();
+        $location = Location::find($item->location_id);
         $user = User::find($item->user_id);
         $this->actingAs($user);
-        $response = $this->postJson("/items/{$item->id}/mark-as-given");
+        $response = $this->postJson(
+            "/items/{$item->id}/mark-as-given",
+            [],
+            ['Accept-Language' => $location->language],
+        );
         $response->assertStatus(200);
         $this->assertDatabaseHas('items', [
             'id' => $item->id,
@@ -190,6 +195,23 @@ class ItemControllerTest extends TestCase
      */
     public function test_search_no_input()
     {
+        $this->mock(GooglePlaces::class, function ($mock) {
+            $googlePlace = [
+                'formatted_address' => str_replace("\n", ' ', $this->faker->address()),
+                'place_id' => (string)$this->faker->randomNumber(5),
+                'geometry' => [
+                    'location' => [
+                        'lat' => $this->faker->latitude(),
+                        'lng' => $this->faker->longitude(),
+                    ],
+                ],
+                'name' => $this->faker->city(),
+                'utc_offset' => (string)$this->faker->randomNumber(3, true),
+            ];
+            $mock
+                ->shouldReceive('placeDetails')
+                ->andReturn(['result' => $googlePlace]);
+        });
         $response = $this->getJson('/items/search');
         $response
             ->assertStatus(200)

@@ -6,8 +6,10 @@ use App\Http\Resources\ThreadResource;
 use App\Mail\ThreadCreated;
 use App\Mail\ThreadReplied;
 use App\Models\Item;
+use App\Models\Location;
 use App\Models\Thread;
 use App\Models\User;
+use App\Services\GooglePlaces;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -34,6 +36,23 @@ class ThreadControllerTest extends TestCase
     {
         $user = User::inRandomOrder()->first();
         $this->actingAs($user);
+        $this->mock(GooglePlaces::class, function ($mock) {
+            $googlePlace = [
+                'formatted_address' => str_replace("\n", ' ', $this->faker->address()),
+                'place_id' => (string)$this->faker->randomNumber(5),
+                'geometry' => [
+                    'location' => [
+                        'lat' => $this->faker->latitude(),
+                        'lng' => $this->faker->longitude(),
+                    ],
+                ],
+                'name' => $this->faker->city(),
+                'utc_offset' => (string)$this->faker->randomNumber(3, true),
+            ];
+            $mock
+                ->shouldReceive('placeDetails')
+                ->andReturn(['result' => $googlePlace]);
+        });
         $response = $this->getJson('/threads');
         $response->assertStatus(200);
         $this->assertGreaterThanOrEqual(1, count($response->json('data')));
@@ -60,7 +79,12 @@ class ThreadControllerTest extends TestCase
         $this->actingAs($user);
         $initialCount = Thread::where(['user_id_receiver' => $user->id])->count();
         $item = Item::inRandomOrder()->first();
-        $response = $this->postJson('/threads', ['item' => $item->id, 'message' => $this->faker->sentence()]);
+        $location = Location::find($item->location_id);
+        $response = $this->postJson(
+            '/threads',
+            ['item' => $item->id, 'message' => $this->faker->sentence()],
+            ['Accept-Language' => $location->language],
+        );
         $response->assertStatus(200);
         $afterCount = Thread::where(['user_id_receiver' => $user->id])->count();
         $this->assertEquals($initialCount + 1, $afterCount);
@@ -73,7 +97,7 @@ class ThreadControllerTest extends TestCase
     public function test_reply_to_thread(): void
     {
         Mail::fake();
-        $thread = Thread::with(['item.images', 'messages.user', 'userGiver', 'userReceiver'])
+        $thread = Thread::with(['item.images', 'item.location', 'messages.user', 'userGiver', 'userReceiver'])
             ->inRandomOrder()
             ->first();
         $user = $thread->userReceiver;
@@ -81,6 +105,7 @@ class ThreadControllerTest extends TestCase
         $response = $this->postJson(
             "/threads/{$thread->id}/reply",
             ['message' => $this->faker->sentence()],
+            ['Accept-Language' => $thread->item->location->language],
         );
         $updatedThread = Thread::with(['item.images', 'messages.user', 'userGiver', 'userReceiver'])
             ->find($thread->id);
@@ -104,12 +129,12 @@ class ThreadControllerTest extends TestCase
     {
         $user = User::inRandomOrder()->first();
         $this->actingAs($user);
-        $thread = Thread::with(['item', 'messages.user', 'userGiver', 'userReceiver'])
+        $thread = Thread::with(['item', 'item.location', 'messages.user', 'userGiver', 'userReceiver'])
             ->where(['user_id_giver' => $user->id])
             ->inRandomOrder()
             ->first();
         $resource = new ThreadResource($thread);
-        $response = $this->getJson("/threads/{$thread->id}");
+        $response = $this->getJson("/threads/{$thread->id}", ['Accept-Language' => $thread->item->location->language]);
         $request = Request::create("/threads/{$thread->id}", 'GET');
         $request->setUserResolver(function () use ($user) {
             return $user;
