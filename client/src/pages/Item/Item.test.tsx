@@ -65,10 +65,10 @@ describe('When the API call fails', () => {
         );
       });
 
-      test('Does not render the new thread button', () => {
+      test('Disables the new thread button', () => {
         expect(
           wrapper.queryByTestId('item__action--thread-create'),
-        ).not.toBeInTheDocument();
+        ).toHaveAttribute('aria-disabled', 'true');
       });
     });
 
@@ -163,7 +163,10 @@ describe.each<TestCase>([
       .mockClear()
       .mockReturnValueOnce(true) // (prefers-color-scheme: dark)
       .mockReturnValueOnce(large)
-      .mockReturnValueOnce(medium);
+      .mockReturnValueOnce(medium)
+      // This line (below) is for the other `useMediaQueries` calls,
+      // like the on in `<Giver />`. It also has to alternate.
+      .mockReturnValue(large);
     wrapper = render(<Item />, { user: null });
     await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
     await waitFor(() =>
