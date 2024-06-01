@@ -50,6 +50,7 @@ export interface L10n {
   itemImagesHelperText: string;
   itemImagesLabel: string;
   itemImagesLabelUpload: string;
+  itemInLocation: string;
   itemLocationErrorRequired: string;
   itemLocationHelperText: string;
   itemLocationLabel: string;

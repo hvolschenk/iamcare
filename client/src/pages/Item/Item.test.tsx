@@ -141,6 +141,19 @@ describe('When the API call fails', () => {
           expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
         });
       });
+
+      describe('When clicking on the location', () => {
+        beforeEach(async () => {
+          fireEvent.click(wrapper.getByTestId('item__location'));
+          await waitFor(() =>
+            expect(wrapper.queryByTestId('search-page')).toBeInTheDocument(),
+          );
+        });
+
+        test('Redirects to the search page', () => {
+          expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
+        });
+      });
     });
   });
 });

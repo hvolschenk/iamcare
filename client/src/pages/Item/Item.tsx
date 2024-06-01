@@ -8,6 +8,7 @@ import { Item as ItemType } from '~/src/types/Item';
 
 import Giver from './Giver';
 import Images from './Images';
+import Location from './Location';
 import Tags from './Tags';
 
 interface ItemProps {
@@ -24,6 +25,7 @@ const Item: React.FC<ItemProps> = ({ item }) => (
         <Box marginBottom={2}>
           <Tags item={item} />
         </Box>
+        <Location item={item} />
         <Typography>{item.description}</Typography>
       </CardContent>
     </Card>
