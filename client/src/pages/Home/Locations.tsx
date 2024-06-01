@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 import locationsPopular from '~/src/api/locations/popular';
+import { SEARCH_DISTANCE_DEFAULT } from '~/src/constants';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
@@ -35,7 +36,10 @@ const Locations: React.FC = () => {
         type: 'location',
       });
       search({
-        filters: { distance: 25, googlePlaceID: location.googlePlaceID },
+        filters: {
+          distance: SEARCH_DISTANCE_DEFAULT,
+          googlePlaceID: location.googlePlaceID,
+        },
       });
     },
     [search, trackSelectContent],
