@@ -64,6 +64,7 @@ export interface L10n {
   itemNameHelperText: string;
   itemNameLabel: string;
   items: string;
+  itemShareError: string;
   itemsRefetching: string;
   itemTagAccessories: string;
   itemTagAppliances: string;
