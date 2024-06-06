@@ -4,6 +4,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import itemGet from '~/src/api/items/get';
+import l10n from '~/src/l10n';
 import {
   fireEvent,
   render,
@@ -154,6 +155,130 @@ describe('When the API call fails', () => {
           expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
         });
       });
+    });
+  });
+});
+
+describe('When sharing is disabled', () => {
+  const item = itemMock({ id, user: testUser });
+
+  let canShare: (shareData: ShareData) => boolean;
+  let wrapper: RenderResult;
+
+  afterEach(() => {
+    Object.defineProperty<Navigator>(navigator, 'canShare', {
+      configurable: true,
+      value: canShare,
+      writable: false,
+    });
+  });
+
+  beforeEach(async () => {
+    canShare = navigator.canShare;
+    Object.defineProperty<Navigator>(navigator, 'canShare', {
+      configurable: true,
+      value: undefined,
+      writable: true,
+    });
+    (itemGet as jest.Mock)
+      .mockClear()
+      .mockResolvedValue({ data: item, status: 200 });
+    wrapper = render(
+      <Routes>
+        <Route element={<Item />} path={itemURL()} />
+        <Route
+          element={<div data-testid="search-page" />}
+          path={itemsSearch()}
+        />
+      </Routes>,
+      { router: { initialEntries: [itemURL(id.toString())] } },
+    );
+    await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
+  });
+
+  test('Disables the share button', () => {
+    expect(wrapper.queryByTestId('item__share')).toBeDisabled();
+  });
+});
+
+describe('When sharing is enabled', () => {
+  const item = itemMock({ id, user: testUser });
+  const share = jest.fn();
+
+  let canShareOriginal: (shareData: ShareData) => boolean;
+  let shareOriginal: (shareDat: ShareData) => Promise<void>;
+  let wrapper: RenderResult;
+
+  afterEach(() => {
+    Object.defineProperty<Navigator>(navigator, 'canShare', {
+      configurable: true,
+      value: canShareOriginal,
+      writable: true,
+    });
+    Object.defineProperty<Navigator>(navigator, 'share', {
+      configurable: true,
+      value: shareOriginal,
+      writable: true,
+    });
+  });
+
+  beforeEach(async () => {
+    canShareOriginal = navigator.canShare;
+    Object.defineProperty<Navigator>(navigator, 'canShare', {
+      configurable: true,
+      value: () => true,
+      writable: true,
+    });
+    shareOriginal = navigator.share;
+    Object.defineProperty<Navigator>(navigator, 'share', {
+      configurable: true,
+      value: share,
+      writable: true,
+    });
+    (itemGet as jest.Mock)
+      .mockClear()
+      .mockResolvedValue({ data: item, status: 200 });
+    wrapper = render(
+      <Routes>
+        <Route element={<Item />} path={itemURL()} />
+        <Route
+          element={<div data-testid="search-page" />}
+          path={itemsSearch()}
+        />
+      </Routes>,
+      { router: { initialEntries: [itemURL(id.toString())] } },
+    );
+    await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
+  });
+
+  describe('When sharing fails', () => {
+    beforeEach(async () => {
+      share.mockClear().mockRejectedValue(new Error('Failed to share'));
+      fireEvent.click(wrapper.getByTestId('item__share'));
+      await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
+      await waitFor(
+        () =>
+          expect(wrapper.queryByTestId('notifications__notification'))
+            .toBeInTheDocument,
+      );
+    });
+
+    test('Shows a notification that something went wrong', () => {
+      expect(
+        wrapper.queryByTestId('notifications__notification'),
+      ).toHaveTextContent(l10n.itemShareError);
+    });
+  });
+
+  describe('When sharing succeeds', () => {
+    beforeEach(async () => {
+      share.mockClear().mockResolvedValue(undefined);
+      fireEvent.click(wrapper.getByTestId('item__share'));
+      await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
+    });
+
+    test('Calls the share method', () => {
+      expect(share).toHaveBeenCalledTimes(1);
     });
   });
 });
