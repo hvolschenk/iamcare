@@ -105,7 +105,8 @@
   "include": [
     "./@types/**/*",
     "./jest.config.ts",
-    "./src/**/*"
+    "./src/**/*",
+    "./public/**/*"
   ],
   "ts-node": {
     "files": true

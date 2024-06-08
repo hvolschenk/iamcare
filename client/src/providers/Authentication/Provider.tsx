@@ -1,12 +1,12 @@
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Skeleton from '@mui/material/Skeleton';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 import authenticateMe from '~/src/api/user/me';
+import FullPageLoader from '~/src/components/FullPageLoader';
 import configuration from '~/src/configuration';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
@@ -67,13 +67,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
   }
 
   if (status === 'pending' && !user) {
-    return (
-      <Container>
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-      </Container>
-    );
+    return <FullPageLoader />;
   }
 
   return (
