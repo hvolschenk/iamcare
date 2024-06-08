@@ -1,6 +1,7 @@
 import { Loader } from '@googlemaps/js-api-loader';
 import React from 'react';
 
+import FullPageLoader from '~/src/components/FullPageLoader';
 import configuration from '~/src/configuration';
 
 import GooglePlacesContext from './context';
@@ -64,7 +65,7 @@ const GooglePlacesProvider: React.FC<GooglePlacesProviderProps> = ({
   );
 
   if (googlePlaces === null) {
-    return null;
+    return <FullPageLoader />;
   }
 
   return (

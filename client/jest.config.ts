@@ -3,9 +3,9 @@ import { Config } from 'jest';
 const config: Config = {
   collectCoverage: true,
   coveragePathIgnorePatterns: [
-    "/node_modules/",
-    "<rootDir>/src/.+/async.tsx",
-    "<rootDir>/src/testing/",
+    '/node_modules/',
+    '<rootDir>/src/.+/async.tsx',
+    '<rootDir>/src/testing/',
   ],
   coverageThreshold: {
     global: {
@@ -15,27 +15,15 @@ const config: Config = {
       statements: 100,
     },
   },
-  moduleDirectories: [
-    'node_modules',
-    'src',
-  ],
-  moduleFileExtensions: [
-    'js',
-    'json',
-    'jsx',
-    'ts',
-    'tsx'
-  ],
+  moduleDirectories: ['node_modules', 'src'],
+  moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx'],
   moduleNameMapper: {
+    '\\.png$': '<rootDir>/src/testing/fileMocks/image.js',
     '~/(.*)': '<rootDir>/$1',
   },
-  modulePathIgnorePatterns: [
-    '.*__mocks__.*',
-  ],
+  modulePathIgnorePatterns: ['.*__mocks__.*'],
   preset: 'ts-jest',
-  roots: [
-    '<rootDir>/src',
-  ],
+  roots: ['<rootDir>/src'],
   setupFilesAfterEnv: [
     '<rootDir>/src/testing/setup.ts',
     '<rootDir>/src/testing/setupMocks.ts',
