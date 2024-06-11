@@ -135,6 +135,7 @@ export interface L10n {
   threadCreate: string;
   threadCreateActionCreate: string;
   threadCreateError: string;
+  threadCreateErrorItemOwned: string;
   threadCreateErrorLoadingItem: string;
   threadCreateFieldMessageErrorRequired: string;
   threadCreateFieldMessageErrorTooLong: string;

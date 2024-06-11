@@ -155,6 +155,8 @@ const en: L10n = {
   threadCreateActionCreate: 'Create',
   threadCreateError:
     'There was an error while trying to create the thread. Please try again',
+  threadCreateErrorItemOwned:
+    'You are already the owner of this item. Would you like to search for another?',
   threadCreateErrorLoadingItem:
     'Failed to load the item this new thread is about. Please try again',
   threadCreateFieldMessageErrorRequired:

@@ -12,6 +12,8 @@ import Item from '~/src/components/Item';
 import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
+import { useAuthentication } from '~/src/providers/Authentication';
+import { useSearch } from '~/src/providers/Search';
 import { ThreadCreateParams, item, root } from '~/src/urls';
 
 import Form from './Form';
@@ -19,11 +21,13 @@ import Form from './Form';
 const ThreadCreate: React.FC = () => {
   useDocumentTitle([l10n.threadCreate]);
 
+  const { user } = useAuthentication();
   const { itemID } = useParams<ThreadCreateParams>() as ThreadCreateParams;
   const { data, refetch, status } = useQuery({
     queryFn: () => itemGet({ id: parseInt(itemID, 10) }),
     queryKey: ['items', itemID],
   });
+  const { searchDialogOpen } = useSearch();
 
   if (status === 'error') {
     return (
@@ -75,7 +79,22 @@ const ThreadCreate: React.FC = () => {
       <Card>
         <CardContent>
           <Item item={data.data} />
-          <Form item={data.data} />
+          {user!.id === data.data.user.id && (
+            <Alert
+              action={
+                <Button
+                  data-testid="thread-create__error--item-owned"
+                  onClick={searchDialogOpen}
+                >
+                  {l10n.search}
+                </Button>
+              }
+              severity="warning"
+            >
+              {l10n.threadCreateErrorItemOwned}
+            </Alert>
+          )}
+          {user!.id !== data.data.user.id && <Form item={data.data} />}
         </CardContent>
       </Card>
     </React.Fragment>
