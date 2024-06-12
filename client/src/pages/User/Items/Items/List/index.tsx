@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
@@ -14,6 +15,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import getUserItems from '~/src/api/user/getItems';
+import ItemCard from '~/src/components/ItemCard';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { userItemsCreate } from '~/src/urls';
@@ -33,7 +35,7 @@ const UserItemsList: React.FC = () => {
     queryKey: ['users', user.id, 'items', page],
   });
 
-  const isLoggedInUser = React.useMemo(
+  const isLoggedInAsOwner = React.useMemo(
     () => loggedInUser?.id === user.id,
     [loggedInUser, user],
   );
@@ -77,7 +79,7 @@ const UserItemsList: React.FC = () => {
     return (
       <Alert
         action={
-          isLoggedInUser ? (
+          isLoggedInAsOwner ? (
             <Button
               color="inherit"
               component={Link}
@@ -91,7 +93,7 @@ const UserItemsList: React.FC = () => {
         data-testid="user-items__error--no-items"
         severity="info"
       >
-        {isLoggedInUser
+        {isLoggedInAsOwner
           ? l10n.userItemsErrorNoItemsSelf
           : l10n.userItemsErrorNoItems}
       </Alert>
@@ -111,15 +113,26 @@ const UserItemsList: React.FC = () => {
           {l10n.itemsRefetching}
         </Alert>
       </Snackbar>
-      <Card>
-        <CardContent>
-          <List>
-            {data.data.data.map((item) => (
-              <ListItem item={item} key={item.id} />
-            ))}
-          </List>
-        </CardContent>
-      </Card>
+      {isLoggedInAsOwner && (
+        <Card>
+          <CardContent>
+            <List>
+              {data.data.data.map((item) => (
+                <ListItem item={item} key={item.id} />
+              ))}
+            </List>
+          </CardContent>
+        </Card>
+      )}
+      {!isLoggedInAsOwner && (
+        <Grid container spacing={2}>
+          {data.data.data.map((item) => (
+            <Grid item key={item.id} lg={3} md={4} xs={12}>
+              <ItemCard item={item} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
       <Box display="flex" justifyContent="center" marginTop={2}>
         <Pagination
           count={data.data.meta.last_page}
