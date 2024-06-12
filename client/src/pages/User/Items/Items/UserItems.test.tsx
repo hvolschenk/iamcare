@@ -15,7 +15,11 @@ import {
 import { item, user } from '~/src/testing/mocks';
 import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
 import { Item } from '~/src/types/Item';
-import { userItems as userItemsURL, userItemsItem } from '~/src/urls';
+import {
+  item as itemURL,
+  userItems as userItemsURL,
+  userItemsItem,
+} from '~/src/urls';
 
 import { Provider as UserProvider } from '../../context';
 
@@ -36,6 +40,7 @@ describe('With a user other than the logged-in user', () => {
         .mockRejectedValue(new Error('Failed to fetch'));
       wrapper = render(
         <Routes>
+          <Route element={<div data-testid="item" />} path={itemURL()} />
           <Route
             element={<div data-testid="user-items-item" />}
             path={userItemsItem()}
@@ -145,27 +150,21 @@ describe('With a user other than the logged-in user', () => {
           );
           await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
           await waitFor(() =>
-            expect(wrapper.queryAllByTestId('user-items__item')).toHaveLength(
-              3,
-            ),
+            expect(wrapper.queryAllByTestId('search-item')).toHaveLength(3),
           );
         });
 
         test('Shows the correct amount of items', () => {
-          expect(wrapper.queryAllByTestId('user-items__item')).toHaveLength(3);
+          expect(wrapper.queryAllByTestId('search-item')).toHaveLength(3);
         });
 
         describe('Clicking on an item', () => {
           beforeEach(() => {
-            fireEvent.click(
-              wrapper.queryAllByTestId('user-items__item__link')[0],
-            );
+            fireEvent.click(wrapper.queryAllByTestId('search-item__link')[0]);
           });
 
           test('Redirects to the item page', () => {
-            expect(
-              wrapper.queryByTestId('user-items-item'),
-            ).toBeInTheDocument();
+            expect(wrapper.queryByTestId('item')).toBeInTheDocument();
           });
         });
 
@@ -199,133 +198,12 @@ describe('With a user other than the logged-in user', () => {
             );
             await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
             await waitFor(() =>
-              expect(wrapper.queryAllByTestId('user-items__item')).toHaveLength(
-                2,
-              ),
+              expect(wrapper.queryAllByTestId('search-item')).toHaveLength(2),
             );
           });
 
           test('Shows the correct amount of items', () => {
-            expect(wrapper.queryAllByTestId('user-items__item')).toHaveLength(
-              2,
-            );
-          });
-        });
-
-        describe('Opening a context menu', () => {
-          beforeEach(() => {
-            fireEvent.click(
-              wrapper.getAllByTestId('user-items__item__context-menu')[0],
-            );
-          });
-
-          describe('Marking an item as given', () => {
-            beforeEach(() => {
-              fireEvent.click(
-                wrapper.getAllByTestId('user-items__item__mark-as-given')[0],
-              );
-            });
-
-            describe('When the API call fails', () => {
-              beforeEach(async () => {
-                (markItemAsGiven as jest.Mock)
-                  .mockClear()
-                  .mockRejectedValue(new Error('Failed to mark as given'));
-                fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
-                await waitFor(() =>
-                  expect(markItemAsGiven).toHaveBeenCalledTimes(1),
-                );
-                await waitFor(() =>
-                  expect(
-                    wrapper.queryByTestId('notifications__notification'),
-                  ).toBeInTheDocument(),
-                );
-              });
-
-              test('Shows a notification indicating that marking as given failed', () => {
-                expect(
-                  wrapper.queryByTestId('notifications__notification'),
-                ).toHaveTextContent(l10n.itemMarkAsGivenError);
-              });
-            });
-
-            describe('When the API call succeeds', () => {
-              beforeEach(async () => {
-                (markItemAsGiven as jest.Mock).mockClear().mockResolvedValue({
-                  data: { ...userItems.data[0], isGiven: true },
-                  status: 200,
-                });
-                fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
-                await waitFor(() =>
-                  expect(markItemAsGiven).toHaveBeenCalledTimes(1),
-                );
-                await waitFor(() =>
-                  expect(
-                    wrapper.queryByTestId('notifications__notification'),
-                  ).toBeInTheDocument(),
-                );
-              });
-
-              test('Shows a notification indicating that marking as given succeeded', () => {
-                expect(
-                  wrapper.queryByTestId('notifications__notification'),
-                ).toHaveTextContent(l10n.itemMarkAsGivenSuccess);
-              });
-            });
-          });
-
-          describe('Deleting an item', () => {
-            beforeEach(() => {
-              fireEvent.click(
-                wrapper.getByTestId('user-items__item__delete-dialog'),
-              );
-            });
-
-            describe('When deleting fails', () => {
-              beforeEach(async () => {
-                (deleteItem as jest.Mock)
-                  .mockClear()
-                  .mockRejectedValue(new Error('Failed to delete'));
-                fireEvent.click(wrapper.getByTestId('item__delete'));
-                await waitFor(() =>
-                  expect(deleteItem).toHaveBeenCalledTimes(1),
-                );
-                await waitFor(() =>
-                  expect(
-                    wrapper.queryByTestId('notifications__notification'),
-                  ).toBeInTheDocument(),
-                );
-              });
-
-              test('Shows a notification with the error', () => {
-                expect(
-                  wrapper.queryByTestId('notifications__notification'),
-                ).toHaveTextContent(l10n.itemDeleteErrorDeleting);
-              });
-            });
-
-            describe('When deleting succeeds', () => {
-              beforeEach(async () => {
-                (deleteItem as jest.Mock)
-                  .mockClear()
-                  .mockResolvedValue({ status: 204 });
-                fireEvent.click(wrapper.getByTestId('item__delete'));
-                await waitFor(() =>
-                  expect(deleteItem).toHaveBeenCalledTimes(1),
-                );
-                await waitFor(() =>
-                  expect(
-                    wrapper.queryByTestId('notifications__notification'),
-                  ).toBeInTheDocument(),
-                );
-              });
-
-              test('Shows a success notification', () => {
-                expect(
-                  wrapper.queryByTestId('notifications__notification'),
-                ).toHaveTextContent(l10n.itemDeleteSuccess);
-              });
-            });
+            expect(wrapper.queryAllByTestId('search-item')).toHaveLength(2);
           });
         });
       });
@@ -334,71 +212,237 @@ describe('With a user other than the logged-in user', () => {
 });
 
 describe('With the logged-in user', () => {
-  const userItems: APICollectionPaginated<Item> = {
-    data: [],
-    links: {
-      first: '/first',
-      last: '/last',
-      next: '/next',
-      prev: '/prev',
-    },
-    meta: {
-      current_page: 1,
-      from: 0,
-      last_page: 1,
-      links: [],
-      path: 'path',
-      per_page: 15,
-      to: 0,
-      total: 0,
-    },
-  };
+  describe('With no items', () => {
+    const userItems: APICollectionPaginated<Item> = {
+      data: [],
+      links: {
+        first: '/first',
+        last: '/last',
+        next: '/next',
+        prev: '/prev',
+      },
+      meta: {
+        current_page: 1,
+        from: 0,
+        last_page: 1,
+        links: [],
+        path: 'path',
+        per_page: 15,
+        to: 0,
+        total: 0,
+      },
+    };
 
-  let wrapper: RenderResult;
+    let wrapper: RenderResult;
 
-  beforeEach(async () => {
-    (getUserItems as jest.Mock)
-      .mockClear()
-      .mockResolvedValue({ data: userItems, status: 200 });
-    wrapper = render(
-      <Routes>
-        <Route
-          element={<div data-testid="user-items-item" />}
-          path={userItemsItem()}
-        />
-        <Route
-          element={
-            <UserProvider value={testUser}>
-              <UserItems />
-            </UserProvider>
-          }
-          path={userItemsURL()}
-        />
-      </Routes>,
-      { router: { initialEntries: [userItemsURL(testUser.id.toString())] } },
-    );
-    await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
-    await waitFor(() =>
+    beforeEach(async () => {
+      (getUserItems as jest.Mock)
+        .mockClear()
+        .mockResolvedValue({ data: userItems, status: 200 });
+      wrapper = render(
+        <Routes>
+          <Route
+            element={<div data-testid="user-items-item" />}
+            path={userItemsItem()}
+          />
+          <Route
+            element={
+              <UserProvider value={testUser}>
+                <UserItems />
+              </UserProvider>
+            }
+            path={userItemsURL()}
+          />
+        </Routes>,
+        { router: { initialEntries: [userItemsURL(testUser.id.toString())] } },
+      );
+      await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
+      await waitFor(() =>
+        expect(
+          wrapper.queryByTestId('user-items__error--no-items'),
+        ).toBeInTheDocument(),
+      );
+    });
+
+    test('Shows the "create new item" fab button', () => {
+      expect(wrapper.queryByTestId('user-items__create')).toBeInTheDocument();
+    });
+
+    test('Shows the correct error message', () => {
       expect(
         wrapper.queryByTestId('user-items__error--no-items'),
-      ).toBeInTheDocument(),
-    );
+      ).toHaveTextContent(l10n.userItemsErrorNoItemsSelf);
+    });
+
+    test('Shows the "create new item" button in the error', () => {
+      expect(
+        wrapper.queryByTestId('user-items__error--no-items__create'),
+      ).toBeInTheDocument();
+    });
   });
 
-  test('Shows the "create new item" fab button', () => {
-    expect(wrapper.queryByTestId('user-items__create')).toBeInTheDocument();
-  });
+  describe('With items', () => {
+    const userItems: APICollectionPaginated<Item> = {
+      data: [item(), item(), item()],
+      links: {
+        first: '/first',
+        last: '/last',
+        next: '/next',
+        prev: '/prev',
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 2,
+        links: [],
+        path: 'path',
+        per_page: 3,
+        to: 3,
+        total: 5,
+      },
+    };
 
-  test('Shows the correct error message', () => {
-    expect(
-      wrapper.queryByTestId('user-items__error--no-items'),
-    ).toHaveTextContent(l10n.userItemsErrorNoItemsSelf);
-  });
+    let wrapper: RenderResult;
 
-  test('Shows the "create new item" button in the error', () => {
-    expect(
-      wrapper.queryByTestId('user-items__error--no-items__create'),
-    ).toBeInTheDocument();
+    beforeEach(async () => {
+      (getUserItems as jest.Mock)
+        .mockClear()
+        .mockResolvedValue({ data: userItems, status: 200 });
+      wrapper = render(
+        <Routes>
+          <Route
+            element={<div data-testid="user-items-item" />}
+            path={userItemsItem()}
+          />
+          <Route
+            element={
+              <UserProvider value={testUser}>
+                <UserItems />
+              </UserProvider>
+            }
+            path={userItemsURL()}
+          />
+        </Routes>,
+        { router: { initialEntries: [userItemsURL(testUser.id.toString())] } },
+      );
+      await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
+      await waitFor(() =>
+        expect(wrapper.queryAllByTestId('user-items__item')).toHaveLength(3),
+      );
+    });
+
+    describe('Opening a context menu', () => {
+      beforeEach(() => {
+        fireEvent.click(
+          wrapper.getAllByTestId('user-items__item__context-menu')[0],
+        );
+      });
+
+      describe('Marking an item as given', () => {
+        beforeEach(() => {
+          fireEvent.click(
+            wrapper.getAllByTestId('user-items__item__mark-as-given')[0],
+          );
+        });
+
+        describe('When the API call fails', () => {
+          beforeEach(async () => {
+            (markItemAsGiven as jest.Mock)
+              .mockClear()
+              .mockRejectedValue(new Error('Failed to mark as given'));
+            fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
+            await waitFor(() =>
+              expect(markItemAsGiven).toHaveBeenCalledTimes(1),
+            );
+            await waitFor(() =>
+              expect(
+                wrapper.queryByTestId('notifications__notification'),
+              ).toBeInTheDocument(),
+            );
+          });
+
+          test('Shows a notification indicating that marking as given failed', () => {
+            expect(
+              wrapper.queryByTestId('notifications__notification'),
+            ).toHaveTextContent(l10n.itemMarkAsGivenError);
+          });
+        });
+
+        describe('When the API call succeeds', () => {
+          beforeEach(async () => {
+            (markItemAsGiven as jest.Mock).mockClear().mockResolvedValue({
+              data: { ...userItems.data[0], isGiven: true },
+              status: 200,
+            });
+            fireEvent.click(wrapper.getByTestId('item__mark-as-given'));
+            await waitFor(() =>
+              expect(markItemAsGiven).toHaveBeenCalledTimes(1),
+            );
+            await waitFor(() =>
+              expect(
+                wrapper.queryByTestId('notifications__notification'),
+              ).toBeInTheDocument(),
+            );
+          });
+
+          test('Shows a notification indicating that marking as given succeeded', () => {
+            expect(
+              wrapper.queryByTestId('notifications__notification'),
+            ).toHaveTextContent(l10n.itemMarkAsGivenSuccess);
+          });
+        });
+      });
+
+      describe('Deleting an item', () => {
+        beforeEach(() => {
+          fireEvent.click(
+            wrapper.getByTestId('user-items__item__delete-dialog'),
+          );
+        });
+
+        describe('When deleting fails', () => {
+          beforeEach(async () => {
+            (deleteItem as jest.Mock)
+              .mockClear()
+              .mockRejectedValue(new Error('Failed to delete'));
+            fireEvent.click(wrapper.getByTestId('item__delete'));
+            await waitFor(() => expect(deleteItem).toHaveBeenCalledTimes(1));
+            await waitFor(() =>
+              expect(
+                wrapper.queryByTestId('notifications__notification'),
+              ).toBeInTheDocument(),
+            );
+          });
+
+          test('Shows a notification with the error', () => {
+            expect(
+              wrapper.queryByTestId('notifications__notification'),
+            ).toHaveTextContent(l10n.itemDeleteErrorDeleting);
+          });
+        });
+
+        describe('When deleting succeeds', () => {
+          beforeEach(async () => {
+            (deleteItem as jest.Mock)
+              .mockClear()
+              .mockResolvedValue({ status: 204 });
+            fireEvent.click(wrapper.getByTestId('item__delete'));
+            await waitFor(() => expect(deleteItem).toHaveBeenCalledTimes(1));
+            await waitFor(() =>
+              expect(
+                wrapper.queryByTestId('notifications__notification'),
+              ).toBeInTheDocument(),
+            );
+          });
+
+          test('Shows a success notification', () => {
+            expect(
+              wrapper.queryByTestId('notifications__notification'),
+            ).toHaveTextContent(l10n.itemDeleteSuccess);
+          });
+        });
+      });
+    });
   });
 });
 
