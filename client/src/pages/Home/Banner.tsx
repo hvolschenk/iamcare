@@ -5,11 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import l10n from '~/src/l10n';
+import { useAuthentication } from '~/src/providers/Authentication';
 import { useSearch } from '~/src/providers/Search';
+import { authentication, userItemsCreate } from '~/src/urls';
 
 const Banner: React.FC = () => {
+  const { user } = useAuthentication();
   const { searchDialogOpen } = useSearch();
 
   return (
@@ -41,7 +45,15 @@ const Banner: React.FC = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button color="primary" fullWidth onClick={searchDialogOpen}>
+            <Button
+              color="primary"
+              component={Link}
+              data-testid="home__banner__create"
+              fullWidth
+              to={
+                user ? userItemsCreate(user.id.toString()) : authentication({})
+              }
+            >
               {l10n.homeGiveCallToAction}
             </Button>
           </CardActions>
@@ -62,7 +74,12 @@ const Banner: React.FC = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button color="secondary" fullWidth>
+            <Button
+              color="secondary"
+              data-testid="home__banner__search"
+              fullWidth
+              onClick={searchDialogOpen}
+            >
               {l10n.homeTakeCallToAction}
             </Button>
           </CardActions>

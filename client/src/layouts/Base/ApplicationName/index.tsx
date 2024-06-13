@@ -8,7 +8,9 @@ import { root } from '~/src/urls';
 
 const ApplicationName: React.FC = () => (
   <React.Fragment>
-    <img alt={l10n.applicationName} src={logo32x32} />
+    <Link to={root()}>
+      <img alt={l10n.applicationName} src={logo32x32} />
+    </Link>
     <Typography
       color="inherit"
       component={Link}
