@@ -14,7 +14,12 @@ import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
 import { Item } from '~/src/types/Item';
 import { LocationBasic } from '~/src/types/LocationBasic';
 import { Tag } from '~/src/types/Tag';
-import { itemsSearch as itemsSearchURL, root } from '~/src/urls';
+import {
+  authentication,
+  itemsSearch as itemsSearchURL,
+  root,
+  userItemsCreate,
+} from '~/src/urls';
 
 import Home from './index';
 
@@ -38,6 +43,10 @@ describe('When the API calls fail', () => {
     wrapper = render(
       <Routes>
         <Route element={<Home />} path={root()} />
+        <Route
+          element={<div data-testid="user-items-create" />}
+          path={userItemsCreate()}
+        />
         <Route
           element={<div data-testid="search-page" />}
           path={itemsSearchURL()}
@@ -200,6 +209,53 @@ describe('When the API calls fail', () => {
       test('Redirects to the search page', () => {
         expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
       });
+    });
+  });
+
+  describe("Clicking the 'search for items' action", () => {
+    beforeEach(() => {
+      fireEvent.click(wrapper.getByTestId('home__banner__search'));
+    });
+
+    test('Opens the search dialog', () => {
+      expect(wrapper.queryByTestId('search__input')).toBeInTheDocument();
+    });
+  });
+
+  describe("Clicking the 'create item' action", () => {
+    beforeEach(() => {
+      fireEvent.click(wrapper.getByTestId('home__banner__create'));
+    });
+
+    test('Redirects to the user item creation page', () => {
+      expect(wrapper.queryByTestId('user-items-create')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('Without a logged in user', () => {
+  let wrapper: RenderResult;
+
+  beforeEach(() => {
+    wrapper = render(
+      <Routes>
+        <Route element={<Home />} path={root()} />
+        <Route
+          element={<div data-testid="authentication" />}
+          path={authentication({})}
+        />
+      </Routes>,
+      { router: { initialEntries: [root()] }, user: null },
+    );
+  });
+
+  describe("Clicking the 'create item' action", () => {
+    beforeEach(() => {
+      fireEvent.click(wrapper.getByTestId('home__banner__create'));
+    });
+
+    test('Redirects to the authentication page', () => {
+      expect(wrapper.queryByTestId('authentication')).toBeInTheDocument();
     });
   });
 });
