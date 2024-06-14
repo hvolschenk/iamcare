@@ -252,21 +252,49 @@ describe('When sharing is enabled', () => {
   });
 
   describe('When sharing fails', () => {
-    beforeEach(async () => {
-      share.mockClear().mockRejectedValue(new Error('Failed to share'));
-      fireEvent.click(wrapper.getByTestId('item__share'));
-      await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
-      await waitFor(
-        () =>
-          expect(wrapper.queryByTestId('notifications__notification'))
-            .toBeInTheDocument,
-      );
+    describe('With a generic failure', () => {
+      beforeEach(async () => {
+        share.mockClear().mockRejectedValue(new Error('Failed to share'));
+        fireEvent.click(wrapper.getByTestId('item__share'));
+        await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
+        await waitFor(
+          () =>
+            expect(wrapper.queryByTestId('notifications__notification'))
+              .toBeInTheDocument,
+        );
+      });
+
+      test('Shows a notification that something went wrong', () => {
+        expect(
+          wrapper.queryByTestId('notifications__notification'),
+        ).toHaveTextContent(l10n.itemShareError);
+      });
     });
 
-    test('Shows a notification that something went wrong', () => {
-      expect(
-        wrapper.queryByTestId('notifications__notification'),
-      ).toHaveTextContent(l10n.itemShareError);
+    describe('When the user cancels the share operation', () => {
+      beforeEach(async () => {
+        share
+          .mockClear()
+          .mockRejectedValue(
+            new DOMException(
+              'The user cancelled the share operation',
+              'AbortError',
+            ),
+          );
+        fireEvent.click(wrapper.getByTestId('item__share'));
+        await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
+        await waitFor(
+          () =>
+            expect(wrapper.queryByTestId('notifications__notification')).not
+              .toBeInTheDocument,
+        );
+      });
+
+      test('Does not show any notification', () => {
+        expect(
+          wrapper.queryByTestId('notifications__notification'),
+        ).not.toBeInTheDocument();
+      });
     });
   });
 
