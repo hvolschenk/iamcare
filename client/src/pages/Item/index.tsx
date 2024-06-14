@@ -49,7 +49,9 @@ const ItemRoot: React.FC = () => {
       try {
         await navigator.share(shareData);
       } catch (error) {
-        notify({ message: l10n.itemShareError });
+        if (!(error instanceof DOMException && error.name === 'AbortError')) {
+          notify({ message: l10n.itemShareError });
+        }
       }
     }
   }, [data, notify]);
