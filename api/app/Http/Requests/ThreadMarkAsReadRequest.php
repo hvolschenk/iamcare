@@ -16,7 +16,8 @@ class ThreadMarkAsReadRequest extends FormRequest
             return false;
         }
         $thread = $this->route('thread');
-        return $thread->user_id_giver === $user->id
-            || $thread->user_id_receiver === $user->id;
+        $thread->load(['userGiver', 'userReceiver']);
+        return $thread->userGiver->id === $user->id
+            || $thread->userReceiver->id === $user->id;
     }
 }

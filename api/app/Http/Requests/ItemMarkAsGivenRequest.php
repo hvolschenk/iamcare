@@ -16,6 +16,7 @@ class ItemMarkAsGivenRequest extends FormRequest
             return false;
         }
         $item = $this->route('item');
-        return $user->id === $item->user_id;
+        $item->load(['user']);
+        return $user->id === $item->user->id;
     }
 }
