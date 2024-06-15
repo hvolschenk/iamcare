@@ -17,9 +17,8 @@ class ItemUpdateRequest extends FormRequest
             return false;
         }
         $item = $this->route('item');
-        // Okay serious why is this happening?
-        // This value ($item->user_id) is a string on PRODUCTION.
-        return intval($user->id) === intval($item->user_id);
+        $item->load(['user']);
+        return $user->id === $item->user->id;
     }
 
     /**
