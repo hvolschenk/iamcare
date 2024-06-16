@@ -56,11 +56,6 @@ const ReplyForm: React.FC = () => {
     validationSchema,
   });
 
-  const isDisabled = React.useMemo<boolean>(
-    () => formik.isSubmitting || formik.isValidating,
-    [formik],
-  );
-
   if (thread.item.isGiven) {
     return (
       <Alert data-testid="thread__reply__marked-as-given" severity="info">
@@ -72,7 +67,7 @@ const ReplyForm: React.FC = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextField
-        disabled={isDisabled}
+        disabled={formik.isSubmitting}
         fullWidth
         inputProps={{
           'data-testid': 'thread__reply--message',
@@ -83,7 +78,7 @@ const ReplyForm: React.FC = () => {
               <IconButton
                 color="secondary"
                 data-testid="thread__reply__action--primary"
-                disabled={isDisabled}
+                disabled={formik.isSubmitting || formik.isValidating}
                 type="submit"
               >
                 <SendIcon />
