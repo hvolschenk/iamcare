@@ -21,7 +21,11 @@ class MessageResource extends JsonResource
             'isRead' => $this->is_read,
             'message' => $this->message,
             'user' => $this->whenHas('user', new UserResource($this->user)),
-            'userID' => $this->user_id,
+            // I don't get why this is necessary.
+            // The value is correctly an integer in development,
+            // but is a string in production.
+            // Some posts point to a missing `mysqlnd`, but that IS installed.
+            'userID' => intval($this->user_id, 10),
         ];
     }
 }
