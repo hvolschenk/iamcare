@@ -7,6 +7,7 @@ Your contribution - however big or small - is greatly appreciated.
   - [First-time setup][]
     - [Environment variables][]
     - [Building][]
+    - [Database migrations][]
   - [Starting][]
     - [Watch mode][]
 - [Testing][]
@@ -52,6 +53,27 @@ before running them the first time. This is done through [docker-compose][]:
 
 ```console
 docker-compose build
+```
+
+#### Database migrations
+
+[Database migrations]: #database-migrations
+
+Before running the application for the first time it is required to run the
+database migrations. These can be done from within the `api` container:
+
+```console
+docker-compose up -d database
+```
+
+_Wait for it to start of course. Check with `docker-compose logs -f database`._
+
+```console
+docker-compose run --rm --no-deps api php artisan migrate:fresh
+```
+
+```console
+docker-compose down
 ```
 
 ### Starting
@@ -112,7 +134,7 @@ php artisan test
 ```
 
 _There is an issue where you have to run `php artisan config:clear` inside the
-container first before the test will connect to the database. I you know how to
+container first before the test will connect to the database. If you know how to
 fix this, help would be greatly appreciated._
 
 ### Client testing
@@ -120,7 +142,7 @@ fix this, help would be greatly appreciated._
 [Client testing]: #client-testing
 
 The _Client_ is tested in various ways, each serving a unique purpose.
-All test typess can be run in sequence by using the `npm test` command.
+All test types can be run in sequence by using the `npm test` command.
 
 All _Client_ tests can be run within the `client` container:
 
