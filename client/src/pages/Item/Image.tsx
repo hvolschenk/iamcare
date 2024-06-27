@@ -1,4 +1,3 @@
-import Dialog from '@mui/material/Dialog';
 import ImageListItem from '@mui/material/ImageListItem';
 import React from 'react';
 
@@ -8,33 +7,13 @@ import { Item } from '~/src/types/Item';
 interface ImageProps {
   image: ImageType;
   item: Item;
+  onClick(): void;
 }
 
-const Image: React.FC<ImageProps> = ({ image, item }) => {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
-
-  const onClose = React.useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
-  const onOpen = React.useCallback(() => {
-    setIsOpen(true);
-  }, [setIsOpen]);
-
-  return (
-    <React.Fragment>
-      <ImageListItem onClick={onOpen} sx={{ cursor: 'pointer' }}>
-        <img alt={item.name} data-testid="item__image" src={image.url} />
-      </ImageListItem>
-      <Dialog onClose={onClose} open={isOpen}>
-        <img
-          alt={item.name}
-          data-testid="item__image--large"
-          src={image.url}
-          style={{ maxHeight: '80vh' }}
-        />
-      </Dialog>
-    </React.Fragment>
-  );
-};
+const Image: React.FC<ImageProps> = ({ image, item, onClick }) => (
+  <ImageListItem onClick={onClick} sx={{ cursor: 'pointer' }}>
+    <img alt={item.name} data-testid="item__image" src={image.url} />
+  </ImageListItem>
+);
 
 export default Image;
