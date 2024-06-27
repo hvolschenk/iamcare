@@ -132,6 +132,8 @@ const en: L10n = {
   itemUpdateActionPrimary: 'Update',
   itemUpdateErrorLoading: 'Failed to load the item, please try again',
   itemUpdatePageTitle: 'Update item',
+  lightboxDialogActionNext: 'Next',
+  lightboxDialogActionPrevious: 'Previous',
   search: 'Search',
   searchDocumentTitleLocation: 'Items by location',
   searchDocumentTitlePage: 'Page {page}',

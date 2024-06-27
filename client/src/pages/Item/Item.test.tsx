@@ -106,25 +106,27 @@ describe('When the API call fails', () => {
           fireEvent.click(wrapper.getAllByTestId('item__image')[0]);
         });
 
-        test('Shows an image modal', () => {
-          expect(
-            wrapper.queryByTestId('item__image--large'),
-          ).toBeInTheDocument();
+        test('Shows a lightbox dialog', () => {
+          expect(wrapper.queryByTestId('lightbox-dialog')).toBeInTheDocument();
         });
 
-        describe('After closing the modal', () => {
-          beforeEach(() => {
-            fireEvent.keyDown(wrapper.getByTestId('item__image--large'), {
+        describe('Closing the modal', () => {
+          beforeEach(async () => {
+            fireEvent.keyDown(wrapper.getByTestId('lightbox-dialog'), {
               charCode: 27,
               code: 'Escape',
               key: 'Escape',
-              keyCode: 27,
             });
+            await waitFor(() =>
+              expect(
+                wrapper.queryByTestId('lightbox-dialog__image'),
+              ).not.toBeVisible(),
+            );
           });
 
-          test('Does not show any image modals', () => {
+          test('Stops showing the lightbox dialog', () => {
             expect(
-              wrapper.queryByTestId('item__image--large'),
+              wrapper.queryByTestId('lightbox-dialog__image'),
             ).not.toBeVisible();
           });
         });
