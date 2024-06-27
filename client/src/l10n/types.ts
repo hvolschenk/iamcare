@@ -114,6 +114,8 @@ export interface L10n {
   itemUpdateActionPrimary: string;
   itemUpdateErrorLoading: string;
   itemUpdatePageTitle: string;
+  lightboxDialogActionNext: string;
+  lightboxDialogActionPrevious: string;
   search: string;
   searchDocumentTitleLocation: string;
   searchDocumentTitlePage: string;
