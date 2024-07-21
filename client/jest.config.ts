@@ -26,6 +26,7 @@ const config: Config = {
   roots: ['<rootDir>/src'],
   setupFilesAfterEnv: [
     '<rootDir>/src/testing/setup.ts',
+    '<rootDir>/src/testing/setupFetch.ts',
     '<rootDir>/src/testing/setupMocks.ts',
   ],
   testEnvironment: 'jsdom',
