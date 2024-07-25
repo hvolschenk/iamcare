@@ -5,3 +5,5 @@ global.Request = jest.fn().mockImplementation((url) => ({
   },
   url,
 }));
+
+global.scrollTo = jest.fn();

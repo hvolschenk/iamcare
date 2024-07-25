@@ -1,6 +1,7 @@
+import { faker } from '@faker-js/faker';
 import { AxiosError, AxiosHeaders, AxiosResponse } from 'axios';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
 
 import itemCreate from '~/src/api/items/create';
 import locationByGooglePlaceID from '~/src/api/locations/google';
@@ -9,7 +10,7 @@ import l10n from '~/src/l10n';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
 import {
   fireEvent,
-  render,
+  renderRouter,
   RenderResult,
   waitFor,
   within,
@@ -23,10 +24,15 @@ import {
 } from '~/src/testing/mocks';
 import { userItems, userItemsCreate } from '~/src/urls';
 
-import { Provider as UserProvider } from '../../context';
+import { Component as CreateItem } from './index';
 
-import CreateItem from './index';
-
+jest.mock('react-router-dom', () => {
+  const reactRouterDom = jest.requireActual('react-router-dom');
+  return {
+    ...reactRouterDom,
+    useRouteLoaderData: jest.fn(),
+  };
+});
 jest.mock('~/src/api/items/create');
 jest.mock('~/src/api/locations/google');
 jest.mock('~/src/api/tag/all');
@@ -39,14 +45,13 @@ beforeEach(async () => {
   (tags as jest.Mock)
     .mockClear()
     .mockResolvedValue({ data: { data: tagsList }, status: 200 });
-  wrapper = render(
-    <UserProvider value={userMock()}>
-      <Routes>
-        <Route element={<CreateItem />} path={userItemsCreate()} />
-        <Route element={<div data-testid="user-items" />} path={userItems()} />
-      </Routes>
-    </UserProvider>,
-    { router: { initialEntries: [userItemsCreate('22')] } },
+  (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(userMock());
+  wrapper = renderRouter(
+    [
+      { Component: CreateItem, path: userItemsCreate() },
+      { element: <div data-testid="user-items" />, path: userItems() },
+    ],
+    [userItemsCreate(faker.number.int().toString())],
   );
   await waitFor(() => expect(tags).toHaveBeenCalledTimes(1));
   await waitFor(() =>

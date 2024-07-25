@@ -1,15 +1,20 @@
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 
 import csrfToken from '~/src/api/authenticate/csrfToken';
 import authenticateGoogle from '~/src/api/user/authenticateGoogle';
 import l10n from '~/src/l10n';
-import { act, fireEvent, render, RenderResult, waitFor } from '~/src/testing';
+import {
+  act,
+  fireEvent,
+  renderRouter,
+  RenderResult,
+  waitFor,
+} from '~/src/testing';
 import { user as userMock } from '~/src/testing/mocks';
 import { authentication, item, root } from '~/src/urls';
 
-import Authentication from './index';
+import { Component as Authentication } from './index';
 
 jest.mock('@react-oauth/google');
 jest.mock('~/src/api/authenticate/csrfToken');
@@ -20,17 +25,13 @@ describe('With a redirect URL', () => {
 
   beforeEach(() => {
     (useGoogleLogin as jest.Mock).mockClear().mockReturnValue(jest.fn());
-    wrapper = render(
-      <Routes>
-        <Route element={<Authentication />} path={authentication({})} />
-        <Route element={<div data-testid="item" />} path={item()} />
-        <Route element={<div data-testid="root" />} path={root()} />
-      </Routes>,
-      {
-        router: {
-          initialEntries: [authentication({ redirectURI: item('22') })],
-        },
-      },
+    wrapper = renderRouter(
+      [
+        { Component: Authentication, path: authentication({}) },
+        { element: <div data-testid="item" />, path: item() },
+        { element: <div data-testid="root" />, path: root() },
+      ],
+      [authentication({ redirectURI: item('22') })],
     );
   });
 
@@ -149,15 +150,13 @@ describe('Without a redirect URL', () => {
 
   beforeEach(async () => {
     (useGoogleLogin as jest.Mock).mockClear().mockReturnValue(jest.fn());
-    wrapper = render(
-      <Routes>
-        <Route element={<Authentication />} path={authentication({})} />
-        <Route element={<div data-testid="item" />} path={item()} />
-        <Route element={<div data-testid="root" />} path={root()} />
-      </Routes>,
-      {
-        router: { initialEntries: [authentication({})] },
-      },
+    wrapper = renderRouter(
+      [
+        { Component: Authentication, path: authentication({}) },
+        { element: <div data-testid="item" />, path: item() },
+        { element: <div data-testid="root" />, path: root() },
+      ],
+      [authentication({})],
     );
     fireEvent.click(wrapper.getByTestId('authentication-button--google'));
     (csrfToken as jest.Mock).mockClear().mockResolvedValue({ status: 204 });

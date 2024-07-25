@@ -30,6 +30,7 @@ const Thread: React.FC = () => {
     mutationKey: ['threads', thread.id, 'mark-as-read'],
     onSuccess: () => {
       queryClient.invalidateQueries({
+        exact: true,
         queryKey: ['threads'],
       });
       trackCustomEvent(

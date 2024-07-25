@@ -15,6 +15,7 @@ export const authentication = (options: AuthenticationOptions) => {
 
 export type ItemParams = { itemID: string };
 export const item = (itemID = ':itemID') => `/items/${itemID}`;
+export const items = () => '/items';
 export interface ItemsSearchOptions {
   distance?: number;
   location?: string;
@@ -55,13 +56,35 @@ export const thread = (threadID = ':threadID') => `/threads/${threadID}`;
 export type ThreadCreateParams = { itemID: string };
 export const threadCreate = (itemID: string = ':itemID') =>
   `/threads/create/${itemID}`;
-export const threads = () => '/threads';
+interface ThreadsOptions {
+  page?: number;
+}
+export const threads = (options?: ThreadsOptions) => {
+  const searchParams = new URLSearchParams();
+  if (options?.page) {
+    searchParams.set('page', options.page.toString());
+  }
+  const stringParams = searchParams.toString();
+  const queryString = stringParams ? `?${stringParams}` : '';
+  return `/threads${queryString}`;
+};
 
 export const root = () => '/';
 
 export type UserParams = { userID: string };
 export const user = (userID = ':userID') => `/users/${userID}`;
-export const userItems = (userID = ':userID') => `/users/${userID}/items`;
+interface UserItemsOptions {
+  page?: number;
+}
+export const userItems = (userID = ':userID', options?: UserItemsOptions) => {
+  const searchParams = new URLSearchParams();
+  if (options?.page) {
+    searchParams.set('page', options.page.toString());
+  }
+  const stringParams = searchParams.toString();
+  const queryString = stringParams ? `?${stringParams}` : '';
+  return `/users/${userID}/items${queryString}`;
+};
 export const userItemsCreate = (userID = ':userID') =>
   `/users/${userID}/items/create`;
 export type UserItemParams = UserParams & {
@@ -69,12 +92,3 @@ export type UserItemParams = UserParams & {
 };
 export const userItemsItem = (userID = ':userID', itemID = ':itemID') =>
   `/users/${userID}/items/${itemID}`;
-
-// -----------------------------------------------------------------------------
-// Helper methods
-// These are ONLY necessary because of the sillyness of `react-router@6`
-// https://github.com/remix-run/react-router/issues/8035
-// -----------------------------------------------------------------------------
-export const urlLayout = (url: string): string => `${url}/*`;
-export const urlRelative = (url: string, parent: string): string =>
-  url.replace(parent, '');

@@ -1,37 +1,30 @@
+import { faker } from '@faker-js/faker';
 import { AxiosResponse } from 'axios';
 import React from 'react';
 
 import authenticateMe from '~/src/api/user/me';
-import {
-  fireEvent,
-  render,
-  RenderResult,
-  testUser,
-  waitFor,
-} from '~/src/testing';
+import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
 import { user as userMock } from '~/src/testing/mocks';
 import { User } from '~/src/types/User';
 
-import { Provider, useAuthentication } from './index';
+import { useAuthentication } from './index';
 
 jest.mock('~/src/api/user/me');
 jest.unmock('~/src/providers/Authentication/Provider');
 jest.unmock('~/src/providers/Authentication/useAuthentication');
 
-describe('When the user API call fails', () => {
-  const ERROR = new Error('Failed to fetch the user');
+const user = userMock({ email: faker.internet.email() });
 
+describe('When the user API call fails', () => {
   let wrapper: RenderResult;
 
   beforeEach(async () => {
     (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
       .mockClear()
-      .mockRejectedValue(ERROR);
-    wrapper = render(
-      <Provider>
-        <div data-testid="authentication-provider__child" />
-      </Provider>,
-    );
+      .mockRejectedValue(new Error('Failed to fetch the user'));
+    wrapper = render(<div data-testid="authentication-provider__child" />, {
+      user: null,
+    });
     await waitFor(() => expect(authenticateMe).toHaveBeenCalledTimes(1));
     await waitFor(() =>
       expect(
@@ -79,8 +72,6 @@ describe('When the user API call fails', () => {
     });
 
     describe('With a user', () => {
-      const user = userMock();
-
       beforeEach(async () => {
         (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
           .mockClear()
@@ -112,19 +103,28 @@ describe('When the user API call fails', () => {
 
 describe('useAuthentication', () => {
   const TestComponent: React.FC = () => {
-    const { user } = useAuthentication();
-    return <div data-testid="user__email">{user?.email}</div>;
+    const { user: authenticatedUser } = useAuthentication();
+    return <div data-testid="user__email">{authenticatedUser?.email}</div>;
   };
 
   let wrapper: RenderResult;
 
-  beforeEach(() => {
-    wrapper = render(<TestComponent />);
+  beforeEach(async () => {
+    (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
+      .mockClear()
+      .mockResolvedValue({
+        data: user,
+        status: 200,
+      } as AxiosResponse<User | void>);
+    wrapper = render(<TestComponent />, { user });
+    await waitFor(() =>
+      expect(wrapper.queryByTestId('user__email')).toHaveTextContent(
+        user.email!,
+      ),
+    );
   });
 
   test('Gets the user from context', () => {
-    expect(wrapper.queryByTestId('user__email')).toHaveTextContent(
-      testUser.email || '',
-    );
+    expect(wrapper.queryByTestId('user__email')).toHaveTextContent(user.email!);
   });
 });

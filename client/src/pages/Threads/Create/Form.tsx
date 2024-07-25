@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FormikConfig, useFormik } from 'formik';
 import React from 'react';
@@ -27,6 +28,7 @@ const Form: React.FC<FormProps> = ({ item }) => {
   const { trackCustomEvent } = useGoogleAnalytics();
   const navigate = useNavigate();
   const { notify } = useNotifications();
+  const queryClient = useQueryClient();
 
   const initialValues = React.useMemo<FormValues>(() => ({ message: '' }), []);
 
@@ -40,6 +42,7 @@ const Form: React.FC<FormProps> = ({ item }) => {
           { itemID: item.id },
         );
         notify({ message: l10n.threadCreateSuccess });
+        queryClient.invalidateQueries({ exact: true, queryKey: ['threads'] });
         navigate(threads());
       } catch (error) {
         if (

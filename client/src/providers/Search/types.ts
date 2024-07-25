@@ -4,7 +4,7 @@ import { Tag } from '~/src/types/Tag';
 export interface SearchFilters {
   distance?: number;
   googlePlaceID?: LocationBasic['googlePlaceID'];
-  tagIDs?: Tag['id'][];
+  tagIDs: Tag['id'][];
 }
 
 export interface SearchOptions {

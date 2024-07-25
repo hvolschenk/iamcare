@@ -1,19 +1,17 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
 
 import deleteItem from '~/src/api/items/delete';
 import markItemAsGiven from '~/src/api/items/markAsGiven';
-import getUserItems from '~/src/api/user/getItems';
 import l10n from '~/src/l10n';
 import {
   fireEvent,
-  render,
   RenderResult,
+  renderRouter,
   testUser,
   waitFor,
 } from '~/src/testing';
-import { item, user } from '~/src/testing/mocks';
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import { apiCollectionPaginated, item, user } from '~/src/testing/mocks';
 import { Item } from '~/src/types/Item';
 import {
   item as itemURL,
@@ -21,206 +19,30 @@ import {
   userItemsItem,
 } from '~/src/urls';
 
-import { Provider as UserProvider } from '../../context';
+import { Component as UserItems } from './index';
 
-import UserItems from './index';
-
+jest.mock('react-router-dom', () => {
+  const reactRouterDom = jest.requireActual('react-router-dom');
+  return {
+    ...reactRouterDom,
+    useLoaderData: jest.fn(),
+    useRouteLoaderData: jest.fn(),
+  };
+});
 jest.mock('~/src/api/items/delete');
 jest.mock('~/src/api/items/markAsGiven');
 jest.mock('~/src/api/user/getItems');
 
 describe('With a user other than the logged-in user', () => {
-  describe('When the user items API call fails', () => {
-    let wrapper: RenderResult;
+  const otherUser = user();
 
-    beforeEach(async () => {
-      const otherUser = user();
-      (getUserItems as jest.Mock)
-        .mockClear()
-        .mockRejectedValue(new Error('Failed to fetch'));
-      wrapper = render(
-        <Routes>
-          <Route element={<div data-testid="item" />} path={itemURL()} />
-          <Route
-            element={<div data-testid="user-items-item" />}
-            path={userItemsItem()}
-          />
-          <Route
-            element={
-              <UserProvider value={otherUser}>
-                <UserItems />
-              </UserProvider>
-            }
-            path={userItemsURL()}
-          />
-        </Routes>,
-        { router: { initialEntries: [userItemsURL(otherUser.id.toString())] } },
-      );
-      await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
-      await waitFor(() =>
-        expect(
-          wrapper.queryByTestId('user-items__error--loading__retry'),
-        ).toBeInTheDocument(),
-      );
-    });
-
-    test('Shows the error message with a retry option', () => {
-      expect(
-        wrapper.queryByTestId('user-items__error--loading__retry'),
-      ).toBeInTheDocument();
-    });
-
-    describe('When retrying and the user items API call succeeds', () => {
-      describe('With no items', () => {
-        const userItems: APICollectionPaginated<Item> = {
-          data: [],
-          links: {
-            first: '/first',
-            last: '/last',
-            next: '/next',
-            prev: '/prev',
-          },
-          meta: {
-            current_page: 1,
-            from: 0,
-            last_page: 1,
-            links: [],
-            path: 'path',
-            per_page: 15,
-            to: 0,
-            total: 0,
-          },
-        };
-
-        beforeEach(async () => {
-          (getUserItems as jest.Mock)
-            .mockClear()
-            .mockResolvedValue({ data: userItems, status: 200 });
-          fireEvent.click(
-            wrapper.getByTestId('user-items__error--loading__retry'),
-          );
-          await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
-          await waitFor(() =>
-            expect(
-              wrapper.queryByTestId('user-items__error--no-items'),
-            ).toBeInTheDocument(),
-          );
-        });
-
-        test('Shows a notification of no items', () => {
-          expect(
-            wrapper.queryByTestId('user-items__error--no-items'),
-          ).toBeInTheDocument();
-        });
-
-        test('Does not give the user an option to create a new item', () => {
-          expect(
-            wrapper.queryByTestId('user-items__error--no-items__create'),
-          ).not.toBeInTheDocument();
-        });
-      });
-
-      describe('With items', () => {
-        const userItems: APICollectionPaginated<Item> = {
-          data: [item(), item(), item()],
-          links: {
-            first: '/first',
-            last: '/last',
-            next: '/next',
-            prev: '/prev',
-          },
-          meta: {
-            current_page: 1,
-            from: 1,
-            last_page: 2,
-            links: [],
-            path: 'path',
-            per_page: 3,
-            to: 3,
-            total: 5,
-          },
-        };
-
-        beforeEach(async () => {
-          (getUserItems as jest.Mock)
-            .mockClear()
-            .mockResolvedValue({ data: userItems, status: 200 });
-          fireEvent.click(
-            wrapper.getByTestId('user-items__error--loading__retry'),
-          );
-          await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
-          await waitFor(() =>
-            expect(wrapper.queryAllByTestId('search-item')).toHaveLength(3),
-          );
-        });
-
-        test('Shows the correct amount of items', () => {
-          expect(wrapper.queryAllByTestId('search-item')).toHaveLength(3);
-        });
-
-        describe('Clicking on an item', () => {
-          beforeEach(() => {
-            fireEvent.click(wrapper.queryAllByTestId('search-item__link')[0]);
-          });
-
-          test('Redirects to the item page', () => {
-            expect(wrapper.queryByTestId('item')).toBeInTheDocument();
-          });
-        });
-
-        describe('Paginating', () => {
-          const userItemsPaginated: APICollectionPaginated<Item> = {
-            data: [item(), item()],
-            links: {
-              first: '/first',
-              last: '/last',
-              next: '/next',
-              prev: '/prev',
-            },
-            meta: {
-              current_page: 2,
-              from: 4,
-              last_page: 2,
-              links: [],
-              path: 'path',
-              per_page: 3,
-              to: 5,
-              total: 5,
-            },
-          };
-
-          beforeEach(async () => {
-            (getUserItems as jest.Mock)
-              .mockClear()
-              .mockResolvedValue({ data: userItemsPaginated, status: 200 });
-            fireEvent.click(
-              wrapper.getAllByTestId('user-items__pagination__item')[2],
-            );
-            await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
-            await waitFor(() =>
-              expect(wrapper.queryAllByTestId('search-item')).toHaveLength(2),
-            );
-          });
-
-          test('Shows the correct amount of items', () => {
-            expect(wrapper.queryAllByTestId('search-item')).toHaveLength(2);
-          });
-        });
-      });
-    });
+  beforeEach(() => {
+    (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(otherUser);
   });
-});
 
-describe('With the logged-in user', () => {
   describe('With no items', () => {
-    const userItems: APICollectionPaginated<Item> = {
+    const userItems = apiCollectionPaginated<Item>({
       data: [],
-      links: {
-        first: '/first',
-        last: '/last',
-        next: '/next',
-        prev: '/prev',
-      },
       meta: {
         current_page: 1,
         from: 0,
@@ -231,32 +53,165 @@ describe('With the logged-in user', () => {
         to: 0,
         total: 0,
       },
-    };
+    });
 
     let wrapper: RenderResult;
 
     beforeEach(async () => {
-      (getUserItems as jest.Mock)
-        .mockClear()
-        .mockResolvedValue({ data: userItems, status: 200 });
-      wrapper = render(
-        <Routes>
-          <Route
-            element={<div data-testid="user-items-item" />}
-            path={userItemsItem()}
-          />
-          <Route
-            element={
-              <UserProvider value={testUser}>
-                <UserItems />
-              </UserProvider>
-            }
-            path={userItemsURL()}
-          />
-        </Routes>,
-        { router: { initialEntries: [userItemsURL(testUser.id.toString())] } },
+      (useLoaderData as jest.Mock).mockClear().mockReturnValue(userItems);
+      wrapper = renderRouter(
+        [
+          { element: <div data-testid="item" />, path: itemURL() },
+          {
+            element: <div data-testid="user-items-item" />,
+            path: userItemsItem(),
+          },
+          { Component: UserItems, path: userItemsURL() },
+        ],
+        [userItemsURL(otherUser.id.toString())],
       );
-      await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
+      await waitFor(() =>
+        expect(
+          wrapper.queryByTestId('user-items__error--no-items'),
+        ).toBeInTheDocument(),
+      );
+    });
+
+    test('Shows a notification of no items', () => {
+      expect(
+        wrapper.queryByTestId('user-items__error--no-items'),
+      ).toBeInTheDocument();
+    });
+
+    test('Does not give the user an option to create a new item', () => {
+      expect(
+        wrapper.queryByTestId('user-items__error--no-items__create'),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe('With items', () => {
+    const userItems = apiCollectionPaginated<Item>({
+      data: [item(), item(), item()],
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 2,
+        links: [],
+        path: 'path',
+        per_page: 3,
+        to: 3,
+        total: 5,
+      },
+    });
+
+    let wrapper: RenderResult;
+
+    beforeEach(async () => {
+      (useLoaderData as jest.Mock).mockClear().mockReturnValue(userItems);
+      wrapper = renderRouter(
+        [
+          { element: <div data-testid="item" />, path: itemURL() },
+          {
+            element: <div data-testid="user-items-item" />,
+            path: userItemsItem(),
+          },
+          { Component: UserItems, path: userItemsURL() },
+        ],
+        [userItemsURL(otherUser.id.toString())],
+      );
+      await waitFor(() =>
+        expect(wrapper.queryAllByTestId('search-item')).toHaveLength(3),
+      );
+    });
+
+    test('Shows the correct amount of items', () => {
+      expect(wrapper.queryAllByTestId('search-item')).toHaveLength(3);
+    });
+
+    describe('Clicking on an item', () => {
+      beforeEach(() => {
+        fireEvent.click(wrapper.queryAllByTestId('search-item__link')[0]);
+      });
+
+      test('Redirects to the item page', () => {
+        expect(wrapper.queryByTestId('item')).toBeInTheDocument();
+      });
+    });
+
+    describe('Paginating', () => {
+      const userItemsPaginated = apiCollectionPaginated<Item>({
+        data: [item(), item()],
+        meta: {
+          current_page: 2,
+          from: 4,
+          last_page: 2,
+          links: [],
+          path: 'path',
+          per_page: 3,
+          to: 5,
+          total: 5,
+        },
+      });
+
+      beforeEach(async () => {
+        (useLoaderData as jest.Mock)
+          .mockClear()
+          .mockReturnValue(userItemsPaginated);
+        fireEvent.click(
+          wrapper.getAllByTestId('user-items__pagination__item')[2],
+        );
+        await waitFor(() =>
+          expect(wrapper.queryAllByTestId('search-item')).toHaveLength(
+            userItemsPaginated.data.length,
+          ),
+        );
+      });
+
+      test('Shows the correct amount of items', () => {
+        expect(wrapper.queryAllByTestId('search-item')).toHaveLength(
+          userItemsPaginated.data.length,
+        );
+      });
+    });
+  });
+});
+
+describe('With the logged-in user', () => {
+  beforeEach(() => {
+    (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(testUser);
+  });
+
+  describe('With no items', () => {
+    const userItems = apiCollectionPaginated<Item>({
+      data: [],
+      meta: {
+        current_page: 1,
+        from: 0,
+        last_page: 1,
+        links: [],
+        path: 'path',
+        per_page: 15,
+        to: 0,
+        total: 0,
+      },
+    });
+
+    let wrapper: RenderResult;
+
+    beforeEach(async () => {
+      (useLoaderData as jest.Mock).mockClear().mockReturnValue(userItems);
+      wrapper = renderRouter(
+        [
+          { element: <div data-testid="item" />, path: itemURL() },
+          {
+            element: <div data-testid="user-items-item" />,
+            path: userItemsItem(),
+          },
+          { Component: UserItems, path: userItemsURL() },
+        ],
+        [userItemsURL(testUser.id.toString())],
+      );
       await waitFor(() =>
         expect(
           wrapper.queryByTestId('user-items__error--no-items'),
@@ -282,14 +237,8 @@ describe('With the logged-in user', () => {
   });
 
   describe('With items', () => {
-    const userItems: APICollectionPaginated<Item> = {
+    const userItems = apiCollectionPaginated<Item>({
       data: [item(), item(), item()],
-      links: {
-        first: '/first',
-        last: '/last',
-        next: '/next',
-        prev: '/prev',
-      },
       meta: {
         current_page: 1,
         from: 1,
@@ -300,32 +249,23 @@ describe('With the logged-in user', () => {
         to: 3,
         total: 5,
       },
-    };
+    });
 
     let wrapper: RenderResult;
 
     beforeEach(async () => {
-      (getUserItems as jest.Mock)
-        .mockClear()
-        .mockResolvedValue({ data: userItems, status: 200 });
-      wrapper = render(
-        <Routes>
-          <Route
-            element={<div data-testid="user-items-item" />}
-            path={userItemsItem()}
-          />
-          <Route
-            element={
-              <UserProvider value={testUser}>
-                <UserItems />
-              </UserProvider>
-            }
-            path={userItemsURL()}
-          />
-        </Routes>,
-        { router: { initialEntries: [userItemsURL(testUser.id.toString())] } },
+      (useLoaderData as jest.Mock).mockClear().mockReturnValue(userItems);
+      wrapper = renderRouter(
+        [
+          { element: <div data-testid="item" />, path: itemURL() },
+          {
+            element: <div data-testid="user-items-item" />,
+            path: userItemsItem(),
+          },
+          { Component: UserItems, path: userItemsURL() },
+        ],
+        [userItemsURL(testUser.id.toString())],
       );
-      await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
       await waitFor(() =>
         expect(wrapper.queryAllByTestId('user-items__item')).toHaveLength(3),
       );
@@ -447,14 +387,12 @@ describe('With the logged-in user', () => {
 });
 
 describe('With no logged-in user', () => {
-  const userItems: APICollectionPaginated<Item> = {
+  beforeEach(() => {
+    (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(user());
+  });
+
+  const userItems = apiCollectionPaginated<Item>({
     data: [],
-    links: {
-      first: '/first',
-      last: '/last',
-      next: '/next',
-      prev: '/prev',
-    },
     meta: {
       current_page: 1,
       from: 0,
@@ -465,21 +403,24 @@ describe('With no logged-in user', () => {
       to: 0,
       total: 0,
     },
-  };
+  });
 
   let wrapper: RenderResult;
 
   beforeEach(async () => {
-    (getUserItems as jest.Mock)
-      .mockClear()
-      .mockResolvedValue({ data: userItems, status: 200 });
-    wrapper = render(
-      <UserProvider value={user()}>
-        <UserItems />
-      </UserProvider>,
+    (useLoaderData as jest.Mock).mockClear().mockReturnValue(userItems);
+    wrapper = renderRouter(
+      [
+        { element: <div data-testid="item" />, path: itemURL() },
+        {
+          element: <div data-testid="user-items-item" />,
+          path: userItemsItem(),
+        },
+        { Component: UserItems, path: userItemsURL() },
+      ],
+      [userItemsURL(testUser.id.toString())],
       { user: null },
     );
-    await waitFor(() => expect(getUserItems).toHaveBeenCalledTimes(1));
     await waitFor(() =>
       expect(
         wrapper.queryByTestId('user-items__error--no-items'),

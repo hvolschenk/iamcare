@@ -1,7 +1,11 @@
-import { QueryClientConfig } from '@tanstack/react-query';
-import { render } from '@testing-library/react';
+import { RenderResult, render } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter, MemoryRouterProps } from 'react-router-dom';
+import {
+  Outlet,
+  RouteObject,
+  RouterProvider,
+  createMemoryRouter,
+} from 'react-router-dom';
 
 import { Provider as AuthenticationProvider } from '~/src/providers/Authentication';
 import { Provider as GoogleAnalyticsProvider } from '~/src/providers/GoogleAnalytics';
@@ -14,19 +18,15 @@ import { User } from '~/src/types/User';
 
 import { user } from './mocks';
 
-const queryClientConfig: QueryClientConfig = {
-  defaultOptions: {
-    queries: {
-      retry: false,
-      staleTime: 0,
-    },
-  },
-};
-
 export const testUser = user();
 
+const Layout: React.FC = () => (
+  <SearchProvider>
+    <Outlet />
+  </SearchProvider>
+);
+
 interface Options {
-  router: MemoryRouterProps;
   // The `AuthenticationProvider` expects `User | undefined` as a value,
   // if we accept `undefined` here then JS will always fall back to `testUser`
   // meaning that we cannot test anything with no logged-in user.
@@ -40,18 +40,13 @@ interface ProvidersProps {
 
 const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
   <GoogleAnalyticsProvider>
-    <QueryClientProvider queryClientConfig={queryClientConfig}>
+    <QueryClientProvider>
       <AuthenticationProvider
         value={options?.user === null ? undefined : options?.user || testUser}
       >
         <ThemeProvider>
           <GooglePlacesProvider>
-            <NotificationsProvider>
-              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-              <MemoryRouter {...options?.router}>
-                <SearchProvider>{children}</SearchProvider>
-              </MemoryRouter>
-            </NotificationsProvider>
+            <NotificationsProvider>{children}</NotificationsProvider>
           </GooglePlacesProvider>
         </ThemeProvider>
       </AuthenticationProvider>
@@ -59,11 +54,42 @@ const Providers: React.FC<ProvidersProps> = ({ children, options }) => (
   </GoogleAnalyticsProvider>
 );
 
-const customRender = (ui: React.ReactElement, options?: Partial<Options>) =>
-  render(ui, {
+const customRender = (
+  ui: React.ReactElement,
+  options?: Partial<Options>,
+): RenderResult => {
+  const router = createMemoryRouter(
+    [
+      {
+        children: [{ element: ui, path: '/test' }],
+        Component: Layout,
+        path: '/',
+      },
+    ],
+    { initialEntries: ['/test'] },
+  );
+  return render(<RouterProvider router={router} />, {
     // eslint-disable-next-line react/jsx-props-no-spreading
     wrapper: (props) => <Providers {...props} options={options} />,
   });
+};
+
+const customRenderRouter = (
+  routes: RouteObject[],
+  initialEntries: string[],
+  options?: Partial<Options>,
+): RenderResult => {
+  const router = createMemoryRouter(
+    [{ children: routes, Component: Layout, path: '/' }],
+    { initialEntries },
+  );
+  return render(
+    <RouterProvider router={router} />,
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    { wrapper: (props) => <Providers {...props} options={options} /> },
+  );
+};
 
 export * from '@testing-library/react';
 export { customRender as render };
+export { customRenderRouter as renderRouter };

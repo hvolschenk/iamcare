@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { SearchOptions } from '~/src/providers/Search/types';
-import { fireEvent, render, RenderResult } from '~/src/testing';
+import { fireEvent, renderRouter, RenderResult } from '~/src/testing';
 import { itemsSearch, ItemsSearchOptions } from '~/src/urls';
 
 import { useSearch } from './index';
@@ -61,13 +61,9 @@ describe('When loading the search page', () => {
   let wrapper: RenderResult;
 
   beforeEach(() => {
-    wrapper = render(
-      <Routes>
-        <Route element={<TestComponent />} path={itemsSearch()} />
-      </Routes>,
-      {
-        router: { initialEntries: [itemsSearch(itemsSearchOptions)] },
-      },
+    wrapper = renderRouter(
+      [{ Component: TestComponent, path: itemsSearch() }],
+      [itemsSearch(itemsSearchOptions)],
     );
   });
 

@@ -1,3 +1,4 @@
+export { default as apiCollectionPaginated } from './apiCollectionPaginated';
 export { default as autocompleteResponse } from './autocompleteResponse';
 export { default as image } from './image';
 export { default as item } from './item';

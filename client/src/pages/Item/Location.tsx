@@ -19,6 +19,7 @@ const Location: React.FC<LocationProps> = ({ item }) => {
       filters: {
         distance: filters.distance || SEARCH_DISTANCE_DEFAULT,
         googlePlaceID: item.location.googlePlaceID,
+        tagIDs: [],
       },
     });
   }, [search]);

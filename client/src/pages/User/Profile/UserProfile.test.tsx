@@ -1,11 +1,11 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
 
 import logout from '~/src/api/user/logout';
 import l10n from '~/src/l10n';
 import {
   fireEvent,
-  render,
+  renderRouter,
   RenderResult,
   testUser,
   waitFor,
@@ -13,32 +13,34 @@ import {
 import { user as userMock } from '~/src/testing/mocks';
 import { root, user, userItems } from '~/src/urls';
 
-import { Provider as UserProvider } from '../context';
+import { Component as UserProfile } from './index';
 
-import UserProfile from './index';
-
+jest.mock('react-router-dom', () => {
+  const reactRouterDom = jest.requireActual('react-router-dom');
+  return {
+    ...reactRouterDom,
+    useRouteLoaderData: jest.fn(),
+  };
+});
 jest.mock('~/src/api/user/logout');
 
 const mockUser = userMock();
+
+beforeEach(() => {
+  (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(mockUser);
+});
 
 describe('When not logged-in', () => {
   let wrapper: RenderResult;
 
   beforeEach(() => {
-    wrapper = render(
-      <UserProvider value={mockUser}>
-        <Routes>
-          <Route element={<UserProfile />} path={user()} />
-          <Route
-            element={<div data-testid="user__items" />}
-            path={userItems()}
-          />
-        </Routes>
-      </UserProvider>,
-      {
-        router: { initialEntries: [user()] },
-        user: null,
-      },
+    wrapper = renderRouter(
+      [
+        { Component: UserProfile, path: user() },
+        { element: <div data-testid="user__items" />, path: userItems() },
+      ],
+      [user()],
+      { user: null },
     );
   });
 
@@ -67,19 +69,12 @@ describe('When logged-in', () => {
     let wrapper: RenderResult;
 
     beforeEach(() => {
-      wrapper = render(
-        <UserProvider value={mockUser}>
-          <Routes>
-            <Route element={<UserProfile />} path={user()} />
-            <Route
-              element={<div data-testid="user__items" />}
-              path={userItems()}
-            />
-          </Routes>
-        </UserProvider>,
-        {
-          router: { initialEntries: [user()] },
-        },
+      wrapper = renderRouter(
+        [
+          { Component: UserProfile, path: user() },
+          { element: <div data-testid="user__items" />, path: userItems() },
+        ],
+        [user(mockUser.id.toString())],
       );
     });
 
@@ -107,20 +102,14 @@ describe('When logged-in', () => {
     let wrapper: RenderResult;
 
     beforeEach(() => {
-      wrapper = render(
-        <UserProvider value={testUser}>
-          <Routes>
-            <Route element={<div data-testid="root" />} path={root()} />
-            <Route element={<UserProfile />} path={user()} />
-            <Route
-              element={<div data-testid="user__items" />}
-              path={userItems()}
-            />
-          </Routes>
-        </UserProvider>,
-        {
-          router: { initialEntries: [user()] },
-        },
+      (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(testUser);
+      wrapper = renderRouter(
+        [
+          { element: <div data-testid="root" />, path: root() },
+          { Component: UserProfile, path: user() },
+          { element: <div data-testid="user__items" />, path: userItems() },
+        ],
+        [user(testUser.id.toString())],
       );
     });
 

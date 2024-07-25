@@ -4,3 +4,4 @@ jest.mock('~/src/providers/GoogleAnalytics/Provider');
 jest.mock('~/src/providers/GoogleAnalytics/useGoogleAnalytics');
 jest.mock('~/src/providers/GooglePlaces/Provider');
 jest.mock('~/src/providers/GooglePlaces/useGooglePlaces');
+jest.mock('~/src/providers/QueryClient/Provider');

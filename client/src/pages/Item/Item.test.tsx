@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
-import itemGet from '~/src/api/items/get';
 import l10n from '~/src/l10n';
 import {
   fireEvent,
   render,
+  renderRouter,
   RenderResult,
   testUser,
   waitFor,
@@ -15,148 +15,133 @@ import {
 import { item as itemMock } from '~/src/testing/mocks';
 import { item as itemURL, itemsSearch } from '~/src/urls';
 
-import Item from './index';
+import { Component as Item } from './index';
 
+jest.mock('react-router-dom', () => {
+  const reactRouterDom = jest.requireActual('react-router-dom');
+  return {
+    ...reactRouterDom,
+    useLoaderData: jest.fn(),
+  };
+});
 jest.mock('@mui/material/useMediaQuery');
 jest.mock('~/src/api/items/get');
 
 const id = faker.number.int();
 
-describe('When the API call fails', () => {
+describe('When the user owns the item', () => {
+  const item = itemMock({ id, user: testUser });
+
   let wrapper: RenderResult;
 
   beforeEach(async () => {
-    (itemGet as jest.Mock)
-      .mockClear()
-      .mockRejectedValue(new Error('Failed to fetch the item'));
-    wrapper = render(
-      <Routes>
-        <Route element={<Item />} path={itemURL()} />
-        <Route
-          element={<div data-testid="search-page" />}
-          path={itemsSearch()}
-        />
-      </Routes>,
-      { router: { initialEntries: [itemURL(id.toString())] } },
+    (useLoaderData as jest.Mock).mockClear().mockReturnValue(item);
+    wrapper = renderRouter(
+      [
+        { Component: Item, path: itemURL() },
+        { element: <div data-testid="search-page" />, path: itemsSearch() },
+      ],
+      [itemURL(id.toString())],
     );
-    await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
     await waitFor(() =>
-      expect(wrapper.queryByTestId('item__error__retry')).toBeInTheDocument(),
+      expect(wrapper.queryAllByTestId('item__image')).toHaveLength(
+        item.images.length,
+      ),
     );
   });
 
-  test('Shows an error message', () => {
-    expect(wrapper.queryByTestId('item__error__retry')).toBeInTheDocument();
+  test('Disables the new thread button', () => {
+    expect(
+      wrapper.queryByTestId('item__action--thread-create'),
+    ).toHaveAttribute('aria-disabled', 'true');
+  });
+});
+
+describe('When the user does not own the item', () => {
+  const item = itemMock({ id });
+
+  let wrapper: RenderResult;
+
+  beforeEach(async () => {
+    (useLoaderData as jest.Mock).mockClear().mockReturnValue(item);
+    wrapper = renderRouter(
+      [
+        { Component: Item, path: itemURL() },
+        { element: <div data-testid="search-page" />, path: itemsSearch() },
+      ],
+      [itemURL(id.toString())],
+    );
+    await waitFor(() =>
+      expect(wrapper.queryAllByTestId('item__image')).toHaveLength(
+        item.images.length,
+      ),
+    );
   });
 
-  describe('When retrying and the API call succeeds', () => {
-    describe('When the user owns the item', () => {
-      const item = itemMock({ id, user: testUser });
+  test('Renders the correct amount of images', () => {
+    expect(wrapper.queryAllByTestId('item__image')).toHaveLength(
+      item.images.length,
+    );
+  });
 
-      beforeEach(async () => {
-        (itemGet as jest.Mock)
-          .mockClear()
-          .mockResolvedValue({ data: item, status: 200 });
-        fireEvent.click(wrapper.getByTestId('item__error__retry'));
-        await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
-        await waitFor(() =>
-          expect(wrapper.queryAllByTestId('item__image')).toHaveLength(
-            item.images.length,
-          ),
-        );
-      });
+  test('Does not show any image modals', () => {
+    expect(wrapper.queryByTestId('item__image--large')).not.toBeInTheDocument();
+  });
 
-      test('Disables the new thread button', () => {
-        expect(
-          wrapper.queryByTestId('item__action--thread-create'),
-        ).toHaveAttribute('aria-disabled', 'true');
-      });
+  describe('After clicking on an image thumbnail', () => {
+    beforeEach(() => {
+      fireEvent.click(wrapper.getAllByTestId('item__image')[0]);
     });
 
-    describe('When the user does not own the item', () => {
-      const item = itemMock({ id });
+    test('Shows a lightbox dialog', () => {
+      expect(wrapper.queryByTestId('lightbox-dialog')).toBeInTheDocument();
+    });
 
+    describe('Closing the modal', () => {
       beforeEach(async () => {
-        (itemGet as jest.Mock)
-          .mockClear()
-          .mockResolvedValue({ data: item, status: 200 });
-        fireEvent.click(wrapper.getByTestId('item__error__retry'));
-        await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
+        fireEvent.keyDown(wrapper.getByTestId('lightbox-dialog'), {
+          charCode: 27,
+          code: 'Escape',
+          key: 'Escape',
+        });
         await waitFor(() =>
-          expect(wrapper.queryAllByTestId('item__image')).toHaveLength(
-            item.images.length,
-          ),
+          expect(
+            wrapper.queryByTestId('lightbox-dialog__image'),
+          ).not.toBeVisible(),
         );
       });
 
-      test('Renders the correct amount of images', () => {
-        expect(wrapper.queryAllByTestId('item__image')).toHaveLength(
-          item.images.length,
-        );
-      });
-
-      test('Does not show any image modals', () => {
+      test('Stops showing the lightbox dialog', () => {
         expect(
-          wrapper.queryByTestId('item__image--large'),
-        ).not.toBeInTheDocument();
+          wrapper.queryByTestId('lightbox-dialog__image'),
+        ).not.toBeVisible();
       });
+    });
+  });
 
-      describe('After clicking on an image thumbnail', () => {
-        beforeEach(() => {
-          fireEvent.click(wrapper.getAllByTestId('item__image')[0]);
-        });
+  describe('Clicking on a tag', () => {
+    beforeEach(async () => {
+      fireEvent.click(wrapper.getAllByTestId('item__tag')[0]);
+      await waitFor(() =>
+        expect(wrapper.queryByTestId('search-page')).toBeInTheDocument(),
+      );
+    });
 
-        test('Shows a lightbox dialog', () => {
-          expect(wrapper.queryByTestId('lightbox-dialog')).toBeInTheDocument();
-        });
+    test('Redirects to the search page', () => {
+      expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
+    });
+  });
 
-        describe('Closing the modal', () => {
-          beforeEach(async () => {
-            fireEvent.keyDown(wrapper.getByTestId('lightbox-dialog'), {
-              charCode: 27,
-              code: 'Escape',
-              key: 'Escape',
-            });
-            await waitFor(() =>
-              expect(
-                wrapper.queryByTestId('lightbox-dialog__image'),
-              ).not.toBeVisible(),
-            );
-          });
+  describe('When clicking on the location', () => {
+    beforeEach(async () => {
+      fireEvent.click(wrapper.getByTestId('item__location'));
+      await waitFor(() =>
+        expect(wrapper.queryByTestId('search-page')).toBeInTheDocument(),
+      );
+    });
 
-          test('Stops showing the lightbox dialog', () => {
-            expect(
-              wrapper.queryByTestId('lightbox-dialog__image'),
-            ).not.toBeVisible();
-          });
-        });
-      });
-
-      describe('Clicking on a tag', () => {
-        beforeEach(async () => {
-          fireEvent.click(wrapper.getAllByTestId('item__tag')[0]);
-          await waitFor(() =>
-            expect(wrapper.queryByTestId('search-page')).toBeInTheDocument(),
-          );
-        });
-
-        test('Redirects to the search page', () => {
-          expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
-        });
-      });
-
-      describe('When clicking on the location', () => {
-        beforeEach(async () => {
-          fireEvent.click(wrapper.getByTestId('item__location'));
-          await waitFor(() =>
-            expect(wrapper.queryByTestId('search-page')).toBeInTheDocument(),
-          );
-        });
-
-        test('Redirects to the search page', () => {
-          expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
-        });
-      });
+    test('Redirects to the search page', () => {
+      expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
     });
   });
 });
@@ -182,20 +167,14 @@ describe('When sharing is disabled', () => {
       value: undefined,
       writable: true,
     });
-    (itemGet as jest.Mock)
-      .mockClear()
-      .mockResolvedValue({ data: item, status: 200 });
-    wrapper = render(
-      <Routes>
-        <Route element={<Item />} path={itemURL()} />
-        <Route
-          element={<div data-testid="search-page" />}
-          path={itemsSearch()}
-        />
-      </Routes>,
-      { router: { initialEntries: [itemURL(id.toString())] } },
+    (useLoaderData as jest.Mock).mockClear().mockReturnValue(item);
+    wrapper = renderRouter(
+      [
+        { Component: Item, path: itemURL() },
+        { element: <div data-testid="search-page" />, path: itemsSearch() },
+      ],
+      [itemURL(id.toString())],
     );
-    await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
   });
 
   test('Disables the share button', () => {
@@ -237,20 +216,14 @@ describe('When sharing is enabled', () => {
       value: share,
       writable: true,
     });
-    (itemGet as jest.Mock)
-      .mockClear()
-      .mockResolvedValue({ data: item, status: 200 });
-    wrapper = render(
-      <Routes>
-        <Route element={<Item />} path={itemURL()} />
-        <Route
-          element={<div data-testid="search-page" />}
-          path={itemsSearch()}
-        />
-      </Routes>,
-      { router: { initialEntries: [itemURL(id.toString())] } },
+    (useLoaderData as jest.Mock).mockClear().mockReturnValue(item);
+    wrapper = renderRouter(
+      [
+        { Component: Item, path: itemURL() },
+        { element: <div data-testid="search-page" />, path: itemsSearch() },
+      ],
+      [itemURL(id.toString())],
     );
-    await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
   });
 
   describe('When sharing fails', () => {
@@ -324,9 +297,7 @@ describe.each<TestCase>([
   let wrapper: RenderResult;
 
   beforeEach(async () => {
-    (itemGet as jest.Mock)
-      .mockClear()
-      .mockResolvedValue({ data: item, status: 200 });
+    (useLoaderData as jest.Mock).mockClear().mockReturnValue(item);
     (useMediaQuery as jest.Mock)
       .mockClear()
       .mockReturnValueOnce(true) // (prefers-color-scheme: dark)
@@ -336,7 +307,6 @@ describe.each<TestCase>([
       // like the on in `<Giver />`. It also has to alternate.
       .mockReturnValue(large);
     wrapper = render(<Item />, { user: null });
-    await waitFor(() => expect(itemGet).toHaveBeenCalledTimes(1));
     await waitFor(() =>
       expect(wrapper.queryAllByTestId('item__image')).toHaveLength(
         item.images.length,
