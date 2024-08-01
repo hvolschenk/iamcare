@@ -7,6 +7,7 @@ import {
   TrackSearchOptions,
   TrackSelectContentOptions,
   TrackSelectItemOptions,
+  TrackShareOptions,
   TrackViewItemListOptions,
   TrackViewItemOptions,
 } from '../types';
@@ -20,6 +21,7 @@ export const trackPageView = jest.fn<void, [TrackPageViewOptions]>();
 export const trackSearch = jest.fn<void, [TrackSearchOptions]>();
 export const trackSelectContent = jest.fn<void, [TrackSelectContentOptions]>();
 export const trackSelectItem = jest.fn<void, [TrackSelectItemOptions]>();
+export const trackShare = jest.fn<void, [TrackShareOptions]>();
 export const trackViewItem = jest.fn<void, [TrackViewItemOptions]>();
 export const trackViewItemList = jest.fn<void, [TrackViewItemListOptions]>();
 
@@ -33,6 +35,7 @@ const useGoogleAnalytics = (): GoogleAnalyticsProviderValues => ({
   trackSearch,
   trackSelectContent,
   trackSelectItem,
+  trackShare,
   trackViewItem,
   trackViewItemList,
 });

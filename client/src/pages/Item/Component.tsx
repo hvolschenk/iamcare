@@ -14,7 +14,7 @@ import { item as itemURL, root } from '~/src/urls';
 import Item from './Item';
 
 const ItemRoot: React.FC = () => {
-  const { trackViewItem } = useGoogleAnalytics();
+  const { trackShare, trackViewItem } = useGoogleAnalytics();
   const item = useLoaderData() as ItemType;
   const { notify } = useNotifications();
 
@@ -28,13 +28,14 @@ const ItemRoot: React.FC = () => {
     if (navigator.canShare(shareData)) {
       try {
         await navigator.share(shareData);
+        trackShare({ content_type: 'item', item_id: item.id.toString() });
       } catch (error) {
         if (!(error instanceof DOMException && error.name === 'AbortError')) {
           notify({ message: l10n.itemShareError });
         }
       }
     }
-  }, [item, notify]);
+  }, [item, notify, trackShare]);
 
   React.useEffect(() => {
     trackViewItem({ item });

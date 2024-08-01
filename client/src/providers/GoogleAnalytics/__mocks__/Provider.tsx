@@ -19,6 +19,7 @@ const GoogleAnalyticsProvider: React.FC<GoogleAnalyticsProviderProps> = ({
   const trackSearch = jest.fn();
   const trackSelectContent = jest.fn();
   const trackSelectItem = jest.fn();
+  const trackShare = jest.fn();
   const trackViewItem = jest.fn();
   const trackViewItemList = jest.fn();
 
@@ -33,6 +34,7 @@ const GoogleAnalyticsProvider: React.FC<GoogleAnalyticsProviderProps> = ({
       trackSearch,
       trackSelectContent,
       trackSelectItem,
+      trackShare,
       trackViewItem,
       trackViewItemList,
     }),
@@ -45,6 +47,8 @@ const GoogleAnalyticsProvider: React.FC<GoogleAnalyticsProviderProps> = ({
       trackPageView,
       trackSearch,
       trackSelectContent,
+      trackSelectItem,
+      trackShare,
       trackViewItem,
       trackViewItemList,
     ],
