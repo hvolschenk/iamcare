@@ -13,6 +13,9 @@ export interface L10n {
   cookiesDescription: string;
   cookiesTitle: string;
   errorLoading: string;
+  errorPageActionHome: string;
+  errorPageDescription: string;
+  errorPageTitle: string;
   home: string;
   homeGiveCallToAction: string;
   homeGiveDescription: string;

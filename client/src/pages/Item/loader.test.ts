@@ -1,0 +1,24 @@
+import itemGet from '~/src/api/items/get';
+import { item as itemMock } from '~/src/testing/mocks';
+
+import { loader } from './index';
+
+jest.mock('~/src/api/items/get');
+
+const item = itemMock();
+
+let result: any;
+
+beforeEach(async () => {
+  (itemGet as jest.Mock)
+    .mockClear()
+    .mockResolvedValue({ data: item, status: 200 });
+  result = await loader({
+    params: { itemID: item.id.toString() },
+    request: new Request(''),
+  });
+});
+
+test('Returns the proper data', () => {
+  expect(result).toEqual(item);
+});

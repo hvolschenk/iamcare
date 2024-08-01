@@ -18,6 +18,10 @@ const en: L10n = {
     'We use cookies to enable analytics through Google Analytics. Your experience will not be affected by your choice. We will only (anonymously) track the analytics if you accept.',
   cookiesTitle: 'We use cookies',
   errorLoading: 'Error loading',
+  errorPageActionHome: 'Go home',
+  errorPageDescription:
+    'An unexpected error has occurred. Sorry for the inconvenience caused.',
+  errorPageTitle: 'Something went wrong',
   home: 'Home',
   homeGiveCallToAction: 'Give an item',
   homeGiveDescription:

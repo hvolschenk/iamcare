@@ -15,7 +15,7 @@ interface ItemMarkAsGivenDialogProps {
   item: Item;
   onClose(): void;
   onError(): void;
-  onSuccess(): void;
+  onSuccess(item: Item): void;
 }
 
 const ItemMarkAsGivenDialog: React.FC<ItemMarkAsGivenDialogProps> = ({
@@ -29,7 +29,9 @@ const ItemMarkAsGivenDialog: React.FC<ItemMarkAsGivenDialogProps> = ({
     mutationFn: () => markItemAsGiven(item.id),
     mutationKey: ['item', item.id, 'mark-as-given'],
     onError,
-    onSuccess,
+    onSuccess: (response) => {
+      onSuccess(response.data);
+    },
   });
 
   const onMarkAsGiven = React.useCallback(() => {

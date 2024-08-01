@@ -1,6 +1,7 @@
 import {
   authentication,
   item,
+  items,
   itemsSearch,
   root,
   thread,
@@ -9,8 +10,6 @@ import {
   user,
   userItems,
   userItemsCreate,
-  urlLayout,
-  urlRelative,
   userItemsItem,
 } from './urls';
 
@@ -31,6 +30,7 @@ test.each<TestCase>([
   ],
   ['item (no paramaters)', item, [], '/items/:itemID'],
   ['item', item, ['22'], '/items/22'],
+  ['items', items, [], '/items'],
   ['itemsSearch (no paramaters)', itemsSearch, [], '/items/search'],
   [
     'itemsSearch',
@@ -52,7 +52,8 @@ test.each<TestCase>([
   ['thread', thread, ['22'], '/threads/22'],
   ['threadCreate (no parameters)', threadCreate, [], '/threads/create/:itemID'],
   ['threadCreate', threadCreate, ['22'], '/threads/create/22'],
-  ['threads', threads, [], '/threads'],
+  ['threads (no parameters)', threads, [], '/threads'],
+  ['threads', threads, [{ page: 2 }], '/threads?page=2'],
   ['user (no paramaters)', user, [], '/users/:userID'],
   ['user', user, ['22'], '/users/22'],
   ['userItems (no paramaters)', userItems, [], '/users/:userID/items'],
@@ -71,8 +72,6 @@ test.each<TestCase>([
     '/users/:userID/items/:itemID',
   ],
   ['userItemsItem', userItemsItem, ['22', '33'], '/users/22/items/33'],
-  ['urlLayout', urlLayout, ['/one/two'], '/one/two/*'],
-  ['urlRelative', urlRelative, ['/one/two', '/one'], '/two'],
 ])('Renders the %s URL', (name, method, parameters, result) => {
   expect(method(...parameters)).toBe(result);
 });

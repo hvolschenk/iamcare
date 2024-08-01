@@ -1,29 +1,35 @@
 // In ALL other cases `render` should be imported from `~/src/testing`.
 // In this ONE case we are testing this Provider in isolation,
 // and don't need any mocks for it.
-import { QueryClientConfig, useQuery } from '@tanstack/react-query';
+import { QueryClient, useQuery } from '@tanstack/react-query';
 import { render, RenderResult, waitFor } from '@testing-library/react';
 import React from 'react';
+import ReactGA from 'react-ga4';
 
-import {
-  Provider as GoogleAnalyticsProvider,
-  useGoogleAnalytics,
-} from '~/src/providers/GoogleAnalytics';
+import { Provider as GoogleAnalyticsProvider } from '~/src/providers/GoogleAnalytics';
 
-import QueryClientProvider from './Provider';
+import QueryClientProvider, { queryClient } from './Provider';
 
 jest.mock('@tanstack/react-query-devtools', () => {
   const ReactQueryDevtools: React.FC = () => <div data-testid="devtools" />;
   return { ReactQueryDevtools };
 });
+jest.mock('react-ga4');
+jest.unmock('~/src/providers/QueryClient/Provider');
 
 const queryFail = jest.fn().mockRejectedValue(new Error('Failed to query'));
 
 const TestComponentFail: React.FC = () => {
-  const query = useQuery({
-    queryFn: () => queryFail(),
-    queryKey: ['test-component-fail-query'],
-  });
+  const query = useQuery(
+    {
+      queryFn: () => queryFail(),
+      queryKey: ['test-component-fail-query'],
+    },
+    new QueryClient({
+      defaultOptions: { queries: { retry: false, staleTime: 0 } },
+      queryCache: queryClient.getQueryCache(),
+    }),
+  );
   return (
     <p data-testid="children-fail">
       <span data-testid="children-fail__status">{query.status}</span> -{' '}
@@ -38,7 +44,7 @@ describe('Without devtools', () => {
   beforeEach(() => {
     process.env.QUERY_DEVTOOLS_VISIBLE = 'false';
     wrapper = render(
-      <QueryClientProvider queryClientConfig={{}}>
+      <QueryClientProvider>
         <div data-testid="children" />
       </QueryClientProvider>,
     );
@@ -67,33 +73,29 @@ describe('With devtools', () => {
 });
 
 describe('With failure', () => {
-  const { trackException } = useGoogleAnalytics();
+  let wrapper: RenderResult;
 
   beforeEach(async () => {
     queryFail.mockClear();
-    (trackException as jest.Mock).mockClear();
-    const queryClientConfig: QueryClientConfig = {
-      defaultOptions: {
-        queries: {
-          retry: false,
-          staleTime: 0,
-        },
-      },
-    };
-    render(
+    wrapper = render(
       <GoogleAnalyticsProvider>
-        <QueryClientProvider queryClientConfig={queryClientConfig}>
+        <QueryClientProvider>
           <TestComponentFail />
         </QueryClientProvider>
       </GoogleAnalyticsProvider>,
     );
     await waitFor(() => expect(queryFail).toHaveBeenCalledTimes(1));
     await waitFor(() =>
-      expect(trackException as jest.Mock).toHaveBeenCalledTimes(1),
+      expect(wrapper.queryByTestId('children-fail__status')).toHaveTextContent(
+        'error',
+      ),
+    );
+    await waitFor(() =>
+      expect(ReactGA.event as jest.Mock).toHaveBeenCalledTimes(1),
     );
   });
 
   test('Tracks the exception', () => {
-    expect(trackException as jest.Mock).toHaveBeenCalledTimes(1);
+    expect(ReactGA.event as jest.Mock).toHaveBeenCalledTimes(1);
   });
 });

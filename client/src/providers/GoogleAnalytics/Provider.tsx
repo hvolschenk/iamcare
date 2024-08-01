@@ -87,6 +87,9 @@ const GoogleAnalyticsProvider: React.FC<GoogleAnalyticsProviderProps> = ({
       });
     }, []);
 
+  const trackShare: GoogleAnalyticsProviderValues['trackShare'] =
+    React.useCallback((options) => ReactGA.event('share', options), []);
+
   const trackViewItem: GoogleAnalyticsProviderValues['trackViewItem'] =
     React.useCallback(
       (options) => {
@@ -122,6 +125,7 @@ const GoogleAnalyticsProvider: React.FC<GoogleAnalyticsProviderProps> = ({
       trackSearch,
       trackSelectContent,
       trackSelectItem,
+      trackShare,
       trackViewItem,
       trackViewItemList,
     }),
@@ -135,6 +139,7 @@ const GoogleAnalyticsProvider: React.FC<GoogleAnalyticsProviderProps> = ({
       trackSearch,
       trackSelectContent,
       trackSelectItem,
+      trackShare,
       trackViewItem,
       trackViewItemList,
     ],

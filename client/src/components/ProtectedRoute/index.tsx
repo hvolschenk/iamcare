@@ -1,31 +1,22 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
+import { useAuthentication } from '~/src/providers/Authentication';
 import { authentication } from '~/src/urls';
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-  isAuthenticated: boolean;
-  isAuthorised?: boolean;
-}
+const ProtectedRoute: React.FC = () => {
+  const { user } = useAuthentication();
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  children,
-  isAuthenticated,
-  isAuthorised = true,
-}) => {
-  const location = useLocation();
+  const redirectURI = React.useMemo<string>(
+    () => window.location.href.replace(window.location.origin, ''),
+    [],
+  );
 
-  if (!isAuthenticated || !isAuthorised) {
-    return (
-      <Navigate
-        replace
-        to={authentication({ redirectURI: location.pathname })}
-      />
-    );
+  if (!user?.id) {
+    return <Navigate to={authentication({ redirectURI })} replace />;
   }
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <React.Fragment>{children}</React.Fragment>;
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

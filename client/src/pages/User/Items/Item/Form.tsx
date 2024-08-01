@@ -1,22 +1,21 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useRouteLoaderData } from 'react-router-dom';
 
 import ItemForm from '~/src/components/ItemForm';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
 import { Item } from '~/src/types/Item';
+import { User } from '~/src/types/User';
 import { userItems } from '~/src/urls';
-
-import { useUser } from '../../context';
 
 interface UserItemFormProps {
   item: Item;
 }
 
 const UserItemForm: React.FC<UserItemFormProps> = ({ item }) => {
-  const { user } = useUser();
+  const user = useRouteLoaderData('user') as User;
 
   const { trackCustomEvent } = useGoogleAnalytics();
   const navigate = useNavigate();

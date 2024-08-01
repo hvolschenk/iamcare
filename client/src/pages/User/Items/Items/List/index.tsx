@@ -3,79 +3,56 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
-import Skeleton from '@mui/material/Skeleton';
-import Snackbar from '@mui/material/Snackbar';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useRouteLoaderData,
+  useSearchParams,
+} from 'react-router-dom';
 
-import getUserItems from '~/src/api/user/getItems';
 import ItemCard from '~/src/components/ItemCard';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { userItemsCreate } from '~/src/urls';
+import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import { Item } from '~/src/types/Item';
+import { User } from '~/src/types/User';
+import { userItems, userItemsCreate } from '~/src/urls';
 
 import ListItem from './ListItem';
-import { useUser } from '../../../context';
 
-const UserItemsList: React.FC = () => {
-  const [page, setPage] = React.useState<number>(1);
+interface UserItemsListProps {
+  items: APICollectionPaginated<Item>;
+}
 
+const UserItemsList: React.FC<UserItemsListProps> = ({ items }) => {
   const { user: loggedInUser } = useAuthentication();
-  const { user } = useUser();
-
-  const { data, isFetching, isRefetching, refetch, status } = useQuery({
-    placeholderData: keepPreviousData,
-    queryFn: () => getUserItems(user.id, page),
-    queryKey: ['users', user.id, 'items', page],
-  });
+  const navigate = useNavigate();
+  const user = useRouteLoaderData('user') as User;
+  const [searchParams] = useSearchParams();
 
   const isLoggedInAsOwner = React.useMemo(
     () => loggedInUser?.id === user.id,
     [loggedInUser, user],
   );
 
+  const page = React.useMemo<number>(() => {
+    const queryPage = searchParams.get('page');
+    return queryPage ? parseInt(queryPage, 10) : 1;
+  }, [searchParams]);
+
   const onPageChange = React.useCallback(
     (event: React.ChangeEvent<unknown>, newPage: number) => {
-      setPage(newPage);
+      navigate(userItems(user.id.toString(), { page: newPage }));
     },
-    [setPage],
+    [navigate, user],
   );
 
-  if (status === 'pending') {
-    return (
-      <React.Fragment>
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-      </React.Fragment>
-    );
-  }
-
-  if (status === 'error') {
-    return (
-      <Alert
-        action={
-          <Button
-            data-testid="user-items__error--loading__retry"
-            onClick={() => refetch()}
-          >
-            {l10n.actionTryAgain}
-          </Button>
-        }
-        severity="error"
-      >
-        {l10n.userItemsErrorLoading}
-      </Alert>
-    );
-  }
-
-  if (data.data.meta.total === 0) {
+  if (items.meta.total === 0) {
     return (
       <Alert
         action={
@@ -102,22 +79,11 @@ const UserItemsList: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Snackbar
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-        open={isRefetching}
-      >
-        <Alert
-          icon={<CircularProgress color="inherit" size="1em" />}
-          severity="info"
-        >
-          {l10n.itemsRefetching}
-        </Alert>
-      </Snackbar>
       {isLoggedInAsOwner && (
         <Card>
           <CardContent>
             <List>
-              {data.data.data.map((item) => (
+              {items.data.map((item) => (
                 <ListItem item={item} key={item.id} />
               ))}
             </List>
@@ -126,7 +92,7 @@ const UserItemsList: React.FC = () => {
       )}
       {!isLoggedInAsOwner && (
         <Grid container spacing={2}>
-          {data.data.data.map((item) => (
+          {items.data.map((item) => (
             <Grid item key={item.id} lg={3} md={4} xs={12}>
               <ItemCard item={item} />
             </Grid>
@@ -135,8 +101,7 @@ const UserItemsList: React.FC = () => {
       )}
       <Box display="flex" justifyContent="center" marginTop={2}>
         <Pagination
-          count={data.data.meta.last_page}
-          disabled={isFetching}
+          count={items.meta.last_page}
           onChange={onPageChange}
           page={page}
           renderItem={(item) => (

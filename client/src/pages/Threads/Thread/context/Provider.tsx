@@ -13,12 +13,6 @@ interface ThreadProviderProps {
 const ThreadProvider: React.FC<ThreadProviderProps> = ({ children, value }) => {
   const [thread, setThread] = React.useState<Thread>(value);
 
-  React.useEffect(() => {
-    if (value !== thread) {
-      setThread(value);
-    }
-  }, [thread, value]);
-
   const providerValue = React.useMemo<ThreadProviderValues>(
     () => ({ setThread, thread }),
     [setThread, thread],

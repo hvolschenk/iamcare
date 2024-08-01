@@ -22,6 +22,7 @@ const TestComponent: React.FC = () => {
     trackSearch,
     trackSelectContent,
     trackSelectItem,
+    trackShare,
     trackViewItem,
     trackViewItemList,
   } = useGoogleAnalytics();
@@ -103,6 +104,20 @@ const TestComponent: React.FC = () => {
       >
         Track select item
       </button>
+
+      <button
+        data-testid="track-share"
+        onClick={() =>
+          trackShare({
+            content_type: 'item',
+            item_id: itemMock().id.toString(),
+          })
+        }
+        type="button"
+      >
+        Track share
+      </button>
+
       <button
         data-testid="track-view-item"
         onClick={() => trackViewItem({ item: itemMock() })}
@@ -152,6 +167,7 @@ describe.each<TestCase>([
   ['trackSearch (Empty)', 'track-search-empty', 'event'],
   ['trackSelectContent', 'track-select-content', 'event'],
   ['trackSelectItem', 'track-select-item', 'event'],
+  ['trackShare', 'track-share', 'event'],
   ['trackViewItem', 'track-view-item', 'event'],
   ['trackViewItemList', 'track-view-item-list', 'event'],
 ])('%s', (name, selector, method) => {

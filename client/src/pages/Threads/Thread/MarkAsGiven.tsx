@@ -9,6 +9,8 @@ import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
+import useRevalidateRoute from '~/src/providers/QueryClient/useRevalidateRoute';
+import { Item } from '~/src/types/Item';
 
 import { useThread } from './context';
 
@@ -20,7 +22,8 @@ const MarkAsGiven: React.FC = () => {
   const { trackCustomEvent } = useGoogleAnalytics();
   const { notify } = useNotifications();
   const queryClient = useQueryClient();
-  const { thread } = useThread();
+  const revalidateRoute = useRevalidateRoute();
+  const { setThread, thread } = useThread();
 
   const onClose = React.useCallback(() => {
     setIsMarkAsGivenDialogOpen(false);
@@ -34,19 +37,24 @@ const MarkAsGiven: React.FC = () => {
     notify({ message: l10n.itemMarkAsGivenError });
   }, [notify]);
 
-  const onSuccess = React.useCallback(() => {
-    trackCustomEvent(
-      { action: 'mark_item_as_given', category: 'items' },
-      { itemID: thread.item.id, threadID: thread.id },
-    );
-    queryClient.invalidateQueries({ queryKey: ['items', thread.item.id] });
-    queryClient.invalidateQueries({ queryKey: ['threads', thread.id] });
-    queryClient.invalidateQueries({
-      queryKey: ['user', thread.userGiver.id, 'items'],
-    });
-    notify({ message: l10n.itemMarkAsGivenSuccess });
-    onClose();
-  }, [onClose, queryClient, thread, trackCustomEvent]);
+  const onSuccess = React.useCallback(
+    (item: Item) => {
+      trackCustomEvent(
+        { action: 'mark_item_as_given', category: 'items' },
+        { itemID: thread.item.id, threadID: thread.id },
+      );
+      queryClient.invalidateQueries({ queryKey: ['items', thread.item.id] });
+      queryClient.invalidateQueries({ queryKey: ['threads', thread.id] });
+      queryClient.invalidateQueries({
+        queryKey: ['user', thread.userGiver.id, 'items'],
+      });
+      revalidateRoute();
+      setThread((currentThread) => ({ ...currentThread, item }));
+      notify({ message: l10n.itemMarkAsGivenSuccess });
+      onClose();
+    },
+    [onClose, queryClient, revalidateRoute, thread, trackCustomEvent],
+  );
 
   if (user!.id !== thread.userGiver.id) {
     return null;

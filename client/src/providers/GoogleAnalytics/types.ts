@@ -38,6 +38,12 @@ export interface TrackSelectItemOptions {
   item: Item;
 }
 
+export interface TrackShareOptions {
+  content_type: string;
+  item_id: string;
+  method?: string;
+}
+
 export interface TrackViewItemOptions {
   item: Item;
 }
@@ -61,6 +67,7 @@ export interface GoogleAnalyticsProviderValues {
   trackSearch(options: TrackSearchOptions): void;
   trackSelectContent(options: TrackSelectContentOptions): void;
   trackSelectItem(options: TrackSelectItemOptions): void;
+  trackShare(options: TrackShareOptions): void;
   trackViewItem(options: TrackViewItemOptions): void;
   trackViewItemList(options: TrackViewItemListOptions): void;
 }
