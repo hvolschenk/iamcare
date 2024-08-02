@@ -33,6 +33,10 @@ const Thread: React.FC = () => {
         exact: true,
         queryKey: ['threads'],
       });
+      queryClient.invalidateQueries({
+        exact: true,
+        queryKey: ['threads', 'unread'],
+      });
       trackCustomEvent(
         { action: 'read_thread', category: 'threads' },
         { threadID: thread.id },
