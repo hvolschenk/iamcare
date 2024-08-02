@@ -11,11 +11,10 @@ import Thread from './Thread';
 
 const ThreadLoader: React.FC = () => {
   const { user } = useAuthentication();
-  const data = useLoaderData() as ThreadType;
+  const thread = useLoaderData() as ThreadType;
 
-  const documentTitle = React.useMemo<string[]>(() => {
-    const thread = data;
-    return [
+  const documentTitle = React.useMemo<string[]>(
+    () => [
       thread.item.name,
       l10n.formatString(l10n.threadDocumentTitleUser, {
         user:
@@ -23,13 +22,14 @@ const ThreadLoader: React.FC = () => {
             ? thread.userReceiver.name
             : thread.userGiver.name,
       }) as string,
-    ];
-  }, [data, user]);
+    ],
+    [thread, user],
+  );
 
   useDocumentTitle(documentTitle);
 
   return (
-    <ThreadProvider value={data}>
+    <ThreadProvider value={thread}>
       <Thread />
     </ThreadProvider>
   );
