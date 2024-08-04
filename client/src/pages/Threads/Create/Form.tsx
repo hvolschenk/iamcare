@@ -42,7 +42,10 @@ const Form: React.FC<FormProps> = ({ item }) => {
           { itemID: item.id },
         );
         notify({ message: l10n.threadCreateSuccess });
-        queryClient.invalidateQueries({ exact: true, queryKey: ['threads'] });
+        await queryClient.invalidateQueries({
+          exact: true,
+          queryKey: ['threads'],
+        });
         navigate(threads());
       } catch (error) {
         if (
