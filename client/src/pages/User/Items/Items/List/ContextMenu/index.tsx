@@ -1,6 +1,8 @@
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PreviewIcon from '@mui/icons-material/Preview';
+import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -8,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ItemDeleteDialog from '~/src/components/ItemDeleteDialog';
 import ItemMarkAsGivenDialog from '~/src/components/ItemMarkAsGivenDialog';
@@ -16,7 +18,7 @@ import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useNotifications } from '~/src/providers/Notifications';
 import { Item } from '~/src/types/Item';
-import { userItems } from '~/src/urls';
+import { item as itemURL, userItems } from '~/src/urls';
 
 interface ContextMenuProps {
   item: Item;
@@ -97,6 +99,17 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item }) => {
       </IconButton>
       <Menu anchorEl={anchorElement} onClose={onClose} open={isOpen}>
         <MenuItem
+          component={Link}
+          data-testid="user-items__item__preview"
+          to={itemURL(item.id.toString())}
+        >
+          <ListItemIcon>
+            <PreviewIcon />
+          </ListItemIcon>
+          <ListItemText primary="PREVIEW" />
+        </MenuItem>
+
+        <MenuItem
           data-testid="user-items__item__mark-as-given"
           onClick={onMarkAsGivenDialogOpen}
         >
@@ -105,6 +118,8 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item }) => {
           </ListItemIcon>
           <ListItemText primary={l10n.itemMarkAsGiven} />
         </MenuItem>
+
+        <Divider />
 
         <MenuItem
           data-testid="user-items__item__delete-dialog"
