@@ -278,6 +278,18 @@ describe('With the logged-in user', () => {
         );
       });
 
+      describe('Previewing an item', () => {
+        beforeEach(() => {
+          fireEvent.click(
+            wrapper.getAllByTestId('user-items__item__preview')[0],
+          );
+        });
+
+        test('Navigates to the item preview page', () => {
+          expect(wrapper.queryByTestId('item')).toBeInTheDocument();
+        });
+      });
+
       describe('Marking an item as given', () => {
         beforeEach(() => {
           fireEvent.click(
