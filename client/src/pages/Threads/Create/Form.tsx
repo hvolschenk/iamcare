@@ -77,31 +77,30 @@ const Form: React.FC<FormProps> = ({ item }) => {
       .max(65535, l10n.threadCreateFieldMessageErrorTooLong),
   });
 
-  const { errors, handleBlur, handleChange, handleSubmit, touched, values } =
-    useFormik<FormValues>({
-      initialValues,
-      onSubmit,
-      validationSchema,
-    });
+  const formik = useFormik<FormValues>({
+    initialValues,
+    onSubmit,
+    validationSchema,
+  });
 
   const fieldHasError = React.useCallback(
     (fieldName: keyof FormValues): boolean =>
-      Boolean(touched[fieldName] && errors[fieldName]),
-    [errors, touched],
+      Boolean(formik.touched[fieldName] && formik.errors[fieldName]),
+    [formik],
   );
 
   const fieldGetHelperText = React.useCallback(
     (fieldName: keyof FormValues, helperText: string): string => {
       if (fieldHasError(fieldName)) {
-        return errors[fieldName] as string;
+        return formik.errors[fieldName] as string;
       }
       return helperText;
     },
-    [errors, fieldHasError],
+    [fieldHasError, formik],
   );
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <TextField
         error={fieldHasError('message')}
         FormHelperTextProps={{
@@ -118,14 +117,15 @@ const Form: React.FC<FormProps> = ({ item }) => {
         margin="normal"
         multiline
         name="message"
-        onBlur={handleBlur}
-        onChange={handleChange}
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
         rows={4}
-        value={values.message}
+        value={formik.values.message}
       />
       <Button
         color="primary"
         data-testid="thread-create__action--create"
+        disabled={formik.isSubmitting || formik.isValidating}
         fullWidth
         type="submit"
         variant="contained"
