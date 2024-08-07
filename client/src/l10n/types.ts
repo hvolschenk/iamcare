@@ -66,6 +66,7 @@ export interface L10n {
   itemNameErrorRequired: string;
   itemNameHelperText: string;
   itemNameLabel: string;
+  itemPreview: string;
   items: string;
   itemShareError: string;
   itemsRefetching: string;

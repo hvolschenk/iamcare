@@ -106,7 +106,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item }) => {
           <ListItemIcon>
             <PreviewIcon />
           </ListItemIcon>
-          <ListItemText primary="PREVIEW" />
+          <ListItemText primary={l10n.itemPreview} />
         </MenuItem>
 
         <MenuItem
