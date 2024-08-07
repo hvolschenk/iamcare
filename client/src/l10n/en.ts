@@ -83,6 +83,7 @@ const en: L10n = {
   itemNameHelperText:
     'The name of the item you are giving away. Keep it short but descriptive. This is the first thing people will see about your item while browsing.',
   itemNameLabel: 'Item name',
+  itemPreview: 'Preview',
   items: 'Items',
   itemShareError: 'There was an issue sharing the item, please try again',
   itemsRefetching: 'Updating items list',
