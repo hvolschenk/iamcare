@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 import { useNavigation } from 'react-router-dom';
 
@@ -17,6 +18,7 @@ import { authentication, itemsSearch, root, user } from '~/src/urls';
 
 import Base from './index';
 
+jest.mock('@mui/material/useMediaQuery');
 jest.mock('react-router-dom', () => {
   const reactRouterDom = jest.requireActual('react-router-dom');
   return {
@@ -31,6 +33,7 @@ const analyticsDisableKey: string = `ga-disable-${configuration.google.analytics
 const { initialize } = useGoogleAnalytics();
 
 beforeEach(() => {
+  (useMediaQuery as jest.Mock).mockClear().mockReturnValue(true);
   (useNavigation as jest.Mock).mockClear().mockReturnValue({ state: 'idle' });
 });
 
@@ -68,6 +71,7 @@ describe('When cookies have been accepted', () => {
     (useCookies as jest.Mock)
       .mockClear()
       .mockReturnValue({ areCookiesAccepted: true });
+    (useMediaQuery as jest.Mock).mockClear().mockReturnValue(false);
     renderRouter(
       [
         {
