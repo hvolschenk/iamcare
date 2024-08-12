@@ -1,9 +1,12 @@
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
+import MapIcon from '@mui/icons-material/Map';
+import PlaceIcon from '@mui/icons-material/Place';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import React from 'react';
 
+import LocationMapDialog from '~/src/components/LocationMapDialog';
 import { SEARCH_DISTANCE_DEFAULT } from '~/src/constants';
-import l10n from '~/src/l10n';
 import { useSearch } from '~/src/providers/Search';
 import { Item } from '~/src/types/Item';
 
@@ -12,9 +15,18 @@ interface LocationProps {
 }
 
 const Location: React.FC<LocationProps> = ({ item }) => {
+  const [isMapOpen, setIsMapOpen] = React.useState<boolean>(false);
+
   const { filters, search } = useSearch();
 
-  const onClick = React.useCallback(() => {
+  const onMapClose = React.useCallback(() => {
+    setIsMapOpen(false);
+  }, [setIsMapOpen]);
+  const onMapOpen = React.useCallback(() => {
+    setIsMapOpen(true);
+  }, [setIsMapOpen]);
+
+  const onSearchByLocation = React.useCallback(() => {
     search({
       filters: {
         distance: filters.distance || SEARCH_DISTANCE_DEFAULT,
@@ -25,20 +37,25 @@ const Location: React.FC<LocationProps> = ({ item }) => {
   }, [search]);
 
   return (
-    <Typography gutterBottom variant="subtitle1">
-      {l10n.formatString(l10n.itemInLocation, {
-        location: (
-          // eslint-disable-next-line jsx-a11y/anchor-is-valid
-          <Link
-            component="button"
-            data-testid="item__location"
-            onClick={onClick}
-          >
-            {item.location.name}
-          </Link>
-        ),
-      })}
-    </Typography>
+    <Box marginBottom={3}>
+      <ButtonGroup size="small" variant="contained">
+        <Button
+          data-testid="item__location"
+          onClick={onSearchByLocation}
+          startIcon={<PlaceIcon />}
+        >
+          {item.location.name}
+        </Button>
+        <Button data-testid="item__location--map" onClick={onMapOpen}>
+          <MapIcon />
+        </Button>
+      </ButtonGroup>
+      <LocationMapDialog
+        isOpen={isMapOpen}
+        location={item.location}
+        onClose={onMapClose}
+      />
+    </Box>
   );
 };
 

@@ -144,6 +144,44 @@ describe('When the user does not own the item', () => {
       expect(wrapper.queryByTestId('search-page')).toBeInTheDocument();
     });
   });
+
+  describe('When clicking an item location map', () => {
+    beforeEach(async () => {
+      fireEvent.click(wrapper.getByTestId('item__location--map'));
+      await waitFor(() =>
+        expect(
+          wrapper.queryByTestId('location-map-dialog__content'),
+        ).toBeInTheDocument(),
+      );
+    });
+
+    test('Renders the map', () => {
+      expect(
+        wrapper.queryByTestId('location-map-dialog__content'),
+      ).toBeInTheDocument();
+    });
+
+    describe('Closing the map again', () => {
+      beforeEach(async () => {
+        fireEvent.keyDown(wrapper.getByTestId('location-map-dialog'), {
+          charCode: 27,
+          code: 'Escape',
+          key: 'Escape',
+        });
+        await waitFor(() =>
+          expect(
+            wrapper.queryByTestId('location-map-dialog__content'),
+          ).not.toBeInTheDocument(),
+        );
+      });
+
+      test('Hides the map again', () => {
+        expect(
+          wrapper.queryByTestId('location-map-dialog__content'),
+        ).not.toBeInTheDocument();
+      });
+    });
+  });
 });
 
 describe('When sharing is disabled', () => {
