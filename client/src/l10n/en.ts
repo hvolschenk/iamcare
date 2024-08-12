@@ -66,7 +66,6 @@ const en: L10n = {
     'Upload one or more images showing the item that you are giving away as clearly as possible.',
   itemImagesLabel: 'Images',
   itemImagesLabelUpload: 'Add image',
-  itemInLocation: 'In {location}',
   itemLocationErrorRequired: 'Please provide a location for the item',
   itemLocationHelperText: 'The suburb where this item is available',
   itemLocationLabel: 'Location',

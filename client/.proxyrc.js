@@ -12,6 +12,7 @@ module.exports = function (app) {
           'https://maps.googleapis.com',
         ].join(' '),
         ['font-src', 'https://fonts.gstatic.com'].join(' '),
+        ['frame-src', 'https://www.google.com'].join(' '),
         [
           'img-src',
           "'self'",
