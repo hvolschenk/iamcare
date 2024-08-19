@@ -1,5 +1,6 @@
 import {
   authentication,
+  healthAndSafety,
   item,
   items,
   itemsSearch,
@@ -28,6 +29,7 @@ test.each<TestCase>([
     [{ redirectURI: 'redirectURI' }],
     '/authentication?redirectURI=redirectURI',
   ],
+  ['healthAndSafety', healthAndSafety, [], '/health-and-safety'],
   ['item (no paramaters)', item, [], '/items/:itemID'],
   ['item', item, ['22'], '/items/22'],
   ['items', items, [], '/items'],

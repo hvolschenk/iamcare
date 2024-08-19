@@ -15,6 +15,7 @@ import { User } from '~/src/types/User';
 import { threads, root } from '~/src/urls';
 
 import { useThread } from './context';
+import HealthAndSafety from './HealthAndSafety';
 import MarkAsGiven from './MarkAsGiven';
 import Messages from './Messages';
 import ReplyForm from './ReplyForm';
@@ -83,6 +84,10 @@ const Thread: React.FC = () => {
       />
       <Box marginBottom={2}>
         <Item item={thread.item} />
+      </Box>
+
+      <Box marginBottom={2}>
+        <HealthAndSafety />
       </Box>
 
       <Card>

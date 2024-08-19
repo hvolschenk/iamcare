@@ -22,6 +22,76 @@ const en: L10n = {
   errorPageDescription:
     'An unexpected error has occurred. Sorry for the inconvenience caused.',
   errorPageTitle: 'Something went wrong',
+  healthAndSafetyConclusion:
+    'By following these guidelines, both parties can ensure a safe and positive experience.',
+  healthAndSafetyFinalizing: 'Finalizing the Exchange',
+  healthAndSafetyFinalizingConfirmDescription:
+    'Once the item has been picked up, confirm the completion of the exchange in the marketplace chat.',
+  healthAndSafetyFinalizingConfirmTitle: 'Confirm pickup',
+  healthAndSafetyFinalizingFeedbackDescription:
+    'If the marketplace allows, leave feedback about the exchange to help others in the community.',
+  healthAndSafetyFinalizingFeedbackTitle: 'Leave feedback',
+  healthAndSafetyGeneral: 'General Safety Guidelines',
+  healthAndSafetyGeneralFriendDescription:
+    'If possible, bring a friend or family member along when meeting someone to exchange items.',
+  healthAndSafetyGeneralFriendTitle: 'Bring a friend',
+  healthAndSafetyGeneralInstinctsDescription:
+    "If something feels off or uncomfortable, don't proceed with the exchange. It's okay to cancel or postpone the meeting.",
+  healthAndSafetyGeneralInstinctsTitle: 'Trust your instincts',
+  healthAndSafetyGeneralPublicDescription:
+    'Arrange to meet in a well-lit, public location such as a coffee shop, mall, or community center. Avoid meeting at private residences or secluded areas.',
+  healthAndSafetyGeneralPublicTitle: 'Meet in public places',
+  healthAndSafetyGeneralShareDescription:
+    'Let a trusted person know your plans, including who you are meeting, where, and when.',
+  healthAndSafetyGeneralShareTitle: 'Share your plans',
+  healthAndSafetyHealth: 'COVID-19 and Other Health Considerations',
+  healthAndSafetyHealthContactlessDescription:
+    'If possible, arrange for contactless exchanges by leaving the item in a designated public location and picking it up later.',
+  healthAndSafetyHealthContactlessTitle: 'Contactless exchanges',
+  healthAndSafetyHealthGuidelinesDescription:
+    'Adhere to local health guidelines, including mask-wearing and social distancing, when meeting in person.',
+  healthAndSafetyHealthGuidelinesTitle: 'Follow local health guidelines',
+  healthAndSafetyHealthHomeDescription:
+    'If you or the other party is feeling unwell or has been exposed to a contagious illness, postpone the exchange until it is safe.',
+  healthAndSafetyHealthHomeTitle: 'Stay home if sick',
+  healthAndSafetyItem: 'Item Safety and Hygiene',
+  healthAndSafetyItemHazardousDescription:
+    'Do not give away or accept items that could be hazardous, such as expired food, recalled products, or items that could cause injury.',
+  healthAndSafetyItemHazardousTitle: 'Avoid hazardous items',
+  healthAndSafetyItemInspectDescription:
+    'Before taking or giving away an item, inspect it thoroughly to ensure it is in safe and usable condition.',
+  healthAndSafetyItemInspectTitle: 'Inspect items carefully',
+  healthAndSafetyItemSanitizeDescription:
+    'Clean and sanitize all items, especially if they are for personal use (e.g., clothing, toys, or kitchenware). Consider disinfecting them again upon receiving.',
+  healthAndSafetyItemSanitizeTitle: 'Sanitize items',
+  healthAndSafetyItemTransparentDescription:
+    'Clearly communicate any known defects, damages, or issues with the item before arranging the exchange.',
+  healthAndSafetyItemTransparentTitle: 'Be transparent',
+  healthAndSafetyLegal: 'Legal Considerations',
+  healthAndSafetyLegalAsIsDescription:
+    'All items are given away on an "as-is" basis. The marketplace is not responsible for the quality, safety, or condition of the items exchanged.',
+  healthAndSafetyLegalAsIsTitle: 'Items given "as-is"',
+  healthAndSafetyLegalFinanceDescription:
+    'Ensure that no money or other forms of payment are involved in the exchange. This marketplace is strictly for giving away items for free.',
+  healthAndSafetyLegalFinanceTitle: 'No financial transactions',
+  healthAndSafetyPageTitle: 'Health and safety guidelines',
+  healthAndSafetyPrivacy: 'Communication and Privacy',
+  healthAndSafetyPrivacyChatDescription:
+    'Keep all communication within the provided chat feature to maintain privacy and have a record of conversations.',
+  healthAndSafetyPrivacyChatTitle: 'Use the provided chat',
+  healthAndSafetyPrivacyRespectDescription:
+    'Communicate respectfully and professionally. Harassment, offensive language, or inappropriate behavior will not be tolerated.',
+  healthAndSafetyPrivacyRespectTitle: 'Be respectful',
+  healthAndSafetyPrivacySharingDescription:
+    'Do not share personal information such as your home address, phone number, or financial details in the chat.',
+  healthAndSafetyPrivacySharingTitle: 'Avoid sharing personal information',
+  healthAndSafetyReport: 'Reporting issues',
+  healthAndSafetyReportInappropriateDescription:
+    'If you see items listed that are prohibited, unsafe, or inappropriate, report them using the provided flagging system.',
+  healthAndSafetyReportInappropriateTitle: 'Flag inappropriate items',
+  healthAndSafetyReportSuspiciousDescription:
+    'Report any suspicious, illegal, or unsafe behavior to the marketplace administration immediately.',
+  healthAndSafetyReportSuspiciousTitle: 'Report suspicious behavior',
   home: 'Home',
   homeGiveCallToAction: 'Give an item',
   homeGiveDescription:
@@ -176,6 +246,9 @@ const en: L10n = {
   threadDocumentTitleError: 'Could not load thread',
   threadDocumentTitleUser: 'A thread with {user}',
   threadErrorLoading: 'Failed to fetch the thread. Please try again',
+  threadNotificationHealthAndSafety:
+    'For a safe experience, please always adhere to the health and safety guidelines',
+  threadNotificationHealthAndSafetyAction: 'View guidelines',
   threadReplyError: 'Failed to reply. Please try again',
   threadReplyFieldMessageErrorRequired:
     'A message is required to be able to reply',

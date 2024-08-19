@@ -13,6 +13,8 @@ export const authentication = (options: AuthenticationOptions) => {
   return `/authentication${queryString}`;
 };
 
+export const healthAndSafety = () => '/health-and-safety';
+
 export type ItemParams = { itemID: string };
 export const item = (itemID = ':itemID') => `/items/${itemID}`;
 export const items = () => '/items';
