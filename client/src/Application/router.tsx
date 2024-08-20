@@ -10,6 +10,7 @@ import BaseLayout from '~/src/layouts/Base';
 import { Provider as SearchProvider } from '~/src/providers/Search';
 import {
   authentication as authenticationURL,
+  healthAndSafety as healthAndSafetyURL,
   item as itemURL,
   items as itemsURL,
   itemsSearch as itemsSearchURL,
@@ -49,6 +50,14 @@ const router = createBrowserRouter([
           return { Component };
         },
         path: authenticationURL({}),
+      },
+
+      {
+        lazy: async () => {
+          const { Component } = await import('~/src/pages/HealthAndSafety');
+          return { Component };
+        },
+        path: healthAndSafetyURL(),
       },
 
       {

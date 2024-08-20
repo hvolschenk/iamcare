@@ -17,7 +17,11 @@ import {
   message as messageMock,
   thread as threadMock,
 } from '~/src/testing/mocks';
-import { item as itemURL, thread as threadURL } from '~/src/urls';
+import {
+  healthAndSafety as healthAndSafetyURL,
+  item as itemURL,
+  thread as threadURL,
+} from '~/src/urls';
 
 import { Component as Thread } from './index';
 
@@ -36,6 +40,10 @@ jest.mock('~/src/api/threads/reply');
 const thread = threadMock({ userGiver: testUser });
 const routes: RouteObject[] = [
   { Component: Thread, path: threadURL() },
+  {
+    element: <div data-testid="health-and-safety" />,
+    path: healthAndSafetyURL(),
+  },
   { element: <div data-testid="item" />, path: itemURL() },
 ];
 
@@ -230,5 +238,15 @@ describe('As the receiving user', () => {
     expect(
       wrapper.queryByTestId('thread__item__mark-as-given'),
     ).not.toBeInTheDocument();
+  });
+
+  describe('Clicking the health and safety link', () => {
+    beforeEach(() => {
+      fireEvent.click(wrapper.getByTestId('thread__health-and-safety'));
+    });
+
+    test('Goes to the health and safety page', () => {
+      expect(wrapper.queryByTestId('health-and-safety')).toBeInTheDocument();
+    });
   });
 });
