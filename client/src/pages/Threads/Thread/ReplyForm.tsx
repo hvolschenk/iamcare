@@ -3,7 +3,7 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { FormikConfig, useFormik } from 'formik';
+import { type FormikConfig, useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
 

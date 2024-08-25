@@ -1,5 +1,5 @@
-import all from './all';
 import apiClient from '../client';
+import all from './all';
 
 jest.mock('../client');
 

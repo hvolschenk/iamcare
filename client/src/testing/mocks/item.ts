@@ -1,9 +1,6 @@
-// This will only ever be used in tests,
-// so importing `devDependencies` here is absolutely fine.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { faker } from '@faker-js/faker';
 
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 import image from './image';
 import locationBasic from './locationBasic';

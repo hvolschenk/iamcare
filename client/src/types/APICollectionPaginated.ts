@@ -1,4 +1,4 @@
-import { APICollection } from '~/src/types/APICollection';
+import type { APICollection } from '~/src/types/APICollection';
 
 export interface APICollectionPaginated<D> extends APICollection<D> {
   links: {

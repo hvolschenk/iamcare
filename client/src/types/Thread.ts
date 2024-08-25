@@ -1,5 +1,5 @@
-import { Item } from './Item';
-import { User } from './User';
+import type { Item } from './Item';
+import type { User } from './User';
 
 export interface Message {
   dateCreated: string;

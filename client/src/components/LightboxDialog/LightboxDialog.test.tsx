@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { fireEvent, render, RenderResult } from '~/src/testing';
+import { type RenderResult, fireEvent, render } from '~/src/testing';
 import { image as imageMock } from '~/src/testing/mocks';
-import { Image } from '~/src/types/Image';
+import type { Image } from '~/src/types/Image';
 
 import LightboxDialog from './index';
 

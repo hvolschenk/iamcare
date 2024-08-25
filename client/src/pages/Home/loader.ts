@@ -1,4 +1,4 @@
-import { LoaderFunction } from 'react-router-dom';
+import type { LoaderFunction } from 'react-router-dom';
 
 import itemsSearch from '~/src/api/items/search';
 import locationsPopular from '~/src/api/locations/popular';

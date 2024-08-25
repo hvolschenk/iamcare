@@ -10,7 +10,10 @@ import GoogleG from '~/src/images/GoogleG';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 
-import { AuthenticationProviderProps, AuthenticationProviders } from '../types';
+import {
+  type AuthenticationProviderProps,
+  AuthenticationProviders,
+} from '../types';
 
 const Google: React.FC<AuthenticationProviderProps> = ({
   isSubmitting,

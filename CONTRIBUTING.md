@@ -13,7 +13,6 @@ Your contribution - however big or small - is greatly appreciated.
 - [Testing][]
   - [API testing][]
   - [Client testing][]
-    - [Client format testing][]
     - [Client static tests][]
     - [Client compilation tests][]
     - [Client unit tests][]
@@ -153,32 +152,21 @@ docker-compose run --rm --no-deps client /bin/sh
 or dependencies can be installed locally within the `/client` folder through
 `npm install` and then running the commands locally.
 
-#### Client format testing
-
-[Client format testing]: #client-format-testing
-
-_Client_ file formatting is done through [Prettier][] and can be run via:
-
-```console
-npm run test:format
-```
-
-It is also possible to let [Prettier][] attempt to automatically fix any
-formatting issues it finds via:
-
-```console
-npm run test:format:fix
-```
-
 #### Client static tests
 
 [Client static tests]: #client-static-tests
 
-Static tests on the _Client_ are invoked through the use of [ESLint][] using the
-[eslint-config-airbnb][] ruleset, and can be run via:
+Static tests, as well as formatting on the _Client_ are invoked through the use
+of [Biome][] and can be run via:
 
 ```console
-npm run test:lint
+npm run test:static
+```
+
+On the CI server these same tests should be invoked via:
+
+```console
+npm run test:static:ci
 ```
 
 #### Client compilation tests
@@ -226,14 +214,12 @@ to exist:
 ---
 
 [Angular commit message format]: https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format
+[Biome]: https://biomejs.dev/
 [Docker]: https://www.docker.com/
 [docker-compose]: https://docs.docker.com/compose/
-[ESLint]: https://eslint.org/
-[eslint-config-airbnb]: https://www.npmjs.com/package/eslint-config-airbnb
 [iamcare]: https://github.com/hvolschenk/iamcare
 [Jest]: https://jestjs.io/
 [localhost:7222]: http://localhost:7222
-[Prettier]: https://prettier.io/
 [React Testing Library]: https://testing-library.com/docs/react-testing-library/intro/
 [tsc]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
 [TypeScript]: https://www.typescriptlang.org/

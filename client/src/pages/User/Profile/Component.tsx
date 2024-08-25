@@ -21,7 +21,7 @@ import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 import { root, threads, userItems } from '~/src/urls';
 
 const Profile: React.FC = () => {
@@ -50,7 +50,7 @@ const Profile: React.FC = () => {
     set({ userId: null });
     navigate(root());
     setUser(undefined);
-  }, [navigate, set, setUser, trackCustomEvent]);
+  }, [navigate, set, setUser, trackCustomEvent, user]);
 
   const logoutMutation = useMutation({
     mutationFn: () => logout(),

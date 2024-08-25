@@ -8,7 +8,7 @@ import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
-import { Item as ItemType } from '~/src/types/Item';
+import type { Item as ItemType } from '~/src/types/Item';
 import { item as itemURL, root } from '~/src/urls';
 
 import Item from './Item';

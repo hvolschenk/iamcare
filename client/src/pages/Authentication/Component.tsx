@@ -14,7 +14,10 @@ import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { root } from '~/src/urls';
 
 import Google from './Providers/Google';
-import { AuthenticationProviderProps, AuthenticationProviders } from './types';
+import {
+  type AuthenticationProviderProps,
+  AuthenticationProviders,
+} from './types';
 
 const authenticationProviders: Record<
   AuthenticationProviders,
@@ -34,18 +37,15 @@ const Authentication: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const onError = React.useCallback(
-    (errorMessage: string): void => {
-      setError(errorMessage);
-      setIsSubmitting(false);
-    },
-    [setError, setIsSubmitting],
-  );
+  const onError = React.useCallback((errorMessage: string): void => {
+    setError(errorMessage);
+    setIsSubmitting(false);
+  }, []);
 
   const onStart = React.useCallback(() => {
     setError('');
     setIsSubmitting(true);
-  }, [setError, setIsSubmitting]);
+  }, []);
 
   const onSuccessRedirect = React.useCallback(() => {
     const searchParams = new URLSearchParams(location.search);

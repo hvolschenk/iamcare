@@ -1,5 +1,5 @@
-import { LocationBasic } from '~/src/types/LocationBasic';
-import { Tag } from '~/src/types/Tag';
+import type { LocationBasic } from '~/src/types/LocationBasic';
+import type { Tag } from '~/src/types/Tag';
 
 export interface SearchFilters {
   distance?: number;

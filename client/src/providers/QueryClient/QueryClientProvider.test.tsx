@@ -2,7 +2,7 @@
 // In this ONE case we are testing this Provider in isolation,
 // and don't need any mocks for it.
 import { QueryClient, useQuery } from '@tanstack/react-query';
-import { render, RenderResult, waitFor } from '@testing-library/react';
+import { type RenderResult, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import ReactGA from 'react-ga4';
 

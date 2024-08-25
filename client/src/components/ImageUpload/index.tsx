@@ -2,17 +2,17 @@ import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText, {
-  FormHelperTextProps as MUIFormHelperTextProps,
+  type FormHelperTextProps as MUIFormHelperTextProps,
 } from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { InputBaseComponentProps } from '@mui/material/InputBase';
+import type { InputBaseComponentProps } from '@mui/material/InputBase';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
-import { Image } from '~/src/types/Image';
+import type { Image } from '~/src/types/Image';
 
 import ImageUploadImage from './Image';
 
@@ -68,13 +68,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   );
 
   const tileSize = React.useMemo(
-    () => parseInt(theme.spacing(1), 10) * 20,
+    () => Number.parseInt(theme.spacing(1), 10) * 20,
     [theme],
   );
 
   // The dependency array here purposefully DOES NOT contain `values`.
   // The `onChange` call will update `values`
   // and this will cause an infinite loop
+  // biome-ignore lint/correctness/useExhaustiveDependencies: See above
   React.useEffect(() => {
     const allFiles = files.filter((file) => !removedFiles.includes(file));
     const allValues = values.filter((value) => !removedValues.includes(value));
@@ -85,59 +86,44 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     if (inputElementRef.current) {
       inputElementRef.current.click();
     }
-  }, [inputElementRef]);
+  }, []);
 
-  const onFileRemove = React.useCallback(
-    (file: File) => {
-      setRemovedFiles((currentRemovedFiles) => [...currentRemovedFiles, file]);
-    },
-    [setRemovedFiles],
-  );
+  const onFileRemove = React.useCallback((file: File) => {
+    setRemovedFiles((currentRemovedFiles) => [...currentRemovedFiles, file]);
+  }, []);
 
-  const onFileRestore = React.useCallback(
-    (file: File) => {
-      setRemovedFiles((currentRemovedFiles) =>
-        currentRemovedFiles.filter(
-          (currentRemovedFile) => currentRemovedFile !== file,
-        ),
-      );
-    },
-    [setRemovedFiles],
-  );
+  const onFileRestore = React.useCallback((file: File) => {
+    setRemovedFiles((currentRemovedFiles) =>
+      currentRemovedFiles.filter(
+        (currentRemovedFile) => currentRemovedFile !== file,
+      ),
+    );
+  }, []);
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> =
-    React.useCallback(
-      (event) => {
-        if (event.target.files && event.target.files.length > 0) {
-          setFiles((currentFiles) => [
-            ...currentFiles,
-            ...Array.from(event.target.files!),
-          ]);
-        }
-      },
-      [setFiles],
+    React.useCallback((event) => {
+      if (event.target.files && event.target.files.length > 0) {
+        setFiles((currentFiles) => [
+          ...currentFiles,
+          ...Array.from(event.target.files!),
+        ]);
+      }
+    }, []);
+
+  const onValueRemove = React.useCallback((value: Image) => {
+    setRemovedValues((currentRemovedValues) => [
+      ...currentRemovedValues,
+      value,
+    ]);
+  }, []);
+
+  const onValueRestore = React.useCallback((image: Image) => {
+    setRemovedValues((currentRemovedValues) =>
+      currentRemovedValues.filter(
+        (currentRemovedValue) => currentRemovedValue !== image,
+      ),
     );
-
-  const onValueRemove = React.useCallback(
-    (value: Image) => {
-      setRemovedValues((currentRemovedValues) => [
-        ...currentRemovedValues,
-        value,
-      ]);
-    },
-    [setRemovedValues],
-  );
-
-  const onValueRestore = React.useCallback(
-    (image: Image) => {
-      setRemovedValues((currentRemovedValues) =>
-        currentRemovedValues.filter(
-          (currentRemovedValue) => currentRemovedValue !== image,
-        ),
-      );
-    },
-    [setRemovedValues],
-  );
+  }, []);
 
   return (
     <FormControl component="fieldset" fullWidth margin="normal">
@@ -147,14 +133,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         cols={columnCount}
         // Having to specify the gap like this is horrendous.
         // No direct theme support here.
-        gap={parseInt(theme.spacing(1), 10)}
+        gap={Number.parseInt(theme.spacing(1), 10)}
         rowHeight={tileSize}
       >
         {values.map((value, index) => (
           <ImageUploadImage
             file={value}
             isRemoved={removedValues.indexOf(value) > -1}
-            // eslint-disable-next-line react/no-array-index-key
+            // biome-ignore lint/suspicious/noArrayIndexKey: Each file does is not guaranteed to have a unique identifier
             key={index}
             onImageRemove={() => onValueRemove(value)}
             onImageRestore={() => onValueRestore(value)}
@@ -164,7 +150,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           <ImageUploadImage
             file={file}
             isRemoved={removedFiles.indexOf(file) > -1}
-            // eslint-disable-next-line react/no-array-index-key
+            // biome-ignore lint/suspicious/noArrayIndexKey: Each file does is not guaranteed to have a unique identifier
             key={index}
             onImageRemove={() => onFileRemove(file)}
             onImageRestore={() => onFileRestore(file)}
@@ -178,7 +164,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             ref={inputElementRef}
             style={{ display: 'none' }}
             type="file"
-            // eslint-disable-next-line react/jsx-props-no-spreading
             {...inputProps}
           />
           <Button
@@ -198,7 +183,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </Button>
         </ImageListItem>
       </ImageList>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <FormHelperText {...FormHelperTextProps}>{helperText}</FormHelperText>
     </FormControl>
   );

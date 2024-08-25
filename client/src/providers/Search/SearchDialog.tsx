@@ -4,12 +4,12 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { FormikConfig, useFormik } from 'formik';
+import { type FormikConfig, useFormik } from 'formik';
 import React from 'react';
 
 import l10n from '~/src/l10n';
 
-import { Search } from './types';
+import type { Search } from './types';
 
 interface FormValues {
   query: string;

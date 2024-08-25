@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker';
-import { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 import React from 'react';
 
 import authenticateMe from '~/src/api/user/me';
-import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
+import { type RenderResult, fireEvent, render, waitFor } from '~/src/testing';
 import { user as userMock } from '~/src/testing/mocks';
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 
 import { useAuthentication } from './index';
 
@@ -19,7 +19,7 @@ describe('When the user API call fails', () => {
   let wrapper: RenderResult;
 
   beforeEach(async () => {
-    (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
+    (authenticateMe as jest.Mock<Promise<AxiosResponse<User | undefined>>>)
       .mockClear()
       .mockRejectedValue(new Error('Failed to fetch the user'));
     wrapper = render(<div data-testid="authentication-provider__child" />, {
@@ -48,9 +48,11 @@ describe('When the user API call fails', () => {
   describe('Retrying and the API call succeeds', () => {
     describe('With no user (empty response', () => {
       beforeEach(async () => {
-        (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
+        (authenticateMe as jest.Mock<Promise<AxiosResponse<User | undefined>>>)
           .mockClear()
-          .mockResolvedValue({ status: 204 } as AxiosResponse<User | void>);
+          .mockResolvedValue({ status: 204 } as AxiosResponse<
+            User | undefined
+          >);
         fireEvent.click(
           wrapper.getByTestId(
             'authentication-provider__error__loading__action',
@@ -73,12 +75,12 @@ describe('When the user API call fails', () => {
 
     describe('With a user', () => {
       beforeEach(async () => {
-        (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
+        (authenticateMe as jest.Mock<Promise<AxiosResponse<User | undefined>>>)
           .mockClear()
           .mockResolvedValue({
             data: user,
             status: 200,
-          } as AxiosResponse<User | void>);
+          } as AxiosResponse<User | undefined>);
         fireEvent.click(
           wrapper.getByTestId(
             'authentication-provider__error__loading__action',
@@ -110,12 +112,12 @@ describe('useAuthentication', () => {
   let wrapper: RenderResult;
 
   beforeEach(async () => {
-    (authenticateMe as jest.Mock<Promise<AxiosResponse<User | void>>>)
+    (authenticateMe as jest.Mock<Promise<AxiosResponse<User | undefined>>>)
       .mockClear()
       .mockResolvedValue({
         data: user,
         status: 200,
-      } as AxiosResponse<User | void>);
+      } as AxiosResponse<User | undefined>);
     wrapper = render(<TestComponent />, { user });
     await waitFor(() =>
       expect(wrapper.queryByTestId('user__email')).toHaveTextContent(

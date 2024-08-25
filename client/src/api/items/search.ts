@@ -1,6 +1,6 @@
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Item } from '~/src/types/Item';
-import { LocationBasic } from '~/src/types/LocationBasic';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Item } from '~/src/types/Item';
+import type { LocationBasic } from '~/src/types/LocationBasic';
 
 import apiClient from '../client';
 

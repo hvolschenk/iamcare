@@ -6,8 +6,8 @@ import ItemForm from '~/src/components/ItemForm';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
-import { Item } from '~/src/types/Item';
-import { User } from '~/src/types/User';
+import type { Item } from '~/src/types/Item';
+import type { User } from '~/src/types/User';
 import { userItems } from '~/src/urls';
 
 interface UserItemFormProps {
@@ -36,7 +36,7 @@ const UserItemForm: React.FC<UserItemFormProps> = ({ item }) => {
       queryClient.invalidateQueries({ queryKey: ['users', user.id, 'items'] });
       navigate(userItems(user.id.toString()));
     },
-    [navigate, notify, queryClient, trackCustomEvent, user],
+    [item, navigate, notify, queryClient, trackCustomEvent, user],
   );
 
   return (

@@ -4,11 +4,11 @@ import { useLoaderData } from 'react-router-dom';
 
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
-import { APICollection } from '~/src/types/APICollection';
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Item } from '~/src/types/Item';
-import { LocationBasic } from '~/src/types/LocationBasic';
-import { Tag } from '~/src/types/Tag';
+import type { APICollection } from '~/src/types/APICollection';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Item } from '~/src/types/Item';
+import type { LocationBasic } from '~/src/types/LocationBasic';
+import type { Tag } from '~/src/types/Tag';
 
 import Banner from './Banner';
 import Help from './Help';

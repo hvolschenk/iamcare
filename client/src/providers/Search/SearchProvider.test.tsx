@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { SearchOptions } from '~/src/providers/Search/types';
-import { fireEvent, renderRouter, RenderResult } from '~/src/testing';
-import { itemsSearch, ItemsSearchOptions } from '~/src/urls';
+import type { SearchOptions } from '~/src/providers/Search/types';
+import { type RenderResult, fireEvent, renderRouter } from '~/src/testing';
+import { type ItemsSearchOptions, itemsSearch } from '~/src/urls';
 
 import { useSearch } from './index';
 
@@ -22,7 +22,7 @@ const TestComponent: React.FC = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchOptions(JSON.parse(event.target.value) as SearchOptions);
     },
-    [setSearchOptions],
+    [],
   );
 
   return (

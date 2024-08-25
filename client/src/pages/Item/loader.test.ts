@@ -7,6 +7,7 @@ jest.mock('~/src/api/items/get');
 
 const item = itemMock();
 
+// biome-ignore lint/suspicious/noExplicitAny: The loader methods are not generic
 let result: any;
 
 beforeEach(async () => {

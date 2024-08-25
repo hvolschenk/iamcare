@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import { threadCreate, user as userURL } from '~/src/urls';
 
 interface GiverProps {

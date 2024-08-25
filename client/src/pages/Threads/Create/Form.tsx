@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { FormikConfig, useFormik } from 'formik';
+import { type FormikConfig, useFormik } from 'formik';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -12,8 +12,8 @@ import threadCreate from '~/src/api/threads/create';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
-import { APIValidationError } from '~/src/types/APIValidationError';
-import { Item } from '~/src/types/Item';
+import type { APIValidationError } from '~/src/types/APIValidationError';
+import type { Item } from '~/src/types/Item';
 import { threads } from '~/src/urls';
 
 interface FormValues {
@@ -67,7 +67,7 @@ const Form: React.FC<FormProps> = ({ item }) => {
         formikBag.setSubmitting(false);
       }
     },
-    [navigate, notify, trackCustomEvent],
+    [item, navigate, notify, queryClient, trackCustomEvent],
   );
 
   const validationSchema = yup.object({

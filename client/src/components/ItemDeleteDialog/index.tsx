@@ -8,7 +8,7 @@ import React from 'react';
 
 import deleteItem from '~/src/api/items/delete';
 import l10n from '~/src/l10n';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 interface ItemDeleteDialogProps {
   isOpen: boolean;

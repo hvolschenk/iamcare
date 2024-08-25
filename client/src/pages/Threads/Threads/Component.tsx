@@ -10,8 +10,8 @@ import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Thread } from '~/src/types/Thread';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Thread } from '~/src/types/Thread';
 import { root, threads } from '~/src/urls';
 
 import List from './List';
@@ -24,7 +24,7 @@ const Threads: React.FC = () => {
 
   const page = React.useMemo<number>(() => {
     const queryPage = searchParams.get('page');
-    return queryPage ? parseInt(queryPage, 10) : 1;
+    return queryPage ? Number.parseInt(queryPage, 10) : 1;
   }, [searchParams]);
 
   const onPageChange = React.useCallback(
@@ -65,7 +65,6 @@ const Threads: React.FC = () => {
                 renderItem={(item) => (
                   <PaginationItem
                     data-testid="threads__pagination__item"
-                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...item}
                   />
                 )}

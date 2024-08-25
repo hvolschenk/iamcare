@@ -7,10 +7,10 @@ import {
   locationBasic,
   tag,
 } from '~/src/testing/mocks';
-import { APICollection } from '~/src/types/APICollection';
-import { Item } from '~/src/types/Item';
-import { LocationBasic } from '~/src/types/LocationBasic';
-import { Tag } from '~/src/types/Tag';
+import type { APICollection } from '~/src/types/APICollection';
+import type { Item } from '~/src/types/Item';
+import type { LocationBasic } from '~/src/types/LocationBasic';
+import type { Tag } from '~/src/types/Tag';
 
 import { loader } from './index';
 
@@ -28,6 +28,7 @@ const tags: APICollection<Tag> = {
   data: [tag(), tag(), tag()],
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: The loader function is not generic
 let result: any;
 
 beforeEach(async () => {

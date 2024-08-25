@@ -1,7 +1,7 @@
-import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
+import Snackbar, { type SnackbarProps } from '@mui/material/Snackbar';
 import React from 'react';
 
-import { NotificationsProviderValues } from '~/src/providers/Notifications/types';
+import type { NotificationsProviderValues } from '~/src/providers/Notifications/types';
 import { noop } from '~/src/shared/functions';
 
 import NotificationsContext from './context';
@@ -22,12 +22,12 @@ const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
         notification,
       ]);
     },
-    [setNotifications],
+    [],
   );
 
   const onClose = React.useCallback(() => {
     setNotifications(([, ...currentNotifications]) => currentNotifications);
-  }, [setNotifications]);
+  }, []);
 
   const providerValue: NotificationsProviderValues = React.useMemo(
     () => ({ notify }),
@@ -42,7 +42,6 @@ const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
       {notifications.length > 0 && (
         <Snackbar
           autoHideDuration={2500}
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...notifications[0]}
           ClickAwayListenerProps={{ onClickAway: noop }}
           data-testid="notifications__notification"

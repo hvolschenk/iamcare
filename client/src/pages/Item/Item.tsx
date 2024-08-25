@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
-import { Item as ItemType } from '~/src/types/Item';
+import type { Item as ItemType } from '~/src/types/Item';
 
 import Giver from './Giver';
 import Images from './Images';

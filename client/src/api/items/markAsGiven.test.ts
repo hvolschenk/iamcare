@@ -1,5 +1,5 @@
-import markItemAsGiven from './markAsGiven';
 import apiClient from '../client';
+import markItemAsGiven from './markAsGiven';
 
 jest.mock('../client');
 

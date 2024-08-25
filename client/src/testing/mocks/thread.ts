@@ -1,9 +1,6 @@
-// This will only ever be used in tests,
-// so importing `devDependencies` here is absolutely fine.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { faker } from '@faker-js/faker';
 
-import { Thread } from '~/src/types/Thread';
+import type { Thread } from '~/src/types/Thread';
 
 import item from './item';
 import message from './message';

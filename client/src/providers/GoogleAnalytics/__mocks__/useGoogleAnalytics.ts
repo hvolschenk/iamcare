@@ -1,4 +1,4 @@
-import {
+import type {
   GoogleAnalyticsProviderValues,
   TrackCustomEventOptions,
   TrackExceptionOptions,
@@ -13,6 +13,7 @@ import {
 } from '../types';
 
 export const initialize = jest.fn<void, []>();
+// biome-ignore lint/suspicious/noExplicitAny: This value is passed on to ReactGa and thus I know nothing more
 export const set = jest.fn<void, [Record<string, any>]>();
 export const trackCustomEvent = jest.fn<void, [TrackCustomEventOptions]>();
 export const trackException = jest.fn<void, [TrackExceptionOptions]>();

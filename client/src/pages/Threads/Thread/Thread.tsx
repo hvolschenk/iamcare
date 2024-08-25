@@ -10,15 +10,15 @@ import PageTitle from '~/src/components/PageTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
-import { Message as ThreadMessage } from '~/src/types/Thread';
-import { User } from '~/src/types/User';
-import { threads, root } from '~/src/urls';
+import type { Message as ThreadMessage } from '~/src/types/Thread';
+import type { User } from '~/src/types/User';
+import { root, threads } from '~/src/urls';
 
-import { useThread } from './context';
 import HealthAndSafety from './HealthAndSafety';
 import MarkAsGiven from './MarkAsGiven';
 import Messages from './Messages';
 import ReplyForm from './ReplyForm';
+import { useThread } from './context';
 
 const Thread: React.FC = () => {
   const { user } = useAuthentication();
@@ -94,7 +94,7 @@ const Thread: React.FC = () => {
         <CardContent>
           {groupedMessages.map((messageGroup, index) => (
             <Messages
-              // eslint-disable-next-line react/no-array-index-key
+              // biome-ignore lint/suspicious/noArrayIndexKey: The messages are ordered by us
               key={index}
               messages={messageGroup.messages}
               // This page is protected and the user is guaranteed to be logged in

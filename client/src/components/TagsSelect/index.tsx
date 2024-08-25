@@ -3,14 +3,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
-import { SelectChangeEvent } from '@mui/material/Select';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import type { SelectChangeEvent } from '@mui/material/Select';
+import TextField, { type TextFieldProps } from '@mui/material/TextField';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 import tags from '~/src/api/tag/all';
 import { getTagLabel } from '~/src/shared/tags';
-import { Tag } from '~/src/types/Tag';
+import type { Tag } from '~/src/types/Tag';
 
 export interface TagsSelectProps {
   error?: TextFieldProps['error'];

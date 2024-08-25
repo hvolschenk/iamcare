@@ -10,7 +10,7 @@ import ReactGA from 'react-ga4';
 import configuration from '~/src/configuration';
 
 export const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: Infinity } },
+  defaultOptions: { queries: { staleTime: Number.POSITIVE_INFINITY } },
   queryCache: new QueryCache({
     onError: (error, query) => {
       // This is the ONLY place where it is okay

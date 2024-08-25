@@ -1,5 +1,5 @@
-import popular from './popular';
 import apiClient from '../client';
+import popular from './popular';
 
 jest.mock('../client');
 

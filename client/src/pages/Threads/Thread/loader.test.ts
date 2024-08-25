@@ -9,6 +9,7 @@ jest.mock('~/src/api/threads/get');
 
 const thread = threadMock();
 
+// biome-ignore lint/suspicious/noExplicitAny: The loader functions are not generic
 let result: any;
 
 beforeEach(async () => {

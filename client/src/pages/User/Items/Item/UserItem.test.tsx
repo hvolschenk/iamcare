@@ -7,9 +7,9 @@ import locationByGooglePlaceID from '~/src/api/locations/google';
 import tags from '~/src/api/tag/all';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
 import {
+  type RenderResult,
   fireEvent,
   renderRouter,
-  RenderResult,
   testUser,
   waitFor,
   within,

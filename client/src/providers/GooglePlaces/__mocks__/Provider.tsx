@@ -1,7 +1,7 @@
 import React from 'react';
 
 import GooglePlacesContext from '../context';
-import { GooglePlacesProviderValues } from '../types';
+import type { GooglePlacesProviderValues } from '../types';
 
 interface GooglePlacesProviderProps {
   children: React.ReactNode;

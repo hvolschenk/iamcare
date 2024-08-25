@@ -1,5 +1,5 @@
-import itemDelete from './delete';
 import apiClient from '../client';
+import itemDelete from './delete';
 
 jest.mock('../client');
 

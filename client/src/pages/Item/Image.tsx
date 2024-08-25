@@ -1,8 +1,8 @@
 import ImageListItem from '@mui/material/ImageListItem';
 import React from 'react';
 
-import { Image as ImageType } from '~/src/types/Image';
-import { Item } from '~/src/types/Item';
+import type { Image as ImageType } from '~/src/types/Image';
+import type { Item } from '~/src/types/Item';
 
 interface ImageProps {
   image: ImageType;

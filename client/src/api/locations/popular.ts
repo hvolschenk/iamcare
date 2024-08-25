@@ -1,5 +1,5 @@
-import { APICollection } from '~/src/types/APICollection';
-import { LocationBasic } from '~/src/types/LocationBasic';
+import type { APICollection } from '~/src/types/APICollection';
+import type { LocationBasic } from '~/src/types/LocationBasic';
 
 import apiClient from '../client';
 

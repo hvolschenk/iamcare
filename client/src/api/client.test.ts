@@ -10,7 +10,6 @@ describe('Adds the correlation ID request interceptor', () => {
   beforeAll(() => {
     jest.mock('axios', () => ({ create: mockCreate }));
     jest.resetModules();
-    // eslint-disable-next-line global-require
     require('./client');
     result = mockUse.mock.calls[0][0](CONFIG);
   });

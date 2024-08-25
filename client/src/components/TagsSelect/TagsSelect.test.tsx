@@ -3,9 +3,9 @@ import React from 'react';
 
 import tags from '~/src/api/tag/all';
 import {
+  type RenderResult,
   fireEvent,
   render,
-  RenderResult,
   waitFor,
   within,
 } from '~/src/testing';

@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { act, fireEvent, render, RenderResult, waitFor } from '~/src/testing';
+import {
+  type RenderResult,
+  act,
+  fireEvent,
+  render,
+  waitFor,
+} from '~/src/testing';
 
 import { useNotifications } from './index';
 
@@ -11,7 +17,7 @@ const SampleComponent: React.FC = () => {
   const onClick = React.useCallback(() => {
     notify({ message: `Message ${count}` });
     setCount((currentCount) => currentCount + 1);
-  }, [count, notify, setCount]);
+  }, [count, notify]);
 
   return (
     <button data-testid="notify" onClick={onClick} type="button">

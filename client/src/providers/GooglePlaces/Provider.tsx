@@ -5,7 +5,7 @@ import FullPageLoader from '~/src/components/FullPageLoader';
 import configuration from '~/src/configuration';
 
 import GooglePlacesContext from './context';
-import { GooglePlacesProviderValues } from './types';
+import type { GooglePlacesProviderValues } from './types';
 
 interface GooglePlacesProviderProps {
   children: React.ReactNode;

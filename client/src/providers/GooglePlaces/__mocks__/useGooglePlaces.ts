@@ -1,4 +1,4 @@
-import { GooglePlacesProviderValues } from '../types';
+import type { GooglePlacesProviderValues } from '../types';
 
 export const autocomplete = jest.fn<
   Promise<google.maps.places.AutocompleteResponse>,

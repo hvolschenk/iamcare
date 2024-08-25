@@ -1,4 +1,4 @@
-import { Thread } from '~/src/types/Thread';
+import type { Thread } from '~/src/types/Thread';
 
 import apiClient from '../client';
 

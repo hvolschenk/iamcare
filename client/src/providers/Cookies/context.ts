@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CookiesProviderValues } from './types';
+import type { CookiesProviderValues } from './types';
 
 const CookiesContext = React.createContext<CookiesProviderValues>({
   areCookiesAccepted: false,

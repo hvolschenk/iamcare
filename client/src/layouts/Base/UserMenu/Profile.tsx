@@ -2,7 +2,7 @@ import Avatar from '@mui/material/Avatar';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 import { user as userURL } from '~/src/urls';
 
 interface ProfileProps {

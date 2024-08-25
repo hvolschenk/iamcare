@@ -13,8 +13,8 @@ import { SEARCH_DISTANCE_DEFAULT } from '~/src/constants';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
-import { APICollection } from '~/src/types/APICollection';
-import { LocationBasic } from '~/src/types/LocationBasic';
+import type { APICollection } from '~/src/types/APICollection';
+import type { LocationBasic } from '~/src/types/LocationBasic';
 
 interface LocationsProps {
   locations: APICollection<LocationBasic>;

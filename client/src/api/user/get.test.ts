@@ -1,5 +1,5 @@
-import get from './get';
 import client from '../client';
+import get from './get';
 
 jest.mock('../client');
 

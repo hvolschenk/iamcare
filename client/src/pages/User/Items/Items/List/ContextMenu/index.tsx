@@ -17,7 +17,7 @@ import ItemMarkAsGivenDialog from '~/src/components/ItemMarkAsGivenDialog';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useNotifications } from '~/src/providers/Notifications';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import { item as itemURL, userItems } from '~/src/urls';
 
 interface ContextMenuProps {
@@ -40,22 +40,22 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item }) => {
 
   const onClose = React.useCallback(() => {
     setAnchorElement(null);
-  }, [setAnchorElement]);
+  }, []);
   const onOpen = React.useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorElement(event.currentTarget);
     },
-    [setAnchorElement],
+    [],
   );
 
   const onDeleteDialogClose = React.useCallback(
     () => setIsDeleteDialogOpen(false),
-    [setIsDeleteDialogOpen],
+    [],
   );
   const onDeleteDialogOpen = React.useCallback(() => {
     onClose();
     setIsDeleteDialogOpen(true);
-  }, [onClose, setIsDeleteDialogOpen]);
+  }, [onClose]);
   const onDeleteError = React.useCallback(() => {
     notify({ message: l10n.itemDeleteErrorDeleting });
   }, [notify]);
@@ -69,12 +69,12 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ item }) => {
 
   const onMarkAsGivenDialogClose = React.useCallback(
     () => setIsMarkAsGivenDialogOpen(false),
-    [setIsMarkAsGivenDialogOpen],
+    [],
   );
   const onMarkAsGivenDialogOpen = React.useCallback(() => {
     onClose();
     setIsMarkAsGivenDialogOpen(true);
-  }, [onClose, setIsMarkAsGivenDialogOpen]);
+  }, [onClose]);
   const onMarkAsGivenError = React.useCallback(() => {
     notify({ message: l10n.itemMarkAsGivenError });
   }, [notify]);

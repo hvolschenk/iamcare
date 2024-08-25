@@ -1,11 +1,7 @@
-// This will only ever be used in tests,
-// so importing `devDependencies` here is absolutely fine.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { faker } from '@faker-js/faker';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { UniqueEnforcer } from 'enforce-unique';
 
-import { Tag } from '~/src/types/Tag';
+import type { Tag } from '~/src/types/Tag';
 
 const titleUniqueEnforcer = new UniqueEnforcer();
 

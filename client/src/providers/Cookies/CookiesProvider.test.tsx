@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fireEvent, render, RenderResult } from '~/src/testing';
+import { type RenderResult, fireEvent, render } from '~/src/testing';
 
 import { Provider, useCookies } from './index';
 

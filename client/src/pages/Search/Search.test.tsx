@@ -6,9 +6,9 @@ import locationByGooglePlaceID from '~/src/api/locations/google';
 import tags from '~/src/api/tag/all';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
 import {
+  type RenderResult,
   fireEvent,
   renderRouter,
-  RenderResult,
   waitFor,
   within,
 } from '~/src/testing';
@@ -19,7 +19,7 @@ import {
   locationBasic as locationBasicMock,
   tag as tagMock,
 } from '~/src/testing/mocks';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import { item as itemURL, itemsSearch as itemsSearchURL } from '~/src/urls';
 
 import { Component as Search } from './index';

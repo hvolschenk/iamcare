@@ -1,5 +1,5 @@
 import { brown, pink } from '@mui/material/colors';
-import { ThemeOptions, alpha, createTheme } from '@mui/material/styles';
+import { type ThemeOptions, alpha, createTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const useTheme = () => {

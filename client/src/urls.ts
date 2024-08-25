@@ -1,4 +1,4 @@
-import { Tag } from '~/src/types/Tag';
+import type { Tag } from '~/src/types/Tag';
 
 interface AuthenticationOptions {
   redirectURI?: string;
@@ -56,8 +56,7 @@ export const itemsSearch = (options: ItemsSearchOptions = {}) => {
 export type ThreadParams = { threadID: string };
 export const thread = (threadID = ':threadID') => `/threads/${threadID}`;
 export type ThreadCreateParams = { itemID: string };
-export const threadCreate = (itemID: string = ':itemID') =>
-  `/threads/create/${itemID}`;
+export const threadCreate = (itemID = ':itemID') => `/threads/create/${itemID}`;
 interface ThreadsOptions {
   page?: number;
 }

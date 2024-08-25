@@ -3,8 +3,8 @@ import PaginationItem from '@mui/material/PaginationItem';
 import React from 'react';
 
 import { useSearch } from '~/src/providers/Search';
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Item } from '~/src/types/Item';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Item } from '~/src/types/Item';
 
 interface PaginationProps {
   meta: APICollectionPaginated<Item>['meta'];
@@ -28,7 +28,6 @@ const Pagination: React.FC<PaginationProps> = ({ meta }) => {
       renderItem={(item) => (
         <PaginationItem
           data-testid="search-results__pagination__item"
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...item}
         />
       )}

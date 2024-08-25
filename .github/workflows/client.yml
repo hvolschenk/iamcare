@@ -13,13 +13,9 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./client
-
-      - name: Test formatting
-        run: npm run test:format
-        working-directory: ./client
       
-      - name: Test linting
-        run: npm run test:lint
+      - name: Test static
+        run: npm run test:static:ci
         working-directory: ./client
       
       - name: Test types/compilation
