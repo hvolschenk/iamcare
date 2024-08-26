@@ -1,3 +1,4 @@
+.jest-cache/
 .parcel-cache/
 coverage/
 dist/
