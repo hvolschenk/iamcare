@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 
 import AuthenticationContext from '../context';
 
@@ -11,10 +11,7 @@ interface ProviderProps {
 
 const Provider: React.FC<ProviderProps> = ({ children, value }) => {
   const [user, setUser] = React.useState(value);
-  const providerValue = React.useMemo(
-    () => ({ setUser, user }),
-    [setUser, user],
-  );
+  const providerValue = React.useMemo(() => ({ setUser, user }), [user]);
 
   return (
     <AuthenticationContext.Provider value={providerValue}>

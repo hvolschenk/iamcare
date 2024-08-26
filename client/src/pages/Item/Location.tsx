@@ -8,7 +8,7 @@ import React from 'react';
 import LocationMapDialog from '~/src/components/LocationMapDialog';
 import { SEARCH_DISTANCE_DEFAULT } from '~/src/constants';
 import { useSearch } from '~/src/providers/Search';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 interface LocationProps {
   item: Item;
@@ -21,10 +21,10 @@ const Location: React.FC<LocationProps> = ({ item }) => {
 
   const onMapClose = React.useCallback(() => {
     setIsMapOpen(false);
-  }, [setIsMapOpen]);
+  }, []);
   const onMapOpen = React.useCallback(() => {
     setIsMapOpen(true);
-  }, [setIsMapOpen]);
+  }, []);
 
   const onSearchByLocation = React.useCallback(() => {
     search({
@@ -34,7 +34,7 @@ const Location: React.FC<LocationProps> = ({ item }) => {
         tagIDs: [],
       },
     });
-  }, [search]);
+  }, [filters, item, search]);
 
   return (
     <Box marginBottom={3}>

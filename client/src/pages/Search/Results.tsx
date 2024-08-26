@@ -4,8 +4,8 @@ import React from 'react';
 
 import ItemCard from '~/src/components/ItemCard';
 import l10n from '~/src/l10n';
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Item } from '~/src/types/Item';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Item } from '~/src/types/Item';
 
 interface ResultsProps {
   results: APICollectionPaginated<Item>;

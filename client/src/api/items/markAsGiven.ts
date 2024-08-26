@@ -1,4 +1,4 @@
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 import client from '../client';
 

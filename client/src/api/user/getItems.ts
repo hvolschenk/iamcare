@@ -1,6 +1,6 @@
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Item } from '~/src/types/Item';
-import { User } from '~/src/types/User';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Item } from '~/src/types/Item';
+import type { User } from '~/src/types/User';
 
 import client from '../client';
 

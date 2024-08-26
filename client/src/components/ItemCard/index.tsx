@@ -7,16 +7,16 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
 import { getTagLabel } from '~/src/shared/tags';
-import { Item } from '~/src/types/Item';
-import { Tag } from '~/src/types/Tag';
+import type { Item } from '~/src/types/Item';
+import type { Tag } from '~/src/types/Tag';
 import { item as itemURL } from '~/src/urls';
 
 interface ItemCardProps {

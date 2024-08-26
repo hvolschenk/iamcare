@@ -1,5 +1,5 @@
-import csrfToken from './csrfToken';
 import client from '../client';
+import csrfToken from './csrfToken';
 
 jest.mock('../client');
 

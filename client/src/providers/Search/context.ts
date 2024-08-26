@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Search } from './types';
+import type { Search } from './types';
 
 const SearchContext = React.createContext<Search>({} as Search);
 

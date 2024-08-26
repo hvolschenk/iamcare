@@ -1,7 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Container, { ContainerProps } from '@mui/material/Container';
+import Container, { type ContainerProps } from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';

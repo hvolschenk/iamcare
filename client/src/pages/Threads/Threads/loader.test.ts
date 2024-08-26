@@ -3,7 +3,7 @@ import {
   apiCollectionPaginated,
   thread as threadMock,
 } from '~/src/testing/mocks';
-import { Thread } from '~/src/types/Thread';
+import type { Thread } from '~/src/types/Thread';
 import { threads as threadsURL } from '~/src/urls';
 
 import { loader } from './index';
@@ -15,6 +15,7 @@ const threadsList = apiCollectionPaginated<Thread>({
 });
 
 describe('Without a page', () => {
+  // biome-ignore lint/suspicious/noExplicitAny: The loader functions are not generic
   let result: any;
 
   beforeEach(async () => {
@@ -33,6 +34,7 @@ describe('Without a page', () => {
 });
 
 describe('With a page', () => {
+  // biome-ignore lint/suspicious/noExplicitAny: The loader function is not generic
   let result: any;
 
   beforeEach(async () => {

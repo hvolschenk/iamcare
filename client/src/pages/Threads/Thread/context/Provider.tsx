@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Thread } from '~/src/types/Thread';
+import type { Thread } from '~/src/types/Thread';
 
 import ThreadContext from './context';
-import { ThreadProviderValues } from './types';
+import type { ThreadProviderValues } from './types';
 
 interface ThreadProviderProps {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ const ThreadProvider: React.FC<ThreadProviderProps> = ({ children, value }) => {
 
   const providerValue = React.useMemo<ThreadProviderValues>(
     () => ({ setThread, thread }),
-    [setThread, thread],
+    [thread],
   );
 
   return (

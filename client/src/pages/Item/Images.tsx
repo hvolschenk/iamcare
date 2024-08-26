@@ -4,7 +4,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import LightboxDialog from '~/src/components/LightboxDialog';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 import Image from './Image';
 
@@ -34,15 +34,12 @@ const Images: React.FC<ImagesProps> = ({ item }) => {
 
   const onLightboxDialogClose = React.useCallback(() => {
     setIsLightboxDialogOpen(false);
-  }, [setIsLightboxDialogOpen]);
+  }, []);
 
-  const onLightboxDialogOpen = React.useCallback(
-    (index: number) => {
-      setLightboxDialogIndex(index);
-      setIsLightboxDialogOpen(true);
-    },
-    [setIsLightboxDialogOpen, setLightboxDialogIndex],
-  );
+  const onLightboxDialogOpen = React.useCallback((index: number) => {
+    setLightboxDialogIndex(index);
+    setIsLightboxDialogOpen(true);
+  }, []);
 
   return (
     <React.Fragment>
@@ -50,7 +47,7 @@ const Images: React.FC<ImagesProps> = ({ item }) => {
         cols={columnCount}
         // Having to specify the gap like this is horrendous.
         // No direct theme support here.
-        gap={parseInt(theme.spacing(1), 10)}
+        gap={Number.parseInt(theme.spacing(1), 10)}
       >
         {item.images.map((image, index) => (
           <Image

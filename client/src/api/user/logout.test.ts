@@ -1,5 +1,5 @@
-import logout from './logout';
 import client from '../client';
+import logout from './logout';
 
 jest.mock('../client');
 

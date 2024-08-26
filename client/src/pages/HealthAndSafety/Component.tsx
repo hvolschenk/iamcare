@@ -19,7 +19,6 @@ interface HealthAndSafetySection {
 
 // In this instance it feels easier to read
 // with the title before the bullet points.
-/* eslint-disable sort-keys */
 const healthAndSafetySections: HealthAndSafetySection[] = [
   {
     title: l10n.healthAndSafetyGeneral,
@@ -143,7 +142,6 @@ const healthAndSafetySections: HealthAndSafetySection[] = [
     ],
   },
 ];
-/* eslint-enable sort-keys */
 
 const HealthAndSafety: React.FC = () => (
   <React.Fragment>
@@ -156,13 +154,13 @@ const HealthAndSafety: React.FC = () => (
     />
     <Card>
       {healthAndSafetySections.map((section, index) => (
-        // eslint-disable-next-line react/no-array-index-key
+        // biome-ignore lint/suspicious/noArrayIndexKey: These are ordered by us
         <React.Fragment key={index}>
           <CardHeader title={section.title} />
           <CardContent>
             <ul>
               {section.bulletPoints.map((bulletPoint, bulletIndex) => (
-                // eslint-disable-next-line react/no-array-index-key
+                // biome-ignore lint/suspicious/noArrayIndexKey: These are ordered by us
                 <li key={bulletIndex}>
                   <strong>{bulletPoint.title}:</strong>
                   &nbsp;{bulletPoint.description}

@@ -2,10 +2,13 @@ import React from 'react';
 import ReactGA from 'react-ga4';
 
 import configuration from '~/src/configuration';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 import GoogleAnalyticsContext from './context';
-import { GoogleAnalyticsItem, GoogleAnalyticsProviderValues } from './types';
+import type {
+  GoogleAnalyticsItem,
+  GoogleAnalyticsProviderValues,
+} from './types';
 
 interface GoogleAnalyticsProviderProps {
   children: React.ReactNode;
@@ -81,11 +84,14 @@ const GoogleAnalyticsProvider: React.FC<GoogleAnalyticsProviderProps> = ({
     }, []);
 
   const trackSelectItem: GoogleAnalyticsProviderValues['trackSelectItem'] =
-    React.useCallback((options) => {
-      ReactGA.event('select_item', {
-        items: [itemToGoogleAnalyticsItem(options.item)],
-      });
-    }, []);
+    React.useCallback(
+      (options) => {
+        ReactGA.event('select_item', {
+          items: [itemToGoogleAnalyticsItem(options.item)],
+        });
+      },
+      [itemToGoogleAnalyticsItem],
+    );
 
   const trackShare: GoogleAnalyticsProviderValues['trackShare'] =
     React.useCallback((options) => ReactGA.event('share', options), []);

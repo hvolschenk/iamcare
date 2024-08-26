@@ -2,9 +2,9 @@ import React from 'react';
 
 import configuration from '~/src/configuration';
 
-import CookiesContext from './context';
 import CookiesDialog from './CookiesDialog';
-import { CookiesProviderValues } from './types';
+import CookiesContext from './context';
+import type { CookiesProviderValues } from './types';
 
 interface CookiesProviderProps {
   children: React.ReactNode;
@@ -24,12 +24,12 @@ const CookiesProvider: React.FC<CookiesProviderProps> = ({ children }) => {
   const onCookiesAccept = React.useCallback(() => {
     localStorage.setItem('COOKIES_ACCEPTED', 'true');
     setAreCookiesAccepted(true);
-  }, [setAreCookiesAccepted]);
+  }, []);
 
   const onCookiesDecline = React.useCallback(() => {
     localStorage.setItem('COOKIES_ACCEPTED', 'false');
     setAreCookiesAccepted(false);
-  }, [setAreCookiesAccepted]);
+  }, []);
 
   const providerValue = React.useMemo<CookiesProviderValues>(
     () => ({

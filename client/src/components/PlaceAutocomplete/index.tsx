@@ -1,18 +1,18 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import Autocomplete, {
-  AutocompleteInputChangeReason,
+  type AutocompleteInputChangeReason,
 } from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField, { type TextFieldProps } from '@mui/material/TextField';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import debounce from 'lodash.debounce';
 import React from 'react';
 
 import locationByGooglePlaceID from '~/src/api/locations/google';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
-import { LocationBasic } from '~/src/types/LocationBasic';
+import type { LocationBasic } from '~/src/types/LocationBasic';
 
 export interface PlaceAutocompleteProps {
   error?: TextFieldProps['error'];
@@ -78,7 +78,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       ]);
       setSelectedValue(prediction);
     }
-  }, [data, setOptions, setSelectedValue, status]);
+  }, [data, status]);
 
   const { autocomplete, generateAutocompleteSessionToken } = useGooglePlaces();
 
@@ -122,7 +122,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
         }
       }
     },
-    [onChange, setSelectedValue],
+    [onChange],
   );
 
   const onInputChange = React.useCallback(
@@ -141,7 +141,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
         mutateDebounced(query);
       }
     },
-    [mutateDebounced, setInputValue, setIsLoading],
+    [mutateDebounced],
   );
 
   return (
@@ -162,7 +162,6 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       options={options}
       renderInput={(params) => (
         <TextField
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...params}
           error={error}
           FormHelperTextProps={FormHelperTextProps}
@@ -184,7 +183,6 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
         />
       )}
       renderOption={(props, option) => (
-        // eslint-disable-next-line react/jsx-props-no-spreading
         <ListItem {...props} data-testid="place-autocomplete__suggestion">
           <ListItemText
             primary={option.structured_formatting.main_text}

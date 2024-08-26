@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import itemsSearch from '~/src/api/items/search';
 import { apiCollectionPaginated, item } from '~/src/testing/mocks';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import { itemsSearch as itemsSearchURL } from '~/src/urls';
 
 import { loader } from './index';
@@ -14,6 +14,7 @@ describe('Without tags', () => {
     data: [item(), item(), item()],
   });
 
+  // biome-ignore lint/suspicious/noExplicitAny: The loader function is not generic
   let result: any;
 
   beforeEach(async () => {
@@ -36,6 +37,7 @@ describe('With tags', () => {
     data: [item(), item(), item()],
   });
 
+  // biome-ignore lint/suspicious/noExplicitAny: The loader function is not generic
   let result: any;
 
   beforeEach(async () => {

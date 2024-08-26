@@ -1,9 +1,8 @@
 // This is one of the few places it makes sense to not have object keys sorted
 // as having `children` defined before `path` makes it very hard to reason about
 // especially since `children` mostly spans many lines.
-/* eslint-disable sort-keys */
 import React from 'react';
-import { createBrowserRouter, Outlet } from 'react-router-dom';
+import { Outlet, createBrowserRouter } from 'react-router-dom';
 
 import ProtectedRoute from '~/src/components/ProtectedRoute';
 import BaseLayout from '~/src/layouts/Base';
@@ -12,16 +11,16 @@ import {
   authentication as authenticationURL,
   healthAndSafety as healthAndSafetyURL,
   item as itemURL,
-  items as itemsURL,
   itemsSearch as itemsSearchURL,
+  items as itemsURL,
   root as rootURL,
-  thread as threadURL,
   threadCreate as threadCreateURL,
+  thread as threadURL,
   threads as threadsURL,
-  user as userURL,
-  userItems as userItemsURL,
   userItemsCreate as userItemsCreateURL,
   userItemsItem as userItemsItemURL,
+  userItems as userItemsURL,
+  user as userURL,
 } from '~/src/urls';
 
 import ErrorPage from './ErrorPage';

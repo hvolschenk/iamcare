@@ -1,7 +1,7 @@
 import React from 'react';
 
 import GoogleAnalyticsContext from '../context';
-import { GoogleAnalyticsProviderValues } from '../types';
+import type { GoogleAnalyticsProviderValues } from '../types';
 
 interface GoogleAnalyticsProviderProps {
   children: React.ReactNode;

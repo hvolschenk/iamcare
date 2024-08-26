@@ -1,7 +1,7 @@
-import { Image } from '~/src/types/Image';
-import { LocationBasic } from '~/src/types/LocationBasic';
-import { Tag } from '~/src/types/Tag';
-import { User } from '~/src/types/User';
+import type { Image } from '~/src/types/Image';
+import type { LocationBasic } from '~/src/types/LocationBasic';
+import type { Tag } from '~/src/types/Tag';
+import type { User } from '~/src/types/User';
 
 export interface Item {
   description: string;

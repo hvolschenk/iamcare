@@ -8,9 +8,9 @@ import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
-import { Item } from '~/src/types/Item';
-import { User } from '~/src/types/User';
-import { root, user as userURL, userItems } from '~/src/urls';
+import type { Item } from '~/src/types/Item';
+import type { User } from '~/src/types/User';
+import { root, userItems, user as userURL } from '~/src/urls';
 
 const ItemCreate: React.FC = () => {
   const user = useRouteLoaderData('user') as User;

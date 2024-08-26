@@ -10,7 +10,7 @@ import { useAuthentication } from '~/src/providers/Authentication';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useNotifications } from '~/src/providers/Notifications';
 import useRevalidateRoute from '~/src/providers/QueryClient/useRevalidateRoute';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 import { useThread } from './context';
 
@@ -27,11 +27,11 @@ const MarkAsGiven: React.FC = () => {
 
   const onClose = React.useCallback(() => {
     setIsMarkAsGivenDialogOpen(false);
-  }, [setIsMarkAsGivenDialogOpen]);
+  }, []);
 
   const onOpen = React.useCallback(() => {
     setIsMarkAsGivenDialogOpen(true);
-  }, [setIsMarkAsGivenDialogOpen]);
+  }, []);
 
   const onError = React.useCallback(() => {
     notify({ message: l10n.itemMarkAsGivenError });
@@ -53,7 +53,15 @@ const MarkAsGiven: React.FC = () => {
       notify({ message: l10n.itemMarkAsGivenSuccess });
       onClose();
     },
-    [onClose, queryClient, revalidateRoute, thread, trackCustomEvent],
+    [
+      notify,
+      onClose,
+      queryClient,
+      revalidateRoute,
+      setThread,
+      thread,
+      trackCustomEvent,
+    ],
   );
 
   if (user!.id !== thread.userGiver.id) {

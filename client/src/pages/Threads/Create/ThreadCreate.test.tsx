@@ -1,19 +1,19 @@
 import { faker } from '@faker-js/faker';
-import { AxiosError, AxiosHeaders, AxiosResponse } from 'axios';
+import { AxiosError, AxiosHeaders, type AxiosResponse } from 'axios';
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import threadCreate from '~/src/api/threads/create';
 import l10n from '~/src/l10n';
 import {
+  type RenderResult,
   fireEvent,
   renderRouter,
-  RenderResult,
   testUser,
   waitFor,
 } from '~/src/testing';
 import { item as itemMock } from '~/src/testing/mocks';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import { threadCreate as threadCreateURL, threads } from '~/src/urls';
 
 import { Component as ThreadCreate } from './index';

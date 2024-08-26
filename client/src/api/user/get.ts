@@ -1,4 +1,4 @@
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 
 import client from '../client';
 

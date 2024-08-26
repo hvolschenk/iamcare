@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ThreadProviderValues } from './types';
+import type { ThreadProviderValues } from './types';
 
 const ThreadContext = React.createContext<ThreadProviderValues>(
   {} as ThreadProviderValues,

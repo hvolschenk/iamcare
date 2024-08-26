@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, RenderResult } from '~/src/testing';
+import { type RenderResult, render } from '~/src/testing';
 import { thread as threadMock } from '~/src/testing/mocks';
 
 import { Provider, useThread } from './index';

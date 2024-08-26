@@ -1,11 +1,11 @@
 import React from 'react';
-import { RouteObject, useLoaderData } from 'react-router-dom';
+import { type RouteObject, useLoaderData } from 'react-router-dom';
 
 import l10n from '~/src/l10n';
 import {
+  type RenderResult,
   fireEvent,
   renderRouter,
-  RenderResult,
   testUser,
   waitFor,
 } from '~/src/testing';
@@ -14,7 +14,7 @@ import {
   item as itemMock,
   thread as threadMock,
 } from '~/src/testing/mocks';
-import { Thread } from '~/src/types/Thread';
+import type { Thread } from '~/src/types/Thread';
 import { thread, threads as threadsURL } from '~/src/urls';
 
 import { Component as Threads } from './index';

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import reply from './reply';
 import apiClient from '../client';
+import reply from './reply';
 
 jest.mock('../client');
 

@@ -1,9 +1,9 @@
 import Button from '@mui/material/Button';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import Dialog, { type DialogProps } from '@mui/material/Dialog';
 import React from 'react';
 
 import l10n from '~/src/l10n';
-import { Image } from '~/src/types/Image';
+import type { Image } from '~/src/types/Image';
 
 interface LightboxDialogProps extends Omit<DialogProps, 'open'> {
   images: Image[];
@@ -23,19 +23,19 @@ const LightboxDialog: React.FC<LightboxDialogProps> = ({
 
   React.useEffect(() => {
     setIndex(startIndex);
-  }, [setIndex, startIndex]);
+  }, [startIndex]);
 
   const onClickNext = React.useCallback(() => {
     if (index + 1 < images.length) {
       setIndex((currentIndex) => currentIndex + 1);
     }
-  }, [images, index, setIndex]);
+  }, [images, index]);
 
   const onClickPrevious = React.useCallback(() => {
     if (index > 0) {
       setIndex((currentIndex) => currentIndex - 1);
     }
-  }, [images, index, setIndex]);
+  }, [index]);
 
   const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> =
     React.useCallback(
@@ -53,7 +53,6 @@ const LightboxDialog: React.FC<LightboxDialogProps> = ({
 
   return (
     <Dialog
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
       data-testid="lightbox-dialog"
       onKeyDown={onKeyDown}

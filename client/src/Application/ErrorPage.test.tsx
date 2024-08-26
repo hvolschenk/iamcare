@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fireEvent, RenderResult, renderRouter } from '~/src/testing';
+import { type RenderResult, fireEvent, renderRouter } from '~/src/testing';
 import { root } from '~/src/urls';
 
 import ErrorPage from './ErrorPage';

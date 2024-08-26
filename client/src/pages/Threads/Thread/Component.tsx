@@ -4,10 +4,10 @@ import { useLoaderData } from 'react-router-dom';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { Thread as ThreadType } from '~/src/types/Thread';
+import type { Thread as ThreadType } from '~/src/types/Thread';
 
-import { Provider as ThreadProvider } from './context';
 import Thread from './Thread';
+import { Provider as ThreadProvider } from './context';
 
 const ThreadLoader: React.FC = () => {
   const { user } = useAuthentication();

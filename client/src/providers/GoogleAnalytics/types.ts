@@ -1,5 +1,5 @@
-import { SearchFilters } from '~/src/providers/Search/types';
-import { Item } from '~/src/types/Item';
+import type { SearchFilters } from '~/src/providers/Search/types';
+import type { Item } from '~/src/types/Item';
 
 export interface TrackCustomEventOptions {
   action: string;
@@ -56,9 +56,11 @@ export interface TrackViewItemListOptions {
 
 export interface GoogleAnalyticsProviderValues {
   initialize(): void;
+  // biome-ignore lint/suspicious/noExplicitAny: These types are defined by ReactGA
   set(fields: Record<string, any>): void;
   trackCustomEvent(
     options: TrackCustomEventOptions,
+    // biome-ignore lint/suspicious/noExplicitAny: These types are defined by ReactGA
     additionalParameters?: Record<string, any>,
   ): void;
   trackException(options: TrackExceptionOptions): void;

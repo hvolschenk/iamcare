@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
-import { ItemsSearchOptions, itemsSearch } from '~/src/urls';
+import { type ItemsSearchOptions, itemsSearch } from '~/src/urls';
 
-import SearchContext from './context';
 import SearchDialog from './SearchDialog';
-import { Search, SearchFilters, SearchOptions } from './types';
+import SearchContext from './context';
+import type { Search, SearchFilters, SearchOptions } from './types';
 
 export const searchOptionsFromSearchParams = (
   urlSearchParams: URLSearchParams,
@@ -17,7 +17,7 @@ export const searchOptionsFromSearchParams = (
   let newQuery: string | undefined;
   const pageSearchParameter = urlSearchParams.get('page');
   if (pageSearchParameter) {
-    newPage = parseInt(pageSearchParameter, 10);
+    newPage = Number.parseInt(pageSearchParameter, 10);
   }
   const querySearchParameter = urlSearchParams.get('query');
   if (querySearchParameter) {
@@ -28,11 +28,11 @@ export const searchOptionsFromSearchParams = (
   if (googlePlaceID) {
     newFilters.googlePlaceID = googlePlaceID;
     if (distance) {
-      newFilters.distance = parseInt(distance, 10);
+      newFilters.distance = Number.parseInt(distance, 10);
     }
   }
   const tagIDs = urlSearchParams.getAll('tag');
-  newFilters.tagIDs = tagIDs.map((tagID) => parseInt(tagID, 10));
+  newFilters.tagIDs = tagIDs.map((tagID) => Number.parseInt(tagID, 10));
   return { filters: newFilters, page: newPage, query: newQuery };
 };
 
@@ -56,7 +56,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     setFilters(searchOptions.filters);
     setPage(searchOptions.page);
     setQuery(searchOptions.query);
-  }, [page, setFilters, setPage, setQuery, urlSearchParams]);
+  }, [page, urlSearchParams]);
 
   const hasFilter = React.useMemo<boolean>(
     () =>
@@ -91,15 +91,15 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
       }
       navigate(itemsSearch(itemsSearchOptions));
     },
-    [filters, navigate],
+    [filters, navigate, trackSearch],
   );
 
   const searchDialogClose = React.useCallback(() => {
     setIsSearchDialogOpen(false);
-  }, [setIsSearchDialogOpen]);
+  }, []);
   const searchDialogOpen = React.useCallback(() => {
     setIsSearchDialogOpen(true);
-  }, [setIsSearchDialogOpen]);
+  }, []);
 
   const providerValue = React.useMemo<Search>(
     () => ({

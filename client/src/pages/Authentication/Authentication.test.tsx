@@ -1,14 +1,14 @@
-import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { type TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import React from 'react';
 
 import csrfToken from '~/src/api/authenticate/csrfToken';
 import authenticateGoogle from '~/src/api/user/authenticateGoogle';
 import l10n from '~/src/l10n';
 import {
+  type RenderResult,
   act,
   fireEvent,
   renderRouter,
-  RenderResult,
   waitFor,
 } from '~/src/testing';
 import { user as userMock } from '~/src/testing/mocks';

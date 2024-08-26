@@ -1,16 +1,16 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
-import { fireEvent, renderRouter, RenderResult } from '~/src/testing';
+import { type RenderResult, fireEvent, renderRouter } from '~/src/testing';
 import {
   apiCollectionPaginated,
   item as itemMock,
   locationBasic as locationBasicMock,
   tag as tagMock,
 } from '~/src/testing/mocks';
-import { Item } from '~/src/types/Item';
-import { LocationBasic } from '~/src/types/LocationBasic';
-import { Tag } from '~/src/types/Tag';
+import type { Item } from '~/src/types/Item';
+import type { LocationBasic } from '~/src/types/LocationBasic';
+import type { Tag } from '~/src/types/Tag';
 import {
   authentication,
   itemsSearch as itemsSearchURL,

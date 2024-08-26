@@ -10,10 +10,10 @@ import FullPageLoader from '~/src/components/FullPageLoader';
 import configuration from '~/src/configuration';
 import l10n from '~/src/l10n';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 
 import AuthenticationContext from './context';
-import { AuthenticationProviderValues } from './types';
+import type { AuthenticationProviderValues } from './types';
 
 interface AuthenticationProviderProps {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
 
   const providerValue = React.useMemo<AuthenticationProviderValues>(
     () => ({ setUser, user }),
-    [setUser, user],
+    [user],
   );
 
   const { data, refetch, status } = useQuery({
@@ -43,7 +43,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderProps> = ({
       setUser(data.data || undefined);
       set({ userId: data.data?.id || null });
     }
-  }, [data, set, setUser, status]);
+  }, [data, set, status]);
 
   if (status === 'error') {
     return (

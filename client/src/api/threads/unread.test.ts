@@ -1,5 +1,5 @@
-import unread from './unread';
 import apiClient from '../client';
+import unread from './unread';
 
 jest.mock('../client');
 

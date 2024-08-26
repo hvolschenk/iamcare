@@ -2,7 +2,7 @@ import React from 'react';
 
 import locationByGooglePlaceID from '~/src/api/locations/google';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
-import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
+import { type RenderResult, fireEvent, render, waitFor } from '~/src/testing';
 import {
   autocompleteResponse as autocompleteResponseMock,
   locationBasic as locationBasicMock,

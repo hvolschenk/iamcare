@@ -8,7 +8,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
-import { Item as ItemType } from '~/src/types/Item';
+import type { Item as ItemType } from '~/src/types/Item';
 import { item as itemURL } from '~/src/urls';
 
 interface ItemProps {

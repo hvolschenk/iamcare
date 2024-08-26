@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import markAsRead from './markAsRead';
 import apiClient from '../client';
+import markAsRead from './markAsRead';
 
 jest.mock('../client');
 

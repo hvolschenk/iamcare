@@ -10,11 +10,11 @@ import Stack from '@mui/material/Stack';
 import React from 'react';
 
 import l10n from '~/src/l10n';
-import { L10n } from '~/src/l10n/types';
+import type { L10n } from '~/src/l10n/types';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import { useSearch } from '~/src/providers/Search';
-import { APICollection } from '~/src/types/APICollection';
-import { Tag } from '~/src/types/Tag';
+import type { APICollection } from '~/src/types/APICollection';
+import type { Tag } from '~/src/types/Tag';
 
 const getTagLabel = (tag: Tag): string => {
   const title = `${tag.title.charAt(0).toUpperCase()}${tag.title.slice(1)}`;

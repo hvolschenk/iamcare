@@ -17,12 +17,12 @@ import { useFormik } from 'formik';
 import React from 'react';
 
 import PlaceAutocomplete, {
-  PlaceAutocompleteProps,
+  type PlaceAutocompleteProps,
 } from '~/src/components/PlaceAutocomplete';
-import TagsSelect, { TagsSelectProps } from '~/src/components/TagsSelect';
+import TagsSelect, { type TagsSelectProps } from '~/src/components/TagsSelect';
 import l10n from '~/src/l10n';
 import { useSearch } from '~/src/providers/Search';
-import { SearchOptions } from '~/src/providers/Search/types';
+import type { SearchOptions } from '~/src/providers/Search/types';
 
 type FormValues = Required<Pick<SearchOptions, 'filters' | 'query'>>;
 
@@ -168,7 +168,6 @@ const SearchForm: React.FC = () => {
         </CardActions>
         {hasFilter && (
           <CardActions sx={{ justifyContent: 'flex-end' }}>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <Link
               component="button"
               data-testid="search__filters__clear"

@@ -1,11 +1,11 @@
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
-import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { alpha } from '@mui/material/styles';
 import React from 'react';
 
-import { Message as ThreadMessage } from '~/src/types/Thread';
-import { User } from '~/src/types/User';
+import type { Message as ThreadMessage } from '~/src/types/Thread';
+import type { User } from '~/src/types/User';
 
 interface MessageProps {
   messages: ThreadMessage['message'][];
@@ -35,7 +35,7 @@ const Message: React.FC<MessageProps> = ({ messages, position, user }) => (
       {messages.map((message, index) => (
         <Typography
           data-testid="thread__message"
-          // eslint-disable-next-line react/no-array-index-key
+          // biome-ignore lint/suspicious/noArrayIndexKey: The messages are ordered
           key={index}
           sx={{
             backgroundColor: (theme) =>

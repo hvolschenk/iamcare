@@ -1,8 +1,8 @@
-import { RenderResult, render } from '@testing-library/react';
+import { type RenderResult, render } from '@testing-library/react';
 import React from 'react';
 import {
   Outlet,
-  RouteObject,
+  type RouteObject,
   RouterProvider,
   createMemoryRouter,
 } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { Provider as NotificationsProvider } from '~/src/providers/Notifications
 import { Provider as QueryClientProvider } from '~/src/providers/QueryClient';
 import { Provider as SearchProvider } from '~/src/providers/Search';
 import { Provider as ThemeProvider } from '~/src/providers/ThemeProvider';
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 
 import { user } from './mocks';
 
@@ -69,7 +69,6 @@ const customRender = (
     { initialEntries: ['/test'] },
   );
   return render(<RouterProvider router={router} />, {
-    // eslint-disable-next-line react/jsx-props-no-spreading
     wrapper: (props) => <Providers {...props} options={options} />,
   });
 };
@@ -83,11 +82,9 @@ const customRenderRouter = (
     [{ children: routes, Component: Layout, path: '/' }],
     { initialEntries },
   );
-  return render(
-    <RouterProvider router={router} />,
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    { wrapper: (props) => <Providers {...props} options={options} /> },
-  );
+  return render(<RouterProvider router={router} />, {
+    wrapper: (props) => <Providers {...props} options={options} />,
+  });
 };
 
 export * from '@testing-library/react';

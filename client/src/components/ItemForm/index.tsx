@@ -4,28 +4,30 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import { AxiosError } from 'axios';
-import { FormikConfig, useFormik } from 'formik';
+import { type FormikConfig, useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
 
 import parseErrors from '~/src/api/helpers/parseErrors';
 import itemCreate, {
-  ItemCreate as ItemCreateType,
+  type ItemCreate as ItemCreateType,
 } from '~/src/api/items/create';
 import itemUpdate, {
-  ItemUpdate as ItemUpdateType,
+  type ItemUpdate as ItemUpdateType,
 } from '~/src/api/items/update';
-import ImageUpload, { ImageUploadProps } from '~/src/components/ImageUpload';
+import ImageUpload, {
+  type ImageUploadProps,
+} from '~/src/components/ImageUpload';
 import PlaceAutocomplete, {
-  PlaceAutocompleteProps,
+  type PlaceAutocompleteProps,
 } from '~/src/components/PlaceAutocomplete';
 import TagsSelect from '~/src/components/TagsSelect';
 import l10n from '~/src/l10n';
 import { useNotifications } from '~/src/providers/Notifications';
-import { APIValidationError } from '~/src/types/APIValidationError';
+import type { APIValidationError } from '~/src/types/APIValidationError';
 import { type Image, mimeTypes } from '~/src/types/Image';
-import { Item } from '~/src/types/Item';
-import { Tag } from '~/src/types/Tag';
+import type { Item } from '~/src/types/Item';
+import type { Tag } from '~/src/types/Tag';
 
 type FormValues = ItemCreateType | ItemUpdateType;
 
@@ -111,7 +113,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
       }
       formikBag.setSubmitting(false);
     },
-    [item, onSuccess, removedImages],
+    [item, notify, onSuccess, removedImages],
   );
 
   const {
@@ -155,7 +157,7 @@ const ItemForm: React.FC<ItemFormProps> = ({
       setFieldValue('images', allFiles);
       setRemovedImages(newRemovedImages || []);
     },
-    [setFieldValue, setRemovedImages, item],
+    [setFieldValue, item],
   );
 
   const onLocationChange: PlaceAutocompleteProps['onChange'] =

@@ -3,7 +3,7 @@ import DialogContent from '@mui/material/DialogContent';
 import React from 'react';
 
 import configuration from '~/src/configuration';
-import { LocationBasic } from '~/src/types/LocationBasic';
+import type { LocationBasic } from '~/src/types/LocationBasic';
 
 interface LocationMapDialogProps {
   isOpen: boolean;

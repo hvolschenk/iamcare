@@ -1,4 +1,4 @@
-import { Message, Thread } from '~/src/types/Thread';
+import type { Message, Thread } from '~/src/types/Thread';
 
 import apiClient from '../client';
 

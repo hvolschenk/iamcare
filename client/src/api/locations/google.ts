@@ -1,4 +1,4 @@
-import { LocationBasic } from '~/src/types/LocationBasic';
+import type { LocationBasic } from '~/src/types/LocationBasic';
 
 import apiClient from '../client';
 

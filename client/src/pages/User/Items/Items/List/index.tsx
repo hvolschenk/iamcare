@@ -18,9 +18,9 @@ import {
 import ItemCard from '~/src/components/ItemCard';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Item } from '~/src/types/Item';
-import { User } from '~/src/types/User';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Item } from '~/src/types/Item';
+import type { User } from '~/src/types/User';
 import { userItems, userItemsCreate } from '~/src/urls';
 
 import ListItem from './ListItem';
@@ -42,7 +42,7 @@ const UserItemsList: React.FC<UserItemsListProps> = ({ items }) => {
 
   const page = React.useMemo<number>(() => {
     const queryPage = searchParams.get('page');
-    return queryPage ? parseInt(queryPage, 10) : 1;
+    return queryPage ? Number.parseInt(queryPage, 10) : 1;
   }, [searchParams]);
 
   const onPageChange = React.useCallback(
@@ -107,7 +107,6 @@ const UserItemsList: React.FC<UserItemsListProps> = ({ items }) => {
           renderItem={(item) => (
             <PaginationItem
               data-testid="user-items__pagination__item"
-              // eslint-disable-next-line react/jsx-props-no-spreading
               {...item}
             />
           )}

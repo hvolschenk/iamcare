@@ -1,4 +1,4 @@
-import { APIValidationError } from '~/src/types/APIValidationError';
+import type { APIValidationError } from '~/src/types/APIValidationError';
 
 const parseErrors = <D extends {}>(
   rawErrorBody: APIValidationError<D>,

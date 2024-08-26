@@ -8,7 +8,7 @@ import React from 'react';
 
 import markItemAsGiven from '~/src/api/items/markAsGiven';
 import l10n from '~/src/l10n';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 
 interface ItemMarkAsGivenDialogProps {
   isOpen: boolean;

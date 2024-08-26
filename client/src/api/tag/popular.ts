@@ -1,5 +1,5 @@
-import { APICollection } from '~/src/types/APICollection';
-import { Tag } from '~/src/types/Tag';
+import type { APICollection } from '~/src/types/APICollection';
+import type { Tag } from '~/src/types/Tag';
 
 import apiClient from '../client';
 

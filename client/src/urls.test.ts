@@ -16,7 +16,9 @@ import {
 
 type TestCase = [
   name: string,
+  // biome-ignore lint/complexity/noBannedTypes: Not much choice here
   method: Function,
+  // biome-ignore lint/suspicious/noExplicitAny: Not much chpoice here
   parameters: any[],
   result: string,
 ];

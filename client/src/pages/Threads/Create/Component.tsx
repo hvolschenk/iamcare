@@ -11,7 +11,7 @@ import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
 import { useSearch } from '~/src/providers/Search';
-import { Item as ItemType } from '~/src/types/Item';
+import type { Item as ItemType } from '~/src/types/Item';
 import { item, root } from '~/src/urls';
 
 import Form from './Form';

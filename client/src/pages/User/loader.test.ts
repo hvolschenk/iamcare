@@ -7,6 +7,7 @@ jest.mock('~/src/api/user/get');
 
 const user = userMock();
 
+// biome-ignore lint/suspicious/noExplicitAny: The loader functions are not generic
 let result: any;
 
 beforeEach(async () => {

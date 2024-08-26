@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 
-import { User } from '~/src/types/User';
+import type { User } from '~/src/types/User';
 
 import apiClient from '../client';
 

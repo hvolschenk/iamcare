@@ -1,4 +1,4 @@
-import { L10n } from './types';
+import type { L10n } from './types';
 
 const en: L10n = {
   actionCancel: 'Cancel',

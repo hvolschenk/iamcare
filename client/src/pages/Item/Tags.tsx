@@ -4,8 +4,8 @@ import React from 'react';
 
 import { useSearch } from '~/src/providers/Search';
 import { getTagLabel } from '~/src/shared/tags';
-import { Item } from '~/src/types/Item';
-import { Tag } from '~/src/types/Tag';
+import type { Item } from '~/src/types/Item';
+import type { Tag } from '~/src/types/Tag';
 
 interface TagsProps {
   item: Item;

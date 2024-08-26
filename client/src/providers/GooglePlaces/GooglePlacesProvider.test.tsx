@@ -1,7 +1,7 @@
 import { Loader } from '@googlemaps/js-api-loader';
 import React from 'react';
 
-import { fireEvent, render, RenderResult, waitFor } from '~/src/testing';
+import { type RenderResult, fireEvent, render, waitFor } from '~/src/testing';
 
 import { Provider, useGooglePlaces } from './index';
 

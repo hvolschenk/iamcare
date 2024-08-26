@@ -5,7 +5,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import React from 'react';
 
-import { Image } from '~/src/types/Image';
+import type { Image } from '~/src/types/Image';
 
 import Preview from './Preview';
 

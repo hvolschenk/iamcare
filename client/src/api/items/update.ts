@@ -1,7 +1,7 @@
-import { Image } from '~/src/types/Image';
-import { Item } from '~/src/types/Item';
-import { LocationBasic } from '~/src/types/LocationBasic';
-import { Tag } from '~/src/types/Tag';
+import type { Image } from '~/src/types/Image';
+import type { Item } from '~/src/types/Item';
+import type { LocationBasic } from '~/src/types/LocationBasic';
+import type { Tag } from '~/src/types/Tag';
 
 import apiClient from '../client';
 

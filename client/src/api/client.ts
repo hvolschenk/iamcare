@@ -14,7 +14,6 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // eslint-disable-next-line no-param-reassign
   config.headers['X-Request-ID'] = uuid();
   return config;
 });

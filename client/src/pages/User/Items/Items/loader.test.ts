@@ -1,7 +1,7 @@
 import getUserItems from '~/src/api/user/getItems';
 import { testUser } from '~/src/testing';
 import { apiCollectionPaginated, item as itemMock } from '~/src/testing/mocks';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import { userItems as userItemsURL } from '~/src/urls';
 
 import { loader } from './index';
@@ -13,6 +13,7 @@ const itemsList = apiCollectionPaginated<Item>({
 });
 
 describe('Without a page', () => {
+  // biome-ignore lint/suspicious/noExplicitAny: The loader function is not generic
   let result: any;
 
   beforeEach(async () => {
@@ -31,6 +32,7 @@ describe('Without a page', () => {
 });
 
 describe('With a page', () => {
+  // biome-ignore lint/suspicious/noExplicitAny: The loader function is not generic
   let result: any;
 
   beforeEach(async () => {

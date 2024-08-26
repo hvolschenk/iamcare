@@ -1,5 +1,5 @@
-import getUserItems from './getItems';
 import client from '../client';
+import getUserItems from './getItems';
 
 jest.mock('../client');
 

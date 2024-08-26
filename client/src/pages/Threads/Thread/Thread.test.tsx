@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker';
 import React from 'react';
-import { RouteObject, useLoaderData } from 'react-router-dom';
+import { type RouteObject, useLoaderData } from 'react-router-dom';
 
 import markItemAsGiven from '~/src/api/items/markAsGiven';
 import threadMarkAsRead from '~/src/api/threads/markAsRead';
 import threadReply from '~/src/api/threads/reply';
 import l10n from '~/src/l10n';
 import {
-  RenderResult,
+  type RenderResult,
   fireEvent,
   renderRouter,
   testUser,

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import search from './search';
 import apiClient from '../client';
+import search from './search';
 
 jest.mock('../client');
 

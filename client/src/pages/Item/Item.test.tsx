@@ -5,10 +5,10 @@ import { useLoaderData } from 'react-router-dom';
 
 import l10n from '~/src/l10n';
 import {
+  type RenderResult,
   fireEvent,
   render,
   renderRouter,
-  RenderResult,
   testUser,
   waitFor,
 } from '~/src/testing';

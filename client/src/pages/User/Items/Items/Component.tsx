@@ -12,10 +12,10 @@ import PageTitle from '~/src/components/PageTitle';
 import useDocumentTitle from '~/src/hooks/useDocumentTitle';
 import l10n from '~/src/l10n';
 import { useAuthentication } from '~/src/providers/Authentication';
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
-import { Item } from '~/src/types/Item';
-import { User } from '~/src/types/User';
-import { root, user as userURL, userItemsCreate } from '~/src/urls';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { Item } from '~/src/types/Item';
+import type { User } from '~/src/types/User';
+import { root, userItemsCreate, user as userURL } from '~/src/urls';
 
 import List from './List';
 

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import google from './google';
 import apiClient from '../client';
+import google from './google';
 
 jest.mock('../client');
 

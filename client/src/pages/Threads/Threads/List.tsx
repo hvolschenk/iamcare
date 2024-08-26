@@ -9,8 +9,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuthentication } from '~/src/providers/Authentication';
-import { Thread } from '~/src/types/Thread';
-import { User } from '~/src/types/User';
+import type { Thread } from '~/src/types/Thread';
+import type { User } from '~/src/types/User';
 import { thread as threadURL } from '~/src/urls';
 
 interface ThreadsListProps {

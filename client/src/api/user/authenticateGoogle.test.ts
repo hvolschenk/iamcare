@@ -1,5 +1,5 @@
-import google from './authenticateGoogle';
 import client from '../client';
+import google from './authenticateGoogle';
 
 jest.mock('../client');
 

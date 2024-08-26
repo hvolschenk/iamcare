@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import { userItemsItem } from '~/src/urls';
 
 import ContextMenu from './ContextMenu';

@@ -5,18 +5,18 @@ import deleteItem from '~/src/api/items/delete';
 import markItemAsGiven from '~/src/api/items/markAsGiven';
 import l10n from '~/src/l10n';
 import {
+  type RenderResult,
   fireEvent,
-  RenderResult,
   renderRouter,
   testUser,
   waitFor,
 } from '~/src/testing';
 import { apiCollectionPaginated, item, user } from '~/src/testing/mocks';
-import { Item } from '~/src/types/Item';
+import type { Item } from '~/src/types/Item';
 import {
   item as itemURL,
-  userItems as userItemsURL,
   userItemsItem,
+  userItems as userItemsURL,
 } from '~/src/urls';
 
 import { Component as UserItems } from './index';
@@ -399,10 +399,6 @@ describe('With the logged-in user', () => {
 });
 
 describe('With no logged-in user', () => {
-  beforeEach(() => {
-    (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(user());
-  });
-
   const userItems = apiCollectionPaginated<Item>({
     data: [],
     meta: {
@@ -421,6 +417,7 @@ describe('With no logged-in user', () => {
 
   beforeEach(async () => {
     (useLoaderData as jest.Mock).mockClear().mockReturnValue(userItems);
+    (useRouteLoaderData as jest.Mock).mockClear().mockReturnValue(user());
     wrapper = renderRouter(
       [
         { element: <div data-testid="item" />, path: itemURL() },

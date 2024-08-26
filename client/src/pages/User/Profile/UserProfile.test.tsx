@@ -4,9 +4,9 @@ import { useRouteLoaderData } from 'react-router-dom';
 import logout from '~/src/api/user/logout';
 import l10n from '~/src/l10n';
 import {
+  type RenderResult,
   fireEvent,
   renderRouter,
-  RenderResult,
   testUser,
   waitFor,
 } from '~/src/testing';

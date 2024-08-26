@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactGA from 'react-ga4';
-import { GA4 } from 'react-ga4/types/ga4';
+import type { GA4 } from 'react-ga4/types/ga4';
 
-import { fireEvent, render, RenderResult } from '~/src/testing';
+import { type RenderResult, fireEvent, render } from '~/src/testing';
 import { item as itemMock, tag as tagMock } from '~/src/testing/mocks';
 
 import { Provider, useGoogleAnalytics } from './index';

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { AxiosError, AxiosHeaders, AxiosResponse } from 'axios';
+import { AxiosError, AxiosHeaders, type AxiosResponse } from 'axios';
 import React from 'react';
 import { useRouteLoaderData } from 'react-router-dom';
 
@@ -9,9 +9,9 @@ import tags from '~/src/api/tag/all';
 import l10n from '~/src/l10n';
 import { useGooglePlaces } from '~/src/providers/GooglePlaces';
 import {
+  type RenderResult,
   fireEvent,
   renderRouter,
-  RenderResult,
   waitFor,
   within,
 } from '~/src/testing';

@@ -1,4 +1,4 @@
-import { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
+import type { APICollectionPaginated } from '~/src/types/APICollectionPaginated';
 
 const apiCollectionPaginated = <T>(
   partialAPICollectionPaginated: Partial<APICollectionPaginated<T>>,

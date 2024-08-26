@@ -1,5 +1,5 @@
-import itemUpdate, { ItemUpdate } from './update';
 import apiClient from '../client';
+import itemUpdate, { type ItemUpdate } from './update';
 
 jest.mock('../client');
 

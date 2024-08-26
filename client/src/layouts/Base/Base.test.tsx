@@ -8,11 +8,11 @@ import configuration from '~/src/configuration';
 import { useCookies } from '~/src/providers/Cookies';
 import { useGoogleAnalytics } from '~/src/providers/GoogleAnalytics';
 import {
+  type RenderResult,
   fireEvent,
-  renderRouter,
-  RenderResult,
-  waitFor,
   render,
+  renderRouter,
+  waitFor,
 } from '~/src/testing';
 import { authentication, itemsSearch, root, user } from '~/src/urls';
 
