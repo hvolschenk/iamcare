@@ -7,6 +7,7 @@
     "start": "parcel index.html",
     "test": "npm run test:static && npm run test:types && npm run test:scripts",
     "test:scripts": "jest",
+    "test:scripts:ci": "jest --ci",
     "test:static": "biome check src/",
     "test:static:ci": "biome ci src/",
     "test:types": "tsc --noEmit"
