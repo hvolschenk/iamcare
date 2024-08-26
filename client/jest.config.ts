@@ -1,6 +1,10 @@
-import { Config } from 'jest';
+import type { Config } from 'jest';
 
 const config: Config = {
+  // The only reason that this is being explicitly controlled
+  // is so that the cache can be cached during CI
+  // to speed up testing on the CI server.
+  cacheDirectory: '<rootDir>/.jest-cache',
   collectCoverage: true,
   coveragePathIgnorePatterns: [
     '/node_modules/',

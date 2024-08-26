@@ -9,6 +9,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          key: node-modules-${{ hashFiles('client/package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            node-modules-
 
       - name: Install dependencies
         run: npm install
@@ -22,6 +30,14 @@ jobs:
         run: npm run test:types
         working-directory: ./client
       
+      - name: Cache .jest-cache
+        uses: actions/cache@v4
+        with:
+          key: jest-${{ hashFiles('client/package-lock.json') }}
+          path: client/.jest-cache
+          restore-keys: |
+            jest-
+      
       - name: Unit tests
-        run: npm run test:scripts
+        run: npm run test:scripts:ci
         working-directory: ./client
