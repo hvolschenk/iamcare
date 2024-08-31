@@ -1,5 +1,3 @@
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -77,13 +75,6 @@ const Authentication: React.FC = () => {
       />
       <Card>
         <CardContent>
-          <Box marginBottom={2}>
-            <Alert severity="info">
-              {l10n.formatString(l10n.authenticateAlertNoRegistrationRequired, {
-                applicationName: l10n.applicationName,
-              })}
-            </Alert>
-          </Box>
           {(
             Object.keys(authenticationProviders) as AuthenticationProviders[]
           ).map((key) => {
