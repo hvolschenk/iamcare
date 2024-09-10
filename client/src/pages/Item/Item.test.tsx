@@ -338,7 +338,6 @@ describe.each<TestCase>([
     (useLoaderData as jest.Mock).mockClear().mockReturnValue(item);
     (useMediaQuery as jest.Mock)
       .mockClear()
-      .mockReturnValueOnce(true) // (prefers-color-scheme: dark)
       .mockReturnValueOnce(large)
       .mockReturnValueOnce(medium)
       // This line (below) is for the other `useMediaQueries` calls,

@@ -8,12 +8,14 @@ import type { Image } from '~/src/types/Image';
 interface LightboxDialogProps extends Omit<DialogProps, 'open'> {
   images: Image[];
   isOpen: boolean;
+  onClose: DialogProps['onClose'];
   startIndex?: number;
 }
 
 const LightboxDialog: React.FC<LightboxDialogProps> = ({
   images,
   isOpen,
+  onClose,
   startIndex = 0,
   ...rest
 }) => {
@@ -40,7 +42,11 @@ const LightboxDialog: React.FC<LightboxDialogProps> = ({
   const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> =
     React.useCallback(
       (event) => {
-        event.preventDefault();
+        // This is only here because of a bug:
+        // https://github.com/mui/material-ui/issues/43738
+        if (event.key === 'Escape') {
+          onClose!(event, 'escapeKeyDown');
+        }
         if (event.key === 'ArrowLeft') {
           onClickPrevious();
         }
@@ -48,13 +54,15 @@ const LightboxDialog: React.FC<LightboxDialogProps> = ({
           onClickNext();
         }
       },
-      [onClickNext, onClickPrevious],
+      [onClickNext, onClickPrevious, onClose],
     );
 
   return (
     <Dialog
       {...rest}
       data-testid="lightbox-dialog"
+      disableEscapeKeyDown={false}
+      onClose={onClose}
       onKeyDown={onKeyDown}
       open={isOpen}
     >
