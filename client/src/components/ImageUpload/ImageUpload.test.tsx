@@ -125,9 +125,6 @@ describe.each(table)('Large: %s. Medium: %s.', (isLarge, isMedium) => {
   beforeEach(() => {
     (useMediaQuery as jest.Mock)
       .mockClear()
-      // Somewhere there is another call to this function before our component is hit.
-      // Not really sure if anything can be done here other than this.
-      .mockReturnValueOnce(isLarge)
       .mockReturnValueOnce(isLarge)
       .mockReturnValue(isMedium);
     render(
