@@ -1,0 +1,6 @@
+.phpunit.cache
+bootstrap/cache/!.gitignore
+logs/
+storage/framework/cache/
+storage/logs/
+vendor/

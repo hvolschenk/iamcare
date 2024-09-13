@@ -1,0 +1,71 @@
+networks:
+  htmx-network:
+    driver: bridge
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    develop:
+      watch:
+        - action: sync
+          ignore:
+            - .phpunit.cache/
+            - composer.json
+            - composer.lock
+            - logs/
+            - storage/
+            - vendor/
+          path: ./app
+          target: /var/www/html
+    environment:
+      - APP_DEBUG=${API_DEBUG:-true}
+      - APP_NAME=${API_APPLICATION_NAME:-htmx}
+      - APP_URL=${API_URL:-http://localhost:2991}
+      - DB_DATABASE=${MYSQL_DATABASE:-htmx}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_USERNAME=${MYSQL_USER:-htmx}
+      - LOG_LEVEL=${API_LOG_LEVEL:-debug}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-htmx}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - SANCTUM_STATEFUL_DOMAINS=${API_STATEFUL_DOMAIN:-localhost:2991}
+      - SESSION_DOMAIN=${API_COOKIE_DOMAIN:-localhost}
+    networks:
+      - htmx-network
+    ports:
+      - "2991:8000"
+    volumes:
+      # - ./app/composer.json:/var/www/html/composer.json
+      # - ./app/composer.lock:/var/www/html/composer.lock
+      # - ./app/logs/php.log:/var/log/fpm-php.www.log
+      # - ./app/storage/:/var/www/html/storage
+      - ./app:/var/www/html
+
+  database:
+    build: ./database
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-htmx}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER:-htmx}
+    networks:
+      - htmx-network
+    volumes:
+      - ./database/data:/var/lib/mysql
+
+  database-testing:
+    build: ./database
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-htmx}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER:-htmx}
+    networks:
+      - htmx-network
