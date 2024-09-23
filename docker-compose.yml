@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - database
+      - tailwind
     develop:
       watch:
         - action: sync
@@ -69,3 +70,24 @@ services:
       - MYSQL_USER=${MYSQL_USER:-htmx}
     networks:
       - iamcare-network
+
+  tailwind:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.tailwind
+    develop:
+      watch:
+        - action: sync
+          ignore:
+            - css/
+            - js/
+          path: ./app/resources
+          target: /home/node/application/app/resources
+        - action: sync+restart
+          path: ./app/tailwind.config.js
+          target: /home/node/application/app/tailwind.config.js
+    networks:
+      - iamcare-network
+    tty: true
+    volumes:
+      - ./app/public/styles/:/home/node/application/app/public/styles
