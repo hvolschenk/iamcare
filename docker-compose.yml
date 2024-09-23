@@ -1,5 +1,5 @@
 networks:
-  htmx-network:
+  iamcare-network:
     driver: bridge
 
 services:
@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - database
+      - tailwind
     develop:
       watch:
         - action: sync
@@ -38,7 +39,7 @@ services:
       - SANCTUM_STATEFUL_DOMAINS=${API_STATEFUL_DOMAIN:-localhost:2991}
       - SESSION_DOMAIN=${API_COOKIE_DOMAIN:-localhost}
     networks:
-      - htmx-network
+      - iamcare-network
     ports:
       - "2991:8000"
     volumes:
@@ -56,7 +57,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER:-htmx}
     networks:
-      - htmx-network
+      - iamcare-network
     volumes:
       - ./database/data:/var/lib/mysql
 
@@ -68,4 +69,25 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER:-htmx}
     networks:
-      - htmx-network
+      - iamcare-network
+
+  tailwind:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.tailwind
+    develop:
+      watch:
+        - action: sync
+          ignore:
+            - css/
+            - js/
+          path: ./app/resources
+          target: /home/node/application/app/resources
+        - action: sync+restart
+          path: ./app/tailwind.config.js
+          target: /home/node/application/app/tailwind.config.js
+    networks:
+      - iamcare-network
+    tty: true
+    volumes:
+      - ./app/public/styles/:/home/node/application/app/public/styles
