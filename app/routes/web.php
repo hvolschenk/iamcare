@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
 
-Route::get('/', function () {
-    return view('pages.home');
+Route::controller(PageController::class) ->group(function () {
+    Route::get('/', 'home')->name('home');
 });
 
