@@ -1,7 +1,4 @@
-<x-base>
-    <x-slot:title>
-      Home page
-    </x-slot>
+<x-layouts.base>
 
     HOME
-</x-base>
+</x-layouts.base>
