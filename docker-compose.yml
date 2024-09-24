@@ -17,6 +17,7 @@ services:
             - .phpunit.cache/
             - composer.json
             - composer.lock
+            - bootstrap/cache/
             - logs/
             - storage/
             - vendor/
