@@ -74,16 +74,6 @@ services:
     volumes:
       - ./database/data:/var/lib/mysql
 
-  database-testing:
-    build: ./database
-    environment:
-      - MYSQL_DATABASE=${DB_DATABASE:-iamcare}
-      - MYSQL_PASSWORD=${DB_PASSWORD:-iamcare}
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root}
-      - MYSQL_USER=${DB_USERNAME:-iamcare}
-    networks:
-      - iamcare-network
-
   tailwind:
     build:
       context: ./app
