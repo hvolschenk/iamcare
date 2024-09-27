@@ -39,6 +39,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD:-iamcare}
       - DB_PORT=${DB_PORT:-3306}
       - DB_USERNAME=${DB_USERNAME:-iamcare}
+      - GOOGLE_IDENTITY_CLIENT_ID=${GOOGLE_IDENTITY_CLIENT_ID}
       - LOG_CHANNEL=${LOG_CHANNEL:-stack}
       - LOG_DEPRECATIONS_CHANNEL=${LOG_DEPRECATIONS_CHANNEL:-null}
       - LOG_LEVEL=${LOG_LEVEL:-debug}
@@ -73,16 +74,6 @@ services:
       - iamcare-network
     volumes:
       - ./database/data:/var/lib/mysql
-
-  database-testing:
-    build: ./database
-    environment:
-      - MYSQL_DATABASE=${DB_DATABASE:-iamcare}
-      - MYSQL_PASSWORD=${DB_PASSWORD:-iamcare}
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root}
-      - MYSQL_USER=${DB_USERNAME:-iamcare}
-    networks:
-      - iamcare-network
 
   tailwind:
     build:

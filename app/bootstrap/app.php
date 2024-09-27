@@ -12,6 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(\Spatie\Csp\AddCspHeaders::class);
+        $middleware->encryptCookies(['g_csrf_token']);
+        $middleware->validateCsrfTokens(except: ['login/*']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

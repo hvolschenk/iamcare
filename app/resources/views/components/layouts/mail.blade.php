@@ -1,0 +1,3 @@
+{{ $slot }}
+
+{{ __('mail.footer') }}
