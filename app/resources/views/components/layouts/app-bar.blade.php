@@ -11,19 +11,33 @@
         </a>
     </div>
 
-    <div class="flex-none items-center space-x-4">
-        <button class="dark:text-gray-400 dark:hover:text-secondary text-primary hover:text-secondary">
+    <div class="flex items-center space-x-4">
+        <button class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary">
             <span class="material-symbols-outlined">
                 search
             </span>
         </button>
 
-        <a
-            class="dark:text-gray-400 dark:hover:text-secondary text-primary hover:text-secondary"
-        >
-            <span class="material-symbols-outlined">
-                account_circle
-            </span>
-        </a>
+        @guest
+            <a
+                class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+                href="{{ route('login') }}"
+            >
+                <span class="material-symbols-outlined">
+                    account_circle
+                </span>
+            </a>
+        @endguest
+
+        @auth
+            <a href="{{ route('me') }}">
+                <img
+                    alt="{{ Auth::user()->name }}"
+                    class="aspect-square border-2 border-primary dark:border-gray-400 hover:border-secondary rounded-full size-7"
+                    referrerpolicy="no-referrer"
+                    src="{{ Auth::user()->avatar }}"
+                />
+            </a>
+        @endauth
     </div>
 </nav>

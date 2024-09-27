@@ -15,6 +15,7 @@ class WebPolicy extends Basic
             ->addDirective(Directive::CONNECT, ['https://accounts.google.com/gsi/'])
             ->addDirective(Directive::FONT, ['https://fonts.gstatic.com'])
             ->addDirective(Directive::FRAME, ['https://accounts.google.com/gsi/'])
+            ->addDirective(Directive::IMG, ['https://*.googleusercontent.com'])
             ->addDirective(Directive::SCRIPT, [
                 'https://accounts.google.com/gsi/client',
                 'https://unpkg.com/htmx.org@2.0.2',
