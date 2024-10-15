@@ -19,9 +19,12 @@
             <p class="dark:text-gray-50 font-light text-gray-800">
                 {{ __('home.give__description') }}
             </p>
-            <button class="hover:bg-primary/20 mt-4 py-1 rounded text-primary w-full">
+            <a
+                class="block hover:bg-primary/20 mt-4 py-1 rounded text-center text-primary w-full"
+                href="{{ route('itemGive') }}"
+            >
                 {{ __('home.give__action') }}
-            </button>
+            </a>
         </div>
 
         <div class="bg-white dark:bg-gray-900 p-4 rounded">

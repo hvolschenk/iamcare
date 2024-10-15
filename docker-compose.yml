@@ -40,6 +40,8 @@ services:
       - DB_PORT=${DB_PORT:-3306}
       - DB_USERNAME=${DB_USERNAME:-iamcare}
       - GOOGLE_IDENTITY_CLIENT_ID=${GOOGLE_IDENTITY_CLIENT_ID}
+      - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
+      - GOOGLE_PLACES_REGION=${GOOGLE_PLACES_REGION:-za}
       - LOG_CHANNEL=${LOG_CHANNEL:-stack}
       - LOG_DEPRECATIONS_CHANNEL=${LOG_DEPRECATIONS_CHANNEL:-null}
       - LOG_LEVEL=${LOG_LEVEL:-debug}
@@ -81,6 +83,9 @@ services:
       dockerfile: Dockerfile.tailwind
     develop:
       watch:
+        - action: sync
+          path: ./app/public/scripts
+          target: /home/node/application/app/public/scripts
         - action: sync
           ignore:
             - css/

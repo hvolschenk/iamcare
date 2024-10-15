@@ -1,0 +1,16 @@
+<?php
+
+return [
+    'descriptionHelperText' => 'Text describing the item in greater detail',
+    'descriptionLabel' => 'Description',
+    'errorCreate' => 'There was an error creating the item. Please try again',
+    'give' => 'Give item',
+    'imagesHelperText' => 'Images of the item in its current state',
+    'imagesLabel' => 'Image(s)',
+    'locationHelperText' => 'The closest suburb',
+    'locationLabel' => 'Location',
+    'nameHelperText' => 'A short descriptive name identifying the item',
+    'nameLabel' => 'Name',
+    'tagsHelperText' => 'One or more tags to categorise the item',
+    'tagsLabel' => 'Tag(s)',
+];
