@@ -1,6 +1,6 @@
 <x-layouts.base>
     <x-slot:title>
-        Login
+        {{ __('login.login') }}
     </x-slot>
 
     <x-slot:scripts>
