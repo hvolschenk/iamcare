@@ -7,7 +7,7 @@
         <script async nonce="{{ csp_nonce() }}" src="https://accounts.google.com/gsi/client"></script>
     </x-slot>
 
-    <h1 class="dark:text-gray-50 font-bold mb-10 text-5xl text-gray-800">
+    <h1 class="font-bold mb-10 text-5xl">
         {{ __('login.login') }}
     </h1>
 

@@ -1,8 +1,8 @@
-<footer class="mb-10 mt-4 text-center">
-    <p class="dark:text-gray-50 font-bold text-gray-800">
+<footer class="mb-10 mt-10 text-center">
+    <p class="font-bold">
         &copy; {{ date("Y") }} - {{ __('application.name') }}
     </p>
-    <p class="dark:text-gray-50 font-light text-gray-800">
+    <p class="font-light">
         {{ __('application.slogan') }}
     </p>
 </footer>
