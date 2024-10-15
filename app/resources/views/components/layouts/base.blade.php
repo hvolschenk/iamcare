@@ -44,14 +44,13 @@
 
         {{ $scripts ?? '' }}
     </head>
-    <body class="bg-gray-100 dark:bg-gray-800">
-
-        @include('components.layouts.app-bar')
+    <body class="bg-gray-100 dark:bg-gray-800 dark:text-gray-50 text-gray-800">
+        <x-layouts.app-bar />
 
         <main class="container mt-4 mx-auto px-10">
             {{ $slot }}
         </main>
 
-        @include('components.layouts.footer')
+        <x-layouts.footer />
     </body>
 </html>
