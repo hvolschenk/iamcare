@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'delete' => 'Delete item',
     'descriptionHelperText' => 'Text describing the item in greater detail',
     'descriptionLabel' => 'Description',
     'errorCreate' => 'There was an error creating the item. Please try again',

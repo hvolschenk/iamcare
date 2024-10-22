@@ -19,5 +19,6 @@ Route::controller(UserController::class)->group(function () {
     Route::get('login', 'login')->name('login');
     Route::get('logout', 'logout')->name('logout');
     Route::get('me', 'me')->name('me');
+    Route::get('me/items', 'items')->name('myItems');
     Route::post('login/google', 'loginHandlerGoogle')->name('loginHandlerGoogle');
 });

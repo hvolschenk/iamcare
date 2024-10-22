@@ -59,4 +59,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(AuthenticationMethod::class);
     }
+
+    /**
+     * A list of items created by this user
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class);
+    }
 }
