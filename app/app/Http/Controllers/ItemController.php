@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Location;
 use App\Models\Tag;
 use App\Services\GooglePlaces;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
