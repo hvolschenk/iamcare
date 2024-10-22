@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Location;
 use App\Models\Tag;
 use App\Services\GooglePlaces;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -84,14 +85,15 @@ class ItemController extends Controller
     {
         $images = [];
         foreach ($uploadedFiles as $uploadedFile) {
-            /** @var Illuminate\Filesystem\FilesystemAdapter $filesystem */
-            $filesystem = Storage::disk('public');
-            $path = $filesystem->putFile('images/items', $uploadedFile);
+            $url = $uploadedFile->store(
+                'images/items/original',
+                ['disk' => 'public', 'visibility' => Filesystem::VISIBILITY_PUBLIC],
+            );
             $image = new Image([
                 'mimeType' => $uploadedFile->getMimeType(),
                 'name' => $uploadedFile->getFilename(),
                 'sizeBytes' => $uploadedFile->getSize(),
-                'url' => $filesystem->url($path),
+                'url' => $url,
             ]);
             array_push($images, $image);
         }
