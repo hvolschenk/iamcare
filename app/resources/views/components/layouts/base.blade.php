@@ -47,7 +47,7 @@
     <body class="bg-gray-100 dark:bg-gray-800 dark:text-gray-50 text-gray-800">
         <x-layouts.app-bar />
 
-        <main class="container mt-4 mx-auto px-10">
+        <main class="container md:px-10 mt-4 mx-auto px-4">
             {{ $slot }}
         </main>
 
