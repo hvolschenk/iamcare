@@ -1,16 +1,25 @@
-FROM php:fpm-alpine
+# The `imagick` extension is only available up until PHP 8.2:
+# https://github.com/mlocati/docker-php-extension-installer
+FROM php:8.2-fpm-alpine
 
 RUN apk update && \
   apk add --no-cache \
+    autoconf \
     freetype freetype-dev \
+    g++ \
     git \
     libjpeg-turbo libjpeg-turbo-dev \
+    imagemagick-dev \
     libpng libpng-dev \
     libwebp libwebp-dev \
+    make \
     zlib-dev
 
+RUN pecl install imagick
+
+RUN docker-php-ext-enable imagick
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
-RUN docker-php-ext-install gd pdo pdo_mysql
+RUN docker-php-ext-install exif gd pdo pdo_mysql
 
 COPY --from=composer/composer:latest-bin /composer /usr/local/bin/composer
 

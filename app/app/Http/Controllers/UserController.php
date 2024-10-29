@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserItemsRequest;
 use App\Http\Requests\UserLoginHandlerGoogleRequest;
 use App\Http\Requests\UserMeRequest;
 use App\Mail\AccountCreated;
@@ -116,5 +117,18 @@ class UserController extends Controller
     public function me(UserMeRequest $request)
     {
         return view('pages.me');
+    }
+
+    /**
+     * The user's items page (GET)
+     */
+    public function items(UserItemsRequest $request)
+    {
+        $items = $request->user()
+            ->items()
+            ->with(['images'])
+            ->latest()
+            ->paginate(15);
+        return view('pages.my-items', ['items' => $items]);
     }
 }

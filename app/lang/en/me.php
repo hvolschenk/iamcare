@@ -2,5 +2,6 @@
 
 return [
     'logout' => 'Logout',
-    'page-title' => 'Me'
+    'my-items' => 'My items',
+    'page-title' => 'Me',
 ];
