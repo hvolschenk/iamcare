@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
         Http::macro('googlePlaces', function () {
             return Http::baseUrl('https://maps.googleapis.com/maps/api');
         });
+        Paginator::defaultView('components.pagination');
     }
 }
