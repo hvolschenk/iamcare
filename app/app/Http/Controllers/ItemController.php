@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemGiveRequest;
+use App\Http\Requests\ItemSearchRequest;
 use App\Models\Image;
 use App\Models\Item;
 use App\Models\Location;
 use App\Models\Tag;
 use App\Services\GooglePlaces;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -74,6 +76,90 @@ class ItemController extends Controller
                 ['error' => __('item.errorCreate'), 'tags' => $tags],
             );
         }
+    }
+
+    public function search(ItemSearchRequest $request)
+    {
+        $validated = $request->safe(['distance', 'location', 'query', 'tag']);
+        $distance = $validated['distance'] ?? null;
+        $googlePlaceID = $validated['location'] ?? null;
+        $orderBy = $validated['orderBy'] ?? null;
+        $searchQuery = $validated['query'] ?? null;
+        $tagIDs = $validated['tag'] ?? null;
+
+        Log::withContext([
+            'distance' => $distance,
+            'googlePlaceID' => $googlePlaceID,
+            'query' => $searchQuery,
+            'tagIDs' => $tagIDs,
+        ]);
+        Log::debug('Item: Search: Start');
+
+        $itemsQuery = Item::query()->select()->where('is_given', false);
+
+        if ($searchQuery !== null) {
+            $itemsQuery->where(function (Builder $builder) use ($searchQuery) {
+                $builder
+                    ->whereFullText('name', $searchQuery)
+                    ->orWhereFullText('description', $searchQuery);
+            });
+        }
+
+        if ($googlePlaceID !== null) {
+            $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
+            $location = Location::fromGooglePlaceID($googlePlaceID, $language);
+            $locationName = $location->address;
+            $locationsQuery = Location::query()
+                ->select(['id'])
+                ->selectRaw(
+                    'ST_Distance_Sphere(point(?, ?), point(`latitude`, `longitude`)) * .001 AS `distance`',
+                    [$location->latitude, $location->longitude]
+                );
+            if ($distance !== null && $distance !== '0') {
+                $locationsQuery->having('distance', '<=', $distance);
+            }
+            $locationsQuery->orderBy('distance');
+            $locations = $locationsQuery->get();
+            $locationIds = array_map(function ($location) {
+                return $location['id'];
+            }, $locations->toArray());
+            $locationIdsJoined = implode(',', $locationIds);
+
+            $itemsQuery
+                ->whereIn('location_id', $locationIds)
+                ->orderByRaw("FIELD(`location_id`, {$locationIdsJoined})");
+        }
+
+        if ($tagIDs !== null) {
+            $itemsQuery->whereHas('tags', function (Builder $builder) use ($tagIDs) {
+                foreach ($tagIDs as $tagIDIndex => $tagID) {
+                    if ($tagIDIndex === 0) {
+                        $builder->where('id', $tagID);
+                    } else {
+                        $builder->orWhere('id', $tagID);
+                    }
+                }
+            });
+        }
+
+        if ($orderBy === 'latest') {
+            $itemsQuery->orderByDesc('created_at');
+        }
+
+        Log::debug('Item: Search: Done');
+        $items = $itemsQuery->paginate(12);
+
+        $tags = Tag::all();
+
+        return view('pages.search', [
+            'distance' => $distance,
+            'googlePlaceID' => $googlePlaceID ?? '',
+            'items' => $items,
+            'locationName' => $locationName ?? '',
+            'query' => $searchQuery ?? '',
+            'tagIDs' => $tagIDs ?? [],
+            'tags' => $tags,
+        ]);
     }
 
     /**

@@ -12,7 +12,10 @@
     </div>
 
     <div class="flex items-center space-x-4">
-        <button class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary">
+        <button
+            class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+            id="search-dialog__button"
+        >
             <span class="material-symbols-outlined">
                 search
             </span>

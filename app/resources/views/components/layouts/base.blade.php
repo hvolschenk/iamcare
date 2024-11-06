@@ -42,6 +42,7 @@
 
         <script src="https://unpkg.com/htmx.org@2.0.2"></script>
 
+        <script src="{{ asset('scripts/search-dialog.js') }}" type="module"></script>
         {{ $scripts ?? '' }}
     </head>
     <body class="bg-gray-100 dark:bg-gray-800 dark:text-gray-50 text-gray-800">
@@ -52,5 +53,7 @@
         </main>
 
         <x-layouts.footer />
+
+        <x-layouts.search-dialog />
     </body>
 </html>
