@@ -206,14 +206,14 @@
                         hover:border-gray-600
                         rounded"
                 >
-                    <a href="#">
+                    <a href="{{ route('item', $item) }}">
                         <img
                             class="aspect-square w-full"
                             src="{{ $item->images[0]->get(300, 300) }}"
                         />
                     </a>
                     <div class="p-4">
-                        <a href="#">
+                        <a href="{{ route('item', $item) }}">
                             <p class="font-bold truncate">{{ $item->name }}</p>
                         </a>
                         <a

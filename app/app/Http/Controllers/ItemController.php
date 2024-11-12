@@ -78,6 +78,11 @@ class ItemController extends Controller
         }
     }
 
+    public function item(Item $item)
+    {
+        return view('pages.item', ['item' => $item]);
+    }
+
     public function search(ItemSearchRequest $request)
     {
         $validated = $request->safe(['distance', 'location', 'query', 'tag']);
