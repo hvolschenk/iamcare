@@ -228,24 +228,7 @@
                         <p class="mt-2 truncate">{{ $item->description }}</p>
                         <p class="flex gap-1 mt-2 overflow-x-hidden pb-1 whitespace-nowrap">
                             @foreach ($item->tags as $tag)
-                                <a
-                                    class="
-                                        bg-gray-50
-                                        border
-                                        border-gray-500
-                                        dark:bg-gray-700
-                                        dark:hover:border-gray-400
-                                        dark:hover:bg-gray-600
-                                        hover:bg-gray-200
-                                        hover:border-gray-600
-                                        px-2
-                                        py-1
-                                        rounded-full
-                                        text-xs"
-                                    href="{{ route('search', ['tag' => [$tag->id]]) }}"
-                                >
-                                    {{ __("tag.{$tag->title}") }}
-                                </a>
+                                <x-tag :tag="$tag" />
                             @endforeach
                         </p>
                     </div>
