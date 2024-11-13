@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'actionContactGiver' => 'Send message',
     'delete' => 'Delete item',
     'descriptionHelperText' => 'Text describing the item in greater detail',
     'descriptionLabel' => 'Description',

@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 Route::controller(ItemController::class)->group(function () {
     Route::get('items/give', 'give')->name('itemGive');
     Route::get('items/give/form', 'giveForm')->name('itemGiveForm');
+    Route::get('items/{item}', 'item')->name('item');
     Route::get('search', 'search')->name('search');
     Route::post('items/give', 'giveHandler')->name('itemGiveHandler');
 });
