@@ -27,7 +27,7 @@ class WebPolicy extends Basic
             ])
             ->addDirective(Directive::SCRIPT, [
                 'https://accounts.google.com/gsi/client',
-                'https://unpkg.com/htmx.org@2.0.2',
+                'https://unpkg.com/htmx.org@2.0.3',
             ])
             ->addDirective(Directive::STYLE, [
                 'https://accounts.google.com/gsi/style',
