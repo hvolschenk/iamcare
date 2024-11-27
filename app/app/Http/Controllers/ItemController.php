@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemEditHandlerRequest;
+use App\Http\Requests\ItemEditRequest;
 use App\Http\Requests\ItemGiveRequest;
 use App\Http\Requests\ItemSearchRequest;
 use App\Models\Image;
@@ -18,6 +20,78 @@ use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
+    public function edit (ItemEditRequest $request, Item $item)
+    {
+        $tags = Tag::all();
+        return view('pages.item-edit', ['item' => $item, 'tags' => $tags]);
+    }
+
+    public function editForm (Item $item)
+    {
+        $tags = Tag::all();
+        return view(
+            'components.item-form',
+            [
+                'actionPrimaryLabel' => __('item.edit'),
+                'actionPrimaryLocation' => route('itemEditHandler', $item),
+                'item' => $item,
+                'tags' => $tags,
+            ],
+        );
+    }
+
+    public function editHandler (ItemEditHandlerRequest $request, Item $item)
+    {
+        Log::withContext(['id' => $item->id]);
+
+        $validated = $request->safe([
+            'description',
+            'image',
+            'imageExisting',
+            'location',
+            'name',
+            'removeImage',
+            'tag',
+        ]);
+        $description = $validated['description'];
+        $googlePlaceID = $validated['location'];
+        $images = $validated['image'] ?? [];
+        $imagesExisting = $validated['imageExisting'] ?? [];
+        $name = $validated['name'];
+        $tags = $validated['tag'];
+
+        Log::debug('Item: Update: Start');
+
+        $isLocationUpdated = $item->location->googlePlaceID !== $googlePlaceID;
+        if ($isLocationUpdated === true) {
+            $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
+            $location = Location::fromGooglePlaceID($googlePlaceID, $language);
+            Log::debug('Item: Update: Update Location', ['locationID' => $location->id]);
+            $item->location()->associate($location);
+        }
+
+        foreach ($item->images as $image) {
+            if (!in_array($image->id, $imagesExisting)) {
+                Image::destroy($image->id);
+            }
+        }
+
+        if ($images && count($images) > 0) {
+            $images = $this->imagesFromInput($images);
+            $item->images()->saveMany($images);
+            $item->refresh();
+        }
+
+        $item->tags()->detach();
+        $item->tags()->attach($tags);
+
+        $item->description = $description;
+        $item->name = $name;
+        $item->save();
+
+        return response(null, 204, ['Hx-Redirect' => route('myItems')]);
+    }
+
     public function give ()
     {
         $tags = Tag::all();
@@ -27,7 +101,14 @@ class ItemController extends Controller
     public function giveForm ()
     {
         $tags = Tag::all();
-        return view('components.item-form', ['tags' => $tags]);
+        return view(
+            'components.item-form',
+            [
+                'actionPrimaryLabel' => __('item.give'),
+                'actionPrimaryLocation' => route('itemGive'),
+                'tags' => $tags,
+            ],
+        );
     }
 
     public function giveHandler (ItemGiveRequest $request)
