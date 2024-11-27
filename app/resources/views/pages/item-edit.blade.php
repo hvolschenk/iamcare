@@ -1,6 +1,6 @@
 <x-layouts.base>
     <x-slot:title>
-        {{ __('item.give') }}
+        {{ __('item.edit') }}
     </x-slot>
 
     <x-slot:scripts>
@@ -44,12 +44,13 @@
     </x-slot>
 
     <h1 class="font-bold mb-10 text-5xl">
-        {{ __('item.give') }}
+        {{ __('item.edit') }}
     </h1>
 
     <x-item-form
-        actionPrimaryLabel="{{ __('item.give') }}"
-        actionPrimaryLocation="{{ route('itemGive') }}"
+        actionPrimaryLabel="{{ __('item.edit') }}"
+        actionPrimaryLocation="{{ route('itemEditHandler', $item) }}"
+        :item="$item"
         :tags="$tags"
     />
 </x-layouts.base>

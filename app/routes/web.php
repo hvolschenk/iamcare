@@ -9,8 +9,11 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('items/give', 'give')->name('itemGive');
     Route::get('items/give/form', 'giveForm')->name('itemGiveForm');
     Route::get('items/{item}', 'item')->name('item');
+    Route::get('items/{item}/edit', 'edit')->name('itemEdit');
+    Route::get('items/{item}/edit/form', 'editForm')->name('itemEditForm');
     Route::get('search', 'search')->name('search');
     Route::post('items/give', 'giveHandler')->name('itemGiveHandler');
+    Route::post('items/{item}/edit', 'editHandler')->name('itemEditHandler');
 });
 
 Route::controller(PageController::class) ->group(function () {

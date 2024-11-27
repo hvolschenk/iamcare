@@ -17,8 +17,8 @@
 
     <ul class="dark:divide-gray-700 divide-y divide-gray-200 list-none">
         @foreach ($items as $item)
-            <li class="block dark:hover:bg-gray-700 hover:bg-gray-200">
-                <a class="flex gap-4 items-center p-4" href="{{ route('myItems') }}">
+            <li class="dark:hover:bg-gray-700 flex gap-4 hover:bg-gray-200 items-center">
+                <a class="flex flex-grow gap-4 items-center p-4" href="{{ route('item', $item) }}">
                     <img
                         class="border border-gray-500 rounded"
                         src="{{ $item->images[0]->get(32, 32) }}"
@@ -26,17 +26,22 @@
                     <div class="flex flex-grow overflow-hidden">
                         <p class="truncate">{{ $item->name }}</p>
                     </div>
-                    <details class="my-items__item__menu relative">
-                        <summary class="flex items-center">
-                            <span class="material-symbols-outlined">
-                                menu
-                            </span>
-                        </summary>
-                        <ul class="absolute border border-gray-500 dark:bg-gray-700 bg-gray-200 py-1 right-0 z-10">
-                            <li class="px-4 py-2 whitespace-nowrap">{{ __('item.delete') }}</li>
-                        </ul>
-                    </details>
                 </a>
+                <details class="mr-4 my-items__item__menu relative">
+                    <summary class="cursor-pointer flex items-center">
+                        <span class="material-symbols-outlined">
+                            menu
+                        </span>
+                    </summary>
+                    <ul class="absolute border border-gray-500 dark:bg-gray-700 bg-gray-200 py-1 right-0 z-10">
+                        <li class="whitespace-nowrap">
+                            <a class="block dark:hover:bg-gray-600 hover:bg-gray-100 px-4 py-2" href="{{ route('itemEdit', $item) }}">
+                                {{ __('item.edit') }}
+                            </a>
+                        </li>
+                        <li class="px-4 py-2 whitespace-nowrap">{{ __('item.delete') }}</li>
+                    </ul>
+                </details>
             </li>
         @endforeach
     </ul>

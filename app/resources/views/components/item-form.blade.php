@@ -2,7 +2,7 @@
     enctype="multipart/form-data"
     hx-disabled-elt="button[type='submit']"
     hx-encoding="multipart/form-data"
-    hx-post="{{ route('itemGive') }}"
+    hx-post="{{ $actionPrimaryLocation }}"
     hx-swap="outerHTML"
 >
     @csrf
@@ -34,7 +34,7 @@
             w-full"
         id="name"
         name="name"
-        value="{{ old('name') }}"
+        value="{{ old('name', $item?->name ?? '') }}"
         type="text"
     />
     <x-forms.helper-text
@@ -64,7 +64,7 @@
         id="description"
         name="description"
         type="text"
-    >{{ old('description') }}</textarea>
+    >{{ old('description', $item?->description ?? '') }}</textarea>
     <x-forms.helper-text
         field="description"
         helperText="{{ __('item.descriptionHelperText') }}"
@@ -96,7 +96,12 @@
     >
         @foreach ($tags as $tag)
             <option
-                @selected(collect(old('tag'))->contains($tag->id))
+                @selected(
+                    collect([
+                        ...old('tag', []),
+                        ...collect($item?->tags ?? [])->map(fn($t) => $t->id),
+                    ])->contains($tag->id)
+                )
                 value="{{ $tag->id }}"
             >
                 {{__("tag.{$tag->title}")}}
@@ -130,10 +135,10 @@
                     w-full"
                 id="location-display"
                 name="location-display"
-                value="{{ old('location-display') }}"
+                value="{{ old('location-display', $item?->location->address ?? '') }}"
                 type="text"
             />
-            <input name="location" type="hidden" value="{{ old('location') }}" />
+            <input name="location" type="hidden" value="{{ old('location', $item?->location->googlePlaceID ?? '') }}" />
             <div aria-role="list" class="absolute border-primary dark:bg-gray-700 w-full"></div>
         </div>
         <div class="mt-2">
@@ -169,7 +174,6 @@
                 file:dark:text-gray-50
                 file:hover:bg-primary/90
                 file:text-gray-50
-                mb-4
                 mt-2
                 text-sm
                 w-full"
@@ -178,7 +182,31 @@
             name="image[]"
             type="file"
         />
-        <div aria-role="list" class="flex flex-row flex-wrap gap-2 mb-4"></div>
+        <div aria-role="list" class="flex flex-row flex-wrap gap-2 my-4">
+            @foreach ($item?->images ?? [] as $image)
+                <div class="relative">
+                    <input name="imageExisting[]" type="hidden" value="{{ $image->id }}" />
+                    <img
+                        class="
+                            border
+                            border-gray-50
+                            dark:border-gray-500
+                            h-32
+                            object-scale-down
+                            rounded"
+                        src="{{ $image->get(300, 300) }}"
+                    />
+                    <button
+                        class="absolute aspect-square bg-black/30 flex hover:bg-black/50 p-1 right-1 rounded-full top-1"
+                        type="button"
+                    >
+                        <span class="!leading-none material-symbols-outlined text-gray-50 !text-lg">
+                            close
+                        </span>
+                    </button>
+                </div>
+            @endforeach
+        </div>
         <x-forms.helper-text
             field="image"
             helperText="{{ __('item.imagesHelperText') }}"
@@ -201,6 +229,6 @@
             w-full"
         type="submit"
     >
-        {{ __('item.give') }}
+        {{ $actionPrimaryLabel }}
     </button>
 </form>

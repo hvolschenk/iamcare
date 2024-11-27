@@ -6,6 +6,17 @@ class ImageInputWithPreview {
 	$container = null;
 
 	/**
+	 * A list of existing images,
+	 * specifically the container for each of them.
+	 * Each container must contain:
+	 *   * an `<img />`
+	 *   * an `<input name="imageExisting[]" type="hidden" />`, and
+	 *   * a `<button />` to remove the image.
+	 * @type {HTMLDivElement[]}
+	 */
+	$existingImages = [];
+
+	/**
 	 * The `input[type="image"]` input to render previews for
 	 * @type {HTMLInputElement}
 	 */
@@ -22,9 +33,12 @@ class ImageInputWithPreview {
 	 */
 	constructor($container) {
 		this.onChange = this.onChange.bind(this);
+		this.onExistingImageRemove = this.onExistingImageRemove.bind(this);
+		this.onExistingImageRestore = this.onExistingImageRestore.bind(this);
 		this.$container = $container;
 		this.registerImageInput();
 		this.registerPreviewContainer();
+		this.registerExistingImages();
 	}
 
 	/**
@@ -32,6 +46,12 @@ class ImageInputWithPreview {
 	 */
 	initialize() {
 		this.$imageInput.addEventListener("change", this.onChange);
+		for (const $existingImage of this.$existingImages) {
+			const $buttonRemove = $existingImage.querySelector(
+				'button[type="button"]',
+			);
+			$buttonRemove.addEventListener("click", this.onExistingImageRemove);
+		}
 	}
 
 	/**
@@ -44,8 +64,60 @@ class ImageInputWithPreview {
 		}
 	}
 
+	/**
+	 *
+	 * @param {Event} event The click event on the remove button
+	 */
+	onExistingImageRemove(event) {
+		let $buttonRemove = event.target;
+		if ($buttonRemove instanceof Element) {
+			if ($buttonRemove.tagName === "SPAN") {
+				$buttonRemove = $buttonRemove.closest("button");
+			}
+			const $existingImageContainer = $buttonRemove.closest("div");
+			const $existingImageInput = $existingImageContainer.querySelector(
+				'input[type="hidden"]',
+			);
+			const $buttonRemoveIcon = $buttonRemove.querySelector("span");
+			const $existingImage = $existingImageContainer.querySelector("img");
+			$existingImageInput.setAttribute("disabled", true);
+			$buttonRemove.removeEventListener("click", this.onExistingImageRemove);
+			$buttonRemoveIcon.innerHTML = "restore_from_trash";
+			$existingImage.classList.add("grayscale", "opacity-60");
+			$buttonRemove.addEventListener("click", this.onExistingImageRestore);
+		}
+	}
+
+	/**
+	 *
+	 * @param {Event} event The click event on the restore button
+	 */
+	onExistingImageRestore(event) {
+		let $buttonRestore = event.target;
+		if ($buttonRestore instanceof Element) {
+			if ($buttonRestore.tagName === "SPAN") {
+				$buttonRestore = $buttonRestore.closest("button");
+			}
+			const $existingImageContainer = $buttonRestore.closest("div");
+			const $existingImageInput = $existingImageContainer.querySelector(
+				'input[type="hidden"]',
+			);
+			const $buttonRestoreIcon = $buttonRestore.querySelector("span");
+			const $existingImage = $existingImageContainer.querySelector("img");
+			$existingImageInput.removeAttribute("disabled");
+			$buttonRestore.removeEventListener("click", this.onExistingImageRestore);
+			$buttonRestoreIcon.innerHTML = "clear";
+			$existingImage.classList.remove("grayscale", "opacity-60");
+			$buttonRestore.addEventListener("click", this.onExistingImageRemove);
+		}
+	}
+
 	previewsClear() {
-		this.$previewContainer.innerHTML = "";
+		const $previewImages =
+			this.$previewContainer.querySelectorAll(".image-preview");
+		for (const $previewImage of $previewImages) {
+			$previewImage.remove();
+		}
 	}
 
 	/**
@@ -62,11 +134,20 @@ class ImageInputWithPreview {
 				"border-gray-50",
 				"dark:border-gray-500",
 				"h-32",
+				"image-preview",
 				"object-scale-down",
 				"rounded",
 			);
 			this.$previewContainer.appendChild($previewImage);
 		}
+	}
+
+	/**
+	 * Registers the list of existing images
+	 */
+	registerExistingImages() {
+		const $existingImages = this.$previewContainer.querySelectorAll("div");
+		this.$existingImages = Array.from($existingImages);
 	}
 
 	/**

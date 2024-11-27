@@ -5,6 +5,7 @@ return [
     'delete' => 'Delete item',
     'descriptionHelperText' => 'Text describing the item in greater detail',
     'descriptionLabel' => 'Description',
+    'edit' => 'Edit item',
     'errorCreate' => 'There was an error creating the item. Please try again',
     'give' => 'Give item',
     'imagesHelperText' => 'Images of the item in its current state',
