@@ -17,12 +17,15 @@ Route::controller(ItemController::class)->group(function () {
     Route::post('items/{item}/edit', 'editHandler')->name('itemEditHandler');
 });
 
-Route::controller(PageController::class) ->group(function () {
+Route::controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
 });
 
 Route::controller(ThreadController::class)->group(function () {
+    Route::get('inbox/create/{item}', 'create')->name('threadCreate');
+    Route::get('inbox/create/{item}/form', 'createForm')->name('threadCreateForm');
     Route::get('inbox/{thread}', 'view')->name('thread');
+    Route::post('inbox/create/{item}', 'createHandler')->name('threadCreateHandler');
 });
 
 Route::controller(UserController::class)->group(function () {

@@ -95,7 +95,7 @@
             rounded
             text-gray-50
             w-full"
-        href="#"
+        href="{{ route('threadCreate', $item) }}"
     >
         <span class="material-symbols-outlined">send</span>
         {{ __('item.actionContactGiver') }}
