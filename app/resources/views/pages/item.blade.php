@@ -3,6 +3,13 @@
         {{ $item->name }}
     </x-slot>
 
+    <x-slot:meta>
+        <meta property="og:title" content="{{ $item->name }}" />
+        <meta property="og:description" content="{{ $item->description }}" />
+        <meta property="og:type" content="product" />
+        <meta property="og:image" content="{{ $item->images[0]->get() }}" />
+    </x-slot>
+
     <x-slot:scripts>
         <script src="{{ asset('scripts/image-carousel.js') }}"></script>
         <script nonce="{{ csp_nonce() }}" type="module">
