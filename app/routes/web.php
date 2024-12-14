@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
 
 Route::controller(ItemController::class)->group(function () {
@@ -18,6 +19,10 @@ Route::controller(ItemController::class)->group(function () {
 
 Route::controller(PageController::class) ->group(function () {
     Route::get('/', 'home')->name('home');
+});
+
+Route::controller(ThreadController::class)->group(function () {
+    Route::get('inbox/{thread}', 'view')->name('thread');
 });
 
 Route::controller(UserController::class)->group(function () {
