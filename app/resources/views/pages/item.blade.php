@@ -3,6 +3,13 @@
         {{ $item->name }}
     </x-slot>
 
+    <x-slot:meta>
+        <meta property="og:title" content="{{ $item->name }}" />
+        <meta property="og:description" content="{{ $item->description }}" />
+        <meta property="og:type" content="product" />
+        <meta property="og:image" content="{{ $item->images[0]->get() }}" />
+    </x-slot>
+
     <x-slot:scripts>
         <script src="{{ asset('scripts/image-carousel.js') }}"></script>
         <script nonce="{{ csp_nonce() }}" type="module">
@@ -35,18 +42,7 @@
 
     <div class="flex flex-col-reverse gap-4 md:grid md:grid-cols-2 mt-6">
         <div class="flex flex-col gap-4">
-            <a
-                class="dark:hover:bg-gray-700 flex flex-row gap-4 hover:bg-gray-200 items-center p-2"
-                href="#"
-            >
-                <img
-                    alt="{{ $item->user->name }}"
-                    class="aspect-square border-2 border-primary dark:border-gray-400 rounded-full size-7"
-                    referrerpolicy="no-referrer"
-                    src="{{ $item->user->avatar }}"
-                />
-                {{ $item->user->name }}
-            </a>
+            <x-user-glance :user="$item->user" />
             <p>{{ $item->description }}</p>
         </div>
         <div
@@ -99,7 +95,7 @@
             rounded
             text-gray-50
             w-full"
-        href="#"
+        href="{{ route('threadCreate', $item) }}"
     >
         <span class="material-symbols-outlined">send</span>
         {{ __('item.actionContactGiver') }}

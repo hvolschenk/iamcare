@@ -9,6 +9,7 @@
             name="viewport"
         />
         <meta name="htmx-config" content='{"inlineStyleNonce":"{{ csp_nonce() }}"}'>
+        {{ $meta ?? '' }}
 
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
