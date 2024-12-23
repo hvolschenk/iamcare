@@ -23,7 +23,15 @@
                         class="border border-gray-500 rounded"
                         src="{{ $item->images[0]->get(32, 32) }}"
                     />
-                    <div class="flex flex-grow overflow-hidden">
+                    <div
+                        class="
+                            @if ($item->isGiven)
+                                line-through
+                            @endif
+                            flex
+                            flex-grow
+                            overflow-hidden"
+                    >
                         <p class="truncate">{{ $item->name }}</p>
                     </div>
                 </a>
