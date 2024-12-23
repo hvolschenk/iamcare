@@ -71,6 +71,13 @@ class ThreadController extends Controller
         return response(null, 204, ['Hx-Redirect' => route('thread', $thread)]);
     }
 
+    public function index()
+    {
+        $threads = Thread::latest('updated_at')->paginate(12);
+
+        return view('pages.threads', ['threads' => $threads]);
+    }
+
     public function view(Thread $thread)
     {
         return view('pages.thread', ['thread' => $thread]);

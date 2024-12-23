@@ -21,6 +21,17 @@
             </span>
         </button>
 
+        @auth
+            <a
+                class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+                href="{{ route('threads') }}"
+            >
+                <span class="material-symbols-outlined">
+                    inbox
+                </span>
+            </a>
+        @endauth
+
         @guest
             <a
                 class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
