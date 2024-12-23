@@ -22,6 +22,7 @@ Route::controller(PageController::class)->group(function () {
 });
 
 Route::controller(ThreadController::class)->group(function () {
+    Route::get('inbox', 'index')->name('threads');
     Route::get('inbox/create/{item}', 'create')->name('threadCreate');
     Route::get('inbox/create/{item}/form', 'createForm')->name('threadCreateForm');
     Route::get('inbox/{thread}', 'view')->name('thread');

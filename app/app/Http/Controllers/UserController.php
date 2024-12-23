@@ -128,7 +128,7 @@ class UserController extends Controller
             ->items()
             ->with(['images'])
             ->latest()
-            ->paginate(15);
+            ->paginate(12);
         return view('pages.my-items', ['items' => $items]);
     }
 }
