@@ -41,7 +41,7 @@
             rel="stylesheet"
         />
 
-        <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 
         <script src="{{ asset('scripts/search-dialog.js') }}" type="module"></script>
         {{ $scripts ?? '' }}
