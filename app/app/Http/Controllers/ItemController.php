@@ -22,20 +22,17 @@ class ItemController extends Controller
 {
     public function edit (ItemEditRequest $request, Item $item)
     {
-        $tags = Tag::all();
-        return view('pages.item-edit', ['item' => $item, 'tags' => $tags]);
+        return view('pages.item-edit', ['item' => $item]);
     }
 
     public function editForm (Item $item)
     {
-        $tags = Tag::all();
         return view(
             'components.item-form',
             [
                 'actionPrimaryLabel' => __('item.edit'),
                 'actionPrimaryLocation' => route('itemEditHandler', $item),
                 'item' => $item,
-                'tags' => $tags,
             ],
         );
     }
@@ -94,19 +91,16 @@ class ItemController extends Controller
 
     public function give ()
     {
-        $tags = Tag::all();
-        return view('pages.item-give', ['tags' => $tags]);
+        return view('pages.item-give');
     }
 
     public function giveForm ()
     {
-        $tags = Tag::all();
         return view(
             'components.item-form',
             [
                 'actionPrimaryLabel' => __('item.give'),
                 'actionPrimaryLocation' => route('itemGive'),
-                'tags' => $tags,
             ],
         );
     }
@@ -151,10 +145,9 @@ class ItemController extends Controller
                 Storage::delete($image->url);
             }
             $request->flash();
-            $tags = Tag::all();
             return view(
                 'components.item-form',
-                ['error' => __('item.errorCreate'), 'tags' => $tags],
+                ['error' => __('item.errorCreate')],
             );
         }
     }

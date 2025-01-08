@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\View\Composers\ItemFormComposer;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
             return Http::baseUrl('https://maps.googleapis.com/maps/api');
         });
         Paginator::defaultView('components.pagination');
+
+        View::composer('components.item-form', ItemFormComposer::class);
     }
 }
