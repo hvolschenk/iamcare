@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\View\Composers\AppBarComposer;
 use App\View\Composers\ItemFormComposer;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         });
         Paginator::defaultView('components.pagination');
 
+        View::composer('components.layouts.app-bar', AppBarComposer::class);
         View::composer('components.item-form', ItemFormComposer::class);
     }
 }

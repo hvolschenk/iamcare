@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadCreateHandlerRequest;
 use App\Http\Requests\ThreadCreateRequest;
+use App\Http\Requests\ThreadReplyRequest;
+use App\Http\Requests\ThreadViewRequest;
 use App\Mail\ThreadCreated;
+use App\Mail\ThreadReplied;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Thread;
@@ -78,8 +81,36 @@ class ThreadController extends Controller
         return view('pages.threads', ['threads' => $threads]);
     }
 
-    public function view(Thread $thread)
+    public function reply(ThreadReplyRequest $request, Thread $thread)
     {
-        return view('pages.thread', ['thread' => $thread]);
+        $validated = $request->safe(['message']);
+        $messageText = $validated['message'];
+
+        $sender = $request->user();
+        $receiver = $thread->userGiver->id === $sender->id
+            ? $thread->userReceiver
+            : $thread->userGiver;
+
+        $message = new Message(['message' => $messageText]);
+        $message->user()->associate($sender);
+        $thread->messages()->save($message);
+
+        Mail::to($receiver->email)->send(new ThreadReplied($receiver, $sender, $thread->item));
+
+        return view('pages.thread.messages', ['thread' => $thread]);
+    }
+
+    public function replyForm(Thread $thread)
+    {
+        return view('pages.thread.messages', ['thread' => $thread]);
+    }
+
+    public function view(ThreadViewRequest $request, Thread $thread)
+    {
+        $user = $request->user();
+        Log::debug('Thread: Mark Read', ['threadID' => $thread->id, 'userID' => $user->id]);
+        $thread->messages()->whereNot('user_id', $user->id)->update(['is_read' => true]);
+
+        return view('pages.thread.thread', ['thread' => $thread]);
     }
 }

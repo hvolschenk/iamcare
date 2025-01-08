@@ -14,5 +14,6 @@
         actionPrimaryLabel="{{ __('thread.actionSend') }}"
         actionPrimaryLocation="{{ route('threadCreateHandler', $item) }}"
         :item="$item"
+        swapStyle="outerHTML"
     />
 </x-layouts.base>

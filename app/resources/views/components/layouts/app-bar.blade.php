@@ -23,12 +23,15 @@
 
         @auth
             <a
-                class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+                class="dark:text-gray-400 dark:hover:text-secondary flex hover:text-secondary items-center relative text-primary"
                 href="{{ route('threads') }}"
             >
                 <span class="material-symbols-outlined">
                     inbox
                 </span>
+                @if ($unreadThreadCount > 0)
+                    <x-badge text="{{ $unreadThreadCount }}"></x-badge>
+                @endif
             </a>
         @endauth
 
