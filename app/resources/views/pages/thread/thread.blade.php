@@ -15,7 +15,7 @@
         <x-user-glance :user="$thread->userGiver" />
     @endif
 
-    <hr class="border-gray-500 lg:mx-24 md:mx-20 mx-4 my-8" />
+    <hr class="border-neutral-500 lg:mx-24 md:mx-20 mx-4 my-8" />
 
     @include('pages.thread.messages', ['thread' => $thread])
 </x-layouts.base>

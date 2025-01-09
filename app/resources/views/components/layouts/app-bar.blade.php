@@ -13,7 +13,7 @@
 
     <div class="flex items-center space-x-4">
         <button
-            class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+            class="dark:text-neutral-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
             id="search-dialog__button"
         >
             <span class="material-symbols-outlined">
@@ -23,7 +23,7 @@
 
         @auth
             <a
-                class="dark:text-gray-400 dark:hover:text-secondary flex hover:text-secondary items-center relative text-primary"
+                class="dark:text-neutral-400 dark:hover:text-secondary flex hover:text-secondary items-center relative text-primary"
                 href="{{ route('threads') }}"
             >
                 <span class="material-symbols-outlined">
@@ -37,7 +37,7 @@
 
         @guest
             <a
-                class="dark:text-gray-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+                class="dark:text-neutral-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
                 href="{{ route('login') }}"
             >
                 <span class="material-symbols-outlined">
@@ -50,7 +50,7 @@
             <a href="{{ route('me') }}">
                 <img
                     alt="{{ Auth::user()->name }}"
-                    class="aspect-square border-2 border-primary dark:border-gray-400 hover:border-secondary rounded-full size-7"
+                    class="aspect-square border-2 border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
                     referrerpolicy="no-referrer"
                     src="{{ Auth::user()->avatar }}"
                 />

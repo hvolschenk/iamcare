@@ -8,17 +8,17 @@
     </h1>
 
     <ul class="list-none">
-        <li class="block dark:hover:bg-gray-700 hover:bg-gray-200">
+        <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
             <a class="block p-4" href="{{ route('myItems') }}">
                 <p>{{ __('me.my-items') }}</p>
             </a>
         </li>
-        <li class="block dark:hover:bg-gray-700 hover:bg-gray-200">
+        <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
             <a class="block p-4" href="{{ route('threads') }}">
                 <p>{{ __('me.inbox') }}</p>
             </a>
         </li>
-        <li class="block dark:hover:bg-gray-700 hover:bg-gray-200">
+        <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
             <a class="block p-4" href="{{ route('logout') }}">
                 <p>{{ __('me.logout') }}</p>
             </a>

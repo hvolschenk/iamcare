@@ -131,8 +131,8 @@ class ImageInputWithPreview {
 			$previewImage.setAttribute("src", src);
 			$previewImage.classList.add(
 				"border",
-				"border-gray-50",
-				"dark:border-gray-500",
+				"border-neutral-50",
+				"dark:border-neutral-500",
 				"h-32",
 				"image-preview",
 				"object-scale-down",

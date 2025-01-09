@@ -20,10 +20,10 @@
                 border-red-600
                 dark:border-red-700
             @else
-                border-gray-500
+                border-neutral-500
             @enderror
             border
-            dark:bg-gray-700
+            dark:bg-neutral-700
             focus:border-primary
             focus:outline
             focus:outline-primary
@@ -49,10 +49,10 @@
                 border-red-600
                 dark:border-red-700
             @else
-                border-gray-500
+                border-neutral-500
             @enderror
             border
-            dark:bg-gray-700
+            dark:bg-neutral-700
             focus:border-primary
             focus:outline
             focus:outline-primary
@@ -77,11 +77,11 @@
                 border-red-600
                 dark:border-red-700
             @else
-                border-gray-500
+                border-neutral-500
             @enderror
             border
-            border-gray-500
-            dark:bg-gray-700
+            border-neutral-500
+            dark:bg-neutral-700
             focus:border-primary
             focus:outline
             focus:outline-primary
@@ -122,10 +122,10 @@
                         border-red-600
                         dark:border-red-700
                     @else
-                        border-gray-500
+                        border-neutral-500
                     @enderror
                     border
-                    dark:bg-gray-700
+                    dark:bg-neutral-700
                     focus:border-primary
                     focus:outline
                     focus:outline-primary
@@ -139,7 +139,7 @@
                 type="text"
             />
             <input name="location" type="hidden" value="{{ old('location', $item?->location->googlePlaceID ?? '') }}" />
-            <div aria-role="list" class="absolute border-primary dark:bg-gray-700 w-full"></div>
+            <div aria-role="list" class="absolute border-primary dark:bg-neutral-700 w-full"></div>
         </div>
         <div class="mt-2">
             <x-forms.helper-text
@@ -163,17 +163,17 @@
                 file:py-2
                 file:rounded
                 file:dark:border
-                file:dark:bg-gray-700
+                file:dark:bg-neutral-700
                 @error('image')
                     file:dark:border-red-700
                 @else
-                    file:dark:border-gray-500
+                    file:dark:border-neutral-500
                 @enderror
                 file:dark:border-solid
-                file:dark:hover:bg-gray-600
-                file:dark:text-gray-50
+                file:dark:hover:bg-neutral-600
+                file:dark:text-neutral-50
                 file:hover:bg-primary/90
-                file:text-gray-50
+                file:text-neutral-50
                 mt-2
                 text-sm
                 w-full"
@@ -189,8 +189,8 @@
                     <img
                         class="
                             border
-                            border-gray-50
-                            dark:border-gray-500
+                            border-neutral-50
+                            dark:border-neutral-500
                             h-32
                             object-scale-down
                             rounded"
@@ -200,7 +200,7 @@
                         class="absolute aspect-square bg-black/30 flex hover:bg-black/50 p-1 right-1 rounded-full top-1"
                         type="button"
                     >
-                        <span class="!leading-none material-symbols-outlined text-gray-50 !text-lg">
+                        <span class="!leading-none material-symbols-outlined text-neutral-50 !text-lg">
                             close
                         </span>
                     </button>
@@ -216,16 +216,16 @@
     <button
         class="
             bg-primary
-            dark:disabled:bg-gray-500
-            dark:disabled:text-gray-200
-            disabled:bg-gray-200
-            disabled:text-gray-500
+            dark:disabled:bg-neutral-500
+            dark:disabled:text-neutral-200
+            disabled:bg-neutral-200
+            disabled:text-neutral-500
             hover:bg-primary/80
             md:w-auto
             px-4
             py-2
             rounded
-            text-gray-50
+            text-neutral-50
             w-full"
         type="submit"
     >
