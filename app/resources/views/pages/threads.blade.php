@@ -10,9 +10,9 @@
     @if ($threads->isEmpty())
         <p>{{ __('threads.error--no-items') }}</p>
     @else
-        <ul class="dark:divide-gray-700 divide-y divide-gray-200 list-none">
+        <ul class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none">
             @foreach ($threads as $thread)
-                <li class="dark:hover:bg-gray-700 hover:bg-gray-200">
+                <li class="dark:hover:bg-neutral-700 hover:bg-neutral-200">
                     <a
                         class="flex flex-row gap-4 items-center p-3"
                         href="{{ route('thread', $thread) }}"
@@ -37,7 +37,7 @@
                                 flex-grow"
                             >
                             <h6 class="font-semibold">{{ $thread->item->name }}</h6>
-                            <p class="dark:text-gray-300 text-gray-500">
+                            <p class="dark:text-neutral-300 text-neutral-500">
                                 @if (Auth::user()->id === $thread->userGiver->id)
                                     {{ $thread->userReceiver->name }}
                                 @else

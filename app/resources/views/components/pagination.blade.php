@@ -1,11 +1,11 @@
 <nav class="flex gap-2 items-center" role="navigation">
     <a
         class="
-            bg-gray-200
+            bg-neutral-200
             block
-            dark:bg-gray-700
-            dark:hover:bg-gray-600
-            hover:bg-gray-300
+            dark:bg-neutral-700
+            dark:hover:bg-neutral-600
+            hover:bg-neutral-300
             px-4
             py-2
             @if($paginator->onFirstPage())
@@ -24,11 +24,11 @@
             <a
                 aria-disabled="true"
                 class="
-                    bg-gray-200
+                    bg-neutral-200
                     block
-                    dark:bg-gray-700
-                    dark:hover:bg-gray-600
-                    hover:bg-gray-300
+                    dark:bg-neutral-700
+                    dark:hover:bg-neutral-600
+                    hover:bg-neutral-300
                     px-4
                     py-2
                     pointer-events-none"
@@ -42,17 +42,17 @@
                 <a
                     aria-disabled="@if ($page === $paginator->currentPage()) true @else false @endif"
                     class="
-                        bg-gray-200
+                        bg-neutral-200
                         block
-                        dark:bg-gray-700
-                        dark:hover:bg-gray-600
-                        hover:bg-gray-300
+                        dark:bg-neutral-700
+                        dark:hover:bg-neutral-600
+                        hover:bg-neutral-300
                         px-4
                         py-2
                         @if ($page === $paginator->currentPage())
-                            bg-gray-300
+                            bg-neutral-300
                             cursor-not-allowed
-                            dark:bg-gray-600
+                            dark:bg-neutral-600
                             font-medium
                         @endif"
                     @if ($page !== $paginator->currentPage())
@@ -68,11 +68,11 @@
     <a
         aria-disabled="@if($paginator->hasMorePages()) false @else true @endif"
         class="
-            bg-gray-200
+            bg-neutral-200
             block
-            dark:bg-gray-700
-            dark:hover:bg-gray-600
-            hover:bg-gray-300
+            dark:bg-neutral-700
+            dark:hover:bg-neutral-600
+            hover:bg-neutral-300
             px-4
             py-2
             @if(!$paginator->hasMorePages())

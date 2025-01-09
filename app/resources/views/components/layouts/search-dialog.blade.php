@@ -1,18 +1,18 @@
 <dialog
     class="
         backdrop:backdrop-blur-sm
-        backdrop:bg-gray-500/10
-        backdrop:dark:bg-gray-100/10
-        bg-gray-100
+        backdrop:bg-neutral-500/10
+        backdrop:dark:bg-neutral-100/10
+        bg-neutral-100
         border
-        border-gray-500
-        dark:bg-gray-800
-        dark:text-gray-50
+        border-neutral-500
+        dark:bg-neutral-800
+        dark:text-neutral-50
         mx-6
         md:mx-auto
         md:w-96
         rounded
-        text-gray-800
+        text-neutral-800
         w-full"
     id="search-dialog"
 >
@@ -22,9 +22,9 @@
             <input
                 autofocus
                 class="
-                    border-gray-500
+                    border-neutral-500
                     border
-                    dark:bg-gray-700
+                    dark:bg-neutral-700
                     focus:border-primary
                     focus:outline
                     focus:outline-primary
@@ -46,16 +46,16 @@
                 <button
                     class="
                         bg-primary
-                        dark:disabled:bg-gray-500
-                        dark:disabled:text-gray-200
-                        disabled:bg-gray-200
-                        disabled:text-gray-500
+                        dark:disabled:bg-neutral-500
+                        dark:disabled:text-neutral-200
+                        disabled:bg-neutral-200
+                        disabled:text-neutral-500
                         hover:bg-primary/80
                         md:w-auto
                         px-4
                         py-2
                         rounded
-                        text-gray-50
+                        text-neutral-50
                         w-full"
                     type="submit"
                 >

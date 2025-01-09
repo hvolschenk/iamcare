@@ -15,12 +15,12 @@
         {{ __('my-items.page-title') }}
     </h1>
 
-    <ul class="dark:divide-gray-700 divide-y divide-gray-200 list-none">
+    <ul class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none">
         @foreach ($items as $item)
-            <li class="dark:hover:bg-gray-700 flex gap-4 hover:bg-gray-200 items-center">
+            <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center">
                 <a class="flex flex-grow gap-4 items-center p-4" href="{{ route('item', $item) }}">
                     <img
-                        class="border border-gray-500 rounded"
+                        class="border border-neutral-500 rounded"
                         src="{{ $item->images[0]->get(32, 32) }}"
                     />
                     <div
@@ -41,9 +41,9 @@
                             menu
                         </span>
                     </summary>
-                    <ul class="absolute border border-gray-500 dark:bg-gray-700 bg-gray-200 py-1 right-0 z-10">
+                    <ul class="absolute border border-neutral-500 dark:bg-neutral-700 bg-neutral-200 py-1 right-0 z-10">
                         <li class="whitespace-nowrap">
-                            <a class="block dark:hover:bg-gray-600 hover:bg-gray-100 px-4 py-2" href="{{ route('itemEdit', $item) }}">
+                            <a class="block dark:hover:bg-neutral-600 hover:bg-neutral-100 px-4 py-2" href="{{ route('itemEdit', $item) }}">
                                 {{ __('item.edit') }}
                             </a>
                         </li>

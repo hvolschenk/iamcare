@@ -15,10 +15,10 @@
                 border-red-600
                 dark:border-red-700
             @else
-                border-gray-500
+                border-neutral-500
             @enderror
             border
-            dark:bg-gray-700
+            dark:bg-neutral-700
             focus:border-primary
             focus:outline
             focus:outline-primary
@@ -39,10 +39,10 @@
     <button
         class="
             bg-primary
-            dark:disabled:bg-gray-500
-            dark:disabled:text-gray-200
-            disabled:bg-gray-200
-            disabled:text-gray-500
+            dark:disabled:bg-neutral-500
+            dark:disabled:text-neutral-200
+            disabled:bg-neutral-200
+            disabled:text-neutral-500
             flex
             gap-2
             hover:bg-primary/80
@@ -52,7 +52,7 @@
             px-4
             py-2
             rounded
-            text-gray-50
+            text-neutral-50
             w-full"
         type="submit"
     >

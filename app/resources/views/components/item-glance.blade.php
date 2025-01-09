@@ -1,10 +1,10 @@
 <a
-    class="dark:hover:bg-gray-700 flex flex-row gap-4 hover:bg-gray-200 p-2 w-full"
+    class="dark:hover:bg-neutral-700 flex flex-row gap-4 hover:bg-neutral-200 p-2 w-full"
     href="{{ route('item', $item) }}"
 >
     <img
         alt="{{ $item->name }}"
-        class="aspect-square border-2 border-primary dark:border-gray-400 size-12"
+        class="aspect-square border-2 border-primary dark:border-neutral-400 size-12"
         src="{{ $item->images[0]->get(32, 32) }}"
     />
     <div

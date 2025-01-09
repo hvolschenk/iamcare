@@ -15,7 +15,7 @@
     @endif
     font-medium
     text-sm
-    text-gray-800
+    text-neutral-800
     top-0
     translate-x-2/4
     -translate-y-2/4"

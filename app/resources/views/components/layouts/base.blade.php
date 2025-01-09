@@ -46,7 +46,7 @@
         <script src="{{ asset('scripts/search-dialog.js') }}" type="module"></script>
         {{ $scripts ?? '' }}
     </head>
-    <body class="bg-gray-100 dark:bg-gray-800 dark:text-gray-50 text-gray-800">
+    <body class="bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50 text-neutral-800">
         <x-layouts.app-bar />
 
         <main class="container md:px-10 mt-4 mx-auto px-4">

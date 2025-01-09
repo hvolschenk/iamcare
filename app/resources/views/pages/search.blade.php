@@ -36,16 +36,16 @@
         @endif
     </h1>
 
-    <details class="bg-gray-50 border border-gray-500 dark:bg-gray-900 mb-4 rounded">
+    <details class="bg-neutral-50 border border-neutral-500 dark:bg-neutral-900 mb-4 rounded">
         <summary class="cursor-pointer p-4">{{ __('search.advanced-search') }}</summary>
         <form action="{{ route('search') }}" class="mb-4 mx-6" method="GET">
             <div class="mb-4 w-full">
                 <x-forms.label field="tag" for="tag" label="{{ __('search.field__query--label') }}" />
                 <input
                     class="
-                        border-gray-500
+                        border-neutral-500
                         border
-                        dark:bg-gray-700
+                        dark:bg-neutral-700
                         focus:border-primary
                         focus:outline
                         focus:outline-primary
@@ -69,8 +69,8 @@
                 <select
                     class="
                         border
-                        border-gray-500
-                        dark:bg-gray-700
+                        border-neutral-500
+                        dark:bg-neutral-700
                         focus:border-primary
                         focus:outline
                         focus:outline-primary
@@ -109,8 +109,8 @@
                         <input
                             class="
                                 border
-                                border-gray-500
-                                dark:bg-gray-700
+                                border-neutral-500
+                                dark:bg-neutral-700
                                 focus:border-primary
                                 focus:outline
                                 focus:outline-primary
@@ -123,7 +123,7 @@
                             type="text"
                         />
                         <input name="location" type="hidden" value="{{ $googlePlaceID }}" />
-                        <div aria-role="list" class="absolute border-primary dark:bg-gray-700 w-full"></div>
+                        <div aria-role="list" class="absolute border-primary dark:bg-neutral-700 w-full"></div>
                     </div>
                     <div class="mt-2">
                         <x-forms.helper-text
@@ -142,8 +142,8 @@
                     <select
                         class="
                             border
-                            border-gray-500
-                            dark:bg-gray-700
+                            border-neutral-500
+                            dark:bg-neutral-700
                             focus:border-primary
                             focus:outline
                             focus:outline-primary
@@ -171,16 +171,16 @@
             <button
                 class="
                     bg-primary
-                    dark:disabled:bg-gray-500
-                    dark:disabled:text-gray-200
-                    disabled:bg-gray-200
-                    disabled:text-gray-500
+                    dark:disabled:bg-neutral-500
+                    dark:disabled:text-neutral-200
+                    disabled:bg-neutral-200
+                    disabled:text-neutral-500
                     hover:bg-primary/80
                     md:w-auto
                     px-4
                     py-2
                     rounded
-                    text-gray-50
+                    text-neutral-50
                     w-full"
                 type="submit"
             >
@@ -196,14 +196,14 @@
             @foreach ($items as $item)
                 <li
                     class="
-                        bg-gray-50
+                        bg-neutral-50
                         border
-                        border-gray-500
-                        dark:bg-gray-900
+                        border-neutral-500
+                        dark:bg-neutral-900
                         dark:hover:bg-black
-                        dark:hover:border-gray-400
+                        dark:hover:border-neutral-400
                         hover:bg-white
-                        hover:border-gray-600
+                        hover:border-neutral-600
                         rounded"
                 >
                     <a href="{{ route('item', $item) }}">
@@ -217,7 +217,7 @@
                             <p class="font-bold truncate">{{ $item->name }}</p>
                         </a>
                         <a
-                            class="dark:text-gray-300 hover:underline text-gray-500"
+                            class="dark:text-neutral-300 hover:underline text-neutral-500"
                             href="{{ route(
                                 'search',
                                 ['distance' => '20', 'location' => $item->location->googlePlaceID],

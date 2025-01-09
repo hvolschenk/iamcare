@@ -1,13 +1,13 @@
 <a
     class="
-        bg-gray-50
+        bg-neutral-50
         border
-        border-gray-500
-        dark:bg-gray-700
-        dark:hover:border-gray-400
-        dark:hover:bg-gray-600
-        hover:bg-gray-200
-        hover:border-gray-600
+        border-neutral-500
+        dark:bg-neutral-700
+        dark:hover:border-neutral-400
+        dark:hover:bg-neutral-600
+        hover:bg-neutral-200
+        hover:border-neutral-600
         px-2
         py-1
         rounded-full

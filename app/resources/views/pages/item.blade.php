@@ -26,7 +26,7 @@
     </h1>
 
     <div
-        class="bg-gray-200 dark:bg-gray-700 flex h-80 justify-center relative"
+        class="bg-neutral-200 dark:bg-neutral-700 flex h-80 justify-center relative"
         id="item__image-carousel"
     >
         <button class="absolute disabled:cursor-not-allowed hover:bg-white/20 left-0 h-full px-4" type="button">
@@ -47,14 +47,14 @@
         </div>
         <div
             class="
-                bg-gray-50
+                bg-neutral-50
                 border
-                border-gray-500
-                dark:bg-gray-900
+                border-neutral-500
+                dark:bg-neutral-900
                 dark:hover:bg-black
-                dark:hover:border-gray-400
+                dark:hover:border-neutral-400
                 hover:bg-white
-                hover:border-gray-600
+                hover:border-neutral-600
                 p-4
                 rounded"
         >
@@ -66,7 +66,7 @@
             <p class="flex gap-2 mt-4">
                 <span class="material-symbols-outlined">location_on</span>
                 <a
-                    class="dark:text-gray-300 hover:underline text-gray-500"
+                    class="dark:text-neutral-300 hover:underline text-neutral-500"
                     href="{{ route(
                         'search',
                         ['distance' => '20', 'location' => $item->location->googlePlaceID],
@@ -80,10 +80,10 @@
     <a
         class="
             bg-primary
-            dark:disabled:bg-gray-500
-            dark:disabled:text-gray-200
-            disabled:bg-gray-200
-            disabled:text-gray-500
+            dark:disabled:bg-neutral-500
+            dark:disabled:text-neutral-200
+            disabled:bg-neutral-200
+            disabled:text-neutral-500
             flex
             gap-2
             hover:bg-primary/80
@@ -93,7 +93,7 @@
             px-4
             py-2
             rounded
-            text-gray-50
+            text-neutral-50
             w-full"
         href="{{ route('threadCreate', $item) }}"
     >
