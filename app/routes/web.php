@@ -26,7 +26,9 @@ Route::controller(ThreadController::class)->group(function () {
     Route::get('inbox/create/{item}', 'create')->name('threadCreate');
     Route::get('inbox/create/{item}/form', 'createForm')->name('threadCreateForm');
     Route::get('inbox/{thread}', 'view')->name('thread');
+    Route::get('inbox/{thread}/reply/form', 'replyForm')->name('threadReplyForm');
     Route::post('inbox/create/{item}', 'createHandler')->name('threadCreateHandler');
+    Route::post('inbox/{thread}/reply', 'reply')->name('threadReply');
 });
 
 Route::controller(UserController::class)->group(function () {

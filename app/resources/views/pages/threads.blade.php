@@ -17,11 +17,16 @@
                         class="flex flex-row gap-4 items-center p-3"
                         href="{{ route('thread', $thread) }}"
                     >
-                        <img
-                            alt="{{ $thread->item->name }}"
-                            class="aspect-square size-16"
-                            src="{{ $thread->item->images[0]->get(64, 64) }}"
-                        />
+                        <div class="relative">
+                            <img
+                                alt="{{ $thread->item->name }}"
+                                class="aspect-square size-16"
+                                src="{{ $thread->item->images[0]->get(64, 64) }}"
+                            />
+                            @if (!$thread->messages[count($thread->messages) - 1]->is_read)
+                                <x-badge></x-badge>
+                            @endif
+                        </div>
                         <div
                             class="
                                 @if ($thread->item->isGiven)

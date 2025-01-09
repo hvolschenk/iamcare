@@ -2,7 +2,8 @@
     class="mt-4"
     hx-disabled-elt="button[type='submit']"
     hx-post="{{ $actionPrimaryLocation }}"
-    hx-swap="outerHTML"
+    hx-swap="{{ $swapStyle }}"
+    hx-target="{{ $swapTarget ?? 'this' }}"
 >
 
     @csrf
