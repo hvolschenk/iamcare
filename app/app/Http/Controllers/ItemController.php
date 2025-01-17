@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ItemEditHandlerRequest;
 use App\Http\Requests\ItemEditRequest;
 use App\Http\Requests\ItemGiveRequest;
+use App\Http\Requests\ItemMarkGivenRequest;
 use App\Http\Requests\ItemSearchRequest;
 use App\Models\Image;
 use App\Models\Item;
@@ -155,6 +156,14 @@ class ItemController extends Controller
     public function item(Item $item)
     {
         return view('pages.item', ['item' => $item]);
+    }
+
+    public function markGiven(ItemMarkGivenRequest $request, Item $item)
+    {
+        Log::debug('Item: Mark Given', ['id' => $item->id]);
+        $item->is_given = true;
+        $item->save();
+        return response(null, 204, ['Hx-Redirect' => route('threads')]);
     }
 
     public function search(ItemSearchRequest $request)
