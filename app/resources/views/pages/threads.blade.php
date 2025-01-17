@@ -29,7 +29,7 @@
                         </div>
                         <div
                             class="
-                                @if ($thread->item->isGiven)
+                                @if ($thread->item->is_given)
                                     line-through
                                 @endif
                                 flex
