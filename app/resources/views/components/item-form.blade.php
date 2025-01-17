@@ -213,22 +213,7 @@
         />
     </div>
 
-    <button
-        class="
-            bg-primary
-            dark:disabled:bg-neutral-500
-            dark:disabled:text-neutral-200
-            disabled:bg-neutral-200
-            disabled:text-neutral-500
-            hover:bg-primary/80
-            md:w-auto
-            px-4
-            py-2
-            rounded
-            text-neutral-50
-            w-full"
-        type="submit"
-    >
+    <x-button type="submit">
         {{ $actionPrimaryLabel }}
-    </button>
+    </x-button>
 </form>
