@@ -50,6 +50,5 @@
     <x-item-form
         actionPrimaryLabel="{{ __('item.give') }}"
         actionPrimaryLocation="{{ route('itemGive') }}"
-        :tags="$tags"
     />
 </x-layouts.base>
