@@ -2,6 +2,8 @@
 
 return [
     'actionContactGiver' => 'Send message',
+    'actionMarkGiven' => 'Mark as given',
+    'confirmMarkGiven' => 'Marking the item as given will remove it from search and archive all messages about it. Proceed?',
     'delete' => 'Delete item',
     'descriptionHelperText' => 'Text describing the item in greater detail',
     'descriptionLabel' => 'Description',

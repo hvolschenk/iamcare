@@ -15,6 +15,7 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('search', 'search')->name('search');
     Route::post('items/give', 'giveHandler')->name('itemGiveHandler');
     Route::post('items/{item}/edit', 'editHandler')->name('itemEditHandler');
+    Route::post('items/{item}/mark-given', 'markGiven')->name('itemMarkGiven');
 });
 
 Route::controller(PageController::class)->group(function () {

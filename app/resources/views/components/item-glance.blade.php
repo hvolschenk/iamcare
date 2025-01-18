@@ -9,7 +9,7 @@
     />
     <div
         class="
-            @if ($item->isGiven)
+            @if ($item->is_given)
                 line-through
             @endif
             flex

@@ -1,62 +1,62 @@
-<form
-    class="mt-4"
-    hx-disabled-elt="button[type='submit']"
-    hx-post="{{ $actionPrimaryLocation }}"
-    hx-swap="{{ $swapStyle }}"
-    hx-target="{{ $swapTarget ?? 'this' }}"
->
-
-    @csrf
-
-    <x-forms.label field="message" for="message" label={{ __('thread.messageLabel') }} />
-    <textarea
-        class="
-            @error('message')
-                border-red-600
-                dark:border-red-700
-            @else
-                border-neutral-500
-            @enderror
-            border
-            dark:bg-neutral-700
-            focus:border-primary
-            focus:outline
-            focus:outline-primary
-            mb-2
-            mt-1
-            p-2
-            rounded
-            w-full"
-        id="message"
-        name="message"
-        type="text"
-    >{{ old('message') }}</textarea>
-    <x-forms.helper-text
-        field="message"
-        helperText="{{ __('thread.messageHelperText') }}"
-    />
-
-    <button
-        class="
-            bg-primary
-            dark:disabled:bg-neutral-500
-            dark:disabled:text-neutral-200
-            disabled:bg-neutral-200
-            disabled:text-neutral-500
-            flex
-            gap-2
-            hover:bg-primary/80
-            md:max-w-fit
-            md:w-auto
-            mt-4
-            px-4
-            py-2
-            rounded
-            text-neutral-50
-            w-full"
-        type="submit"
+@if ($item->is_given)
+    <x-alert class="mb-4 mt-6">
+        {{ __('thread.itemGiven') }}
+    </x-alert>
+@else
+    <form
+        class="mt-4"
+        hx-disabled-elt="button[type='submit']"
+        hx-post="{{ $actionPrimaryLocation }}"
+        hx-swap="{{ $swapStyle }}"
+        hx-target="{{ $swapTarget ?? 'this' }}"
     >
-        <span class="material-symbols-outlined">send</span>
-        {{ $actionPrimaryLabel }}
-    </button>
-</form>
+
+        @csrf
+
+        <x-forms.label field="message" for="message" label={{ __('thread.messageLabel') }} />
+        <textarea
+            class="
+                @error('message')
+                    border-red-600
+                    dark:border-red-700
+                @else
+                    border-neutral-500
+                @enderror
+                border
+                dark:bg-neutral-700
+                focus:border-primary
+                focus:outline
+                focus:outline-primary
+                mb-2
+                mt-1
+                p-2
+                rounded
+                w-full"
+            id="message"
+            name="message"
+            type="text"
+        >{{ old('message') }}</textarea>
+        <x-forms.helper-text
+            field="message"
+            helperText="{{ __('thread.messageHelperText') }}"
+        />
+
+        <div class="flex flex-row gap-2">
+            <x-button type="submit">
+                <span class="material-symbols-outlined">send</span>
+                {{ $actionPrimaryLabel }}
+            </x-button>
+
+            @if ($item->user->id === Auth::user()->id)
+                <x-button.outlined
+                    hx-confirm="{{ __('item.confirmMarkGiven') }}"
+                    hx-disabled-elt="this"
+                    hx-post="{{ route('itemMarkGiven', $item) }}"
+                >
+                    <span class="material-symbols-outlined">done_all</span>
+                    {{ __('item.actionMarkGiven') }}
+                </x-button.outlined>
+            @endif
+        </div>
+    </form>
+@endif
