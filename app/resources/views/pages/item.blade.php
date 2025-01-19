@@ -77,27 +77,8 @@
             </p>
         </div>
     </div>
-    <a
-        class="
-            bg-primary
-            dark:disabled:bg-neutral-500
-            dark:disabled:text-neutral-200
-            disabled:bg-neutral-200
-            disabled:text-neutral-500
-            flex
-            gap-2
-            hover:bg-primary/80
-            md:max-w-fit
-            md:w-auto
-            mt-4
-            px-4
-            py-2
-            rounded
-            text-neutral-50
-            w-full"
-        href="{{ route('threadCreate', $item) }}"
-    >
+    <x-link.button href="{{ route('threadCreate', $item) }}">
         <span class="material-symbols-outlined">send</span>
         {{ __('item.actionContactGiver') }}
-    </a>
+    </x-link.button>
 </x-layouts.base>
