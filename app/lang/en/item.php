@@ -2,6 +2,7 @@
 
 return [
     'actionContactGiver' => 'Send message',
+    'actionOpenThread' => 'Go to messages',
     'actionMarkGiven' => 'Mark as given',
     'confirmMarkGiven' => 'Marking the item as given will remove it from search and archive all messages about it. Proceed?',
     'delete' => 'Delete item',

@@ -77,8 +77,18 @@
             </p>
         </div>
     </div>
-    <x-link.button href="{{ route('threadCreate', $item) }}">
-        <span class="material-symbols-outlined">send</span>
-        {{ __('item.actionContactGiver') }}
-    </x-link.button>
+
+    @if ($thread === null)
+        @if (Auth::user()->id !== $item->user->id)
+            <x-link.button href="{{ route('threadCreate', $item) }}">
+                <span class="material-symbols-outlined">send</span>
+                {{ __('item.actionContactGiver') }}
+            </x-link.button>
+        @endif
+    @else
+        <x-link.button href="{{ route('thread', $thread) }}">
+            <span class="material-symbols-outlined">send</span>
+            {{ __('item.actionOpenThread') }}
+        </x-link.button>
+    @endif
 </x-layouts.base>
