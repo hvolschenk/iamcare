@@ -1,5 +1,4 @@
-# Please always stick to the latest named LTS version
-FROM node:iron-alpine
+FROM node:lts-alpine
 
 # Enable chokidar polling for filesystems that do not support inotify
 # I think this is only necessary on Windows
