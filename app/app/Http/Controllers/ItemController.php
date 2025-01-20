@@ -11,9 +11,11 @@ use App\Models\Image;
 use App\Models\Item;
 use App\Models\Location;
 use App\Models\Tag;
+use App\Models\Thread;
 use App\Services\GooglePlaces;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -153,9 +155,13 @@ class ItemController extends Controller
         }
     }
 
-    public function item(Item $item)
+    public function item(Request $request, Item $item)
     {
-        return view('pages.item', ['item' => $item]);
+        $thread = Thread::where([
+            'item_id' => $item->id,
+            'user_id_receiver' => $request->user()->id,
+        ])->first();
+        return view('pages.item', ['item' => $item, 'thread' => $thread]);
     }
 
     public function markGiven(ItemMarkGivenRequest $request, Item $item)
