@@ -11,6 +11,7 @@ return [
     'edit' => 'Edit item',
     'errorCreate' => 'There was an error creating the item. Please try again',
     'give' => 'Give item',
+    'give-breadcrumb' => 'Give item',
     'imagesHelperText' => 'Images of the item in its current state',
     'imagesLabel' => 'Image(s)',
     'locationHelperText' => 'The closest suburb',

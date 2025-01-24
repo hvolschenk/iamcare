@@ -28,13 +28,18 @@
         </script>
     </x-slot>
 
-    <h1 class="font-bold mb-10 text-5xl">
+    <x-page-title
+        :breadcrumbs="[
+            ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => __('search.breadcrumb')],
+        ]"
+    >
         @if (empty($query))
             {{ __('search.search-results-no-query') }}
         @else
             {{ __('search.search-results', ['query' => $query]) }}
         @endif
-    </h1>
+    </x-page-title>
 
     <details class="bg-neutral-50 border border-neutral-500 dark:bg-neutral-900 mb-4 rounded">
         <summary class="cursor-pointer p-4">{{ __('search.advanced-search') }}</summary>

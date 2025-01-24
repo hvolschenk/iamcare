@@ -11,9 +11,15 @@
         </script>
     </x-slot>
 
-    <h1 class="font-bold mb-10 text-5xl">
+    <x-page-title
+        :breadcrumbs="[
+            ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => __('me.breadcrumb'), 'url' => route('me')],
+            ['title' => __('my-items.breadcrumb')],
+        ]"
+    >
         {{ __('my-items.page-title') }}
-    </h1>
+    </x-page-title>
 
     <ul class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none">
         @foreach ($items as $item)

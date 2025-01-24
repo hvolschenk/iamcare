@@ -43,9 +43,17 @@
         </script>
     </x-slot>
 
-    <h1 class="font-bold mb-10 text-5xl">
+    <x-page-title
+        :breadcrumbs="[
+            ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => __('me.breadcrumb'), 'url' => route('me')],
+            ['title' => __('my-items.breadcrumb'), 'url' => route('myItems')],
+            ['title' => $item->name, 'url' => route('item', $item)],
+            ['title' => __('item.edit')],
+        ]"
+    >
         {{ __('item.edit') }}
-    </h1>
+    </x-page-title>
 
     <x-item-form
         actionPrimaryLabel="{{ __('item.edit') }}"
