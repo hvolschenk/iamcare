@@ -21,9 +21,14 @@
         </script>
     </x-slot>
 
-    <h1 class="font-bold mb-10 text-5xl">
+    <x-page-title
+        :breadcrumbs="[
+            ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => $item->name],
+        ]"
+    >
         {{ $item->name }}
-    </h1>
+    </x-page-title>
 
     <div
         class="bg-neutral-200 dark:bg-neutral-700 flex h-80 justify-center relative"

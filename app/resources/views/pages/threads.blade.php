@@ -3,9 +3,15 @@
         {{ __('threads.inbox') }}
     </x-slot>
 
-    <h1 class="font-bold mb-10 text-5xl">
+    <x-page-title
+        :breadcrumbs="[
+            ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => __('me.breadcrumb'), 'url' => route('me')],
+            ['title' => __('threads.breadcrumb')],
+        ]"
+    >
         {{ __('threads.inbox') }}
-    </h1>
+    </x-page-title>
 
     @if ($threads->isEmpty())
         <p>{{ __('threads.error--no-items') }}</p>

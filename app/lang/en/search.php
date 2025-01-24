@@ -3,6 +3,7 @@
 return [
     'action__search' => 'Search',
     'advanced-search' => 'Advanced search',
+    'breadcrumb' => 'Search results',
     'field__distance--helper-text' => 'The distance around the location to search',
     'field__distance--label' => 'Distance',
     'field__location--helper-text' => 'The suburb to search in or around',

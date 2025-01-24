@@ -7,9 +7,14 @@
         <script async nonce="{{ csp_nonce() }}" src="https://accounts.google.com/gsi/client"></script>
     </x-slot>
 
-    <h1 class="font-bold mb-10 text-5xl">
+    <x-page-title
+        :breadcrumbs="[
+            ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => __('login.breadcrumb')],
+        ]"
+    >
         {{ __('login.login') }}
-    </h1>
+    </x-page-title>
 
     <div
         id="g_id_onload"

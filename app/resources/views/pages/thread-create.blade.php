@@ -3,9 +3,15 @@
         {{ __('thread.create') }}
     </x-slot>
 
-    <h1 class="font-bold mb-10 text-5xl">
+    <x-page-title
+        :breadcrumbs="[
+            ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => $item->name, 'url' => route('item', $item)],
+            ['title' => __('thread.create-breadcrumb')]
+        ]"
+    >
         {{ __('thread.create') }}
-    </h1>
+    </x-page-title>
 
     <x-item-glance :item="$item" />
     <x-user-glance :user="$item->user" />
