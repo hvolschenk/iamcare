@@ -13,7 +13,7 @@
         </p>
     @endif
 
-    <x-forms.label field="name" for="name" label="{{ __('item.nameLabel') }}" />
+    <x-forms.label field="name" for="name" :label="__('item.nameLabel')" />
     <input
         class="
             @error('name')
@@ -39,10 +39,14 @@
     />
     <x-forms.helper-text
         field="name"
-        helperText="{{ __('item.nameHelperText') }}"
+        :helperText="__('item.nameHelperText')"
     />
 
-    <x-forms.label field="description" for="description" label="{{ __('item.descriptionLabel') }}" />
+    <x-forms.label
+        field="description"
+        for="description"
+        :label="__('item.descriptionLabel')"
+    />
     <textarea
         class="
             @error('description')
@@ -67,10 +71,10 @@
     >{{ old('description', $item?->description ?? '') }}</textarea>
     <x-forms.helper-text
         field="description"
-        helperText="{{ __('item.descriptionHelperText') }}"
+        :helperText="__('item.descriptionHelperText')"
     />
 
-    <x-forms.label field="tag" for="tag" label="{{ __('item.tagsLabel') }}" />
+    <x-forms.label field="tag" for="tag" :label="__('item.tagsLabel')" />
     <select
         class="
             @error('tag')
@@ -110,11 +114,15 @@
     </select>
     <x-forms.helper-text
         field="tag"
-        helperText="{{ __('item.tagsHelperText') }}"
+        :helperText="__('item.tagsHelperText')"
     />
 
     <div id="google-places__place-autocomplete__container">
-        <x-forms.label field="location" for="location-display" label="{{ __('item.locationLabel') }}" />
+        <x-forms.label
+            field="location"
+            for="location-display"
+            :label="__('item.locationLabel')"
+        />
         <div>
             <input
                 class="
@@ -144,13 +152,13 @@
         <div class="mt-2">
             <x-forms.helper-text
                 field="location"
-                helperText="{{ __('item.locationHelperText') }}"
+                :helperText="__('item.locationHelperText')"
             />
         </div>
     </div>
 
     <div id="image-input-with-preview__container">
-        <x-forms.label field="image" for="image" label="{{ __('item.imagesLabel') }}" />
+        <x-forms.label field="image" for="image" :label="__('item.imagesLabel')" />
         <input
             accept="image/*"
             class="
@@ -209,7 +217,7 @@
         </div>
         <x-forms.helper-text
             field="image"
-            helperText="{{ __('item.imagesHelperText') }}"
+            :helperText="__('item.imagesHelperText')"
         />
     </div>
 

@@ -1,5 +1,5 @@
 .phpunit.cache
-bootstrap/cache/!.gitignore
+bootstrap/cache/*.php
 logs/
 node_modules/
 storage/framework/cache/

@@ -9,5 +9,5 @@ return [
     'take__action' => 'Search for items',
     'take__description' => 'We are all here to support each other. Simply search and send a message about any item(s) you need.',
     'take__sub-heading' => 'Take any item(s) you need',
-    'take__title' => 'Take',
+    'take__title' => 'Search',
 ];

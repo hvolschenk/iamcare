@@ -59,7 +59,6 @@ services:
     ports:
       - "2991:8000"
     volumes:
-      - ./app/bootstrap/cache/:/var/www/html/bootstrap/cache
       - ./app/composer.json:/var/www/html/composer.json
       - ./app/composer.lock:/var/www/html/composer.lock
       - ./app/logs/php.log:/var/log/fpm-php.www.log

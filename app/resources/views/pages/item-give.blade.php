@@ -19,6 +19,7 @@
                 );
                 const googlePlacesAutocomplete = new GooglePlacesAutocomplete(
                     $autocompleteContainer,
+                    "{{ App::currentLocale() }}",
                     "{{ config('google.places.region') }}",
                 );
                 googlePlacesAutocomplete.initialize();

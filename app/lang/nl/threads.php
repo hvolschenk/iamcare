@@ -2,6 +2,6 @@
 
 return [
     'breadcrumb' => 'Inbox',
-    'error--no-items' => 'No conversations',
+    'error--no-items' => 'Geen gesprekken',
     'inbox' => 'Inbox',
 ];
