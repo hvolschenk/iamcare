@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->currentLocale()) }}">
     <head>
         <title>{{ $title ?? __('application.name') }}</title>
 
@@ -43,6 +43,7 @@
 
         <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 
+        <script src="{{ asset('scripts/language-dialog.js') }}" type="module"></script>
         <script src="{{ asset('scripts/search-dialog.js') }}" type="module"></script>
         {{ $scripts ?? '' }}
     </head>
@@ -55,6 +56,7 @@
 
         <x-layouts.footer />
 
+        <x-layouts.language-dialog />
         <x-layouts.search-dialog />
     </body>
 </html>

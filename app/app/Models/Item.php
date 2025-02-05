@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
 
 class Item extends Model
 {
@@ -21,6 +22,7 @@ class Item extends Model
     protected $fillable = [
         'name',
         'description',
+        'googlePlaceID',
         'is_given',
     ];
 
@@ -44,15 +46,32 @@ class Item extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['location'];
+
+    /**
      * Bootstrap the model and its traits.
      */
     public static function boot()
     {
         parent::boot();
+
         self::deleting(function ($item) {
             $item->images()->each(function ($image) {
                 $image->delete();
             });
+        });
+
+        self::retrieved(function ($item) {
+            if ($item->location === null) {
+                $item->location = Location::fetchFromGooglePlaces(
+                    $item->googlePlaceID,
+                    App::currentLocale(),
+                );
+            }
         });
     }
 
@@ -69,7 +88,14 @@ class Item extends Model
      */
     public function location(): BelongsTo
     {
-        return $this->belongsTo(Location::class);
+        $relation = $this->belongsTo(Location::class);
+        $relation->setQuery(
+            Location::where([
+                'googlePlaceID' => $this->googlePlaceID,
+                'language' => App::currentLocale(),
+            ])->limit(1)->getQuery(),
+        );
+        return $relation;
     }
 
     /**

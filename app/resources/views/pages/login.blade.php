@@ -4,7 +4,12 @@
     </x-slot>
 
     <x-slot:scripts>
-        <script async nonce="{{ csp_nonce() }}" src="https://accounts.google.com/gsi/client"></script>
+        <script
+            async
+            nonce="{{ csp_nonce() }}"
+            src="https://accounts.google.com/gsi/client?hl={{ App::currentLocale() }}"
+        >
+        </script>
     </x-slot>
 
     <x-page-title

@@ -12,11 +12,11 @@ use App\Models\Item;
 use App\Models\Location;
 use App\Models\Tag;
 use App\Models\Thread;
-use App\Services\GooglePlaces;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -64,7 +64,7 @@ class ItemController extends Controller
 
         $isLocationUpdated = $item->location->googlePlaceID !== $googlePlaceID;
         if ($isLocationUpdated === true) {
-            $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
+            $language = App::currentLocale();
             $location = Location::fromGooglePlaceID($googlePlaceID, $language);
             Log::debug('Item: Update: Update Location', ['locationID' => $location->id]);
             $item->location()->associate($location);
@@ -119,8 +119,7 @@ class ItemController extends Controller
 
         Log::debug('Item: Create: Start', ['name' => $name]);
 
-        $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
-
+        $language = App::currentLocale();
         $location = Location::fromGooglePlaceID($googlePlaceID, $language);
         $images = $this->imagesFromInput($images);
         $user = $request->user();
@@ -200,7 +199,7 @@ class ItemController extends Controller
         }
 
         if ($googlePlaceID !== null) {
-            $language = $request->getPreferredLanguage(GooglePlaces::SUPPORTED_LANGUAGES);
+            $language = App::currentLocale();
             $location = Location::fromGooglePlaceID($googlePlaceID, $language);
             $locationName = $location->address;
             $locationsQuery = Location::query()

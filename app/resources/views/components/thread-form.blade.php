@@ -38,7 +38,7 @@
         >{{ old('message') }}</textarea>
         <x-forms.helper-text
             field="message"
-            helperText="{{ __('thread.messageHelperText') }}"
+            :helperText="__('thread.messageHelperText')"
         />
 
         <div class="flex flex-row gap-2">

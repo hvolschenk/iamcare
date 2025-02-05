@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->fulltext();
             $table->string('description')->fulltext();
+            $table->string('googlePlaceID');
             $table->boolean('is_given')->default(false);
             $table->foreignIdFor(Location::class)->nullable();
             $table->foreignIdFor(User::class)->nullable();

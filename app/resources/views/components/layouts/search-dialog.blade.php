@@ -18,7 +18,7 @@
 >
     <search>
         <form action="{{ route('search') }}" class="p-6" method="GET">
-            <x-forms.label field="query" for="query" label="{{ __('search.field__query--label') }}" />
+            <x-forms.label field="query" for="query" :label="__('search.field__query--label')" />
             <input
                 autofocus
                 class="
@@ -39,7 +39,7 @@
             />
             <x-forms.helper-text
                 field="query"
-                helperText="{{ __('search.field__query--helper-text') }}"
+                :helperText="__('search.field__query--helper-text')"
             />
 
             <div class="flex justify-end">

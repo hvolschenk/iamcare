@@ -30,6 +30,12 @@ class GooglePlacesAutocomplete {
 	$inputValue = null;
 
 	/**
+	 * The language to display suggestions and place details in
+	 * @type {string}
+	 */
+	language = null;
+
+	/**
 	 * The ID of the timer for the debounced input.
 	 * @type {number}
 	 */
@@ -70,6 +76,7 @@ class GooglePlacesAutocomplete {
 					includedPrimaryTypes: ["sublocality"],
 					includedRegionCodes: [this.region],
 					input: query,
+					language: this.language,
 					region: this.region,
 				},
 			);
@@ -105,7 +112,7 @@ class GooglePlacesAutocomplete {
 	 * @param {HTMLDivElement} $container The container for the autocomplete.
 	 * @param {string} region The two letter country code to use to contain searches
 	 */
-	constructor($container, region) {
+	constructor($container, language, region) {
 		// Because these functions are event handlers
 		// they will have different contexts when executed.
 		// Binding it back to this class here to be able to use `this` "normally".
@@ -113,6 +120,7 @@ class GooglePlacesAutocomplete {
 		this.clickAwayListener = this.clickAwayListener.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.onSuggestionSelect = this.onSuggestionSelect.bind(this);
+		this.language = language;
 		this.region = region;
 		this.$container = $container;
 		this.registerInputDisplay();

@@ -37,6 +37,25 @@ class Location extends Model
         return $this->hasMany(Item::class);
     }
 
+    public static function fetchFromGooglePlaces(string $googlePlaceID, string $language): Location
+    {
+        $googlePlaces = App::make(GooglePlaces::class);
+        $googlePlaceDetails = $googlePlaces->placeDetails($googlePlaceID, $language);
+        $location = new Location([
+            'address' => $googlePlaceDetails['result']['formatted_address'],
+            'googlePlaceID' => $googlePlaceDetails['result']['place_id'],
+            'language' => $language,
+            'latitude' => $googlePlaceDetails['result']['geometry']['location']['lat'],
+            'longitude' => $googlePlaceDetails['result']['geometry']['location']['lng'],
+            'name' => $googlePlaceDetails['result']['name'],
+            'utcOffset' => $googlePlaceDetails['result']['utc_offset'],
+        ]);
+        $location->save();
+        Log::debug('Location: From Google Place ID: Fetched', ['id' => $location->id]);
+
+        return $location;
+    }
+
     public static function fromGooglePlaceID(string $googlePlaceID, string $language): Location
     {
         Log::withContext(['googlePlaceID' => $googlePlaceID, 'language' => $language]);
@@ -47,21 +66,11 @@ class Location extends Model
                 'language' => $language,
             ])->firstOrFail();
             Log::debug('Location: From Google Place ID: Found', ['id' => $location->id]);
+
             return $location;
         } catch (\Exception $error) {
-            $googlePlaces = App::make(GooglePlaces::class);
-            $googlePlaceDetails = $googlePlaces->placeDetails($googlePlaceID, $language);
-            $location = new Location([
-                'address' => $googlePlaceDetails['result']['formatted_address'],
-                'googlePlaceID' => $googlePlaceDetails['result']['place_id'],
-                'language' => $language,
-                'latitude' => $googlePlaceDetails['result']['geometry']['location']['lat'],
-                'longitude' => $googlePlaceDetails['result']['geometry']['location']['lng'],
-                'name' => $googlePlaceDetails['result']['name'],
-                'utcOffset' => $googlePlaceDetails['result']['utc_offset'],
-            ]);
-            $location->save();
-            Log::debug('Location: From Google Place ID: Fetched', ['id' => $location->id]);
+            $location = self::fetchFromGooglePlaces($googlePlaceID, $language);
+
             return $location;
         }
     }

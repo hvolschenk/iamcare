@@ -45,7 +45,7 @@
         <summary class="cursor-pointer p-4">{{ __('search.advanced-search') }}</summary>
         <form action="{{ route('search') }}" class="mb-4 mx-6" method="GET">
             <div class="mb-4 w-full">
-                <x-forms.label field="tag" for="tag" label="{{ __('search.field__query--label') }}" />
+                <x-forms.label field="tag" for="tag" :label="__('search.field__query--label')" />
                 <input
                     class="
                         border-neutral-500
@@ -65,12 +65,12 @@
                 />
                 <x-forms.helper-text
                     field="query"
-                    helperText="{{ __('search.field__query--helper-text') }}"
+                    :helperText="__('search.field__query--helper-text')"
                 />
             </div>
 
             <div class="mb-4 w-full">
-                <x-forms.label field="tag" for="tag" label="{{ __('search.field__tag--label') }}" />
+                <x-forms.label field="tag" for="tag" :label="__('search.field__tag--label')" />
                 <select
                     class="
                         border
@@ -99,7 +99,7 @@
                 </select>
                 <x-forms.helper-text
                     field="tag"
-                    helperText="{{ __('search.field__tag--helper-text') }}"
+                    :helperText="__('search.field__tag--helper-text')"
                 />
             </div>
 
@@ -108,7 +108,7 @@
                     <x-forms.label
                         field="location"
                         for="location-display"
-                        label="{{ __('search.field__location--label') }}"
+                        :label="__('search.field__location--label')"
                     />
                     <div>
                         <input
@@ -133,7 +133,7 @@
                     <div class="mt-2">
                         <x-forms.helper-text
                             field="location"
-                            helperText="{{ __('search.field__location--helper-text') }}"
+                            :helperText="__('search.field__location--helper-text')"
                         />
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                     <x-forms.label
                         field="distance"
                         for="distance"
-                        label="{{ __('search.field__distance--label') }}"
+                        :label="__('search.field__distance--label')"
                     />
                     <select
                         class="
@@ -168,7 +168,7 @@
                     </select>
                     <x-forms.helper-text
                         field="tag"
-                        helperText="{{ __('search.field__distance--helper-text') }}"
+                        :helperText="__('search.field__distance--helper-text')"
                     />
                 </div>
             </div>

@@ -37,5 +37,8 @@ Route::controller(UserController::class)->group(function () {
     Route::get('logout', 'logout')->name('logout');
     Route::get('me', 'me')->name('me');
     Route::get('me/items', 'items')->name('myItems');
+    Route::get('me/language/{language}', 'language')
+        ->where(['language' => '^(af|en|nl)$'])
+        ->name('language');
     Route::post('login/google', 'loginHandlerGoogle')->name('loginHandlerGoogle');
 });
