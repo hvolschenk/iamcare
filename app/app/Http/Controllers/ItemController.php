@@ -188,7 +188,7 @@ class ItemController extends Controller
         ]);
         Log::debug('Item: Search: Start');
 
-        $itemsQuery = Item::query()->select()->where('is_given', false);
+        $itemsQuery = Item::where('is_given', false);
 
         if ($searchQuery !== null) {
             $itemsQuery->where(function (Builder $builder) use ($searchQuery) {

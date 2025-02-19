@@ -46,13 +46,6 @@ class Item extends Model
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['location'];
-
-    /**
      * Bootstrap the model and its traits.
      */
     public static function boot()
@@ -63,15 +56,6 @@ class Item extends Model
             $item->images()->each(function ($image) {
                 $image->delete();
             });
-        });
-
-        self::retrieved(function ($item) {
-            if ($item->location === null) {
-                $item->location = Location::fetchFromGooglePlaces(
-                    $item->googlePlaceID,
-                    App::currentLocale(),
-                );
-            }
         });
     }
 
@@ -84,17 +68,26 @@ class Item extends Model
     }
 
     /**
-     * The location where this item is available
+     * The location where this item is available.
+     * INFO: There is a bit of a caveat, please read the note below.
      */
     public function location(): BelongsTo
     {
         $relation = $this->belongsTo(Location::class);
-        $relation->setQuery(
-            Location::where([
-                'googlePlaceID' => $this->googlePlaceID,
-                'language' => App::currentLocale(),
-            ])->limit(1)->getQuery(),
-        );
+        // This will only be true when the _Location_ is **not** eager loaded,
+        // meaning that when _Locations_ are eager loaded,
+        // that they will be loaded in the language that was used when the _Item_ was created.
+        // This is just a compromise that will have to be accepted.
+        // Please see `/adrs/001-localised-location.md` for more information.
+        if ($this->googlePlaceID) {
+            Location::saveIfNotExists($this->googlePlaceID, App::currentLocale());
+            $relation->setQuery(
+                Location::where([
+                    'googlePlaceID' => $this->googlePlaceID,
+                    'language' => App::currentLocale(),
+                ])->getQuery(),
+            );
+        }
         return $relation;
     }
 
