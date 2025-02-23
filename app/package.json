@@ -2,6 +2,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"compile": "tailwind -i ./resources/css/app.css -o ./public/styles/app-compiled.css",
+		"compile:watch": "tailwind -i ./resources/css/app.css -o ./public/styles/app-compiled.css --watch",
 		"dev": "vite",
 		"build": "vite build"
 	},
