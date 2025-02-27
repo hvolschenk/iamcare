@@ -1,0 +1,132 @@
+name: Deploy
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  application:
+    name: Application
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      
+      - name: Install PHP dependencies
+        run: composer install
+        working-directory: ./app
+      
+      - name: Install NodeJS dependencies
+        run: npm ci
+        working-directory: ./app
+      
+      - name: Generate .env
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_APP_DEBUG: ${{ vars.APP_DEBUG }}
+          envkey_APP_ENV: production
+          envkey_APP_FAKER_LOCALE: ${{ vars.APP_FAKER_LOCALE }}
+          envkey_APP_FALLBACK_LOCALE: ${{ vars.APP_FALLBACK_LOCALE }}
+          envkey_APP_KEY: ${{ secrets.APP_KEY }}
+          envkey_APP_LOCALE: ${{ vars.APP_LOCALE }}
+          envkey_APP_NAME: ${{ vars.APP_NAME }}
+          envkey_APP_TIMEZONE: ${{ vars.APP_TIMEZONE }}
+          envkey_APP_URL: ${{ vars.APP_URL }}
+          envkey_DB_CONNECTION: mysql
+          envkey_DB_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          envkey_DB_HOST: localhost
+          envkey_DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          envkey_DB_PORT: ${{ secrets.MYSQL_PORT }}
+          envkey_DB_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          envkey_GOOGLE_IDENTITY_CLIENT_ID: ${{ secrets.GOOGLE_IDENTITY_CLIENT_ID }}
+          envkey_GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          envkey_GOOGLE_PLACES_REGION: ${{ vars.GOOGLE_PLACES_REGION }}
+          envkey_LOG_CHANNEL: ${{ vars.LOG_CHANNEL }}
+          envkey_LOG_DEPRECATIONS_CHANNEL: ${{ vars.LOG_DEPRECATIONS_CHANNEL }}
+          envkey_LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+          envkey_LOG_STACK: ${{ vars.LOG_STACK }}
+          envkey_MAIL_ENCRYPTION: ${{ vars.MAIL_ENCRYPTION }}
+          envkey_MAIL_FROM_ADDRESS: ${{ vars.MAIL_FROM_ADDRESS }}
+          envkey_MAIL_FROM_NAME: ${{ vars.MAIL_FROM_NAME }}
+          envkey_MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          envkey_MAIL_MAILER: ${{ vars.MAIL_MAILER }}
+          envkey_MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          envkey_MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          envkey_MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          directory: ./app
+          file_name: .env
+          fail_on_empty: false
+          sort_keys: false
+      
+      - name: Prepare
+        run: |
+          php artisan optimize
+          sed -i 's@'$GITHUB_WORKSPACE'/app@..@g' bootstrap/cache/config.php
+        working-directory: ./app
+
+      - name: Build stylesheet
+        run: npm run compile
+        working-directory: ./app
+
+      - name: Upload
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          local-dir: ./app/
+          log-level: minimal
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          protocol: ftps
+          server: ${{ secrets.FTP_HOST }}
+          server-dir: ./public_html/
+          username: ${{ secrets.FTP_USERNAME }}
+
+  database:
+    name: Database
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      DB_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      DB_HOST: ${{ secrets.MYSQL_HOST }}
+      DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD_MIGRATOR }}
+      DB_PORT: ${{ secrets.MYSQL_PORT }}
+      DB_USERNAME: ${{ secrets.MYSQL_USERNAME_MIGRATOR }}
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      
+      - name: Enable MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          cp .env.example .env
+          cp .env.example .env.testing
+        working-directory: ./app
+
+      - name: Install dependencies
+        run: composer install
+        working-directory: ./app
+      
+      - name: Set up configuration
+        run: |
+          php artisan config:clear
+        working-directory: ./app
+      
+      - name: Migrate
+        run: |
+          php artisan migrate
+        working-directory: ./app

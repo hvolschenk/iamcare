@@ -51,7 +51,7 @@
 		"pre-autoload-dump": "Google\\Task\\Composer::cleanup"
 	},
 	"extra": {
-		"google/apiclient-services": [],
+		"google/apiclient-services": ["Oauth2"],
 		"laravel": {
 			"dont-discover": []
 		}

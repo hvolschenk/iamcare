@@ -8,6 +8,16 @@ An online marketplace for giving items away for free.
     * [Build development environment][]
     * [Migrate database][]
   * [Starting development environment][]
+* [Deploying][]
+  * [Prerequisites][]
+    * [Domain and hosting][]
+    * [Database users][]
+    * [FTP account][]
+    * [Environment creation][]
+  * [First upload][]
+    * [Post-upload configuration][]
+      * [Set document root][]
+      * [Create storage symbolic link][]
 
 ## Development
 [Development]: #development
@@ -87,9 +97,113 @@ synchronise local changes into the running container you can make use of
 docker compose watch --no-up
 ```
 
+## Deploying
+[Deploying]: #deploying
+
+### Prerequisites
+[Prerequisites]: #prerequisites
+
+Before being able to deploy, a few things need to be in place:
+
+#### Domain and hosting
+[Domain and hosting]: #domain-and-hosting
+
+A domain needs to be purchased for the country in question, plus a shared
+hosting package with at least one database and as much storage space as
+possible. It's also possible to start with less space and see how fast it grows
+with regards to user uploaded images.
+
+#### Database users
+[Database users]: #database-users
+
+Two database users need to be created. One for the deployment/migration, and one
+as the application database user. They need the following permissions:
+
+* Deployment:
+  * `ALTER`
+  * `CREATE`
+  * `DELETE`
+  * `DROP`
+  * `INDEX`
+  * `INSERT`,
+  * `REFERENCES`
+  * `SELECT`
+  * `UPDATE`
+* Application:
+  * `DELETE`
+  * `INSERT`
+  * `SELECT`
+  * `UPDATE`
+
+#### FTP account
+[FTP account]: #ftp-account
+
+An FTP user should be created which connects to the server user home, which will
+contain the `public_html` directory directly within it. The application will be
+uploaded to `./public_html` relative to where the FTP account connects to.
+
+#### Environment creation
+[Environment creation]: #environment-creation
+
+Once all the above setup is complete a [GitHub environment][] needs to be
+created. Only repository owners will have access to this, so you can open a
+[GitHub issue][] asking for a new environment to be created.
+**DO NOT PUT ANY SECRETS IN THE GITHUB ISSUE**
+
+After the environment has been created, a new job needs to be added to the
+`/.github/workflows/cd.yml` script to run the given environment during
+_continuous delivery_ tasks.
+
+### First upload
+[First upload]: #first-upload
+
+Because of the rather large amount of files it is possible that the first upload
+fails. In that case it is recommended that an existing application is manualy
+copied over first before letting the deployment script run again.
+
+#### Post-upload configuration
+[Post-upload configuration]: post-upload-configuration
+
+After the code is on the server for the first time a few housekeeping tasks need
+to be done to get the server ready for first requests.
+
+##### Set document root
+[Set document root]: #set-document-root
+
+The document root for your domain needs to be set to the `public/` directory in
+order to function properly. If you can set this on your hosting provider that
+would be best, otherwise add the following to the `.htaccess` file at the root:
+
+```apacheconf
+RewriteEngine on
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+```
+
+##### Create storage symbolic link
+[Create storage symbolic link]: #create-storage-symbolic-link
+
+A symbolic link needs to be created from the `public/` directory to the storage
+directory, which lives outside/above the `public/` directory. Run the following
+PHP script from the `public/` directory once to create the symbolic link, and
+then remove the script:
+
+```php
+<?php
+    $targetFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage/app/public';
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/public/storage';
+    symlink($targetFolder, $linkFolder);
+    echo 'Symlink process successfully completed';
+```
+
 ---
 
 [compose watch]: https://docs.docker.com/compose/how-tos/file-watch/
 [Docker]: https://www.docker.com/
 [docker compose]: https://docs.docker.com/compose/
+[GitHub environment]: https://github.com/hvolschenk/iamcare/settings/environments
+[GitHub issue]: https://github.com/hvolschenk/iamcare/issues
 [http://localhost:2991/]: http://localhost:2991/
