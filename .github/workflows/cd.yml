@@ -11,3 +11,4 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: SOUTH_AFRICA
+      url: https://iamcare.co.za

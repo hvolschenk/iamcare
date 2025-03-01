@@ -5,12 +5,52 @@ on:
       environment:
         required: true
         type: string
+      url:
+        required: true
+        type: string
 
 jobs:
+  maintenance_enable:
+    name: Enable maintenance mode
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Create down file
+        run: echo "[]" >storage/framework/down
+        working-directory: ./app
+
+      - name: Upload
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          exclude: |
+            **
+            !storage/framework/down
+          local-dir: ./app/
+          log-level: minimal
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          protocol: ftps
+          server: ${{ secrets.FTP_HOST }}
+          server-dir: ./public_html/
+          # With a different exclude pattern,
+          # a different state file is required.
+          # Only files included are added to state,
+          # meaning that ALL other files are removed from state.
+          state-name: .ftp-deploy-sync-state.maintenance.json
+          username: ${{ secrets.FTP_USERNAME }}
+
   application:
     name: Application
+    needs: [maintenance_enable]
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -90,8 +130,11 @@ jobs:
 
   database:
     name: Database
+    needs: [maintenance_enable]
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.url }}
     env:
       DB_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       DB_HOST: ${{ secrets.MYSQL_HOST }}
@@ -130,3 +173,34 @@ jobs:
         run: |
           php artisan migrate
         working-directory: ./app
+
+  maintenance_disable:
+    name: Disable maintenance mode
+    needs: [application, database]
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          exclude: |
+            **
+            !storage/framework/down
+          local-dir: ./app/
+          log-level: minimal
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          protocol: ftps
+          server: ${{ secrets.FTP_HOST }}
+          server-dir: ./public_html/
+          # With a different exclude pattern,
+          # a different state file is required.
+          # Only files included are added to state,
+          # meaning that ALL other files are removed from state.
+          state-name: .ftp-deploy-sync-state.maintenance.json
+          username: ${{ secrets.FTP_USERNAME }}
