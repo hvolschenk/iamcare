@@ -8,7 +8,6 @@
             content="width=device-width, initial-scale=1, minimum-scale=1"
             name="viewport"
         />
-        <meta name="htmx-config" content='{"inlineStyleNonce":"{{ csp_nonce() }}"}'>
         {{ $meta ?? '' }}
 
         <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -41,22 +40,22 @@
             rel="stylesheet"
         />
 
-        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-
-        <script src="{{ asset('scripts/language-dialog.js') }}" type="module"></script>
-        <script src="{{ asset('scripts/search-dialog.js') }}" type="module"></script>
         {{ $scripts ?? '' }}
     </head>
-    <body class="bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50 text-neutral-800">
-        <x-layouts.app-bar />
+    <body class="bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50 flex flex-col min-h-screen text-neutral-800">
+        <div class="basis-auto flex flex-grow-0 flex-shrink">
+            <x-layouts.error.app-bar />
+        </div>
 
-        <main class="container md:px-10 mt-4 mx-auto px-4">
-            {{ $slot }}
+        <main class="basis-auto container flex flex-grow flex-shrink items-center justify-center md:px-6 px-4">
+            <section class="text-center">
+                <h1 class="font-bold text-2xl">
+                    {{ __("errors.{$code}__title") }}
+                </h1>
+                <p class="dark:text-neutral-200 font-light">
+                    {{ __("errors.{$code}__description") }}
+                </p>
+            </section>
         </main>
-
-        <x-layouts.footer />
-
-        <x-layouts.language-dialog />
-        <x-layouts.search-dialog />
     </body>
 </html>
