@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         });
         Paginator::defaultView('components.pagination');
 
-        View::composer('components.layouts.app-bar', AppBarComposer::class);
+        View::composer('components.layouts.base.app-bar', AppBarComposer::class);
         View::composer('components.item-form', ItemFormComposer::class);
     }
 }
