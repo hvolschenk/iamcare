@@ -48,15 +48,15 @@
         {{ $scripts ?? '' }}
     </head>
     <body class="bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50 text-neutral-800">
-        <x-layouts.app-bar />
+        <x-layouts.base.app-bar />
 
         <main class="container md:px-10 mt-4 mx-auto px-4">
             {{ $slot }}
         </main>
 
-        <x-layouts.footer />
+        <x-layouts.base.footer />
 
-        <x-layouts.language-dialog />
-        <x-layouts.search-dialog />
+        <x-layouts.base.language-dialog />
+        <x-layouts.base.search-dialog />
     </body>
 </html>
