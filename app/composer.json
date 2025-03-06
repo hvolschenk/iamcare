@@ -7,7 +7,7 @@
 	"require": {
 		"php": "^8.2",
 		"google/apiclient": "^2.18.2",
-		"laravel/framework": "^11.43.2",
+		"laravel/framework": "^12.1.1",
 		"laravel/tinker": "^2.10.1",
 		"spatie/image": "^3.8.0",
 		"spatie/laravel-csp": "^2.10.3"
@@ -18,7 +18,7 @@
 		"laravel/sail": "^1.41.0",
 		"mockery/mockery": "^1.6.12",
 		"nunomaduro/collision": "^8.6.1",
-		"phpunit/phpunit": "^11.5.8"
+		"phpunit/phpunit": "^11.5.11"
 	},
 	"autoload": {
 		"psr-4": {
