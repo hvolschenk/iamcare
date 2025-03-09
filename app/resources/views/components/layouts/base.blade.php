@@ -11,6 +11,23 @@
         <meta name="htmx-config" content='{"inlineStyleNonce":"{{ csp_nonce() }}"}'>
         {{ $meta ?? '' }}
 
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('google.analytics.measurement_id') }}"></script>
+        <script nonce="{{ csp_nonce() }}">
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '{{ config('google.analytics.measurement_id') }}');
+
+            const consentDefault = "{{ config('app.cookie_consent_required') === true ? 'denied' : 'granted' }}";
+            gtag('consent', 'default', {
+                ad_storage: consentDefault,
+                ad_user_data: consentDefault,
+                ad_personalization: consentDefault,
+                analytics_storage: consentDefault,
+            });
+        </script>
+
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
         <link

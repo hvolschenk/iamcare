@@ -14,6 +14,9 @@ class WebPolicy extends Basic
 
         $this
             ->addDirective(Directive::CONNECT, [
+                'https://*.analytics.google.com',
+                'https://*.google-analytics.com',
+                'https://*.googletagmanager.com',
                 'https://accounts.google.com/gsi/',
                 'https://maps.googleapis.com',
                 'https://places.googleapis.com',
@@ -22,10 +25,13 @@ class WebPolicy extends Basic
             ->addDirective(Directive::FRAME, ['https://accounts.google.com/gsi/'])
             ->addDirective(Directive::IMG, [
                 Scheme::BLOB,
+                'https://*.google-analytics.com',
+                'https://*.googletagmanager.com',
                 'https://*.googleusercontent.com',
                 'https://maps.gstatic.com',
             ])
             ->addDirective(Directive::SCRIPT, [
+                'https://*.googletagmanager.com',
                 'https://accounts.google.com/gsi/client',
                 'https://unpkg.com/htmx.org@2.0.4',
             ])
