@@ -43,6 +43,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Cookie consent required
+    |--------------------------------------------------------------------------
+    |
+    | Whether the user needs to provide consent for cookies
+    | to be placed on their device.
+    |
+    */
+    'cookie_consent_required' => (bool) env('APP_COOKIE_CONSENT_REQUIRED', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
