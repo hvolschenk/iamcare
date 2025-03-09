@@ -2,5 +2,5 @@
 
 return [
     'name' => 'iamcare',
-    'slogan' => 'A place for sharing',
+    'slogan' => 'A marketplace for giving things away',
 ];
