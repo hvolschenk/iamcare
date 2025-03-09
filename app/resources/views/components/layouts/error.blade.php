@@ -19,11 +19,16 @@
             gtag('config', '{{ config('google.analytics.measurement_id') }}');
 
             const consentDefault = "{{ config('app.cookie_consent_required') === true ? 'denied' : 'granted' }}";
+            const cookiesAccepted = document.cookie
+				.split("; ")
+				.find((cookie) => cookie.startsWith(`COOKIES_ACCEPTED=`))
+				?.split("=")[1] === '1';
+            const consentActual = cookiesAccepted ? 'granted' : consentDefault;
             gtag('consent', 'default', {
-                ad_storage: consentDefault,
-                ad_user_data: consentDefault,
-                ad_personalization: consentDefault,
-                analytics_storage: consentDefault,
+                ad_storage: consentActual,
+                ad_user_data: consentActual,
+                ad_personalization: consentActual,
+                analytics_storage: consentActual,
             });
         </script>
 
@@ -57,6 +62,9 @@
             rel="stylesheet"
         />
 
+        @if (config('app.cookie_consent_required') === true)
+            <script src="{{ asset('scripts/cookie-dialog.js') }}" type="module"></script>
+        @endif
         {{ $scripts ?? '' }}
     </head>
     <body class="bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50 flex flex-col min-h-screen text-neutral-800">
@@ -74,5 +82,7 @@
                 </p>
             </section>
         </main>
+
+        <x-layouts.cookie-dialog />
     </body>
 </html>
