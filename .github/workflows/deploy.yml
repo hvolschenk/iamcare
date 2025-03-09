@@ -71,6 +71,7 @@ jobs:
       - name: Generate .env
         uses: SpicyPizza/create-envfile@v2.0
         with:
+          envkey_APP_COOKIE_CONSENT_REQUIRED: ${{ vars.APP_COOKIE_CONSENT_REQUIRED }}
           envkey_APP_DEBUG: ${{ vars.APP_DEBUG }}
           envkey_APP_ENV: production
           envkey_APP_FAKER_LOCALE: ${{ vars.APP_FAKER_LOCALE }}
@@ -86,6 +87,7 @@ jobs:
           envkey_DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           envkey_DB_PORT: ${{ secrets.MYSQL_PORT }}
           envkey_DB_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          envkey_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_ID }}
           envkey_GOOGLE_IDENTITY_CLIENT_ID: ${{ secrets.GOOGLE_IDENTITY_CLIENT_ID }}
           envkey_GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
           envkey_GOOGLE_PLACES_REGION: ${{ vars.GOOGLE_PLACES_REGION }}
