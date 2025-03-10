@@ -6,5 +6,5 @@ return [
     'cookies-dialog__description' => 'Wij maken gebruik van cookies om ons webverkeer beter te analyseren. Uw keuze heeft geen invloed op uw ervaring.',
     'cookies-dialog__title' => 'Cookies accepteren?',
     'name' => 'iamcare',
-    'slogan' => 'Een marktplaats om dingen weg te geven',
+    'slogan' => 'Een marktplaats voor geven',
 ];
