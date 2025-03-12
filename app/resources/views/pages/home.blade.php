@@ -61,7 +61,7 @@
         </p>
         <a
             class="gap-2 hover:bg-primary/20 inline-flex mt-3 py-1 px-2 rounded text-center text-primary"
-            href="https://github.com"
+            href="https://github.com/hvolschenk/iamcare"
         >
             <span class="material-symbols-outlined">bug_report</span>
             {{ __('home.issues-suggestions__action') }}
