@@ -35,7 +35,7 @@
 
     <div class="mx-auto w-96">
         @if (isset($error))
-            <p class="bg-red-100 border border-red-600 dark:bg-red-900 dark:border-red-950 dark:text-red-100 mb-4 p-1 px-4 rounded text-red-600">
+            <p class="bg-red-100 border border-red-600 dark:bg-red-900 dark:border-red-950 dark:text-red-100 mb-4 p-1 px-4 rounded-sm text-red-600">
                 {{ $error }}
             </p>
         @endif

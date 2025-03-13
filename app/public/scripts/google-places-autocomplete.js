@@ -237,7 +237,7 @@ class GooglePlacesAutocomplete {
 			$suggestion.classList.add(
 				"block",
 				"cursor-pointer",
-				"hover:dark:bg-neutral-600",
+				"dark:hover:bg-neutral-600",
 				"p-4",
 			);
 			const onSuggestionSelect = this.onSuggestionSelect;

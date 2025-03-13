@@ -8,7 +8,7 @@
     @csrf
 
     @if (isset($error))
-        <p class="bg-red-100 border border-red-600 dark:bg-red-900 dark:border-red-950 dark:text-red-100 mb-4 p-1 px-4 rounded text-red-600">
+        <p class="bg-red-100 border border-red-600 dark:bg-red-900 dark:border-red-950 dark:text-red-100 mb-4 p-1 px-4 rounded-sm text-red-600">
             {{ $error }}
         </p>
     @endif
@@ -169,17 +169,17 @@
                 file:mr-4
                 file:px-4
                 file:py-2
-                file:rounded
-                file:dark:border
-                file:dark:bg-neutral-700
+                file:rounded-sm
+                dark:file:border
+                dark:file:bg-neutral-700
                 @error('image')
-                    file:dark:border-red-700
+                    dark:file:border-red-700
                 @else
-                    file:dark:border-neutral-500
+                    dark:file:border-neutral-500
                 @enderror
-                file:dark:border-solid
-                file:dark:hover:bg-neutral-600
-                file:dark:text-neutral-50
+                dark:file:border-solid
+                dark:file:hover:bg-neutral-600
+                dark:file:text-neutral-50
                 file:hover:bg-primary/90
                 file:text-neutral-50
                 mt-2
@@ -208,7 +208,7 @@
                         class="absolute aspect-square bg-black/30 flex hover:bg-black/50 p-1 right-1 rounded-full top-1"
                         type="button"
                     >
-                        <span class="!leading-none material-symbols-outlined text-neutral-50 !text-lg">
+                        <span class="leading-none! material-symbols-outlined text-neutral-50 text-lg!">
                             close
                         </span>
                     </button>

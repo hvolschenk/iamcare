@@ -136,7 +136,7 @@ class ImageInputWithPreview {
 				"h-32",
 				"image-preview",
 				"object-scale-down",
-				"rounded",
+				"rounded-sm",
 			);
 			this.$previewContainer.appendChild($previewImage);
 		}

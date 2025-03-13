@@ -26,6 +26,5 @@ RUN mkdir -p $HOME/application/app
 WORKDIR $HOME/application/app
 COPY --chown=node:node ./public ./public/
 COPY --chown=node:node ./resources ./resources/
-COPY --chown=node:node ./tailwind.config.js ./tailwind.config.js
 
-CMD tailwind -i ./resources/css/app.css -o ./public/styles/app-compiled.css --watch
+CMD npm run compile:watch
