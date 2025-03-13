@@ -40,7 +40,7 @@
                                 @endif
                                 flex
                                 flex-col
-                                flex-grow"
+                                grow"
                             >
                             <h6 class="font-semibold">{{ $thread->item->name }}</h6>
                             <p class="dark:text-neutral-300 text-neutral-500">

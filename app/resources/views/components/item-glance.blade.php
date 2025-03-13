@@ -14,7 +14,7 @@
             @endif
             flex
             flex-col
-            flex-grow
+            grow
             min-w-0"
     >
         <h5 class="font-bold">{{ $item->name }}</h5>

@@ -1,5 +1,6 @@
 .phpunit.cache
 bootstrap/cache/*.php
+Dockerfile*
 logs/
 node_modules/
 storage/framework/cache/

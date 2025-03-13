@@ -24,9 +24,9 @@
     <ul class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none">
         @foreach ($items as $item)
             <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center">
-                <a class="flex flex-grow gap-4 items-center p-4" href="{{ route('item', $item) }}">
+                <a class="flex grow gap-4 items-center p-4" href="{{ route('item', $item) }}">
                     <img
-                        class="border border-neutral-500 rounded"
+                        class="border border-neutral-500 rounded-sm"
                         src="{{ $item->images[0]->get(32, 32) }}"
                     />
                     <div
@@ -35,7 +35,7 @@
                                 line-through
                             @endif
                             flex
-                            flex-grow
+                            grow
                             overflow-hidden"
                     >
                         <p class="truncate">{{ $item->name }}</p>

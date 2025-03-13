@@ -9,7 +9,7 @@
     </section>
 
     <section class="columns-1 space-y-4 md:columns-2 md:space-x-4">
-        <div class="bg-white dark:bg-neutral-900 p-4 rounded">
+        <div class="bg-white dark:bg-neutral-900 p-4 rounded-sm">
             <h2 class="font-bold mb-4 text-xl text-primary">
                 {{ __('home.give__title') }}
             </h2>
@@ -20,14 +20,14 @@
                 {{ __('home.give__description') }}
             </p>
             <a
-                class="block hover:bg-primary/20 mt-4 py-1 rounded text-center text-primary w-full"
+                class="block hover:bg-primary/20 mt-4 py-1 rounded-sm text-center text-primary w-full"
                 href="{{ route('itemGive') }}"
             >
                 {{ __('home.give__action') }}
             </a>
         </div>
 
-        <div class="bg-white dark:bg-neutral-900 p-4 rounded">
+        <div class="bg-white dark:bg-neutral-900 p-4 rounded-sm">
             <h2 class="font-bold mb-4 text-xl text-secondary">
                 {{ __('home.take__title') }}
             </h2>
@@ -37,7 +37,7 @@
             <p class="font-light">
                 {{ __('home.take__description') }}
             </p>
-            <button class="hover:bg-secondary/20 mt-4 py-1 rounded text-secondary w-full">
+            <button class="hover:bg-secondary/20 mt-4 py-1 rounded-sm text-secondary w-full">
                 {{ __('home.take__action') }}
             </button>
         </div>
@@ -60,7 +60,7 @@
             {{ __('home.issues-suggestions__description') }}
         </p>
         <a
-            class="gap-2 hover:bg-primary/20 inline-flex mt-3 py-1 px-2 rounded text-center text-primary"
+            class="gap-2 hover:bg-primary/20 inline-flex mt-3 py-1 px-2 rounded-sm text-center text-primary"
             href="https://github.com/hvolschenk/iamcare"
         >
             <span class="material-symbols-outlined">bug_report</span>
@@ -90,7 +90,7 @@
             <div class="gap-4 grid grid-cols-2 md:grid-cols-3">
                 @foreach ($popularTags as $popularTag)
                     <p>
-                        <x-tag class="!text-sm" :tag="$popularTag">
+                        <x-tag class="text-sm!" :tag="$popularTag">
                             <span class="bg-neutral-300 dark:bg-neutral-900 inline-flex ml-2 px-2 py-1/2 rounded-full">
                                 {{ $popularTag->items_count }}
                             </span>

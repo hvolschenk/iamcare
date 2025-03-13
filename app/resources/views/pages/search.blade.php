@@ -42,7 +42,7 @@
         @endif
     </x-page-title>
 
-    <details class="bg-neutral-50 border border-neutral-500 dark:bg-neutral-900 mb-4 rounded">
+    <details class="bg-neutral-50 border border-neutral-500 dark:bg-neutral-900 mb-4 rounded-sm">
         <summary class="cursor-pointer p-4">{{ __('search.advanced-search') }}</summary>
         <form action="{{ route('search') }}" class="mb-4 mx-6" method="GET">
             <div class="mb-4 w-full">

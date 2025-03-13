@@ -68,11 +68,11 @@
         {{ $scripts ?? '' }}
     </head>
     <body class="bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50 flex flex-col min-h-screen text-neutral-800">
-        <div class="basis-auto flex flex-grow-0 flex-shrink">
+        <div class="basis-auto flex grow-0 shrink">
             <x-layouts.error.app-bar />
         </div>
 
-        <main class="basis-auto container flex flex-grow flex-shrink items-center justify-center md:px-6 px-4">
+        <main class="basis-auto container flex grow shrink items-center justify-center md:px-6 px-4">
             <section class="text-center">
                 <h1 class="font-bold text-2xl">
                     {{ __("errors.{$code}__title") }}

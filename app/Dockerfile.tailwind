@@ -1,31 +1,20 @@
 FROM node:lts-alpine
 
-# Enable chokidar polling for filesystems that do not support inotify
-# I think this is only necessary on Windows
-ENV CHOKIDAR_USEPOLLING true
 # The home directory for the `node` user
 ENV HOME /home/node
-# Because `node_modules` will be a level above the application,
-# set the path of where `node_modules` will be located
-ENV NODE_PATH $HOME/application/node_modules
-ENV npm_config_cache $HOME/application/.npm
 
 # Swap to the provided non-root user, `node`
 USER node
 
-# Install dependencies into a separate folder
-RUN mkdir -p $HOME/application
-RUN mkdir -p $HOME/application/.npm
-WORKDIR $HOME/application
+# Install dependencies
+RUN mkdir -p $HOME/app
+RUN mkdir -p $HOME/app/.npm
+WORKDIR $HOME/app
 COPY --chown=node:node package.json package-lock.json* ./
 RUN npm install
-ENV PATH $HOME/application/node_modules/.bin:$PATH
 
 # Copy application source code into the container
-RUN mkdir -p $HOME/application/app
-WORKDIR $HOME/application/app
 COPY --chown=node:node ./public ./public/
 COPY --chown=node:node ./resources ./resources/
-COPY --chown=node:node ./tailwind.config.js ./tailwind.config.js
 
-CMD tailwind -i ./resources/css/app.css -o ./public/styles/app-compiled.css --watch
+CMD npm run compile:watch

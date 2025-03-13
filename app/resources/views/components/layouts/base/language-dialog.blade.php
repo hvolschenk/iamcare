@@ -1,8 +1,8 @@
 <dialog
     class="
-        backdrop:backdrop-blur-sm
+        backdrop:backdrop-blur-xs
         backdrop:bg-neutral-500/10
-        backdrop:dark:bg-neutral-100/10
+        dark:backdrop:bg-neutral-100/10
         bg-neutral-100
         border
         border-neutral-500
