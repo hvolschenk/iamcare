@@ -51,7 +51,7 @@ class Image extends Model
     /**
      * Get a URL to the image at a given size
      */
-    public function get(int $width = null, int $height = null): string
+    public function get(?int $width = null, ?int $height = null): string
     {
         $pathOriginal = $this->url;
         $path = $pathOriginal;
