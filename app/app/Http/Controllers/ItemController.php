@@ -72,7 +72,7 @@ class ItemController extends Controller
 
         foreach ($item->images as $image) {
             if (!in_array($image->id, $imagesExisting)) {
-                Image::destroy($image->id);
+                $image->forceDelete();
             }
         }
 
