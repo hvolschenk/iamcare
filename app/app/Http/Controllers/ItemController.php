@@ -126,6 +126,7 @@ class ItemController extends Controller
         $item = new Item([
             'name' => $name,
             'description' => $description,
+            'googlePlaceID' => $googlePlaceID,
         ]);
 
         try {
