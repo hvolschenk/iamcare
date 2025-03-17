@@ -4,6 +4,7 @@ return [
     'actionContactGiver' => 'Stuur bericht',
     'actionOpenThread' => 'Ga naar berichten',
     'actionMarkGiven' => 'Merk als weggeven',
+    'confirmDelete' => 'Als u het item verwijdert, wordt het uit de zoekopdracht verwijderd en worden alle berichten erover gearchiveerd. Doorgaan?',
     'confirmMarkGiven' => 'Als u het item als gegeven markeert, wordt het uit de zoekopdracht verwijderd en worden alle berichten erover gearchiveerd. Doorgaan?',
     'delete' => 'Item verwijderen',
     'descriptionHelperText' => 'Tekst waarin het item gedetailleerder wordt beschreven',

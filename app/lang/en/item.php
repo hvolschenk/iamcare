@@ -4,6 +4,7 @@ return [
     'actionContactGiver' => 'Send message',
     'actionOpenThread' => 'Go to messages',
     'actionMarkGiven' => 'Mark as given',
+    'confirmDelete' => 'Deleting the item will remove it from search and archive all messages about it. Proceed?',
     'confirmMarkGiven' => 'Marking the item as given will remove it from search and archive all messages about it. Proceed?',
     'delete' => 'Delete item',
     'descriptionHelperText' => 'Text describing the item in greater detail',
