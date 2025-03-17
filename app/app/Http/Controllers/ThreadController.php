@@ -76,7 +76,12 @@ class ThreadController extends Controller
 
     public function index()
     {
-        $threads = Thread::latest('updated_at')->paginate(12);
+        $threads = Thread::latest('updated_at')
+            ->with([
+                'item' => fn ($query) => $query->withTrashed(),
+                'item.images' => fn ($query) => $query->withTrashed(),
+            ])
+            ->paginate(12);
 
         return view('pages.threads', ['threads' => $threads]);
     }
@@ -110,6 +115,10 @@ class ThreadController extends Controller
         $user = $request->user();
         Log::debug('Thread: Mark Read', ['threadID' => $thread->id, 'userID' => $user->id]);
         $thread->messages()->whereNot('user_id', $user->id)->update(['is_read' => true]);
+        $thread->load([
+            'item' => fn ($query) => $query->withTrashed(),
+            'item.images' => fn ($query) => $query->withTrashed(),
+        ]);
 
         return view('pages.thread.thread', ['thread' => $thread]);
     }

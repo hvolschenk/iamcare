@@ -31,7 +31,7 @@
                     />
                     <div
                         class="
-                            @if ($item->is_given)
+                            @if ($item->is_given || $item->trashed())
                                 line-through
                             @endif
                             flex
@@ -53,7 +53,19 @@
                                 {{ __('item.edit') }}
                             </a>
                         </li>
-                        <li class="px-4 py-2 whitespace-nowrap">{{ __('item.delete') }}</li>
+                        <li class="whitespace-nowrap">
+                            <form>
+                                @csrf
+                                <a
+                                    class="block cursor-pointer dark:hover:bg-neutral-600 hover:bg-neutral-100 px-4 py-2"
+                                    hx-confirm="{{ __('item.confirmDelete') }}"
+                                    hx-delete="{{ route('itemDelete', $item) }}"
+                                    hx-disabled-elt="this"
+                                >
+                                    {{ __('item.delete') }}
+                                </a>
+                            </form>
+                        </li>
                     </ul>
                 </details>
             </li>

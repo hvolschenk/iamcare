@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemDeleteRequest;
 use App\Http\Requests\ItemEditHandlerRequest;
 use App\Http\Requests\ItemEditRequest;
 use App\Http\Requests\ItemGiveRequest;
@@ -23,6 +24,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
+    public function destroy(ItemDeleteRequest $request, Item $item)
+    {
+        $item->delete();
+        return response(null, 204, ['Hx-Redirect' => route('myItems')]);
+    }
+
     public function edit (ItemEditRequest $request, Item $item)
     {
         return view('pages.item-edit', ['item' => $item]);
@@ -72,7 +79,7 @@ class ItemController extends Controller
 
         foreach ($item->images as $image) {
             if (!in_array($image->id, $imagesExisting)) {
-                Image::destroy($image->id);
+                $image->forceDelete();
             }
         }
 
@@ -126,6 +133,7 @@ class ItemController extends Controller
         $item = new Item([
             'name' => $name,
             'description' => $description,
+            'googlePlaceID' => $googlePlaceID,
         ]);
 
         try {

@@ -1,6 +1,8 @@
 <a
     class="dark:hover:bg-neutral-700 flex flex-row gap-4 hover:bg-neutral-200 p-2 w-full"
-    href="{{ route('item', $item) }}"
+    @if (!$item->trashed())
+        href="{{ route('item', $item) }}"
+    @endif
 >
     <img
         alt="{{ $item->name }}"
@@ -9,7 +11,7 @@
     />
     <div
         class="
-            @if ($item->is_given)
+            @if ($item->is_given || $item->trashed())
                 line-through
             @endif
             flex

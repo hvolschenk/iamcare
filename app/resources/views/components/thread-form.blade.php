@@ -2,6 +2,10 @@
     <x-alert class="mb-4 mt-6">
         {{ __('thread.itemGiven') }}
     </x-alert>
+@elseif ($item->trashed())
+    <x-alert class="mb-4 mt-6">
+        {{ __('thread.itemDeleted') }}
+    </x-alert>
 @else
     <form
         class="mt-4"

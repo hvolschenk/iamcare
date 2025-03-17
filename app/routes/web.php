@@ -7,6 +7,7 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
 
 Route::controller(ItemController::class)->group(function () {
+    Route::delete('items/{item}', 'destroy')->name('itemDelete');
     Route::get('items/give', 'give')->name('itemGive');
     Route::get('items/give/form', 'giveForm')->name('itemGiveForm');
     Route::get('items/{item}', 'item')->name('item');

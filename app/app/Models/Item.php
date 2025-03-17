@@ -46,20 +46,6 @@ class Item extends Model
     ];
 
     /**
-     * Bootstrap the model and its traits.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        self::deleting(function ($item) {
-            $item->images()->each(function ($image) {
-                $image->delete();
-            });
-        });
-    }
-
-    /**
      * Get all of the item's images.
      */
     public function images(): MorphMany

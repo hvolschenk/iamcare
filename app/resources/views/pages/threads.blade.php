@@ -35,7 +35,7 @@
                         </div>
                         <div
                             class="
-                                @if ($thread->item->is_given)
+                                @if ($thread->item->is_given || $thread->item->trashed())
                                     line-through
                                 @endif
                                 flex

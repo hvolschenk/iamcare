@@ -60,6 +60,5 @@
         actionPrimaryLabel="{{ __('item.edit') }}"
         actionPrimaryLocation="{{ route('itemEditHandler', $item) }}"
         :item="$item"
-        :tags="$tags"
     />
 </x-layouts.base>

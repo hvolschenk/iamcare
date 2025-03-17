@@ -4,6 +4,7 @@ return [
     'actionContactGiver' => 'Stuur \'n boodskap',
     'actionOpenThread' => 'Gaan na boodskappe',
     'actionMarkGiven' => 'Merk as weggegee',
+    'confirmDelete' => 'Deur \'n item te verwyder word die item van die soek bladsy verwyder en alle boodkappe oor die item word in die argief geplaas. Gaan voort?',
     'confirmMarkGiven' => 'Deur \'n item te merk as weggegee word die item van die soek bladsy verwyder en alle boodkappe oor die item word in die argief geplaas. Gaan voort?',
     'delete' => 'Verwyder item',
     'descriptionHelperText' => "'n Meer duidelike beskrywing van die item",
