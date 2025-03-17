@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Item;
+use App\Observers\ItemObserver;
 use App\View\Composers\AppBarComposer;
 use App\View\Composers\ItemFormComposer;
 use Illuminate\Support\Facades\Http;
@@ -27,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
         Http::macro('googlePlaces', function () {
             return Http::baseUrl('https://maps.googleapis.com/maps/api');
         });
+
+        Item::observe(ItemObserver::class);
+
         Paginator::defaultView('components.pagination');
 
         View::composer('components.layouts.base.app-bar', AppBarComposer::class);
