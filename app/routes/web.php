@@ -41,5 +41,6 @@ Route::controller(UserController::class)->group(function () {
     Route::get('me/language/{language}', 'language')
         ->where(['language' => '^(af|en|nl)$'])
         ->name('language');
+    Route::get('user/{user}', 'user')->name('user');
     Route::post('login/google', 'loginHandlerGoogle')->name('loginHandlerGoogle');
 });

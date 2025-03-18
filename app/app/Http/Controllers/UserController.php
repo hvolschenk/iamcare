@@ -140,4 +140,12 @@ class UserController extends Controller
         $cookie = cookie('LANGUAGE', $language);
         return redirect()->back()->cookie($cookie);
     }
+
+    /**
+     * A user's profile
+     */
+    public function user(User $user)
+    {
+        return view('pages.user', ['user' => $user]);
+    }
 }
