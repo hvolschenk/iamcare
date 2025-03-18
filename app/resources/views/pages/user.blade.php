@@ -20,5 +20,11 @@
         </div>
     </x-page-title>
 
-    <x-items-list :items="$user->items" />
+    @if (count($user->items) > 0)
+        <x-items-list :items="$user->items" />
+    @else
+        <x-alert class="mb-4 mt-6">
+            {{ __('user.no-items') }}
+        </x-alert>
+    @endif
 </x-layouts.base>
