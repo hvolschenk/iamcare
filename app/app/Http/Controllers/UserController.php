@@ -7,7 +7,6 @@ use App\Http\Requests\UserLoginHandlerGoogleRequest;
 use App\Http\Requests\UserMeRequest;
 use App\Mail\AccountCreated;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
