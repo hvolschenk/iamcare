@@ -37,7 +37,17 @@
             <p class="flex font-light grow-1">
                 {{ __('home.take__description') }}
             </p>
-            <button class="hover:bg-secondary/20 mt-4 py-1 rounded-sm text-secondary w-full">
+            <button
+                class="
+                    cursor-pointer
+                    hover:bg-secondary/20
+                    mt-4
+                    py-1
+                    rounded-sm
+                    text-secondary
+                    w-full
+                    search-dialog__button"
+            >
                 {{ __('home.take__action') }}
             </button>
         </div>
