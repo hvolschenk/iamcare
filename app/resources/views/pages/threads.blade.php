@@ -14,7 +14,7 @@
     </x-page-title>
 
     @if ($threads->isEmpty())
-        <p>{{ __('threads.error--no-items') }}</p>
+        <x-alert>{{ __('threads.error--no-items') }}</x-alert>
     @else
         <ul class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none">
             @foreach ($threads as $thread)
