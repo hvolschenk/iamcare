@@ -181,7 +181,7 @@
     </details>
 
     @if ($items->isEmpty())
-        <p>{{ __('search.no-results') }}</p>
+        <x-alert>{{ __('search.no-results') }}</x-alert>
     @else
         <x-items-list :items="$items" />
     @endif
