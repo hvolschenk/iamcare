@@ -11,6 +11,7 @@
         mx-6
         md:mx-auto
         md:w-96
+        my-auto
         rounded
         text-neutral-800
         w-full"

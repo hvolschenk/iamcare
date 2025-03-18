@@ -5,9 +5,11 @@
 	const $searchDialog = document.getElementById("search-dialog");
 
 	/**
-	 * @type {HTMLButtonElement}
+	 * @type {HTMLButtonElement[]}
 	 */
-	const $searchDialogButton = document.getElementById("search-dialog__button");
+	const $searchDialogButtons = document.getElementsByClassName(
+		"search-dialog__button",
+	);
 
 	/**
 	 * @param {Event} event The click event triggering this function call
@@ -23,5 +25,7 @@
 	}
 
 	$searchDialog.addEventListener("click", searchDialogClose);
-	$searchDialogButton.addEventListener("click", searchDialogOpen);
+	for (const $searchDialogButton of $searchDialogButtons) {
+		$searchDialogButton.addEventListener("click", searchDialogOpen);
+	}
 })();
