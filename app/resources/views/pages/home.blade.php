@@ -8,15 +8,15 @@
         </p>
     </section>
 
-    <section class="columns-1 space-y-4 md:columns-2 md:space-x-4">
-        <div class="bg-white dark:bg-neutral-900 p-4 rounded-sm">
+    <section class="gap-4 grid md:grid-cols-2 space-y-4">
+        <div class="bg-white dark:bg-neutral-900 flex flex-col h-full p-4 rounded-sm">
             <h2 class="font-bold mb-4 text-xl text-primary">
                 {{ __('home.give__title') }}
             </h2>
             <p class="font-normal mb-2 text-lg">
                 {{ __('home.give__sub-heading') }}
             </p>
-            <p class="font-light">
+            <p class="flex font-light grow-1">
                 {{ __('home.give__description') }}
             </p>
             <a
@@ -27,14 +27,14 @@
             </a>
         </div>
 
-        <div class="bg-white dark:bg-neutral-900 p-4 rounded-sm">
+        <div class="bg-white dark:bg-neutral-900 flex flex-col h-full p-4 rounded-sm">
             <h2 class="font-bold mb-4 text-xl text-secondary">
                 {{ __('home.take__title') }}
             </h2>
             <p class="font-normal mb-2 text-lg">
                 {{ __('home.take__sub-heading') }}
             </p>
-            <p class="font-light">
+            <p class="flex font-light grow-1">
                 {{ __('home.take__description') }}
             </p>
             <button class="hover:bg-secondary/20 mt-4 py-1 rounded-sm text-secondary w-full">
