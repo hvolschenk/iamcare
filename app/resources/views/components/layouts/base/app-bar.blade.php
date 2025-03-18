@@ -14,6 +14,7 @@
     <div class="flex items-center space-x-4">
         <button
             class="
+                cursor-pointer
                 dark:text-neutral-400
                 dark:hover:text-secondary
                 flex
@@ -28,7 +29,14 @@
         </button>
 
         <button
-            class="dark:text-neutral-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+            class="
+                cursor-pointer
+                dark:text-neutral-400
+                dark:hover:text-secondary
+                flex
+                items-center
+                text-primary
+                hover:text-secondary"
             id="language-dialog__button"
         >
             <span class="material-symbols-outlined">
