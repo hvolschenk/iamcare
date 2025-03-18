@@ -27,7 +27,15 @@
             ['title' => $item->name],
         ]"
     >
-        {{ $item->name }}
+        <div class="flex flex-row justify-between">
+            <span>{{ $item->name }}</span>
+            <a
+                class="dark:text-neutral-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
+                href="#"
+            >
+                <span class="material-symbols-outlined">flag</span>
+            </a>
+        </div>
     </x-page-title>
 
     <div

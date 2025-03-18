@@ -1,6 +1,6 @@
 <a
     class="dark:hover:bg-neutral-700 flex flex-row gap-4 hover:bg-neutral-200 items-center p-2"
-    href="#"
+    href="{{ route('user', $user) }}"
 >
     <img
         alt="{{ $user->name }}"
