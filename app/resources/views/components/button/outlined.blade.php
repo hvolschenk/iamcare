@@ -4,6 +4,7 @@
             ->class([
                 'border-2',
                 'border-primary',
+                'cursor-pointer',
                 'dark:disabled:bg-neutral-500',
                 'dark:disabled:text-neutral-200',
                 'disabled:bg-neutral-200',
