@@ -5,6 +5,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserReportController;
 
 Route::controller(ItemController::class)->group(function () {
     Route::delete('items/{item}', 'destroy')->name('itemDelete');
@@ -43,4 +44,10 @@ Route::controller(UserController::class)->group(function () {
         ->name('language');
     Route::get('users/{user}', 'user')->name('user');
     Route::post('login/google', 'loginHandlerGoogle')->name('loginHandlerGoogle');
+});
+
+Route::controller(UserReportController::class)->group(function () {
+    Route::get('users/{user}/report', 'report')->name('reportUser');
+    Route::get('users/{user}/report/form', 'reportForm')->name('reportUserForm');
+    Route::post('users/{user}/report', 'reportHandler')->name('reportUserHandler');
 });

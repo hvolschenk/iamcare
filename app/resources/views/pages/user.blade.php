@@ -11,12 +11,25 @@
     >
         <div class="flex flex-row justify-between">
             <span>{{ $user->name }}</span>
-            <a
-                class="dark:text-neutral-400 dark:hover:text-secondary flex items-center text-primary hover:text-secondary"
-                href="#"
-            >
-                <span class="material-symbols-outlined">flag</span>
-            </a>
+            @if (Auth::user()->id !== $user->id)
+                <a
+                    class="
+                        @if ($userReport === null)
+                            dark:text-neutral-400
+                            dark:hover:text-secondary
+                            text-primary
+                            hover:text-secondary
+                        @else
+                            dark:text-secondary
+                            text-secondary
+                        @endif
+                        flex
+                        items-center"
+                    href="{{ route('reportUser', $user) }}"
+                >
+                    <span class="material-symbols-outlined">flag</span>
+                </a>
+            @endif
         </div>
     </x-page-title>
 

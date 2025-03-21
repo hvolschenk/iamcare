@@ -55,6 +55,7 @@ services:
       - MAIL_MAILER=${MAIL_MAILER:-smtp}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - MAIL_PORT=${MAIL_PORT}
+      - MAIL_REPORT_TO=${MAIL_REPORT_TO}
       - MAIL_USERNAME=${MAIL_USERNAME}
     networks:
       - iamcare-network

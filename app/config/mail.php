@@ -113,4 +113,15 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Reports
+    |--------------------------------------------------------------------------
+    |
+    | The address where all mails will go about something or someone being
+    | reported by another user.
+    |
+    */
+    'report_to' => env('MAIL_REPORT_TO'),
+
 ];
