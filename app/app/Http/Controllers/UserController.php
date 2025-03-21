@@ -7,6 +7,8 @@ use App\Http\Requests\UserLoginHandlerGoogleRequest;
 use App\Http\Requests\UserMeRequest;
 use App\Mail\AccountCreated;
 use App\Models\User;
+use App\Models\UserReport;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -144,8 +146,19 @@ class UserController extends Controller
     /**
      * A user's profile
      */
-    public function user(User $user)
+    public function user(Request $request, User $user)
     {
-        return view('pages.user', ['user' => $user]);
+        $reported = $user;
+        $reporter = $request->user();
+
+        if ($reporter === null || $reporter->id === $reported->id) {
+            $userReport = null;
+        } else {
+            $userReport = UserReport::whereRelation('userReported', 'id', $reported->id)
+                ->whereRelation('userReporter', 'id', $reporter->id)
+                ->first();
+        }
+
+        return view('pages.user', ['user' => $user, 'userReport' => $userReport]);
     }
 }

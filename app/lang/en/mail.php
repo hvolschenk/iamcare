@@ -9,4 +9,6 @@ return [
     'thread-created__title' => 'New message received',
     'thread-replied__body' => "You have recieved a new reply from :senderName about your item: :itemName.\nPlease visit iamcare to read your new message.",
     'thread-replied__title' => 'New reply to your message',
+    'user-reported__body' => "A user (:reported) has been reported by another user (:reporter). The reason stated is:\n\n:reason",
+    'user-reported__title' => 'A user has been reported',
 ];

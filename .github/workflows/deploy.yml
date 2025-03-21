@@ -102,6 +102,7 @@ jobs:
           envkey_MAIL_MAILER: ${{ vars.MAIL_MAILER }}
           envkey_MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
           envkey_MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          envkey_MAIL_REPORT_TO: ${{ secrets.MAIL_REPORT_TO }}
           envkey_MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
           directory: ./app
           file_name: .env
