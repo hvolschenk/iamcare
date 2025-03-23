@@ -10,6 +10,7 @@ use App\Http\Requests\ItemMarkGivenRequest;
 use App\Http\Requests\ItemSearchRequest;
 use App\Models\Image;
 use App\Models\Item;
+use App\Models\ItemReport;
 use App\Models\Location;
 use App\Models\Tag;
 use App\Models\Thread;
@@ -164,11 +165,18 @@ class ItemController extends Controller
 
     public function item(Request $request, Item $item)
     {
+        $user = $request->user();
+        $itemReport = ItemReport::whereRelation('item', 'id', $item->id)
+            ->whereRelation('user', 'id', $user->id)
+            ->first();
         $thread = Thread::where([
             'item_id' => $item->id,
-            'user_id_receiver' => $request->user()->id,
+            'user_id_receiver' => $user->id,
         ])->first();
-        return view('pages.item', ['item' => $item, 'thread' => $thread]);
+        return view(
+            'pages.item',
+            ['item' => $item, 'itemReport' => $itemReport, 'thread' => $thread],
+        );
     }
 
     public function markGiven(ItemMarkGivenRequest $request, Item $item)
