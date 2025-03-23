@@ -5,6 +5,8 @@ return [
     'account-created__title' => 'Gebruikersaccount aangemaakt',
     'footer' => "Met vriendelijke groet,\niamcare",
     'greeting' => 'Hoi, :name',
+    'item-reported__body' => "Een item (:item) is gerapporteerd door een gebruiker (:user). De opgegeven reden is:\n\n:reason",
+    'item-reported__title' => 'Er is een item gerapporteerd',
     'thread-created__body' => "U hebt een nieuw bericht ontvangen over uw item: :itemName.\nGa naar iamcare om uw nieuwe bericht te lezen.",
     'thread-created__title' => 'Nieuw bericht ontvangen',
     'thread-replied__body' => "U hebt een nieuw antwoord ontvangen van :senderName over uw item: :itemName.\nGa naar iamcare om uw nieuwe bericht te lezen.",

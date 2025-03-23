@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ItemReportController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
@@ -18,6 +19,12 @@ Route::controller(ItemController::class)->group(function () {
     Route::post('items/give', 'giveHandler')->name('itemGiveHandler');
     Route::post('items/{item}/edit', 'editHandler')->name('itemEditHandler');
     Route::post('items/{item}/mark-given', 'markGiven')->name('itemMarkGiven');
+});
+
+Route::controller(ItemReportController::class)->group(function () {
+    Route::get('items/{item}/report', 'report')->name('reportItem');
+    Route::get('items/{item}/report/form', 'reportForm')->name('reportItemForm');
+    Route::post('items/{item}/report', 'reportHandler')->name('reportItemHandler');
 });
 
 Route::controller(PageController::class)->group(function () {
