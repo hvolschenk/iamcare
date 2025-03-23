@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CorrelationIDMiddleware;
 use App\Http\Middleware\LanguageMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(['g_csrf_token', 'LANGUAGE']);
         $middleware->append(\Spatie\Csp\AddCspHeaders::class);
         $middleware->append(LanguageMiddleware::class);
+        $middleware->web(CorrelationIDMiddleware::class);
         $middleware->validateCsrfTokens(except: ['login/*']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
