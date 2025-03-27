@@ -3,25 +3,20 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ItemGiveRequest extends FormRequest
 {
-    /**
-     * The route that users should be redirected to if validation fails.
-     *
-     * @var string
-     */
-    protected $redirectRoute = 'itemGiveForm';
-
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
         $user = $this->user();
-        if (!$user) {
+        if (! $user) {
             return false;
         }
+
         return true;
     }
 
@@ -32,13 +27,17 @@ class ItemGiveRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'description' => ['required', 'string'],
-            'image' => ['required', 'array'],
-            'image.*' => ['image'],
-            'location' => ['required', 'string'],
-            'name' => ['required', 'string'],
-            'tag' => ['required', 'array'],
-        ];
+        return [];
+    }
+
+    protected function failedAuthorization()
+    {
+        throw new HttpResponseException(
+            response()
+                ->redirectToRoute(
+                    'login',
+                    ['redirect' => route('itemGive', [], false)]
+                ),
+        );
     }
 }
