@@ -167,13 +167,18 @@ class ItemController extends Controller
     public function item(Request $request, Item $item)
     {
         $user = $request->user();
-        $itemReport = ItemReport::whereRelation('item', 'id', $item->id)
-            ->whereRelation('user', 'id', $user->id)
-            ->first();
-        $thread = Thread::where([
-            'item_id' => $item->id,
-            'user_id_receiver' => $user->id,
-        ])->first();
+        if ($user !== null) {
+            $itemReport = ItemReport::whereRelation('item', 'id', $item->id)
+                ->whereRelation('user', 'id', $user->id)
+                ->first();
+            $thread = Thread::where([
+                'item_id' => $item->id,
+                'user_id_receiver' => $user->id,
+            ])->first();
+        } else {
+            $itemReport = null;
+            $thread = null;
+        }
         return view(
             'pages.item',
             ['item' => $item, 'itemReport' => $itemReport, 'thread' => $thread],
