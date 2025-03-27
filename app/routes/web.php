@@ -9,19 +9,21 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserReportController;
 
 Route::controller(ItemController::class)->group(function () {
-    Route::delete('items/{item}', 'destroy')->name('itemDelete');
-    Route::get('items/give', 'give')->name('itemGive');
-    Route::get('items/give/form', 'giveForm')->name('itemGiveForm');
+    Route::middleware(['auth'])->group(function () {
+        Route::delete('items/{item}', 'destroy')->name('itemDelete');
+        Route::get('items/give', 'give')->name('itemGive');
+        Route::get('items/give/form', 'giveForm')->name('itemGiveForm');
+        Route::get('items/{item}/edit', 'edit')->name('itemEdit');
+        Route::get('items/{item}/edit/form', 'editForm')->name('itemEditForm');
+        Route::post('items/give', 'giveHandler')->name('itemGiveHandler');
+        Route::post('items/{item}/edit', 'editHandler')->name('itemEditHandler');
+        Route::post('items/{item}/mark-given', 'markGiven')->name('itemMarkGiven');
+    });
     Route::get('items/{item}', 'item')->name('item');
-    Route::get('items/{item}/edit', 'edit')->name('itemEdit');
-    Route::get('items/{item}/edit/form', 'editForm')->name('itemEditForm');
     Route::get('search', 'search')->name('search');
-    Route::post('items/give', 'giveHandler')->name('itemGiveHandler');
-    Route::post('items/{item}/edit', 'editHandler')->name('itemEditHandler');
-    Route::post('items/{item}/mark-given', 'markGiven')->name('itemMarkGiven');
 });
 
-Route::controller(ItemReportController::class)->group(function () {
+Route::controller(ItemReportController::class)->middleware(['auth'])->group(function () {
     Route::get('items/{item}/report', 'report')->name('reportItem');
     Route::get('items/{item}/report/form', 'reportForm')->name('reportItemForm');
     Route::post('items/{item}/report', 'reportHandler')->name('reportItemHandler');
@@ -31,7 +33,7 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
 });
 
-Route::controller(ThreadController::class)->group(function () {
+Route::controller(ThreadController::class)->middleware(['auth'])->group(function () {
     Route::get('inbox', 'index')->name('threads');
     Route::get('inbox/create/{item}', 'create')->name('threadCreate');
     Route::get('inbox/create/{item}/form', 'createForm')->name('threadCreateForm');
@@ -42,10 +44,12 @@ Route::controller(ThreadController::class)->group(function () {
 });
 
 Route::controller(UserController::class)->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('me', 'me')->name('me');
+        Route::get('me/items', 'items')->name('myItems');
+    });
     Route::get('login', 'login')->name('login');
     Route::get('logout', 'logout')->name('logout');
-    Route::get('me', 'me')->name('me');
-    Route::get('me/items', 'items')->name('myItems');
     Route::get('me/language/{language}', 'language')
         ->where(['language' => '^(af|en|nl)$'])
         ->name('language');
@@ -53,7 +57,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('login/google', 'loginHandlerGoogle')->name('loginHandlerGoogle');
 });
 
-Route::controller(UserReportController::class)->group(function () {
+Route::controller(UserReportController::class)->middleware(['auth'])->group(function () {
     Route::get('users/{user}/report', 'report')->name('reportUser');
     Route::get('users/{user}/report/form', 'reportForm')->name('reportUserForm');
     Route::post('users/{user}/report', 'reportHandler')->name('reportUserHandler');
