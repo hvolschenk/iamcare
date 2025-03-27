@@ -29,25 +29,27 @@
     >
         <div class="flex flex-row justify-between">
             <span>{{ $item->name }}</span>
-            @if (Auth::user()->id !== $item->user->id)
-                <a
-                    class="
-                        @if ($itemReport === null)
-                            dark:text-neutral-400
-                            dark:hover:text-secondary
-                            text-primary
-                            hover:text-secondary
-                        @else
-                            dark:text-secondary
-                            text-secondary
-                        @endif
-                        flex
-                        items-center"
-                    href="{{ route('reportItem', $item) }}"
-                >
-                    <span class="material-symbols-outlined">flag</span>
-                </a>
-            @endif
+            @auth
+                @if (Auth::user()->id !== $item->user->id)
+                    <a
+                        class="
+                            @if ($itemReport === null)
+                                dark:text-neutral-400
+                                dark:hover:text-secondary
+                                text-primary
+                                hover:text-secondary
+                            @else
+                                dark:text-secondary
+                                text-secondary
+                            @endif
+                            flex
+                            items-center"
+                        href="{{ route('reportItem', $item) }}"
+                    >
+                        <span class="material-symbols-outlined">flag</span>
+                    </a>
+                @endif
+            @endauth
         </div>
     </x-page-title>
 
@@ -105,12 +107,20 @@
     </div>
 
     @if ($thread === null)
-        @if (Auth::user()->id !== $item->user->id)
+        @auth
+            @if (Auth::user()->id !== $item->user->id)
+                <x-link.button href="{{ route('threadCreate', $item) }}">
+                    <span class="material-symbols-outlined">send</span>
+                    {{ __('item.actionContactGiver') }}
+                </x-link.button>
+            @endif
+        @endauth
+        @guest
             <x-link.button href="{{ route('threadCreate', $item) }}">
                 <span class="material-symbols-outlined">send</span>
                 {{ __('item.actionContactGiver') }}
             </x-link.button>
-        @endif
+        @endguest
     @else
         <x-link.button href="{{ route('thread', $thread) }}">
             <span class="material-symbols-outlined">send</span>

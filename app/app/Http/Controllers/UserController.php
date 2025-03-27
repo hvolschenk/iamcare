@@ -86,8 +86,7 @@ class UserController extends Controller
             Auth::login($user, true);
             $request->session()->regenerate();
             Log::info('Login: Success', ['email' => $user->email, 'id' => $user->id]);
-
-            return redirect()->route('home');
+            return redirect()->intended();
         } catch (\Exception $error) {
             Log::error('Login: Failure', ['message' => $error->getMessage()]);
             return response()

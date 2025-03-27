@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ItemDeleteRequest;
 use App\Http\Requests\ItemEditHandlerRequest;
 use App\Http\Requests\ItemEditRequest;
+use App\Http\Requests\ItemGiveHandlerRequest;
 use App\Http\Requests\ItemGiveRequest;
 use App\Http\Requests\ItemMarkGivenRequest;
 use App\Http\Requests\ItemSearchRequest;
@@ -100,7 +101,7 @@ class ItemController extends Controller
         return response(null, 204, ['Hx-Redirect' => route('myItems')]);
     }
 
-    public function give ()
+    public function give (ItemGiveRequest $request)
     {
         return view('pages.item-give');
     }
@@ -116,7 +117,7 @@ class ItemController extends Controller
         );
     }
 
-    public function giveHandler (ItemGiveRequest $request)
+    public function giveHandler (ItemGiveHandlerRequest $request)
     {
         $validated = $request->safe(['description', 'image', 'location', 'name', 'tag']);
         $description = $validated['description'];
@@ -166,13 +167,18 @@ class ItemController extends Controller
     public function item(Request $request, Item $item)
     {
         $user = $request->user();
-        $itemReport = ItemReport::whereRelation('item', 'id', $item->id)
-            ->whereRelation('user', 'id', $user->id)
-            ->first();
-        $thread = Thread::where([
-            'item_id' => $item->id,
-            'user_id_receiver' => $user->id,
-        ])->first();
+        if ($user !== null) {
+            $itemReport = ItemReport::whereRelation('item', 'id', $item->id)
+                ->whereRelation('user', 'id', $user->id)
+                ->first();
+            $thread = Thread::where([
+                'item_id' => $item->id,
+                'user_id_receiver' => $user->id,
+            ])->first();
+        } else {
+            $itemReport = null;
+            $thread = null;
+        }
         return view(
             'pages.item',
             ['item' => $item, 'itemReport' => $itemReport, 'thread' => $thread],
