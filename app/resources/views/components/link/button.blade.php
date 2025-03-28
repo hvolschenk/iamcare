@@ -10,14 +10,11 @@
                 'flex',
                 'gap-2',
                 'hover:bg-primary/80',
-                'md:max-w-fit',
-                'md:w-auto',
                 'mt-4',
                 'px-4',
                 'py-2',
                 'rounded-sm',
                 'text-neutral-50',
-                'w-full',
             ])
     }}
 >
