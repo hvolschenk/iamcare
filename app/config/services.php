@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'google' => [
+        'client_id' => env('GOOGLE_IDENTITY_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_IDENTITY_CLIENT_SECRET'),
+        'redirect' => '/login/google',
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

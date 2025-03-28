@@ -89,6 +89,7 @@ jobs:
           envkey_DB_USERNAME: ${{ secrets.MYSQL_USERNAME }}
           envkey_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_ID }}
           envkey_GOOGLE_IDENTITY_CLIENT_ID: ${{ secrets.GOOGLE_IDENTITY_CLIENT_ID }}
+          envkey_GOOGLE_IDENTITY_CLIENT_SECRET: ${{ secrets.GOOGLE_IDENTITY_CLIENT_SECRET }}
           envkey_GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
           envkey_GOOGLE_PLACES_REGION: ${{ vars.GOOGLE_PLACES_REGION }}
           envkey_LOG_CHANNEL: ${{ vars.LOG_CHANNEL }}

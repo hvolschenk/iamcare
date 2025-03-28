@@ -109,20 +109,20 @@
     @if ($thread === null)
         @auth
             @if (Auth::user()->id !== $item->user->id)
-                <x-link.button href="{{ route('threadCreate', $item) }}">
+                <x-link.button class="md:max-w-fit" href="{{ route('threadCreate', $item) }}">
                     <span class="material-symbols-outlined">send</span>
                     {{ __('item.actionContactGiver') }}
                 </x-link.button>
             @endif
         @endauth
         @guest
-            <x-link.button href="{{ route('threadCreate', $item) }}">
+            <x-link.button class="md:max-w-fit" href="{{ route('threadCreate', $item) }}">
                 <span class="material-symbols-outlined">send</span>
                 {{ __('item.actionContactGiver') }}
             </x-link.button>
         @endguest
     @else
-        <x-link.button href="{{ route('thread', $thread) }}">
+        <x-link.button class="md:max-w-fit" href="{{ route('thread', $thread) }}">
             <span class="material-symbols-outlined">send</span>
             {{ __('item.actionOpenThread') }}
         </x-link.button>

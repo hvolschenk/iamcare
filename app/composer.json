@@ -8,6 +8,7 @@
 		"php": "^8.2",
 		"google/apiclient": "^2.18.2",
 		"laravel/framework": "^12.1.1",
+		"laravel/socialite": "^5.18",
 		"laravel/tinker": "^2.10.1",
 		"spatie/image": "^3.8.0",
 		"spatie/laravel-csp": "^2.10.3"

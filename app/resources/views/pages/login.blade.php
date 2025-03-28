@@ -3,15 +3,6 @@
         {{ __('login.login') }}
     </x-slot>
 
-    <x-slot:scripts>
-        <script
-            async
-            nonce="{{ csp_nonce() }}"
-            src="https://accounts.google.com/gsi/client?hl={{ App::currentLocale() }}"
-        >
-        </script>
-    </x-slot>
-
     <x-page-title
         :breadcrumbs="[
             ['title' => __('home.breadcrumb'), 'url' => route('home')],
@@ -21,38 +12,34 @@
         {{ __('login.login') }}
     </x-page-title>
 
-    <div
-        id="g_id_onload"
-        data-auto_prompt="false"
-        data-client_id="{{ config('google.identity.client_id') }}"
-        data-context="signin"
-        data-login_uri="{{ route('loginHandlerGoogle') }}"
-        data-nonce="{{ csp_nonce() }}"
-        data-use_fedcm_for_prompt="true"
-        data-ux_mode="redirect"
-    >
-    </div>
-
-    <div class="mx-auto w-96">
+    <div class="flex justify-center">
         @if (isset($error))
-            <p class="bg-red-100 border border-red-600 dark:bg-red-900 dark:border-red-950 dark:text-red-100 mb-4 p-1 px-4 rounded-sm text-red-600">
+            <p class="
+                bg-red-100
+                border
+                border-red-600
+                dark:bg-red-900
+                dark:border-red-950
+                dark:text-red-100
+                mb-4
+                p-1
+                px-4
+                rounded-sm
+                text-red-600"
+            >
                 {{ $error }}
             </p>
         @endif
 
-        <div
-            class="g_id_signin"
-            data-logo_alignment="left"
-            data-nonce="{{ csp_nonce() }}"
-            data-shape="rectangular"
-            data-size="large"
-            data-theme="outline"
-            data-text="signin_with"
-            data-type="standard"
-            data-width="384"
-        >
-        </div>
-
+        <x-link.button class="w-3xs" href="{{ route('loginGoogleRedirect') }}">
+            <img
+                alt="{{ __('login.provider--google') }}"
+                class="h-6 mr-3 w-6"
+                height="24"
+                src="{{ asset('images/social/google.webp') }}"
+                width="24"
+            />
+            {{ __('login.provider--google') }}
+        </x-link.button>
     </div>
-
 </x-layouts.base>
