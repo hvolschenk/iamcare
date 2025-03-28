@@ -13,11 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->encryptCookies(['g_csrf_token', 'LANGUAGE']);
+        $middleware->encryptCookies(['LANGUAGE']);
         $middleware->append(\Spatie\Csp\AddCspHeaders::class);
         $middleware->append(LanguageMiddleware::class);
         $middleware->web(CorrelationIDMiddleware::class);
-        $middleware->validateCsrfTokens(except: ['login/*']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

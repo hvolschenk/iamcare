@@ -1,12 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemReportController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserReportController;
+
+Route::controller(AuthenticationController::class)->group(function () {
+    Route::get('login', 'login')->name('login');
+    Route::get('login/google', 'googleHandler')->name('loginGoogle');
+    Route::get('login/google/redirect', 'googleRedirect')->name('loginGoogleRedirect');
+    Route::get('logout', 'logout')->name('logout');
+});
 
 Route::controller(ItemController::class)->group(function () {
     Route::middleware(['auth'])->group(function () {
@@ -48,13 +56,10 @@ Route::controller(UserController::class)->group(function () {
         Route::get('me', 'me')->name('me');
         Route::get('me/items', 'items')->name('myItems');
     });
-    Route::get('login', 'login')->name('login');
-    Route::get('logout', 'logout')->name('logout');
     Route::get('me/language/{language}', 'language')
         ->where(['language' => '^(af|en|nl)$'])
         ->name('language');
     Route::get('users/{user}', 'user')->name('user');
-    Route::post('login/google', 'loginHandlerGoogle')->name('loginHandlerGoogle');
 });
 
 Route::controller(UserReportController::class)->middleware(['auth'])->group(function () {
