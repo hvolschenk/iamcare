@@ -23,14 +23,7 @@ class ThreadReplyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $user = $this->user();
-        if (! $user) {
-            return false;
-        }
-        $thread = $this->route('thread');
-
-        return $thread->userGiver->id === $user->id
-            || $thread->userReceiver->id === $user->id;
+        return $this->user()->can('reply', $this->route('thread'));
     }
 
     /**

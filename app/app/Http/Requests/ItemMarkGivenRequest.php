@@ -11,15 +11,7 @@ class ItemMarkGivenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $item = $this->route('item');
-        $user = $this->user();
-        if (!$user) {
-            return false;
-        }
-        if ($user->id !== $item->user->id) {
-            return false;
-        }
-        return true;
+        return $this->user()->can('markGiven', $this->route('item'));
     }
 
     /**

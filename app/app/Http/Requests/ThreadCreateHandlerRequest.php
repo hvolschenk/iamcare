@@ -24,25 +24,7 @@ class ThreadCreateHandlerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $user = $this->user();
-        if (! $user) {
-            return false;
-        }
-
-        $item = $this->route('item');
-        if ($item->user->id === $user->id) {
-            return false;
-        }
-
-        $thread = Thread::where([
-            'item_id' => $item->id,
-            'user_id_receiver' => $user->id,
-        ])->first();
-        if ($thread !== null) {
-            return false;
-        }
-
-        return true;
+        return $this->user()->can('create', [Thread::class, $this->route('item')]);
     }
 
     /**

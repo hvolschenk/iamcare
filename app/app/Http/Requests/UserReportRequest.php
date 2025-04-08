@@ -11,17 +11,7 @@ class UserReportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $reporter = $this->user();
-        if (!$reporter) {
-            return false;
-        }
-
-        $reported = $this->route('user');
-        if ($reporter->id === $reported->id) {
-            return false;
-        }
-
-        return true;
+        return $this->user()->can('report', $this->route('user'));
     }
 
     /**

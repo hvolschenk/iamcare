@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadCreateHandlerRequest;
-use App\Http\Requests\ThreadCreateRequest;
 use App\Http\Requests\ThreadReplyRequest;
 use App\Http\Requests\ThreadViewRequest;
 use App\Mail\ThreadCreated;
@@ -11,12 +10,13 @@ use App\Mail\ThreadReplied;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Thread;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class ThreadController extends Controller
 {
-    public function create(ThreadCreateRequest $request, Item $item)
+    public function create(Request $request, Item $item)
     {
         if ($request->user()->id === $item->user->id) {
             return redirect()->route('item', $item);

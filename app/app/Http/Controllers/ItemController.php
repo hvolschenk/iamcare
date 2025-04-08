@@ -6,7 +6,6 @@ use App\Http\Requests\ItemDeleteRequest;
 use App\Http\Requests\ItemEditHandlerRequest;
 use App\Http\Requests\ItemEditRequest;
 use App\Http\Requests\ItemGiveHandlerRequest;
-use App\Http\Requests\ItemGiveRequest;
 use App\Http\Requests\ItemMarkGivenRequest;
 use App\Http\Requests\ItemSearchRequest;
 use App\Models\Image;
@@ -101,7 +100,7 @@ class ItemController extends Controller
         return response(null, 204, ['Hx-Redirect' => route('myItems')]);
     }
 
-    public function give (ItemGiveRequest $request)
+    public function give ()
     {
         return view('pages.item-give');
     }
