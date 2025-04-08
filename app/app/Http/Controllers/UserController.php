@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserLoginHandlerGoogleRequest;
-use App\Mail\AccountCreated;
 use App\Models\User;
 use App\Models\UserReport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
