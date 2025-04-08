@@ -11,17 +11,7 @@ class ItemReportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $user = $this->user();
-        if (!$user) {
-            return false;
-        }
-
-        $item = $this->route('item');
-        if ($user->id === $item->user->id) {
-            return false;
-        }
-
-        return true;
+        return $this->user()->can('report', $this->route('item'));
     }
 
     /**

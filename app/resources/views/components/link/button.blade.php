@@ -10,7 +10,6 @@
                 'flex',
                 'gap-2',
                 'hover:bg-primary/80',
-                'mt-4',
                 'px-4',
                 'py-2',
                 'rounded-sm',

@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\User;
+
+class ThreadPolicy
+{
+    /**
+     * Determine whether the user can report the user.
+     */
+    public function report(User $reporter, User $reported): bool
+    {
+        return $reporter->id !== $reported->id;
+    }
+}

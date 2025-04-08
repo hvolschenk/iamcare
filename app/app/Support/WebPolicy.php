@@ -25,6 +25,9 @@ class WebPolicy extends Basic
             ->addDirective(Directive::FRAME, ['https://accounts.google.com/gsi/'])
             ->addDirective(Directive::IMG, [
                 Scheme::BLOB,
+                'https://graph.facebook.com',
+                'https://*.fbcdn.net',
+                'https://*.fbsbx.com',
                 'https://*.google-analytics.com',
                 'https://*.googletagmanager.com',
                 'https://*.googleusercontent.com',

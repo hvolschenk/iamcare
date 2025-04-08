@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'facebook' => [
+        'client_id' => env('FACEBOOK_APP_ID'),
+        'client_secret' => env('FACEBOOK_APP_SECRET'),
+        'redirect' => '/login/facebook',
+    ],
+
     'google' => [
         'client_id' => env('GOOGLE_IDENTITY_CLIENT_ID'),
         'client_secret' => env('GOOGLE_IDENTITY_CLIENT_SECRET'),

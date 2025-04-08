@@ -4,16 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserMeRequest extends FormRequest
+class UserSetAuthenticationMethodDefaultRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        /** @var \Illuminate\Contracts\Auth\Guard $auth */
-        $auth = auth();
-        return $auth->check();
+        return $this->user()->can('setDefault', $this->route('authenticationMethod'));
     }
 
     /**

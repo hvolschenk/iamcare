@@ -2,32 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserItemsRequest;
-use App\Http\Requests\UserLoginHandlerGoogleRequest;
-use App\Http\Requests\UserMeRequest;
-use App\Mail\AccountCreated;
 use App\Models\User;
 use App\Models\UserReport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
     /**
-     * The user's personal profile page (GET)
-     */
-    public function me(UserMeRequest $request)
-    {
-        return view('pages.me');
-    }
-
-    /**
      * The user's items page (GET)
      */
-    public function items(UserItemsRequest $request)
+    public function items(Request $request)
     {
         $items = $request->user()
             ->items()
@@ -44,6 +28,40 @@ class UserController extends Controller
     {
         $cookie = cookie('LANGUAGE', $language);
         return redirect()->back()->cookie($cookie);
+    }
+
+    /**
+     * The user's personal profile page (GET)
+     */
+    public function me()
+    {
+        return view('pages.me');
+    }
+
+    /**
+     * The user's personal profile page (GET)
+     */
+    public function profile(Request $request)
+    {
+        $error = $request->query('error');
+        $user = $request->user();
+
+        $facebook = $user->authenticationMethods->first(function ($authenticationMethod) {
+            return $authenticationMethod->type === 'facebook';
+        });
+        $google = $user->authenticationMethods->first(function ($authenticationMethod) {
+            return $authenticationMethod->type === 'google';
+        });
+
+        return view(
+            'pages.my-profile',
+            [
+                'error' => $error,
+                'facebook' => $facebook,
+                'google' => $google,
+                'user' => $user,
+            ],
+        );
     }
 
     /**

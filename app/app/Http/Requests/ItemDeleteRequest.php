@@ -11,15 +11,7 @@ class ItemDeleteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        /** @var \Illuminate\Contracts\Auth\Guard $auth */
-        $auth = auth();
-        if (!$auth->check()) {
-            return false;
-        }
-        $user = $this->user();
-        $item = $this->route('item');
-        $item->load(['user']);
-        return $user->id === $item->user->id;
+        return $this->user()->can('delete', $this->route('item'));
     }
 
     /**

@@ -11,11 +11,7 @@ class ThreadViewRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $user = $this->user();
-        $thread = $this->route('thread');
-
-        return $thread->userGiver->id === $user->id
-            || $thread->userReceiver->id === $user->id;
+        return $this->user()->can('view', $this->route('thread'));
     }
 
     /**
