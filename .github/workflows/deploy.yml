@@ -79,6 +79,7 @@ jobs:
           envkey_APP_KEY: ${{ secrets.APP_KEY }}
           envkey_APP_LOCALE: ${{ vars.APP_LOCALE }}
           envkey_APP_NAME: ${{ vars.APP_NAME }}
+          envkey_APP_REGION: ${{ vars.APP_REGION }}
           envkey_APP_TIMEZONE: ${{ vars.APP_TIMEZONE }}
           envkey_APP_URL: ${{ vars.APP_URL }}
           envkey_DB_CONNECTION: mysql

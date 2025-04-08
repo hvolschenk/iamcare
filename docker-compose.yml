@@ -32,6 +32,7 @@ services:
       - APP_KEY=${APP_KEY:-base64:cHwm2CQU6blIDc2jFEguZ6o81FjoTX627N3dj5fLQBg=}
       - APP_LOCALE=${APP_LOCALE:-en}
       - APP_NAME=${APP_NAME:-iamcare}
+      - APP_REGION=${APP_REGION:-ZA}
       - APP_TIMEZONE=${APP_TIMEZONE:-UTC}
       - APP_URL=${APP_URL:-http://localhost:2991}
       - DB_CONNECTION=${DB_CONNECTION:-mysql}

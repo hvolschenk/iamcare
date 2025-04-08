@@ -5,8 +5,11 @@
                 alt="{{ __('application.name') }}"
                 src="{{ asset('images/iamcare-32x32.png') }}"
             />
-            <p class="font-black text-xl text-secondary">
+            <p class="font-black relative text-xl text-secondary">
                 {{ __('application.name') }}
+                <span class="absolute dark:text-neutral-300 font-light -right-5 text-primary text-xs top-0">
+                    {{ config('app.region') }}
+                </span>
             </p>
         </a>
     </div>

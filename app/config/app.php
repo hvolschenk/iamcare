@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Region
+    |--------------------------------------------------------------------------
+    |
+    | A two-letter country code,
+    | identifying the region that the application is deployed in.
+    | This value will be displayed (as provided here) on the application
+    | alongside the application name.
+    |
+    */
+    'region' => env('APP_REGION', 'ZA'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
