@@ -148,7 +148,7 @@ class ItemController extends Controller
                 $item->save();
             }, 1);
             Log::debug('Item: Create: Return', ['id' => $item->id]);
-            return response(null, 204, ['Hx-Redirect' => route('home')]);
+            return response(null, 204, ['Hx-Redirect' => route('myItems')]);
         } catch (\Exception $error) {
             Log::error('Item: Create: Error', ['error' => $error]);
             Log::debug('Item: Create: Undo: Delete Images');
