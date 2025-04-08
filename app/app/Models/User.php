@@ -40,19 +40,6 @@ class User extends Authenticatable
     protected $casts = [];
 
     /**
-     * Bootstrap the model and its traits.
-     */
-    public static function boot()
-    {
-        parent::boot();
-        self::deleting(function($user) {
-            $user->authenticationMethods()->each(function($authenticationMethod) {
-                $authenticationMethod->delete();
-            });
-        });
-    }
-
-    /**
      * A list of authentication methods link to this user's account
      */
     public function authenticationMethods(): HasMany

@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\Image;
 use App\Models\Item;
+use App\Models\User;
 use App\Observers\ImageObserver;
 use App\Observers\ItemObserver;
+use App\Observers\UserObserver;
 use App\View\Composers\AppBarComposer;
 use App\View\Composers\ItemFormComposer;
 use Illuminate\Support\Facades\Http;
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
         Image::observe(ImageObserver::class);
         Item::observe(ItemObserver::class);
+        User::observe(UserObserver::class);
 
         Paginator::defaultView('components.pagination');
 
