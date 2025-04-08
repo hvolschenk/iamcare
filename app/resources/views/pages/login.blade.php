@@ -12,7 +12,7 @@
         {{ __('login.login') }}
     </x-page-title>
 
-    <div class="flex justify-center">
+    <div class="flex flex-col gap-4 items-center">
         @if (isset($error))
             <p class="
                 bg-red-100
@@ -21,7 +21,6 @@
                 dark:bg-red-900
                 dark:border-red-950
                 dark:text-red-100
-                mb-4
                 p-1
                 px-4
                 rounded-sm
@@ -31,7 +30,10 @@
             </p>
         @endif
 
-        <x-link.button class="w-3xs" href="{{ route('loginGoogleRedirect') }}">
+        <x-link.button
+            class="w-3xs"
+            href="{{ route('loginRedirect', ['driver' => 'google']) }}"
+        >
             <img
                 alt="{{ __('login.provider--google') }}"
                 class="h-6 mr-3 w-6"
@@ -40,6 +42,20 @@
                 width="24"
             />
             {{ __('login.provider--google') }}
+        </x-link.button>
+
+        <x-link.button
+            class="w-3xs"
+            href="{{ route('loginRedirect', ['driver' => 'facebook']) }}"
+        >
+            <img
+                alt="{{ __('login.provider--facebook') }}"
+                class="h-6 mr-3 w-6"
+                height="24"
+                src="{{ asset('images/social/facebook.png') }}"
+                width="24"
+            />
+            {{ __('login.provider--facebook') }}
         </x-link.button>
     </div>
 </x-layouts.base>

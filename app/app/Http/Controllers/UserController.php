@@ -39,6 +39,32 @@ class UserController extends Controller
     }
 
     /**
+     * The user's personal profile page (GET)
+     */
+    public function profile(Request $request)
+    {
+        $error = $request->query('error');
+        $user = $request->user();
+
+        $facebook = $user->authenticationMethods->first(function ($authenticationMethod) {
+            return $authenticationMethod->type === 'facebook';
+        });
+        $google = $user->authenticationMethods->first(function ($authenticationMethod) {
+            return $authenticationMethod->type === 'google';
+        });
+
+        return view(
+            'pages.my-profile',
+            [
+                'error' => $error,
+                'facebook' => $facebook,
+                'google' => $google,
+                'user' => $user,
+            ],
+        );
+    }
+
+    /**
      * A user's profile
      */
     public function user(Request $request, User $user)

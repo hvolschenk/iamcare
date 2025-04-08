@@ -14,6 +14,11 @@
 
     <ul class="list-none">
         <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
+            <a class="block p-4" href="{{ route('myProfile') }}">
+                <p>{{ __('me.my-profile') }}</p>
+            </a>
+        </li>
+        <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
             <a class="block p-4" href="{{ route('myItems') }}">
                 <p>{{ __('me.my-items') }}</p>
             </a>

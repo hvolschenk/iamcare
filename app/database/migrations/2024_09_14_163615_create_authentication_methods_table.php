@@ -18,10 +18,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('type');
-            $table->string('provider_id');
+            $table->string('provider_id')->index();
             $table->string('email');
             $table->string('name');
-            $table->string('avatar')->nullable();
+            $table->string('avatar', 2048)->nullable();
             $table->foreignIdFor(User::class);
             $table->boolean('is_primary');
         });
