@@ -5,4 +5,9 @@
     <p class="font-light">
         {{ __('application.slogan') }}
     </p>
+    <p class="font-light mt-4 text-sm">
+        <a class="hover:underline" href="{{ route('privacyPolicy') }}">
+            {{ __('application.privacy-policy') }}
+        </a>
+    </p>
 </footer>

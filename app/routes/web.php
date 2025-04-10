@@ -48,6 +48,7 @@ Route::controller(ItemReportController::class)->middleware(['auth'])->group(func
 
 Route::controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
+    Route::get('privacy-policy', 'privacyPolicy')->name('privacyPolicy');
 });
 
 Route::controller(ThreadController::class)->middleware(['auth'])->group(function () {
