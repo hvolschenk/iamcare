@@ -44,6 +44,10 @@
             href="{{ asset('styles/app-compiled.css') }}"
             rel="stylesheet"
         />
+        <link
+            href="{{ asset('styles/markdown.css') }}"
+            rel="stylesheet"
+        />
 
         <link
             href="{{ asset('images/iamcare-32x32.png') }}"

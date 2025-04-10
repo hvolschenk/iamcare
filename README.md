@@ -14,6 +14,7 @@ An online marketplace for giving items away for free.
     * [Database users][]
     * [FTP account][]
     * [Environment creation][]
+    * [Privacy policy][]
   * [First upload][]
     * [Post-upload configuration][]
       * [Set document root][]
@@ -153,6 +154,12 @@ created. Only repository owners will have access to this, so you can open a
 After the environment has been created, a new job needs to be added to the
 `/.github/workflows/cd.yml` script to run the given environment during
 _continuous delivery_ tasks.
+
+#### Privacy policy
+[Privacy policy]: #privacy-policy
+
+A privacy policy for the new region needs to be created and added to the
+application in all supported languages.
 
 ### First upload
 [First upload]: #first-upload
