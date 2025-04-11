@@ -8,4 +8,5 @@ return [
     'name' => 'iamcare',
     'privacy-policy' => 'Privaatheidsbeleid',
     'slogan' => "'n Markplek vir gee",
+    'terms-of-use' => 'Gebruiksvoorwaardes',
 ];

@@ -8,4 +8,5 @@ return [
     'name' => 'iamcare',
     'privacy-policy' => 'Privacybeleid',
     'slogan' => 'Een marktplaats voor geven',
+    'terms-of-use' => 'Gebruiksvoorwaarden',
 ];

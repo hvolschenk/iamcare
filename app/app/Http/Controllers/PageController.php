@@ -33,4 +33,13 @@ class PageController extends Controller
         );
         return view('pages.privacy-policy', ['privacyPolicy' => $privacyPolicy]);
     }
+
+    public function termsOfUse()
+    {
+        $termsOfUse = Str::markdown(
+            __('terms-of-use.' . config('app.region')),
+            ['allow_unsafe_links' => false, 'html_input' => 'strip'],
+        );
+        return view('pages.terms-of-use', ['termsOfUse' => $termsOfUse]);
+    }
 }
