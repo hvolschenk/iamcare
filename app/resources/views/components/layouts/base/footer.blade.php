@@ -9,5 +9,9 @@
         <a class="hover:underline" href="{{ route('privacyPolicy') }}">
             {{ __('application.privacy-policy') }}
         </a>
+        &bull;
+        <a class="hover:underline" href="{{ route('termsOfUse') }}">
+            {{ __('application.terms-of-use') }}
+        </a>
     </p>
 </footer>

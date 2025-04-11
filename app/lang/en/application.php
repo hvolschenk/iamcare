@@ -8,4 +8,5 @@ return [
     'name' => 'iamcare',
     'privacy-policy' => 'Privacy policy',
     'slogan' => 'A marketplace for giving',
+    'terms-of-use' => 'Terms of use',
 ];

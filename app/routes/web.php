@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\AuthenticationProvider;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemReportController;
@@ -49,6 +48,7 @@ Route::controller(ItemReportController::class)->middleware(['auth'])->group(func
 Route::controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('privacy-policy', 'privacyPolicy')->name('privacyPolicy');
+    Route::get('terms-of-use', 'termsOfUse')->name('termsOfUse');
 });
 
 Route::controller(ThreadController::class)->middleware(['auth'])->group(function () {
