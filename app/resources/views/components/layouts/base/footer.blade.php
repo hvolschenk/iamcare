@@ -7,11 +7,11 @@
     </p>
     <p class="font-light mt-4 text-sm">
         <a class="hover:underline" href="{{ route('privacyPolicy') }}">
-            {{ __('application.privacy-policy') }}
+            {{ __('legal.privacy-policy') }}
         </a>
         &bull;
         <a class="hover:underline" href="{{ route('termsOfUse') }}">
-            {{ __('application.terms-of-use') }}
+            {{ __('legal.terms-of-use') }}
         </a>
     </p>
 </footer>
