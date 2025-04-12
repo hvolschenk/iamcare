@@ -6,6 +6,7 @@
     <x-page-title
         :breadcrumbs="[
             ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            ['title' => __('legal.breadcrumb'), 'url' => route('legal')],
             ['title' => __('privacy-policy.breadcrumb')],
         ]"
     >
