@@ -30,11 +30,13 @@ class AuthenticationController extends Controller
         $avatar = self::getSocialUserAvatar($socialUser, $driver);
 
         $isAuthenticated = Auth::check();
-        $userExists = User::whereRelation('authenticationMethods', 'provider_id', $socialUser->getId())
+        $authenticationMethodExists = AuthenticationMethod::where(['provider_id', $socialUser->getId()])
+            ->exists();
+        $userExists = User::where('email', $socialUser->getEmail())
             ->exists();
 
         if ($isAuthenticated) {
-            if ($userExists) {
+            if ($authenticationMethodExists) {
                 return redirect()->route('myProfile', ['error' => 'userExists']);
             }
             $user = $request->user();
@@ -54,8 +56,7 @@ class AuthenticationController extends Controller
         } else {
             DB::transaction(function () use ($avatar, $driver, $socialUser, $userExists) {
                 if ($userExists) {
-                    $user = User::whereRelation('authenticationMethods', 'provider_id', $socialUser->getId())
-                        ->first();
+                    $user = User::where('email', $socialUser->getEmail())->first();
                 } else {
                     $user = User::create([
                         'avatar' => $avatar,
