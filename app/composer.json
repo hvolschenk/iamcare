@@ -5,7 +5,7 @@
 	"keywords": ["laravel", "framework"],
 	"license": "MIT",
 	"require": {
-		"php": "^8.2",
+		"php": "^8.4",
 		"google/apiclient": "^2.18.2",
 		"laravel/framework": "^12.1.1",
 		"laravel/socialite": "^5.18",
