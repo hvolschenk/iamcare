@@ -8,11 +8,15 @@
             content="width=device-width, initial-scale=1, minimum-scale=1"
             name="viewport"
         />
-        <meta name="htmx-config" content='{"inlineStyleNonce":"{{ csp_nonce() }}"}'>
+        {{--
+            This is really not ideal.
+            https://github.com/spatie/laravel-csp/discussions/161
+        --}}
+        <meta name="htmx-config" content='{"inlineStyleNonce":"{{ app('csp-nonce') }}"}'>
         {{ $meta ?? '' }}
 
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('google.analytics.measurement_id') }}"></script>
-        <script nonce="{{ csp_nonce() }}">
+        <script @cspNonce>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
