@@ -30,7 +30,7 @@ class AuthenticationController extends Controller
         $avatar = self::getSocialUserAvatar($socialUser, $driver);
 
         $isAuthenticated = Auth::check();
-        $authenticationMethodExists = AuthenticationMethod::where(['provider_id', $socialUser->getId()])
+        $authenticationMethodExists = AuthenticationMethod::where('provider_id', $socialUser->getId())
             ->exists();
         $userExists = User::where('email', $socialUser->getEmail())
             ->exists();
