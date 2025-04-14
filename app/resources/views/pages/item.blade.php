@@ -12,7 +12,7 @@
 
     <x-slot:scripts>
         <script src="{{ asset('scripts/image-carousel.js') }}"></script>
-        <script nonce="{{ csp_nonce() }}" type="module">
+        <script @cspNonce type="module">
             const $imageCarouselContainer = document.getElementById(
                 "item__image-carousel",
             );

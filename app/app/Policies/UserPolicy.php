@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 
-class ThreadPolicy
+class UserPolicy
 {
     /**
      * Determine whether the user can report the user.

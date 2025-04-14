@@ -5,7 +5,7 @@
 
     <x-slot:scripts>
         <script src="{{ asset('scripts/menu-click-away-closer.js') }}"></script>
-        <script nonce="{{ csp_nonce() }}" type="module">
+        <script @cspNonce type="module">
             const menuClickAwayCloser = new MenuClickAwayCloser('details.my-items__item__menu');
             menuClickAwayCloser.initialize();
         </script>

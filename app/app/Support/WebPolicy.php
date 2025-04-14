@@ -3,17 +3,18 @@
 namespace App\Support;
 
 use Spatie\Csp\Directive;
+use Spatie\Csp\Keyword;
 use Spatie\Csp\Scheme;
-use Spatie\Csp\Policies\Basic;
+use Spatie\Csp\Policy;
+use Spatie\Csp\Preset;
 
-class WebPolicy extends Basic
+class WebPolicy implements Preset
 {
-    public function configure()
+    public function configure(Policy $policy): void
     {
-        parent::configure();
-
-        $this
-            ->addDirective(Directive::CONNECT, [
+        $policy
+            ->add(Directive::CONNECT, [
+                Keyword::SELF,
                 'https://*.analytics.google.com',
                 'https://*.google-analytics.com',
                 'https://*.googletagmanager.com',
@@ -21,9 +22,10 @@ class WebPolicy extends Basic
                 'https://maps.googleapis.com',
                 'https://places.googleapis.com',
             ])
-            ->addDirective(Directive::FONT, ['https://fonts.gstatic.com'])
-            ->addDirective(Directive::FRAME, ['https://accounts.google.com/gsi/'])
-            ->addDirective(Directive::IMG, [
+            ->add(Directive::FONT, [Keyword::SELF, 'https://fonts.gstatic.com'])
+            ->add(Directive::FRAME, [Keyword::SELF, 'https://accounts.google.com/gsi/'])
+            ->add(Directive::IMG, [
+                Keyword::SELF,
                 Scheme::BLOB,
                 'https://graph.facebook.com',
                 'https://*.fbcdn.net',
@@ -33,15 +35,18 @@ class WebPolicy extends Basic
                 'https://*.googleusercontent.com',
                 'https://maps.gstatic.com',
             ])
-            ->addDirective(Directive::SCRIPT, [
+            ->add(Directive::SCRIPT, [
+                Keyword::SELF,
                 'https://*.googletagmanager.com',
                 'https://accounts.google.com/gsi/client',
                 'https://unpkg.com/htmx.org@2.0.4',
             ])
-            ->addDirective(Directive::STYLE, [
+            ->add(Directive::STYLE, [
+                Keyword::SELF,
                 'https://accounts.google.com/gsi/style',
                 'https://fonts.googleapis.com',
             ])
-            ->addNonceForDirective(Directive::STYLE);
+            ->addNonce(Directive::STYLE)
+            ->addNonce(Directive::SCRIPT);
     }
 }

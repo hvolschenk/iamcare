@@ -1,6 +1,4 @@
-# The `imagick` extension is only available up until PHP 8.2:
-# https://github.com/mlocati/docker-php-extension-installer
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 RUN apk update && \
   apk add --no-cache \
