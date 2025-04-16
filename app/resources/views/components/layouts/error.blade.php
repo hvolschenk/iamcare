@@ -72,7 +72,7 @@
             <x-layouts.error.app-bar />
         </div>
 
-        <main class="basis-auto container flex grow shrink items-center justify-center md:px-6 px-4">
+        <main class="basis-auto container flex grow shrink items-center justify-center md:px-6 px-4 mx-auto">
             <section class="text-center">
                 <h1 class="font-bold text-2xl">
                     {{ __("errors.{$code}__title") }}
