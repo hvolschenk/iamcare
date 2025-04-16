@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticationController extends Controller
@@ -27,7 +26,6 @@ class AuthenticationController extends Controller
         Log::withContext(['driver' => $driver->value]);
         Log::debug('Login: Start');
         $socialUser = Socialite::driver($driver->value)->user();
-        $avatar = self::getSocialUserAvatar($socialUser, $driver);
 
         $isAuthenticated = Auth::check();
         $authenticationMethodExists = AuthenticationMethod::where('provider_id', $socialUser->getId())
@@ -42,7 +40,7 @@ class AuthenticationController extends Controller
             $user = $request->user();
             $user->authenticationMethods()->create(
                 [
-                    'avatar' => $avatar,
+                    'avatar' => $socialUser->getAvatar(),
                     'email' => $socialUser->getEmail(),
                     'is_primary' => false,
                     'name' => $socialUser->getName(),
@@ -54,12 +52,12 @@ class AuthenticationController extends Controller
 
             return redirect()->route('myProfile');
         } else {
-            DB::transaction(function () use ($avatar, $driver, $socialUser, $userExists) {
+            DB::transaction(function () use ($driver, $socialUser, $userExists) {
                 if ($userExists) {
                     $user = User::where('email', $socialUser->getEmail())->first();
                 } else {
                     $user = User::create([
-                        'avatar' => $avatar,
+                        'avatar' => $socialUser->getAvatar(),
                         'email' => $socialUser->getEmail(),
                         'name' => $socialUser->getName(),
                     ]);
@@ -68,7 +66,7 @@ class AuthenticationController extends Controller
                 $user->authenticationMethods()->updateOrCreate(
                     ['provider_id' => $socialUser->getId()],
                     [
-                        'avatar' => $avatar,
+                        'avatar' => $socialUser->getAvatar(),
                         'email' => $socialUser->getEmail(),
                         'is_primary' => count($user->authenticationMethods) === 0 ||
                             $user->authenticationMethods[0]->type === $driver->value,
@@ -82,7 +80,7 @@ class AuthenticationController extends Controller
                     $user->authenticationMethods[0]->type === $driver->value
                 ) {
                     Log::debug('Login: Update user');
-                    $user->avatar = $avatar;
+                    $user->avatar = $socialUser->getAvatar();
                     $user->email = $socialUser->getEmail();
                     $user->name = $socialUser->getName();
                     $user->save();
@@ -133,21 +131,5 @@ class AuthenticationController extends Controller
         });
 
         return response(null, 204, ['Hx-Redirect' => route('myProfile')]);
-    }
-
-    /**
-     * Given a Socialite user, get the avatar.
-     */
-    private static function getSocialUserAvatar(
-        SocialiteUser $user,
-        AuthenticationProvider $driver,
-    ): ?string {
-        $avatar = $user->getAvatar();
-        if (!$avatar) {
-            return $avatar;
-        }
-        return $driver->value === AuthenticationProvider::Facebook->value
-            ? "{$avatar}?access_token={$user->token}"
-            : $avatar;
     }
 }

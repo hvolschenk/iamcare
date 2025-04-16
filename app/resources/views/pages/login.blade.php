@@ -43,19 +43,5 @@
             />
             {{ __('login.provider--google') }}
         </x-link.button>
-
-        <x-link.button
-            class="w-3xs"
-            href="{{ route('loginRedirect', ['driver' => 'facebook']) }}"
-        >
-            <img
-                alt="{{ __('login.provider--facebook') }}"
-                class="h-6 mr-3 w-6"
-                height="24"
-                src="{{ asset('images/social/facebook.png') }}"
-                width="24"
-            />
-            {{ __('login.provider--facebook') }}
-        </x-link.button>
     </div>
 </x-layouts.base>

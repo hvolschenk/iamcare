@@ -46,9 +46,6 @@ class UserController extends Controller
         $error = $request->query('error');
         $user = $request->user();
 
-        $facebook = $user->authenticationMethods->first(function ($authenticationMethod) {
-            return $authenticationMethod->type === 'facebook';
-        });
         $google = $user->authenticationMethods->first(function ($authenticationMethod) {
             return $authenticationMethod->type === 'google';
         });
@@ -57,7 +54,6 @@ class UserController extends Controller
             'pages.my-profile',
             [
                 'error' => $error,
-                'facebook' => $facebook,
                 'google' => $google,
                 'user' => $user,
             ],
