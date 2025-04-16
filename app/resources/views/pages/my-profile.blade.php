@@ -28,7 +28,7 @@
 
     <ul
         class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none"
-        hx-disabled-elt="find a"
+        hx-disabled-elt=".authentication-method__set-default"
     >
         @if (isset($google))
             <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center px-2 py-2">
