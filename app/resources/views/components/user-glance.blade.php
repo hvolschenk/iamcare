@@ -6,7 +6,7 @@
         alt="{{ $user->name }}"
         class="aspect-square border-2 border-primary dark:border-neutral-400 rounded-full size-7"
         referrerpolicy="no-referrer"
-        src="{{ $user->avatar }}"
+        src="{{ $user->getAvatar() }}"
     />
     {{ $user->name }}
 </a>

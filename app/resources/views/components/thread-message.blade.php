@@ -13,7 +13,7 @@
             <img
                 alt="{{ $message->user->name }}"
                 class="aspect-square border-2 border-primary dark:border-neutral-400 rounded-full size-7"
-                src="{{ $message->user->avatar }}"
+                src="{{ $message->user->getAvatar() }}"
             />
         @endif
     </div>

@@ -78,7 +78,7 @@
                     alt="{{ Auth::user()->name }}"
                     class="aspect-square border-2 border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
                     referrerpolicy="no-referrer"
-                    src="{{ Auth::user()->avatar }}"
+                    src="{{ Auth::user()->getAvatar() }}"
                 />
             </a>
         @endauth

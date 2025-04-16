@@ -50,6 +50,19 @@ class AuthenticationMethod extends Model
     protected $casts = [];
 
     /**
+     * Get the authentication method's avatar image URL
+     *
+     * @return string
+     */
+    public function getAvatar(): string
+    {
+        if ($this->avatar) {
+            return $this->avatar;
+        }
+        return asset('images/avatar.webp');
+    }
+
+    /**
      * The user who this authentication method belongs to
      */
     public function user(): BelongsTo

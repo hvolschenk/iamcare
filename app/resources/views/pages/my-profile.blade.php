@@ -66,7 +66,7 @@
                     class="aspect-square border border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
                     height="28"
                     referrerpolicy="no-referrer"
-                    src="{{ $google->avatar }}"
+                    src="{{ $google->getAvatar() }}"
                     width="28"
                 />
                 <div class="flex flex-col">
