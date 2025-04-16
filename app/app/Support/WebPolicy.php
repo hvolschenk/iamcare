@@ -27,6 +27,7 @@ class WebPolicy implements Preset
             ->add(Directive::IMG, [
                 Keyword::SELF,
                 Scheme::BLOB,
+                Scheme::DATA,
                 'https://*.google-analytics.com',
                 'https://*.googletagmanager.com',
                 'https://*.googleusercontent.com',

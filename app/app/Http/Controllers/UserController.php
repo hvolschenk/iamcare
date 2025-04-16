@@ -50,12 +50,16 @@ class UserController extends Controller
         $google = $user->authenticationMethods->first(function ($authenticationMethod) {
             return $authenticationMethod->type === AuthenticationProvider::Google->value;
         });
+        $microsoft = $user->authenticationMethods->first(function ($authenticationMethod) {
+            return $authenticationMethod->type === AuthenticationProvider::Microsoft->value;
+        });
 
         return view(
             'pages.my-profile',
             [
                 'error' => $error,
                 'google' => $google,
+                'microsoft' => $microsoft,
                 'user' => $user,
             ],
         );

@@ -43,5 +43,19 @@
             />
             {{ __('login.provider--google') }}
         </x-link.button>
+
+        <x-link.button
+            class="w-3xs"
+            href="{{ route('loginRedirect', ['driver' => 'microsoft']) }}"
+        >
+            <img
+                alt="{{ __('login.provider--microsoft') }}"
+                class="h-6 mr-3 w-6"
+                height="24"
+                src="{{ asset('images/social/microsoft.png') }}"
+                width="24"
+            />
+            {{ __('login.provider--microsoft') }}
+        </x-link.button>
     </div>
 </x-layouts.base>

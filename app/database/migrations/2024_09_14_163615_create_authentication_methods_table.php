@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('provider_id')->index();
             $table->string('email');
             $table->string('name');
-            $table->string('avatar', 2048)->nullable();
+            $table->mediumText('avatar')->nullable();
             $table->foreignIdFor(User::class);
             $table->boolean('is_primary');
         });

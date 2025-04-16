@@ -20,6 +20,15 @@ return [
         'redirect' => '/login/google',
     ],
 
+    'microsoft' => [
+        'client_id' => env('MICROSOFT_ENTRA_CLIENT_ID'),
+        'client_secret' => env('MICROSOFT_ENTRA_CLIENT_SECRET'),
+        'include_avatar' => true,
+        'include_avatar_size' => '28x28',
+        'redirect' => '/login/microsoft',
+        'tenant' => 'common',
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
