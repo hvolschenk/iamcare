@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AuthenticationProvider;
 use App\Models\User;
 use App\Models\UserReport;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class UserController extends Controller
         $user = $request->user();
 
         $google = $user->authenticationMethods->first(function ($authenticationMethod) {
-            return $authenticationMethod->type === 'google';
+            return $authenticationMethod->type === AuthenticationProvider::Google->value;
         });
 
         return view(
