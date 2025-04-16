@@ -28,7 +28,7 @@
 
     <ul
         class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none"
-        hx-disabled-elt="find a"
+        hx-disabled-elt=".authentication-method__set-default"
     >
         @if (isset($google))
             <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center px-2 py-2">
@@ -66,7 +66,7 @@
                     class="aspect-square border border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
                     height="28"
                     referrerpolicy="no-referrer"
-                    src="{{ $google->avatar }}"
+                    src="{{ $google->getAvatar() }}"
                     width="28"
                 />
                 <div class="flex flex-col">
@@ -78,13 +78,13 @@
             </li>
         @endif
 
-        @if (isset($facebook))
+        @if (isset($microsoft))
             <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center px-2 py-2">
                 <form>
                     @csrf
                     <a
                         class="authentication-method__set-default cursor-pointer flex"
-                        hx-post="{{ route('authenticationMethodSetDefault', $facebook) }}"
+                        hx-post="{{ route('authenticationMethodSetDefault', $microsoft) }}"
                     >
                         <span
                             class="
@@ -92,7 +92,7 @@
                                 dark:hover:text-secondary
                                 hover:text-secondary
                                 text-primary
-                                @if ($facebook->is_primary)
+                                @if ($microsoft->is_primary)
                                     dark:text-secondary
                                     text-secondary
                                 @endif
@@ -103,24 +103,24 @@
                     </a>
                 </form>
                 <img
-                    alt="{{ __('login.provider--facebook') }}"
+                    alt="{{ __('login.provider--microsoft') }}"
                     class="size-4"
                     height="16"
-                    src="{{ asset('images/social/facebook.png') }}"
+                    src="{{ asset('images/social/microsoft.png') }}"
                     width="16"
                 />
                 <img
-                    alt="{{ $facebook->name }}"
+                    alt="{{ $microsoft->name }}"
                     class="aspect-square border border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
                     height="28"
                     referrerpolicy="no-referrer"
-                    src="{{ $facebook->avatar }}"
+                    src="{{ $microsoft->getAvatar() }}"
                     width="28"
                 />
                 <div class="flex flex-col">
-                    <span>{{ $facebook->name }}</span>
+                    <span>{{ $microsoft->name }}</span>
                     <span class="dark:text-neutral-300 text-neutral-500">
-                        {{ $facebook->email }}
+                        {{ $microsoft->email }}
                     </span>
                 </div>
             </li>
@@ -155,11 +155,12 @@
                 </a>
             </li>
         @endif
-        @if (!isset($facebook))
+
+        @if (!isset($microsoft))
             <li class="dark:hover:bg-neutral-700 hover:bg-neutral-200">
                 <a
                     class="flex gap-4 items-center px-2 py-2"
-                    href="{{ route('loginRedirect', ['driver' => 'facebook']) }}"
+                    href="{{ route('loginRedirect', ['driver' => 'microsoft']) }}"
                 >
                     <div class="authentication-method__set-default cursor-pointer flex">
                         <span
@@ -174,13 +175,13 @@
                         </span>
                     </div>
                     <img
-                        alt="{{ __('login.provider--facebook') }}"
+                        alt="{{ __('login.provider--microsoft') }}"
                         class="size-4"
                         height="16"
-                        src="{{ asset('images/social/facebook.png') }}"
+                        src="{{ asset('images/social/microsoft.png') }}"
                         width="16"
                     />
-                    {{ __('my-profile.link-account--facebook') }}
+                    {{ __('my-profile.link-account--microsoft') }}
                 </a>
             </li>
         @endif

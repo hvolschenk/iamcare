@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('avatar')->nullable();
+            $table->mediumText('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\AuthenticationProvider;
 use App\Models\Image;
 use App\Models\Item;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Observers\ItemObserver;
 use App\Observers\UserObserver;
 use App\View\Composers\AppBarComposer;
 use App\View\Composers\ItemFormComposer;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\Paginator;
@@ -42,5 +44,12 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('components.layouts.base.app-bar', AppBarComposer::class);
         View::composer('components.item-form', ItemFormComposer::class);
+
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite(
+                AuthenticationProvider::Microsoft->value,
+                \SocialiteProviders\Microsoft\Provider::class,
+            );
+        });
     }
 }

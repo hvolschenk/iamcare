@@ -14,16 +14,19 @@ return [
     |
     */
 
-    'facebook' => [
-        'client_id' => env('FACEBOOK_APP_ID'),
-        'client_secret' => env('FACEBOOK_APP_SECRET'),
-        'redirect' => '/login/facebook',
-    ],
-
     'google' => [
         'client_id' => env('GOOGLE_IDENTITY_CLIENT_ID'),
         'client_secret' => env('GOOGLE_IDENTITY_CLIENT_SECRET'),
         'redirect' => '/login/google',
+    ],
+
+    'microsoft' => [
+        'client_id' => env('MICROSOFT_ENTRA_CLIENT_ID'),
+        'client_secret' => env('MICROSOFT_ENTRA_CLIENT_SECRET'),
+        'include_avatar' => true,
+        'include_avatar_size' => '28x28',
+        'redirect' => '/login/microsoft',
+        'tenant' => 'common',
     ],
 
     'postmark' => [

@@ -40,6 +40,19 @@ class User extends Authenticatable
     protected $casts = [];
 
     /**
+     * Get the user's avatar image URL
+     *
+     * @return string
+     */
+    public function getAvatar(): string
+    {
+        if ($this->avatar) {
+            return $this->avatar;
+        }
+        return asset('images/avatar.webp');
+    }
+
+    /**
      * A list of authentication methods link to this user's account
      */
     public function authenticationMethods(): HasMany
