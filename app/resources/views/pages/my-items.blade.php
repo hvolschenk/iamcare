@@ -30,7 +30,14 @@
     </x-page-title>
 
     @if ($items->isEmpty())
-        <x-alert>{{ __('my-items.error--no-items') }}</x-alert>
+        <x-alert>
+            <div class="flex flex-row grow justify-between">
+                <span>{{ __('my-items.error--no-items') }}</span>
+                <a href="{{ route('itemGive') }}">
+                    {{ __('item.give') }}
+                </a>
+            </div>
+        </x-alert>
     @else
         <ul class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none">
             @foreach ($items as $item)
