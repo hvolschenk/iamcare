@@ -19,6 +19,17 @@
             const imageCarousel = new ImageCarousel($imageCarouselContainer);
             imageCarousel.initialize();
         </script>
+        <script src="{{ asset('scripts/share.js') }}"></script>
+        <script @cspNonce type="module">
+            const $buttonShare = document.getElementById("item__share");
+            const shareData = {
+                text: "{{ $item->description }}",
+                title: "{{ $item->name }}",
+                url: "{{ route('item', $item) }}"
+            };
+            const share = new Share($buttonShare, shareData);
+            share.initialize();
+        </script>
     </x-slot>
 
     <x-page-title
@@ -29,27 +40,45 @@
     >
         <div class="flex flex-row justify-between">
             <span>{{ $item->name }}</span>
-            @auth
-                @if (Auth::user()->id !== $item->user->id)
-                    <a
-                        class="
-                            @if ($itemReport === null)
-                                dark:text-neutral-400
-                                dark:hover:text-secondary
-                                text-primary
-                                hover:text-secondary
-                            @else
-                                dark:text-secondary
-                                text-secondary
-                            @endif
-                            flex
-                            items-center"
-                        href="{{ route('reportItem', $item) }}"
-                    >
-                        <span class="material-symbols-outlined">flag</span>
-                    </a>
-                @endif
-            @endauth
+            <div class="flex flex-row gap-2 items-center">
+                @auth
+                    @if (Auth::user()->id !== $item->user->id)
+                        <a
+                            class="
+                                @if ($itemReport === null)
+                                    dark:text-neutral-400
+                                    dark:hover:text-secondary
+                                    text-primary
+                                    hover:text-secondary
+                                @else
+                                    dark:text-secondary
+                                    text-secondary
+                                @endif
+                                flex
+                                items-center"
+                            href="{{ route('reportItem', $item) }}"
+                        >
+                            <span class="material-symbols-outlined">flag</span>
+                        </a>
+                    @endif
+                @endauth
+                <button
+                    class="
+                        cursor-pointer
+                        dark:disabled:text-neutral-200
+                        dark:hover:text-secondary
+                        dark:text-neutral-400
+                        disabled:cursor-not-allowed
+                        disabled:text-neutral-500
+                        flex
+                        hover:text-secondary
+                        text-primary"
+                    id="item__share"
+                    type="button"
+                >
+                    <span class="material-symbols-outlined">share</span>
+                </button>
+            </div>
         </div>
     </x-page-title>
 
