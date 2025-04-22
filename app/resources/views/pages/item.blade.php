@@ -102,19 +102,7 @@
             <x-user-glance :user="$item->user" />
             <p>{{ $item->description }}</p>
         </div>
-        <div
-            class="
-                bg-neutral-50
-                border
-                border-neutral-500
-                dark:bg-neutral-900
-                dark:hover:bg-black
-                dark:hover:border-neutral-400
-                hover:bg-white
-                hover:border-neutral-600
-                p-4
-                rounded"
-        >
+        <x-card>
             <p class="flex flex-wrap gap-1 mt-2 pb-1">
                 @foreach ($item->tags as $tag)
                     <x-tag :tag="$tag" />
@@ -132,7 +120,7 @@
                     {{ $item->location->name }}
                 </a>
             </p>
-        </div>
+        </x-card>
     </div>
 
     @if ($thread === null)

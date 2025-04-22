@@ -9,7 +9,7 @@
     </section>
 
     <section class="gap-4 grid md:grid-cols-2 space-y-4">
-        <div class="bg-white dark:bg-neutral-900 flex flex-col h-full p-4 rounded-sm">
+        <x-card class="flex flex-col h-full">
             <h2 class="font-bold mb-4 text-xl text-primary">
                 {{ __('home.give__title') }}
             </h2>
@@ -25,9 +25,9 @@
             >
                 {{ __('home.give__action') }}
             </a>
-        </div>
+        </x-card>
 
-        <div class="bg-white dark:bg-neutral-900 flex flex-col h-full p-4 rounded-sm">
+        <x-card class="flex flex-col h-full">
             <h2 class="font-bold mb-4 text-xl text-secondary">
                 {{ __('home.take__title') }}
             </h2>
@@ -50,7 +50,7 @@
             >
                 {{ __('home.take__action') }}
             </button>
-        </div>
+        </x-card>
     </section>
 
     @if (count($latestItems) > 0)
@@ -79,21 +79,7 @@
     </section>
 
     @if (count($popularTags) > 0)
-        <section
-            class="
-                bg-neutral-50
-                border
-                border-neutral-500
-                dark:bg-neutral-900
-                dark:hover:bg-black
-                dark:hover:border-neutral-400
-                hover:bg-white
-                hover:border-neutral-600
-                mt-12
-                p-4
-                pb-6
-                rounded"
-        >
+        <x-card class="mt-12 pb-6">
             <h2 class="font-bold mb-4 text-xl">
                 {{ __('home.popular-tags__title') }}
             </h2>
@@ -108,6 +94,6 @@
                     </p>
                 @endforeach
             </div>
-        </section>
+        </x-card>
     @endif
 </x-layouts.base>

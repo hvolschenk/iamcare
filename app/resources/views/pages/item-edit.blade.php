@@ -56,9 +56,11 @@
         {{ __('item.edit') }}
     </x-page-title>
 
-    <x-item-form
-        actionPrimaryLabel="{{ __('item.edit') }}"
-        actionPrimaryLocation="{{ route('itemEditHandler', $item) }}"
-        :item="$item"
-    />
+    <x-card>
+        <x-item-form
+            actionPrimaryLabel="{{ __('item.edit') }}"
+            actionPrimaryLocation="{{ route('itemEditHandler', $item) }}"
+            :item="$item"
+        />
+    </x-card>
 </x-layouts.base>

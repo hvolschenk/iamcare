@@ -12,16 +12,18 @@
         {{ __('legal.page-title') }}
     </x-page-title>
 
-    <ul class="list-none">
-        <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
-            <a class="block p-4" href="{{ route('privacyPolicy') }}">
-                <p>{{ __('legal.privacy-policy') }}</p>
-            </a>
-        </li>
-        <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
-            <a class="block p-4" href="{{ route('termsOfUse') }}">
-                <p>{{ __('legal.terms-of-use') }}</p>
-            </a>
-        </li>
-    </ul>
+    <x-card>
+        <ul class="list-none">
+            <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
+                <a class="block p-4" href="{{ route('privacyPolicy') }}">
+                    <p>{{ __('legal.privacy-policy') }}</p>
+                </a>
+            </li>
+            <li class="block dark:hover:bg-neutral-700 hover:bg-neutral-200">
+                <a class="block p-4" href="{{ route('termsOfUse') }}">
+                    <p>{{ __('legal.terms-of-use') }}</p>
+                </a>
+            </li>
+        </ul>
+    </x-card>
 </x-layouts.base>

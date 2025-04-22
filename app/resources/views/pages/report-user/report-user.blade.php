@@ -15,7 +15,7 @@
 
     <x-user-glance :user="$user" />
 
-    <div class="mt-6">
+    <x-card class="mt-4">
         @if ($userReport === null)
             @include('pages.report-user.form')
         @else
@@ -24,5 +24,5 @@
                 <em>{{ $userReport->created_at->isoFormat('LLL') }}</em>: {{ $userReport->reason }}
             </p>
         @endif
-    </div>
+    </x-card>
 </x-layouts.base>

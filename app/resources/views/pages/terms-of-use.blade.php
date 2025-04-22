@@ -13,7 +13,9 @@
         {{ __('terms-of-use.page-title') }}
     </x-page-title>
 
-    <div class="markdown">
-        {!! $termsOfUse !!}
-    </div>
+    <x-card>
+        <div class="markdown">
+            {!! $termsOfUse !!}
+        </div>
+    </x-card>
 </x-layouts.base>
