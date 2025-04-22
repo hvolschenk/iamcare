@@ -1,5 +1,4 @@
 <form
-    class="mt-6"
     hx-disabled-elt="button[type='submit']"
     hx-post="{{ route('reportUserHandler', $user) }}"
     hx-swap="outerHTML"

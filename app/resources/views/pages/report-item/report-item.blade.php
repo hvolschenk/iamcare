@@ -15,7 +15,7 @@
 
     <x-item-glance :item="$item" />
 
-    <div class="mt-6">
+    <x-card class="mt-4">
         @if ($itemReport === null)
             @include('pages.report-item.form')
         @else
@@ -24,5 +24,5 @@
                 <em>{{ $itemReport->created_at->isoFormat('LLL') }}</em>: {{ $itemReport->reason }}
             </p>
         @endif
-    </div>
+    </x-card>
 </x-layouts.base>

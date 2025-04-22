@@ -55,8 +55,10 @@
         {{ __('item.give') }}
     </x-page-title>
 
-    <x-item-form
-        actionPrimaryLabel="{{ __('item.give') }}"
-        actionPrimaryLocation="{{ route('itemGive') }}"
-    />
+    <x-card>
+        <x-item-form
+            actionPrimaryLabel="{{ __('item.give') }}"
+            actionPrimaryLocation="{{ route('itemGive') }}"
+        />
+    </x-card>
 </x-layouts.base>

@@ -14,15 +14,17 @@
         {{ $thread->item->name }}
     </x-page-title>
 
-    <x-item-glance :item="$thread->item" />
+    <x-card class="mb-4">
+        <x-item-glance :item="$thread->item" />
 
-    @if (Auth::user()->id === $thread->userGiver->id)
-        <x-user-glance :user="$thread->userReceiver" />
-    @else
-        <x-user-glance :user="$thread->userGiver" />
-    @endif
+        @if (Auth::user()->id === $thread->userGiver->id)
+            <x-user-glance :user="$thread->userReceiver" />
+        @else
+            <x-user-glance :user="$thread->userGiver" />
+        @endif
+    </x-card>
 
-    <hr class="border-neutral-500 lg:mx-24 md:mx-20 mx-4 my-8" />
-
-    @include('pages.thread.messages', ['thread' => $thread])
+    <x-card>
+        @include('pages.thread.messages', ['thread' => $thread])
+    </x-card>
 </x-layouts.base>

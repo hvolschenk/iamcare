@@ -13,7 +13,9 @@
         {{ __('privacy-policy.page-title') }}
     </x-page-title>
 
-    <div class="markdown">
-        {!! $privacyPolicy !!}
-    </div>
+    <x-card>
+        <div class="markdown">
+            {!! $privacyPolicy !!}
+        </div>
+    </x-card>
 </x-layouts.base>

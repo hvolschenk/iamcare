@@ -26,124 +26,35 @@
         @endif
     @endif
 
-    <ul
-        class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none"
-        hx-disabled-elt=".authentication-method__set-default"
-    >
-        @if (isset($google))
-            <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center px-2 py-2">
-                <form>
-                    @csrf
-                    <a
-                        class="authentication-method__set-default cursor-pointer flex"
-                        hx-post="{{ route('authenticationMethodSetDefault', $google) }}"
-                    >
-                        <span
-                            class="
-                                dark:text-neutral-400
-                                dark:hover:text-secondary
-                                hover:text-secondary
-                                text-primary
-                                @if ($google->is_primary)
-                                    dark:text-secondary
-                                    text-secondary
-                                @endif
-                                material-symbols-outlined"
+    <x-card>
+        <ul
+            class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none"
+            hx-disabled-elt=".authentication-method__set-default"
+        >
+            @if (isset($google))
+                <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center px-2 py-2">
+                    <form>
+                        @csrf
+                        <a
+                            class="authentication-method__set-default cursor-pointer flex"
+                            hx-post="{{ route('authenticationMethodSetDefault', $google) }}"
                         >
-                            star
-                        </span>
-                    </a>
-                </form>
-                <img
-                    alt="{{ __('login.provider--google') }}"
-                    class="size-4"
-                    height="16"
-                    src="{{ asset('images/social/google.webp') }}"
-                    width="16"
-                />
-                <img
-                    alt="{{ $google->name }}"
-                    class="aspect-square border border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
-                    height="28"
-                    referrerpolicy="no-referrer"
-                    src="{{ $google->getAvatar() }}"
-                    width="28"
-                />
-                <div class="flex flex-col">
-                    <span>{{ $google->name }}</span>
-                    <span class="dark:text-neutral-300 text-neutral-500">
-                        {{ $google->email }}
-                    </span>
-                </div>
-            </li>
-        @endif
-
-        @if (isset($microsoft))
-            <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center px-2 py-2">
-                <form>
-                    @csrf
-                    <a
-                        class="authentication-method__set-default cursor-pointer flex"
-                        hx-post="{{ route('authenticationMethodSetDefault', $microsoft) }}"
-                    >
-                        <span
-                            class="
-                                dark:text-neutral-400
-                                dark:hover:text-secondary
-                                hover:text-secondary
-                                text-primary
-                                @if ($microsoft->is_primary)
-                                    dark:text-secondary
-                                    text-secondary
-                                @endif
-                                material-symbols-outlined"
-                        >
-                            star
-                        </span>
-                    </a>
-                </form>
-                <img
-                    alt="{{ __('login.provider--microsoft') }}"
-                    class="size-4"
-                    height="16"
-                    src="{{ asset('images/social/microsoft.png') }}"
-                    width="16"
-                />
-                <img
-                    alt="{{ $microsoft->name }}"
-                    class="aspect-square border border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
-                    height="28"
-                    referrerpolicy="no-referrer"
-                    src="{{ $microsoft->getAvatar() }}"
-                    width="28"
-                />
-                <div class="flex flex-col">
-                    <span>{{ $microsoft->name }}</span>
-                    <span class="dark:text-neutral-300 text-neutral-500">
-                        {{ $microsoft->email }}
-                    </span>
-                </div>
-            </li>
-        @endif
-
-        @if (!isset($google))
-            <li class="dark:hover:bg-neutral-700 hover:bg-neutral-200">
-                <a
-                    class="flex gap-4 items-center px-2 py-2"
-                    href="{{ route('loginRedirect', ['driver' => 'google']) }}"
-                >
-                    <div class="authentication-method__set-default cursor-pointer flex">
-                        <span
-                            class="
-                                dark:text-neutral-400
-                                dark:hover:text-secondary
-                                hover:text-secondary
-                                text-primary
-                                material-symbols-outlined"
-                        >
-                            add
-                        </span>
-                    </div>
+                            <span
+                                class="
+                                    dark:text-neutral-400
+                                    dark:hover:text-secondary
+                                    hover:text-secondary
+                                    text-primary
+                                    @if ($google->is_primary)
+                                        dark:text-secondary
+                                        text-secondary
+                                    @endif
+                                    material-symbols-outlined"
+                            >
+                                star
+                            </span>
+                        </a>
+                    </form>
                     <img
                         alt="{{ __('login.provider--google') }}"
                         class="size-4"
@@ -151,29 +62,47 @@
                         src="{{ asset('images/social/google.webp') }}"
                         width="16"
                     />
-                    {{ __('my-profile.link-account--google') }}
-                </a>
-            </li>
-        @endif
-
-        @if (!isset($microsoft))
-            <li class="dark:hover:bg-neutral-700 hover:bg-neutral-200">
-                <a
-                    class="flex gap-4 items-center px-2 py-2"
-                    href="{{ route('loginRedirect', ['driver' => 'microsoft']) }}"
-                >
-                    <div class="authentication-method__set-default cursor-pointer flex">
-                        <span
-                            class="
-                                dark:text-neutral-400
-                                dark:hover:text-secondary
-                                hover:text-secondary
-                                text-primary
-                                material-symbols-outlined"
-                        >
-                            add
+                    <img
+                        alt="{{ $google->name }}"
+                        class="aspect-square border border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
+                        height="28"
+                        referrerpolicy="no-referrer"
+                        src="{{ $google->getAvatar() }}"
+                        width="28"
+                    />
+                    <div class="flex flex-col">
+                        <span>{{ $google->name }}</span>
+                        <span class="dark:text-neutral-300 text-neutral-500">
+                            {{ $google->email }}
                         </span>
                     </div>
+                </li>
+            @endif
+
+            @if (isset($microsoft))
+                <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center px-2 py-2">
+                    <form>
+                        @csrf
+                        <a
+                            class="authentication-method__set-default cursor-pointer flex"
+                            hx-post="{{ route('authenticationMethodSetDefault', $microsoft) }}"
+                        >
+                            <span
+                                class="
+                                    dark:text-neutral-400
+                                    dark:hover:text-secondary
+                                    hover:text-secondary
+                                    text-primary
+                                    @if ($microsoft->is_primary)
+                                        dark:text-secondary
+                                        text-secondary
+                                    @endif
+                                    material-symbols-outlined"
+                            >
+                                star
+                            </span>
+                        </a>
+                    </form>
                     <img
                         alt="{{ __('login.provider--microsoft') }}"
                         class="size-4"
@@ -181,9 +110,82 @@
                         src="{{ asset('images/social/microsoft.png') }}"
                         width="16"
                     />
-                    {{ __('my-profile.link-account--microsoft') }}
-                </a>
-            </li>
-        @endif
-    </ul>
+                    <img
+                        alt="{{ $microsoft->name }}"
+                        class="aspect-square border border-primary dark:border-neutral-400 hover:border-secondary rounded-full size-7"
+                        height="28"
+                        referrerpolicy="no-referrer"
+                        src="{{ $microsoft->getAvatar() }}"
+                        width="28"
+                    />
+                    <div class="flex flex-col">
+                        <span>{{ $microsoft->name }}</span>
+                        <span class="dark:text-neutral-300 text-neutral-500">
+                            {{ $microsoft->email }}
+                        </span>
+                    </div>
+                </li>
+            @endif
+
+            @if (!isset($google))
+                <li class="dark:hover:bg-neutral-700 hover:bg-neutral-200">
+                    <a
+                        class="flex gap-4 items-center px-2 py-2"
+                        href="{{ route('loginRedirect', ['driver' => 'google']) }}"
+                    >
+                        <div class="authentication-method__set-default cursor-pointer flex">
+                            <span
+                                class="
+                                    dark:text-neutral-400
+                                    dark:hover:text-secondary
+                                    hover:text-secondary
+                                    text-primary
+                                    material-symbols-outlined"
+                            >
+                                add
+                            </span>
+                        </div>
+                        <img
+                            alt="{{ __('login.provider--google') }}"
+                            class="size-4"
+                            height="16"
+                            src="{{ asset('images/social/google.webp') }}"
+                            width="16"
+                        />
+                        {{ __('my-profile.link-account--google') }}
+                    </a>
+                </li>
+            @endif
+
+            @if (!isset($microsoft))
+                <li class="dark:hover:bg-neutral-700 hover:bg-neutral-200">
+                    <a
+                        class="flex gap-4 items-center px-2 py-2"
+                        href="{{ route('loginRedirect', ['driver' => 'microsoft']) }}"
+                    >
+                        <div class="authentication-method__set-default cursor-pointer flex">
+                            <span
+                                class="
+                                    dark:text-neutral-400
+                                    dark:hover:text-secondary
+                                    hover:text-secondary
+                                    text-primary
+                                    material-symbols-outlined"
+                            >
+                                add
+                            </span>
+                        </div>
+                        <img
+                            alt="{{ __('login.provider--microsoft') }}"
+                            class="size-4"
+                            height="16"
+                            src="{{ asset('images/social/microsoft.png') }}"
+                            width="16"
+                        />
+                        {{ __('my-profile.link-account--microsoft') }}
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </x-card>
 </x-layouts.base>

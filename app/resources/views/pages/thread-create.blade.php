@@ -16,10 +16,12 @@
     <x-item-glance :item="$item" />
     <x-user-glance :user="$item->user" />
 
-    <x-thread-form
-        actionPrimaryLabel="{{ __('thread.actionSend') }}"
-        actionPrimaryLocation="{{ route('threadCreateHandler', $item) }}"
-        :item="$item"
-        swapStyle="outerHTML"
-    />
+    <x-card>
+        <x-thread-form
+            actionPrimaryLabel="{{ __('thread.actionSend') }}"
+            actionPrimaryLocation="{{ route('threadCreateHandler', $item) }}"
+            :item="$item"
+            swapStyle="outerHTML"
+        />
+    </x-card>
 </x-layouts.base>
