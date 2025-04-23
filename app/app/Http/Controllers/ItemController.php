@@ -167,6 +167,7 @@ class ItemController extends Controller
     {
         $user = $request->user();
         if ($user !== null) {
+            $isOwner = $user->id === $item->user->id;
             $itemReport = ItemReport::whereRelation('item', 'id', $item->id)
                 ->whereRelation('user', 'id', $user->id)
                 ->first();
@@ -175,12 +176,18 @@ class ItemController extends Controller
                 'user_id_receiver' => $user->id,
             ])->first();
         } else {
+            $isOwner = false;
             $itemReport = null;
             $thread = null;
         }
         return view(
             'pages.item',
-            ['item' => $item, 'itemReport' => $itemReport, 'thread' => $thread],
+            [
+                'isOwner' => $isOwner,
+                'item' => $item,
+                'itemReport' => $itemReport,
+                'thread' => $thread,
+            ],
         );
     }
 
