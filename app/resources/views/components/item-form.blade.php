@@ -123,8 +123,9 @@
             for="location-display"
             :label="__('item.locationLabel')"
         />
-        <div>
+        <div class="relative">
             <input
+                autocomplete="off"
                 class="
                     @error('location')
                         border-red-600
@@ -147,7 +148,7 @@
                 type="text"
             />
             <input name="location" type="hidden" value="{{ old('location', $item?->location->googlePlaceID ?? '') }}" />
-            <div aria-role="list" class="absolute border-primary dark:bg-neutral-700 w-full"></div>
+            <div aria-role="list" class="absolute bg-neutral-200 border-primary dark:bg-neutral-700 w-full"></div>
         </div>
         <div class="mt-2">
             <x-forms.helper-text
