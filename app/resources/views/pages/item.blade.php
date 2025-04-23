@@ -50,7 +50,20 @@
             <span>{{ $item->name }}</span>
             <div class="flex flex-row gap-2 items-center">
                 @auth
-                    @if (!$isOwner)
+                    @if ($isOwner)
+                        <a
+                            class="
+                                dark:text-neutral-400
+                                dark:hover:text-secondary
+                                text-primary
+                                hover:text-secondary
+                                flex
+                                items-center"
+                            href="{{ route('itemEdit', $item) }}"
+                        >
+                            <span class="material-symbols-outlined">edit</span>
+                        </a>
+                    @else
                         <a
                             class="
                                 @if ($itemReport === null)
