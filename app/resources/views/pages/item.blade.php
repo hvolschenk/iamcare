@@ -35,6 +35,14 @@
     <x-page-title
         :breadcrumbs="[
             ['title' => __('home.breadcrumb'), 'url' => route('home')],
+            [
+                'title' => $isOwner ? __('me.breadcrumb') : null,
+                'url' => route('me'),
+            ],
+            [
+                'title' => $isOwner ? __('my-items.breadcrumb') : null,
+                'url' => route('myItems'),
+            ],
             ['title' => $item->name],
         ]"
     >
@@ -42,7 +50,7 @@
             <span>{{ $item->name }}</span>
             <div class="flex flex-row gap-2 items-center">
                 @auth
-                    @if (Auth::user()->id !== $item->user->id)
+                    @if (!$isOwner)
                         <a
                             class="
                                 @if ($itemReport === null)
@@ -125,7 +133,7 @@
 
     @if ($thread === null)
         @auth
-            @if (Auth::user()->id !== $item->user->id)
+            @if (!$isOwner)
                 <x-link.button class="md:max-w-fit" href="{{ route('threadCreate', $item) }}">
                     <span class="material-symbols-outlined">send</span>
                     {{ __('item.actionContactGiver') }}
