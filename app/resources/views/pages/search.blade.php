@@ -129,7 +129,7 @@
                             type="text"
                         />
                         <input name="location" type="hidden" value="{{ $googlePlaceID }}" />
-                        <div aria-role="list" class="absolute border-primary dark:bg-neutral-700 w-full"></div>
+                        <div aria-role="list" class="absolute bg-neutral-200 border-primary dark:bg-neutral-700 w-full"></div>
                     </div>
                     <div class="mt-2">
                         <x-forms.helper-text
