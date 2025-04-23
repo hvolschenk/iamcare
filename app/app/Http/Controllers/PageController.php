@@ -12,7 +12,7 @@ class PageController extends Controller
 {
     public function home()
     {
-        $latestItems = Item::latest()->limit(12)->get();
+        $latestItems = Item::latest()->where('is_given', false)->limit(12)->get();
         $popularTags = Tag::withCount(['items'])
             ->orderBy('items_count', 'DESC')
             ->limit(12)
