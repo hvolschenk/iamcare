@@ -125,6 +125,7 @@
         />
         <div class="relative">
             <input
+                autocomplete="off"
                 class="
                     @error('location')
                         border-red-600

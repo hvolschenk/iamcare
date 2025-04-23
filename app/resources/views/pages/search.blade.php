@@ -113,6 +113,7 @@
                     />
                     <div class="relative">
                         <input
+                            autocomplete="off"
                             class="
                                 border
                                 border-neutral-500
