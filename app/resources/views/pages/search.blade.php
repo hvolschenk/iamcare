@@ -111,7 +111,7 @@
                         for="location-display"
                         :label="__('search.field__location--label')"
                     />
-                    <div>
+                    <div class="relative">
                         <input
                             class="
                                 border

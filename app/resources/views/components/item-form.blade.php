@@ -123,7 +123,7 @@
             for="location-display"
             :label="__('item.locationLabel')"
         />
-        <div>
+        <div class="relative">
             <input
                 class="
                     @error('location')
