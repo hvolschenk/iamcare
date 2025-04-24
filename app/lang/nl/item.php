@@ -18,7 +18,7 @@ return [
     'locationHelperText' => 'De dichtstbijzijnde buitenwijk',
     'locationLabel' => 'Locatie',
     'nameHelperText' => 'Een korte beschrijvende naam die het item identificeert',
-    'nameLabel' => 'Naam',
+    'nameLabel' => 'Item naam',
     'tagsHelperText' => 'Eén of meer tags om het item te categoriseren',
     'tagsLabel' => 'Tag(s)',
 ];

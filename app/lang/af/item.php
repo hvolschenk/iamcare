@@ -18,7 +18,7 @@ return [
     'locationHelperText' => 'Die naaste buurt',
     'locationLabel' => 'Lokasie',
     'nameHelperText' => '\'n Kort beskrywende naam wat die item identifiseer',
-    'nameLabel' => 'Naam',
+    'nameLabel' => 'Item naam',
     'tagsHelperText' => 'Een of meer merkers om die item die kategoriseer',
     'tagsLabel' => 'Merker(s)',
 ];

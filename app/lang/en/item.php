@@ -18,7 +18,7 @@ return [
     'locationHelperText' => 'The closest suburb',
     'locationLabel' => 'Location',
     'nameHelperText' => 'A short descriptive name identifying the item',
-    'nameLabel' => 'Name',
+    'nameLabel' => 'Item name',
     'tagsHelperText' => 'One or more tags to categorise the item',
     'tagsLabel' => 'Tag(s)',
 ];
