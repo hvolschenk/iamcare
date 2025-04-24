@@ -8,6 +8,7 @@ use App\Http\Requests\ItemEditRequest;
 use App\Http\Requests\ItemGiveHandlerRequest;
 use App\Http\Requests\ItemMarkGivenRequest;
 use App\Http\Requests\ItemSearchRequest;
+use App\Http\Requests\ItemUnmarkGivenRequest;
 use App\Models\Image;
 use App\Models\Item;
 use App\Models\ItemReport;
@@ -195,6 +196,14 @@ class ItemController extends Controller
     {
         Log::debug('Item: Mark Given', ['id' => $item->id]);
         $item->is_given = true;
+        $item->save();
+        return response(null, 204, ['Hx-Redirect' => route('threads')]);
+    }
+
+    public function unmarkGiven(ItemUnmarkGivenRequest $request, Item $item)
+    {
+        Log::debug('Item: Unmark Given', ['id' => $item->id]);
+        $item->is_given = false;
         $item->save();
         return response(null, 204, ['Hx-Redirect' => route('threads')]);
     }

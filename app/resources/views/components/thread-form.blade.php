@@ -1,6 +1,21 @@
 @if ($item->is_given)
     <x-alert class="mb-4 mt-6">
-        {{ __('thread.itemGiven') }}
+        <div class="flex flex-row grow justify-between">
+            <span>{{ __('thread.itemGiven') }}</span>
+            @if ($item->user->id === Auth::user()->id)
+                <form>
+                    @csrf
+                    <a
+                        class="cursor-pointer hover:text-primary"
+                        hx-confirm="{{ __('item.confirmUnmarkGiven') }}"
+                        hx-disabled-elt="this"
+                        hx-post="{{ route('itemUnmarkGiven', $item) }}"
+                    >
+                        {{ __('item.actionUnmarkGiven') }}
+                    </a>
+                </form>
+            @endif
+        </div>
     </x-alert>
 @elseif ($item->trashed())
     <x-alert class="mb-4 mt-6">
