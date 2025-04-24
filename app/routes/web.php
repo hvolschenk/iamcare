@@ -35,6 +35,7 @@ Route::controller(ItemController::class)->group(function () {
         Route::post('items/give', 'giveHandler')->name('itemGiveHandler');
         Route::post('items/{item}/edit', 'editHandler')->name('itemEditHandler');
         Route::post('items/{item}/mark-given', 'markGiven')->name('itemMarkGiven');
+        Route::post('items/{item}/unmark-given', 'unmarkGiven')->name('itemUnmarkGiven');
     });
     Route::get('items/{item}', 'item')->name('item');
     Route::get('search', 'search')->name('search');

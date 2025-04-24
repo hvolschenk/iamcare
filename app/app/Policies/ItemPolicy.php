@@ -24,6 +24,14 @@ class ItemPolicy
     }
 
     /**
+     * Determine whether the user can unmark the model as given.
+     */
+    public function unmarkGiven(User $user, Item $item): bool
+    {
+        return $user->id === $item->user->id;
+    }
+
+    /**
      * Determine whether the user can report the model.
      */
     public function report(User $user, Item $item): bool
