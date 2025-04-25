@@ -7,6 +7,7 @@
                 'cursor-pointer',
                 'dark:disabled:bg-neutral-500',
                 'dark:disabled:text-neutral-200',
+                'dark:text-neutral-50',
                 'disabled:bg-neutral-200',
                 'disabled:border-0',
                 'disabled:text-neutral-500',
@@ -19,7 +20,7 @@
                 'px-4',
                 'py-2',
                 'rounded-sm',
-                'text-neutral-50',
+                'text-primary',
                 'w-full',
             ])
             ->merge(['type' => 'button'])
