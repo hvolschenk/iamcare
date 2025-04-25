@@ -162,11 +162,21 @@
                         id="distance"
                         name="distance"
                     >
-                        <option @selected($distance === '') value=""> - </option>
-                        <option @selected($distance === '10') value="10">10 km</option>
-                        <option @selected($distance === '20') value="20">20 km</option>
-                        <option @selected($distance === '50') value="50">50 km</option>
-                        <option @selected($distance === '100') value="100">100 km</option>
+                        <option @selected($distance === '10') value="10">
+                            {{ __('search.field__distance__option--10') }}
+                        </option>
+                        <option @selected($distance === '20') value="20">
+                            {{ __('search.field__distance__option--20') }}
+                        </option>
+                        <option @selected($distance === '50') value="50">
+                            {{ __('search.field__distance__option--50') }}
+                        </option>
+                        <option @selected($distance === '100') value="100">
+                            {{ __('search.field__distance__option--100') }}
+                        </option>
+                        <option @selected($distance === '') value="">
+                            {{ __('search.field__distance__option--any') }}
+                        </option>
                     </select>
                     <x-forms.helper-text
                         field="tag"
