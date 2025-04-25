@@ -162,9 +162,6 @@
                         id="distance"
                         name="distance"
                     >
-                        <option @selected($distance === '') value="">
-                            {{ __('search.field__distance__option--any') }}
-                        </option>
                         <option @selected($distance === '10') value="10">
                             {{ __('search.field__distance__option--10') }}
                         </option>
@@ -176,6 +173,9 @@
                         </option>
                         <option @selected($distance === '100') value="100">
                             {{ __('search.field__distance__option--100') }}
+                        </option>
+                        <option @selected($distance === '') value="">
+                            {{ __('search.field__distance__option--any') }}
                         </option>
                     </select>
                     <x-forms.helper-text
