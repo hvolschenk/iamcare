@@ -42,19 +42,6 @@ class Thread extends Model
     ];
 
     /**
-     * Bootstrap the model and its traits.
-     */
-    public static function boot()
-    {
-        parent::boot();
-        self::deleting(function ($thread) {
-            $thread->messages()->each(function ($message) {
-                $message->delete();
-            });
-        });
-    }
-
-    /**
      * The item that this thread is about
      */
     public function item(): BelongsTo
