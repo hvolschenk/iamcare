@@ -42,6 +42,18 @@ class Message extends Model
     ];
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_read' => 'boolean',
+        ];
+    }
+
+    /**
      * The thread that this message belongs to
      */
     public function thread(): BelongsTo

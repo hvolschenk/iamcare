@@ -5,6 +5,7 @@ namespace App\View\Composers;
 use App\Models\Thread;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class AppBarComposer
@@ -32,11 +33,14 @@ class AppBarComposer
                 ->join('messages', 'threads.id', '=', 'messages.thread_id')
                 ->where(function (Builder $query) use ($user) {
                     $query
-                        ->where('user_id_giver', $user->id)
-                        ->orWhere('user_id_receiver', $user->id);
+                        ->where('threads.user_id_giver', $user->id)
+                        ->orWhere('threads.user_id_receiver', $user->id);
                 })
-                ->where('messages.user_id', '<>', $user->id)
-                ->where('messages.is_read', false)
+                ->where(function (Builder $query) use ($user) {
+                    $query
+                        ->where('messages.user_id', '<>', $user->id)
+                        ->where('messages.is_read', false);
+                })
                 ->count('threads.id');
         } else {
             $unreadThreadCount = 0;

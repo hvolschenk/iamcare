@@ -51,7 +51,7 @@ class Thread extends Model
         /** @var \Illuminate\Support\Collection $messages */
         $messages = $this->messages;
         return $messages->contains(function ($message) use ($user) {
-            return $message->user_id === $user->id && $message->is_read === false;
+            return $message->user_id !== $user->id && $message->is_read === false;
         });
     }
 
