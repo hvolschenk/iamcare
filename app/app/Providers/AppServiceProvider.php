@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Enums\AuthenticationProvider;
 use App\Models\Image;
 use App\Models\Item;
+use App\Models\Thread;
 use App\Models\User;
 use App\Observers\ImageObserver;
 use App\Observers\ItemObserver;
+use App\Observers\ThreadObserver;
 use App\Observers\UserObserver;
 use App\View\Composers\AppBarComposer;
 use App\View\Composers\ItemFormComposer;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
 
         Image::observe(ImageObserver::class);
         Item::observe(ItemObserver::class);
+        Thread::observe(ThreadObserver::class);
         User::observe(UserObserver::class);
 
         Paginator::defaultView('components.pagination');

@@ -10,6 +10,7 @@ use App\Mail\ThreadReplied;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Thread;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -74,13 +75,19 @@ class ThreadController extends Controller
         return response(null, 204, ['Hx-Redirect' => route('thread', $thread)]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
         $threads = Thread::latest('updated_at')
             ->with([
                 'item' => fn ($query) => $query->withTrashed(),
                 'item.images' => fn ($query) => $query->withTrashed(),
             ])
+            ->where(function (Builder $builder) use ($user) {
+                $builder
+                    ->where('user_id_giver', $user->id)
+                    ->orWhere('user_id_receiver', $user->id);
+            })
             ->paginate(12);
 
         return view('pages.threads', ['threads' => $threads]);
