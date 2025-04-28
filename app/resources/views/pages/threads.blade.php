@@ -30,7 +30,7 @@
                                     class="aspect-square size-16"
                                     src="{{ $thread->item->images[0]->get(64, 64) }}"
                                 />
-                                @if (!$thread->messages[count($thread->messages) - 1]->is_read)
+                                @if ($thread->hasUnreadMessages(Auth::user()))
                                     <x-badge></x-badge>
                                 @endif
                             </div>

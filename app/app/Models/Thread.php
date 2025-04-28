@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
 class Thread extends Model
 {
@@ -40,6 +42,18 @@ class Thread extends Model
         'user_id_giver',
         'user_id_receiver',
     ];
+
+    /**
+     * Determine whether the thread has unread messages for the given user
+     */
+    public function hasUnreadMessages(User $user): bool
+    {
+        /** @var \Illuminate\Support\Collection $messages */
+        $messages = $this->messages;
+        return $messages->contains(function ($message) use ($user) {
+            return $message->user_id === $user->id && $message->is_read === false;
+        });
+    }
 
     /**
      * The item that this thread is about
