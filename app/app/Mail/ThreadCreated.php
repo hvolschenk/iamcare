@@ -2,8 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Item;
-use App\Models\User;
+use App\Models\Thread;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -17,7 +16,7 @@ class ThreadCreated extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected User $user, protected Item $item)
+    public function __construct(protected Thread $thread)
     {
         //
     }
@@ -37,11 +36,17 @@ class ThreadCreated extends Mailable
      */
     public function content(): Content
     {
+        $thread = $this->thread;
+        $item = $thread->item;
+        $message = $thread->messages[count($thread->messages) - 1];
+        $user = $item->user;
         return new Content(
             text: 'emails.thread.created',
             with: [
-                'itemName' => $this->item->name,
-                'name' => $this->user->name,
+                'fromName' => $message->user->name,
+                'itemName' => $item->name,
+                'messageText' => $message->message,
+                'name' => $user->name,
             ],
         );
     }
