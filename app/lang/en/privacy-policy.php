@@ -9,7 +9,7 @@ Effective Date: 1 Jan 2025
 
 ## 1. Introduction
 
-Welcome to iamcare. We are committed to protecting your privacy and ensuring transparency about how we collect, use, and share your personal data in compliance with the General Data Protection Regulation (GDPR).
+Welcome to :applicationName. We are committed to protecting your privacy and ensuring transparency about how we collect, use, and share your personal data in compliance with the General Data Protection Regulation (GDPR).
 
 ## 2. Data We Collect
 
@@ -58,7 +58,7 @@ We take data security seriously and implement:
 
 ## 8. Children's Privacy
 
-iamcare is not intended for children under 13, and we do not knowingly collect their data.
+:applicationName is not intended for children under 13, and we do not knowingly collect their data.
 
 ## 9. Contact Us
 
@@ -69,7 +69,7 @@ Effective Date: 1 Jan 2025
 
 ## 1. Introduction
 
-Welcome to iamcare. We value your privacy and comply with the Protection of Personal Information Act (POPIA). This policy explains how we collect, use, and protect your personal data in South Africa.
+Welcome to :applicationName. We value your privacy and comply with the Protection of Personal Information Act (POPIA). This policy explains how we collect, use, and protect your personal data in South Africa.
 
 ## 2. What Data We Collect
 
@@ -133,7 +133,7 @@ Hendrik Volschenk (`privacy@iamcare.co.za`).
 
 ## 11. Children's Privacy
 
-iamcare is not intended for children under 13, and we do not knowingly collect their data.
+:applicationName is not intended for children under 13, and we do not knowingly collect their data.
 
 ## 12. Contact Us
 
