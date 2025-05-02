@@ -7,7 +7,7 @@ return [
     'NL' => <<<EOD
 Last updated: 1 Jan 2025
 
-Welcome to iamcare — an online marketplace for giving away items for free. By accessing or using our platform, you agree to these Terms of Use.
+Welcome to :applicationName — an online marketplace for giving away items for free. By accessing or using our platform, you agree to these Terms of Use.
 
 ## 1. Eligibility
 
@@ -24,14 +24,14 @@ Welcome to iamcare — an online marketplace for giving away items for free. By 
 ## 3. Acceptable Use
 
 * Only legal items may be listed.
-* No items may be sold — iamcare is strictly for giving away items free of charge.
+* No items may be sold — :applicationName is strictly for giving away items free of charge.
 * Users must not post content that is offensive, illegal, or misleading.
 
 ## 4. User Content
 
 * Users may post descriptions, photos, and other content related to items they give away.
 * You retain ownership of your content and may remove it at any time.
-* By posting content, you grant iamcare a limited license to display it on our platform.
+* By posting content, you grant :applicationName a limited license to display it on our platform.
 
 ## 5. Our Rights
 
@@ -40,7 +40,7 @@ Welcome to iamcare — an online marketplace for giving away items for free. By 
 
 ## 6. Disclaimer and Liability
 
-* iamcare is provided "as is" and "as available". We do not guarantee uninterrupted access or uptime.
+* :applicationName is provided "as is" and "as available". We do not guarantee uninterrupted access or uptime.
 * We are not responsible for the accuracy or safety of items or content posted by users.
 * Use the platform at your own risk.
 
@@ -55,11 +55,11 @@ EOD,
     'ZA' => <<<EOD
 Last updated: 1 Jan 2025
 
-Welcome to iamcare, an online marketplace for giving away items for free. By accessing or using our platform, you agree to these Terms of Use, which are applicable within South Africa.
+Welcome to :applicationName, an online marketplace for giving away items for free. By accessing or using our platform, you agree to these Terms of Use, which are applicable within South Africa.
 
 ## 1. Eligibility
 
-* You must be 18 years or older to give or take items on iamcare.
+* You must be 18 years or older to give or take items on :applicationName.
 * Users under 18 may use the platform only with consent from a parent or legal guardian.
 * The platform is intended for users located in South Africa.
 
@@ -79,7 +79,7 @@ Welcome to iamcare, an online marketplace for giving away items for free. By acc
 
 * You retain full ownership of the content you post, including photos and descriptions.
 * You may remove your content at any time.
-* By posting, you grant iamcare a limited license to display your content on the platform.
+* By posting, you grant :applicationName a limited license to display your content on the platform.
 
 ## 5. Our Rights
 
@@ -88,7 +88,7 @@ Welcome to iamcare, an online marketplace for giving away items for free. By acc
 
 ## 6. Liability & Disclaimer
 
-* iamcare is provided "as is" and we do not guarantee continuous availability or error-free operation.
+* :applicationName is provided "as is" and we do not guarantee continuous availability or error-free operation.
 * While we aim to foster a safe platform, we do not verify or guarantee the accuracy of user-submitted listings.
 * Use of the platform is at your own risk, and we are not liable for any loss, damage, or dispute arising from items listed or interactions with other users, to the extent permitted by South African law.
 

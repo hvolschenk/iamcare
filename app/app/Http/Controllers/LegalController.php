@@ -17,18 +17,20 @@ class LegalController extends Controller
     public function privacyPolicy()
     {
         $privacyPolicy = Str::markdown(
-            __('privacy-policy.' . config('app.region')),
+            __('privacy-policy.'.config('app.region'), ['applicationName' => config('app.name')]),
             ['allow_unsafe_links' => false, 'html_input' => 'strip'],
         );
+
         return view('pages.privacy-policy', ['privacyPolicy' => $privacyPolicy]);
     }
 
     public function termsOfUse()
     {
         $termsOfUse = Str::markdown(
-            __('terms-of-use.' . config('app.region')),
+            __('terms-of-use.'.config('app.region'), ['applicationName' => config('app.name')]),
             ['allow_unsafe_links' => false, 'html_input' => 'strip'],
         );
+
         return view('pages.terms-of-use', ['termsOfUse' => $termsOfUse]);
     }
 }
