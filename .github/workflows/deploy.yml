@@ -34,7 +34,7 @@ jobs:
           log-level: minimal
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
+          protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
           server-dir: ./public_html/
           # With a different exclude pattern,
@@ -130,7 +130,7 @@ jobs:
           log-level: minimal
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
+          protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
           server-dir: ./public_html/
           username: ${{ secrets.FTP_USERNAME }}
@@ -202,7 +202,7 @@ jobs:
           log-level: minimal
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
+          protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
           server-dir: ./public_html/
           # With a different exclude pattern,
