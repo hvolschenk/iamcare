@@ -36,7 +36,7 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
-          server-dir: ./public_html/
+          server-dir: ./
           # With a different exclude pattern,
           # a different state file is required.
           # Only files included are added to state,
@@ -132,7 +132,7 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
-          server-dir: ./public_html/
+          server-dir: ./
           username: ${{ secrets.FTP_USERNAME }}
 
   database:
@@ -204,7 +204,7 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
-          server-dir: ./public_html/
+          server-dir: ./
           # With a different exclude pattern,
           # a different state file is required.
           # Only files included are added to state,
