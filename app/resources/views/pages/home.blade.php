@@ -1,7 +1,7 @@
 <x-layouts.base>
     <section class="py-40 text-center">
         <h1 class="font-bold text-2xl">
-            {{ __('application.name') }}
+            {{ config('app.name') }}
         </h1>
         <p class="dark:text-neutral-200 font-light">
             {{ __('application.slogan') }}
