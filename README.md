@@ -1,7 +1,7 @@
 # iamcare
 
 An online marketplace for giving items away for free.
-
+* [Application][]
 * [Development][]
   * [First-time setup][]
     * [Set up environment variables][]
@@ -19,6 +19,17 @@ An online marketplace for giving items away for free.
     * [Post-upload configuration][]
       * [Set document root][]
       * [Create storage symbolic link][]
+
+## Application
+[Application]: #application
+
+The application is hosted on a per-country basis. Currently the following
+countries are supported:
+
+| Country      | Domain                |
+| ------------ | --------------------- |
+| Netherlands  | https://ikbenzorg.nl  |
+| South Africa | https://iamcare.co.za |
 
 ## Development
 [Development]: #development
@@ -140,8 +151,8 @@ as the application database user. They need the following permissions:
 [FTP account]: #ftp-account
 
 An FTP user should be created which connects to the server user home, which will
-contain the `public_html` directory directly within it. The application will be
-uploaded to `./public_html` relative to where the FTP account connects to.
+connect to the `public_html` (or web root) directory. The application will be
+uploaded to this directory.
 
 #### Environment creation
 [Environment creation]: #environment-creation

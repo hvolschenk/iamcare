@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->currentLocale()) }}">
     <head>
-        <title>{{ $title ?? __('application.name') }}</title>
+        <title>{{ $title ?? config('app.name') }}</title>
 
         <meta charset="UTF-8" />
         <meta

@@ -2,11 +2,11 @@
     <div class="flex grow">
         <a class="flex flex-row items-center space-x-4" href="{{ route('home') }}">
             <img
-                alt="{{ __('application.name') }}"
+                alt="{{ config('app.name') }}"
                 src="{{ asset('images/iamcare-32x32.png') }}"
             />
             <p class="font-black relative text-xl text-secondary">
-                {{ __('application.name') }}
+                {{ config('app.name') }}
                 <span class="absolute dark:text-neutral-300 font-light -right-5 text-primary text-xs top-0">
                     {{ config('app.region') }}
                 </span>

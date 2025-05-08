@@ -34,9 +34,9 @@ jobs:
           log-level: minimal
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
+          protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
-          server-dir: ./public_html/
+          server-dir: ./
           # With a different exclude pattern,
           # a different state file is required.
           # Only files included are added to state,
@@ -130,9 +130,9 @@ jobs:
           log-level: minimal
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
+          protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
-          server-dir: ./public_html/
+          server-dir: ./
           username: ${{ secrets.FTP_USERNAME }}
 
   database:
@@ -202,9 +202,9 @@ jobs:
           log-level: minimal
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
+          protocol: ${{ secrets.FTP_PROTOCOL }}
           server: ${{ secrets.FTP_HOST }}
-          server-dir: ./public_html/
+          server-dir: ./
           # With a different exclude pattern,
           # a different state file is required.
           # Only files included are added to state,

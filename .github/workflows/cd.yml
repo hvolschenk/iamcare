@@ -5,6 +5,14 @@ on:
       - main
 
 jobs:
+  netherlands:
+    name: Netherlands
+    secrets: inherit
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: NETHERLANDS
+      url: https://ikbenzorg.nl
+
   south_africa:
     name: South Africa
     secrets: inherit
