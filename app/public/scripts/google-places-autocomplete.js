@@ -62,6 +62,12 @@ class GooglePlacesAutocomplete {
 	$suggestionsContainer = null;
 
 	/**
+	 * The type of places to search for.
+	 * @type {string}
+	 */
+	type = null;
+
+	/**
 	 * @param {string} query
 	 */
 	async autocomplete(query) {
@@ -73,7 +79,7 @@ class GooglePlacesAutocomplete {
 		const { suggestions } =
 			await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(
 				{
-					includedPrimaryTypes: ["sublocality"],
+					includedPrimaryTypes: [this.type],
 					includedRegionCodes: [this.region],
 					input: query,
 					language: this.language,
@@ -112,8 +118,9 @@ class GooglePlacesAutocomplete {
 	 * @param {HTMLDivElement} $container The container for the autocomplete.
 	 * @param {string} language The language to display suggestions and place details in
 	 * @param {string} region The two letter country code to use to contain searches
+	 * @param {string} type The type of places to search for
 	 */
-	constructor($container, language, region) {
+	constructor($container, language, region, type) {
 		// Because these functions are event handlers
 		// they will have different contexts when executed.
 		// Binding it back to this class here to be able to use `this` "normally".
@@ -123,6 +130,7 @@ class GooglePlacesAutocomplete {
 		this.onSuggestionSelect = this.onSuggestionSelect.bind(this);
 		this.language = language;
 		this.region = region;
+		this.type = type;
 		this.$container = $container;
 		this.registerInputDisplay();
 		this.registerInputValue();

@@ -21,6 +21,7 @@
                     $autocompleteContainer,
                     "{{ App::currentLocale() }}",
                     "{{ config('google.places.region') }}",
+                    "{{ config('google.places.type') }}",
                 );
                 googlePlacesAutocomplete.initialize();
             }

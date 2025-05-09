@@ -93,6 +93,7 @@ jobs:
           envkey_GOOGLE_IDENTITY_CLIENT_SECRET: ${{ secrets.GOOGLE_IDENTITY_CLIENT_SECRET }}
           envkey_GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
           envkey_GOOGLE_PLACES_REGION: ${{ vars.GOOGLE_PLACES_REGION }}
+          envkey_GOOGLE_PLACES_TYPE: ${{ vars.GOOGLE_PLACES_TYPE }}
           envkey_LOG_CHANNEL: ${{ vars.LOG_CHANNEL }}
           envkey_LOG_DEPRECATIONS_CHANNEL: ${{ vars.LOG_DEPRECATIONS_CHANNEL }}
           envkey_LOG_LEVEL: ${{ vars.LOG_LEVEL }}
