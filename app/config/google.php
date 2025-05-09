@@ -25,5 +25,6 @@ return [
     'places' => [
         'api_key' => env('GOOGLE_PLACES_API_KEY'),
         'region' => env('GOOGLE_PLACES_REGION', 'za'),
+        'type' => env('GOOGLE_PLACES_TYPE', 'sublocality'),
     ],
 ];
