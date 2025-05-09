@@ -110,6 +110,7 @@ class GooglePlacesAutocomplete {
 
 	/**
 	 * @param {HTMLDivElement} $container The container for the autocomplete.
+	 * @param {string} language The language to display suggestions and place details in
 	 * @param {string} region The two letter country code to use to contain searches
 	 */
 	constructor($container, language, region) {
