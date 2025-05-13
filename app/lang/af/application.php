@@ -8,4 +8,6 @@ return [
     'country--netherlands' => 'Nederland',
     'country--south-africa' => 'Suid Afrika',
     'slogan' => "'n Markplek vir gee",
+    'social--facebook' => 'Facebook',
+    'social--x' => 'X',
 ];

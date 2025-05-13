@@ -8,4 +8,6 @@ return [
     'country--netherlands' => 'Nederland',
     'country--south-africa' => 'Zuid Afrika',
     'slogan' => 'Een marktplaats voor geven',
+    'social--facebook' => 'Facebook',
+    'social--x' => 'X',
 ];
