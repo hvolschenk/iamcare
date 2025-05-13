@@ -88,6 +88,7 @@ jobs:
           envkey_DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           envkey_DB_PORT: ${{ secrets.MYSQL_PORT }}
           envkey_DB_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          envkey_FACEBOOK_PROFILE_URL: ${{ vars.FACEBOOK_PROFILE_URL }}
           envkey_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_ID }}
           envkey_GOOGLE_IDENTITY_CLIENT_ID: ${{ secrets.GOOGLE_IDENTITY_CLIENT_ID }}
           envkey_GOOGLE_IDENTITY_CLIENT_SECRET: ${{ secrets.GOOGLE_IDENTITY_CLIENT_SECRET }}
@@ -109,6 +110,7 @@ jobs:
           envkey_MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
           envkey_MICROSOFT_ENTRA_CLIENT_ID: ${{ secrets.MICROSOFT_ENTRA_CLIENT_ID }}
           envkey_MICROSOFT_ENTRA_CLIENT_SECRET: ${{ secrets.MICROSOFT_ENTRA_CLIENT_SECRET }}
+          envkey_X_PROFILE_URL: ${{ vars.X_PROFILE_URL }}
           directory: ./app
           file_name: .env
           fail_on_empty: false
