@@ -56,6 +56,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Secure context
+    |--------------------------------------------------------------------------
+    |
+    | Whether the application is being served from a secure context or not.
+    | Will be used to set correct security headers.
+    |
+    */
+    'secure_context' => (bool) env('APP_SECURE_CONTEXT', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Cookie consent required
     |--------------------------------------------------------------------------
     |
