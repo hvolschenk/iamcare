@@ -33,6 +33,7 @@ services:
       - APP_LOCALE=${APP_LOCALE:-en}
       - APP_NAME=${APP_NAME:-iamcare}
       - APP_REGION=${APP_REGION:-ZA}
+      - APP_SECURE_CONTEXT=${APP_SECURE_CONTEXT:-false}
       - APP_TIMEZONE=${APP_TIMEZONE:-UTC}
       - APP_URL=${APP_URL:-http://localhost:2991}
       - DB_CONNECTION=${DB_CONNECTION:-mysql}
