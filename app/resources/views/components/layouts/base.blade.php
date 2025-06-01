@@ -13,7 +13,21 @@
             https://github.com/spatie/laravel-csp/discussions/161
         --}}
         <meta name="htmx-config" content='{"inlineStyleNonce":"{{ app('csp-nonce') }}"}'>
-        {{ $meta ?? '' }}
+
+        <meta property="og:site_name" content="{{ config('app.name') }}" />
+        <meta property="og:locale" content="{{ str_replace('_', '-', app()->currentLocale()) }}" />
+        @if (isset($meta))
+            {{ $meta }}
+        @else
+            <meta property="og:url" content="{{ config('app.url') }}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="{{ $title ?? config('app.name') }}" />
+            <meta property="og:description" content="{{ __('application.slogan') }}" />
+            <meta property="og:image" content="{{ asset('images/iamcare-512x512.png') }}" />
+            <meta property="og:image:width" content="512" />
+            <meta property="og:image:height" content="512" />
+            <meta property="og:image:type" content="image/png" />
+        @endif
 
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('google.analytics.measurement_id') }}"></script>
         <script @cspNonce>

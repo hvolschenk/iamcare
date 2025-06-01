@@ -8,6 +8,7 @@
         <meta property="og:description" content="{{ $item->description }}" />
         <meta property="og:type" content="product" />
         <meta property="og:image" content="{{ $item->images[0]->get() }}" />
+        <meta property="og:url" content="{{ route('item', $item) }}" />
     </x-slot>
 
     <x-slot:scripts>
