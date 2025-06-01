@@ -78,14 +78,13 @@ class Location extends Model
     public static function saveIfNotExists(string $googlePlaceID, string $language): void
     {
         Log::withContext(['googlePlaceID' => $googlePlaceID, 'language' => $language]);
-        Log::debug('Location: Save If Not Exists: Start');
         if (
             Location::where([
                 'googlePlaceID' => $googlePlaceID,
                 'language' => $language,
             ])->doesntExist()
         ) {
-            Log::debug('Location: Save If Not Exists: Create');
+            Log::debug('Location: Save If Not Exists');
             self::fetchFromGooglePlaces($googlePlaceID, $language);
         }
     }
