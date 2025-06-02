@@ -64,6 +64,7 @@ services:
       - MAIL_USERNAME=${MAIL_USERNAME}
       - MICROSOFT_ENTRA_CLIENT_ID=${MICROSOFT_ENTRA_CLIENT_ID}
       - MICROSOFT_ENTRA_CLIENT_SECRET=${MICROSOFT_ENTRA_CLIENT_SECRET}
+      - X_PROFILE_HANDLE=${X_PROFILE_HANDLE:-@iamcareZA}
       - X_PROFILE_URL=${X_PROFILE_URL:-https://x.com/iamcareZA}
     networks:
       - iamcare-network

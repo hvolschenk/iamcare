@@ -55,6 +55,7 @@ return [
     ],
 
     'x' => [
+        'profile_handle' => env('X_PROFILE_HANDLE'),
         'profile_url' => env('X_PROFILE_URL'),
     ],
 

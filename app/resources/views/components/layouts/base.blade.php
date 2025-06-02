@@ -15,6 +15,8 @@
         --}}
         <meta name="htmx-config" content='{"inlineStyleNonce":"{{ app('csp-nonce') }}"}'>
 
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="{{ config('services.x.profile_handle') }}" />
         <meta property="og:site_name" content="{{ config('app.name') }}" />
         <meta property="og:locale" content="{{ str_replace('_', '-', app()->currentLocale()) }}" />
         @if (isset($meta))
