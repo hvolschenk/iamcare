@@ -23,9 +23,9 @@
             <meta property="og:type" content="website" />
             <meta property="og:title" content="{{ $title ?? config('app.name') }}" />
             <meta property="og:description" content="{{ __('application.slogan') }}" />
-            <meta property="og:image" content="{{ asset('images/iamcare-512x512.png') }}" />
-            <meta property="og:image:width" content="512" />
-            <meta property="og:image:height" content="512" />
+            <meta property="og:image" content="{{ asset('images/iamcare-banner.png') }}" />
+            <meta property="og:image:width" content="1640" />
+            <meta property="og:image:height" content="856" />
             <meta property="og:image:type" content="image/png" />
         @endif
 
