@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->currentLocale()) }}">
     <head>
         <title>{{ $title ?? config('app.name') }}</title>
+        <meta name="description" content="{{ __('application.slogan') }}" />
 
         <meta charset="UTF-8" />
         <meta
