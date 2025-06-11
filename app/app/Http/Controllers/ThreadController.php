@@ -68,7 +68,7 @@ class ThreadController extends Controller
         $message->user()->associate($user);
         $thread->messages()->save($message);
 
-        Mail::to($item->user->email)->send(new ThreadCreated($thread));
+        Mail::to($item->user)->send(new ThreadCreated($thread));
 
         Log::debug('Thread: Create: Done', ['id' => $thread->id]);
 
@@ -107,7 +107,7 @@ class ThreadController extends Controller
         $message->user()->associate($sender);
         $thread->messages()->save($message);
 
-        Mail::to($receiver->email)->send(new ThreadReplied($thread));
+        Mail::to($receiver)->send(new ThreadReplied($thread));
 
         return view('pages.thread.messages', ['thread' => $thread]);
     }

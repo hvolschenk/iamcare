@@ -46,7 +46,7 @@ class ItemReportController extends Controller
         $itemReport->user()->associate($user);
         $itemReport->save();
 
-        Mail::to(config('mail.report_to'))->send(new ItemReported($itemReport));
+        Mail::to(config('mail.report_to'))->locale('en')->send(new ItemReported($itemReport));
 
         return response(null, 204, ['Hx-Redirect' => route('item', $item)]);
     }
