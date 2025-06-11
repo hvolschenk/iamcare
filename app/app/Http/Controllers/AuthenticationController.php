@@ -8,6 +8,7 @@ use App\Mail\AccountCreated;
 use App\Models\AuthenticationMethod;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -48,6 +49,7 @@ class AuthenticationController extends Controller
                     'type' => $driver->value,
                 ],
             );
+            $user->updateLanguage(App::currentLocale());
             Log::info('Login: Add account to user', ['email' => $user->email, 'id' => $user->id]);
 
             return redirect()->route('myProfile');
@@ -55,10 +57,12 @@ class AuthenticationController extends Controller
             DB::transaction(function () use ($driver, $socialUser, $userExists) {
                 if ($userExists) {
                     $user = User::where('email', $socialUser->getEmail())->first();
+                    $user->updateLanguage(App::currentLocale());
                 } else {
                     $user = User::create([
                         'avatar' => $socialUser->getAvatar(),
                         'email' => $socialUser->getEmail(),
+                        'language' => App::currentLocale(),
                         'name' => $socialUser->getName(),
                     ]);
                 }
@@ -87,7 +91,7 @@ class AuthenticationController extends Controller
                 }
 
                 if (! $userExists) {
-                    Mail::to($user->email)->send(new AccountCreated($user));
+                    Mail::to($user)->send(new AccountCreated($user));
                 }
             });
 

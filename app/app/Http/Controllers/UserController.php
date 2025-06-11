@@ -6,6 +6,7 @@ use App\Enums\AuthenticationProvider;
 use App\Models\User;
 use App\Models\UserReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -25,9 +26,12 @@ class UserController extends Controller
     /**
      * Update the user's preferred language (GET)
      */
-    public function language(string $language)
+    public function language(Request $request, string $language)
     {
         $cookie = cookie('LANGUAGE', $language);
+        if (Auth::check()) {
+            $request->user()->updateLanguage($language);
+        }
         return redirect()->back()->cookie($cookie);
     }
 

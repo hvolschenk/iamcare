@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Services\GooglePlaces;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
     use HasFactory, Notifiable, SoftDeletes;
 
@@ -19,6 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'avatar',
+        'language',
         'name',
         'email',
     ];
@@ -66,5 +70,28 @@ class User extends Authenticatable
     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
+    }
+
+    /**
+     * Get the user's preferred locale.
+     */
+    public function preferredLocale(): string
+    {
+        return $this->language;
+    }
+
+    /**
+     * Saves a new language for the user.
+     * Mostly used after login, or when swapping language.
+     * Used for sending emails and other background processes.
+     */
+    public function updateLanguage(string $language): void {
+        if (!in_array($language, GooglePlaces::SUPPORTED_LANGUAGES)) {
+            Log::error('User: Update language: Unsupported language', ['language' => $language]);
+            return;
+        }
+        $this->language = $language;
+        $this->save();
+        Log::debug('User: Update language: Success', ['language' => $language]);
     }
 }

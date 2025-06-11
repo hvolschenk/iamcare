@@ -48,7 +48,7 @@ class UserReportController extends Controller
         $userReport->userReporter()->associate($reporter);
         $userReport->save();
 
-        Mail::to(config('mail.report_to'))->send(new UserReported($userReport));
+        Mail::to(config('mail.report_to'))->locale('en')->send(new UserReported($userReport));
 
         return response(null, 204, ['Hx-Redirect' => route('user', $user)]);
     }
