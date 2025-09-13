@@ -88,7 +88,7 @@
             rel="stylesheet"
         />
 
-        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+        <script src="https://unpkg.com/htmx.org@2.0.7"></script>
 
         @if (config('app.cookie_consent_required') === true)
             <script src="{{ asset('scripts/cookie-dialog.js') }}" type="module"></script>
