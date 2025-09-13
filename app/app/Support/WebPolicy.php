@@ -37,7 +37,7 @@ class WebPolicy implements Preset
                 Keyword::SELF,
                 'https://*.googletagmanager.com',
                 'https://accounts.google.com/gsi/client',
-                'https://unpkg.com/htmx.org@2.0.4',
+                'https://unpkg.com/htmx.org@2.0.7',
             ])
             ->add(Directive::STYLE, [
                 Keyword::SELF,
