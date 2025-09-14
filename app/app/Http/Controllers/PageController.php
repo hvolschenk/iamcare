@@ -22,10 +22,15 @@ class PageController extends Controller
             ->orderBy('items_count', 'DESC')
             ->limit(12)
             ->get();
+        $latestGivenItems = Item::latest()->where('is_given', true)->limit(12)->get();
 
         return view(
             'pages.home',
-            ['latestItems' => $latestItems, 'popularTags' => $popularTags],
+            [
+                'latestGivenItems' => $latestGivenItems,
+                'latestItems' => $latestItems,
+                'popularTags' => $popularTags,
+            ],
         );
     }
 }

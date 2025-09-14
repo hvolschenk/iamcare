@@ -96,4 +96,13 @@
             </div>
         </x-card>
     @endif
+
+    @if (count($latestGivenItems) > 0)
+        <section class="mt-6">
+            <h2 class="font-bold mb-4 text-xl">
+                {{ __('home.latest-given-items__title') }}
+            </h2>
+            <x-items-list :items="$latestGivenItems" />
+        </section>
+    @endif
 </x-layouts.base>

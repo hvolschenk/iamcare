@@ -9,6 +9,7 @@ return [
     'issues-suggestions__action' => 'Stuur terugvoer',
     'issues-suggestions__description' => 'Het jy \'n fout gevind? Wil jy graag \'n voorstel gee? Maak asseblief \'n "issue" oop op GitHub.',
     'issues-suggestions__title' => 'Foute of voorstelle?',
+    'latest-given-items__title' => 'Laaste gegewe items',
     'latest-items__title' => 'Nuutste items',
     'popular-tags__title' => 'Gewilde merkers',
     'take__action' => 'Soek vir items',
