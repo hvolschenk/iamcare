@@ -9,6 +9,7 @@ return [
     'issues-suggestions__action' => 'Give feedback',
     'issues-suggestions__description' => 'Found a bug? Like to give a suggestion? Please open an issue on GitHub.',
     'issues-suggestions__title' => 'Issues or suggestions?',
+    'latest-given-items__title' => 'Latest given items',
     'latest-items__title' => 'Latest items',
     'popular-tags__title' => 'Popular tags',
     'take__action' => 'Search for items',
