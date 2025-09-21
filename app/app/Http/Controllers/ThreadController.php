@@ -12,6 +12,7 @@ use App\Models\Message;
 use App\Models\Thread;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -72,7 +73,11 @@ class ThreadController extends Controller
 
         Log::debug('Thread: Create: Done', ['id' => $thread->id]);
 
-        return response(null, 204, ['Hx-Redirect' => route('thread', $thread)]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('thread', $thread)],
+        );
     }
 
     public function index(Request $request)

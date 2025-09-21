@@ -8,6 +8,7 @@ use App\Mail\AccountCreated;
 use App\Models\AuthenticationMethod;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -134,6 +135,10 @@ class AuthenticationController extends Controller
             $user->save();
         });
 
-        return response(null, 204, ['Hx-Redirect' => route('myProfile')]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('myProfile')],
+        );
     }
 }

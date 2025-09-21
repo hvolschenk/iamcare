@@ -7,6 +7,7 @@ use App\Http\Requests\ItemReportRequest;
 use App\Mail\ItemReported;
 use App\Models\Item;
 use App\Models\ItemReport;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 
 class ItemReportController extends Controller
@@ -48,6 +49,10 @@ class ItemReportController extends Controller
 
         Mail::to(config('mail.report_to'))->locale('en')->send(new ItemReported($itemReport));
 
-        return response(null, 204, ['Hx-Redirect' => route('item', $item)]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('item', $item)],
+        );
     }
 }
