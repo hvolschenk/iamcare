@@ -305,6 +305,16 @@ class ItemController extends Controller
         return view('pages.search', [
             'distance' => $distance,
             'googlePlaceID' => $googlePlaceID ?? '',
+            // Query is omitted for the `hasFilter` check
+            // as it feels like it's not a filter
+            // but rather the default search behaviour,
+            // thus having an indicator seems strange.
+            // Distance is omitted for the `hasFilter` check
+            // as it does not function without `googlePlaceID`,
+            // and has a default value, thus would always trigger.
+            'hasFilter' =>
+                $googlePlaceID !== null ||
+                $tagIDs !== null,
             'items' => $items,
             'locationName' => $locationName ?? '',
             'query' => $searchQuery ?? '',
