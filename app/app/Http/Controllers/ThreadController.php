@@ -20,6 +20,10 @@ class ThreadController extends Controller
 {
     public function create(Request $request, Item $item)
     {
+        if ($item->is_given) {
+            return redirect()->route('item', $item);
+        }
+
         if ($request->user()->id === $item->user->id) {
             return redirect()->route('item', $item);
         }
@@ -49,6 +53,10 @@ class ThreadController extends Controller
 
     public function createHandler(ThreadCreateHandlerRequest $request, Item $item)
     {
+        if ($item->is_given) {
+            return response(null, Response::HTTP_FORBIDDEN);
+        }
+
         $validated = $request->safe(['message']);
         $messageText = $validated['message'];
 
@@ -100,6 +108,10 @@ class ThreadController extends Controller
 
     public function reply(ThreadReplyRequest $request, Thread $thread)
     {
+        if ($thread->item->is_given) {
+            return response(null, Response::HTTP_FORBIDDEN);
+        }
+
         $validated = $request->safe(['message']);
         $messageText = $validated['message'];
 
