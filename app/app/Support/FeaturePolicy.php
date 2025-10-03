@@ -13,7 +13,6 @@ class FeaturePolicy extends Policy
         $this
             ->addDirective(Directive::ACCELEROMETER, Value::NONE)
             ->addDirective(Directive::AUTOPLAY, Value::SELF)
-            ->addDirective(Directive::BATTERY, Value::SELF)
             ->addDirective(Directive::BLUETOOTH, Value::NONE)
             ->addDirective(Directive::CAMERA, Value::SELF)
             ->addDirective(Directive::DISPLAY_CAPTURE, Value::NONE)
@@ -23,7 +22,6 @@ class FeaturePolicy extends Policy
             ->addDirective(Directive::MAGNETOMETER, Value::NONE)
             ->addDirective(Directive::MICROPHONE, Value::NONE)
             ->addDirective(Directive::MIDI, Value::NONE)
-            ->addDirective(Directive::NAVIGATION_OVERRIDE, Value::NONE)
             ->addDirective(Directive::PAYMENT, Value::NONE)
             ->addDirective(Directive::SCREEN_WAKE_LOCK, Value::NONE)
             ->addDirective(Directive::SERIAL, Value::NONE)
