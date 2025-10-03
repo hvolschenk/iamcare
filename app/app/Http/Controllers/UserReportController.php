@@ -7,6 +7,7 @@ use App\Http\Requests\UserReportRequest;
 use App\Mail\UserReported;
 use App\Models\User;
 use App\Models\UserReport;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 
 class UserReportController extends Controller
@@ -50,6 +51,10 @@ class UserReportController extends Controller
 
         Mail::to(config('mail.report_to'))->locale('en')->send(new UserReported($userReport));
 
-        return response(null, 204, ['Hx-Redirect' => route('user', $user)]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('user', $user)],
+        );
     }
 }

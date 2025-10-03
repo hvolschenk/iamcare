@@ -18,6 +18,7 @@ use App\Models\Thread;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +30,11 @@ class ItemController extends Controller
     public function destroy(ItemDeleteRequest $request, Item $item)
     {
         $item->delete();
-        return response(null, 204, ['Hx-Redirect' => route('myItems')]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('myItems')],
+        );
     }
 
     public function edit (ItemEditRequest $request, Item $item)
@@ -98,7 +103,11 @@ class ItemController extends Controller
         $item->name = $name;
         $item->save();
 
-        return response(null, 204, ['Hx-Redirect' => route('myItems')]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('myItems')],
+        );
     }
 
     public function give ()
@@ -149,7 +158,11 @@ class ItemController extends Controller
                 $item->save();
             }, 1);
             Log::debug('Item: Create: Return', ['id' => $item->id]);
-            return response(null, 204, ['Hx-Redirect' => route('myItems')]);
+            return response(
+                null,
+                Response::HTTP_NO_CONTENT,
+                ['Hx-Redirect' => route('myItems')],
+            );
         } catch (\Exception $error) {
             Log::error('Item: Create: Error', ['error' => $error]);
             Log::debug('Item: Create: Undo: Delete Images');
@@ -197,7 +210,11 @@ class ItemController extends Controller
         Log::debug('Item: Mark Given', ['id' => $item->id]);
         $item->is_given = true;
         $item->save();
-        return response(null, 204, ['Hx-Redirect' => route('threads')]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('threads')],
+        );
     }
 
     public function unmarkGiven(ItemUnmarkGivenRequest $request, Item $item)
@@ -205,7 +222,11 @@ class ItemController extends Controller
         Log::debug('Item: Unmark Given', ['id' => $item->id]);
         $item->is_given = false;
         $item->save();
-        return response(null, 204, ['Hx-Redirect' => route('threads')]);
+        return response(
+            null,
+            Response::HTTP_NO_CONTENT,
+            ['Hx-Redirect' => route('threads')],
+        );
     }
 
     public function search(ItemSearchRequest $request)
