@@ -15,6 +15,7 @@
 
     <x-forms.label field="name" for="name" :label="__('item.nameLabel')" />
     <input
+        autocomplete="off"
         class="
             @error('name')
                 border-red-600
