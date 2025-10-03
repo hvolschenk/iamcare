@@ -74,6 +74,7 @@ class UserController extends Controller
      */
     public function user(Request $request, User $user)
     {
+        $user->load(['items' => fn ($query) => $query->where('is_given', false)]);
         $reported = $user;
         $reporter = $request->user();
 
