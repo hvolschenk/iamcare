@@ -2,9 +2,14 @@
     @foreach ($items as $item)
         <li>
             <x-card :disablePadding="true">
-                <a href="{{ route('item', $item) }}">
+                <a class="relative" href="{{ route('item', $item) }}">
                     <img
-                        class="aspect-square w-full"
+                        class="
+                            aspect-square
+                            @if ($item->is_given || $item->trashed())
+                                grayscale
+                            @endif
+                            w-full"
                         src="{{ $item->images[0]->get(300, 300) }}"
                     />
                 </a>
@@ -21,12 +26,23 @@
                     >
                         {{ $item->location->name }}
                     </a>
-                    <p class="mt-2 truncate">{{ $item->description }}</p>
-                    <p class="flex gap-1 mt-2 overflow-x-hidden pb-1 whitespace-nowrap">
-                        @foreach ($item->tags as $tag)
-                            <x-tag :tag="$tag" />
-                        @endforeach
-                    </p>
+
+                    @if ($item->is_given)
+                        <p class="mt-2">
+                            <x-chip>{{ __('item.given') }}</x-chip>
+                        </p>
+                    @elseif ($item->trashed())
+                        <p class="mt-2">
+                            <x-chip>{{ __('item.deleted') }}</x-chip>
+                        </p>
+                    @else
+                        <p class="mt-2 truncate">{{ $item->description }}</p>
+                        <p class="flex gap-1 mt-2 overflow-x-hidden pb-1 whitespace-nowrap">
+                            @foreach ($item->tags as $tag)
+                                <x-tag :tag="$tag" />
+                            @endforeach
+                        </p>
+                    @endif
                 </div>
             </x-card>
         </li>

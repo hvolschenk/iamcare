@@ -27,22 +27,19 @@
                             <div class="relative">
                                 <img
                                     alt="{{ $thread->item->name }}"
-                                    class="aspect-square size-16"
+                                    class="
+                                        aspect-square
+                                        @if ($thread->item->is_given || $thread->item->trashed())
+                                            grayscale
+                                        @endif
+                                        size-16"
                                     src="{{ $thread->item->images[0]->get(64, 64) }}"
                                 />
                                 @if ($thread->hasUnreadMessages(Auth::user()))
                                     <x-badge></x-badge>
                                 @endif
                             </div>
-                            <div
-                                class="
-                                    @if ($thread->item->is_given || $thread->item->trashed())
-                                        line-through
-                                    @endif
-                                    flex
-                                    flex-col
-                                    grow"
-                                >
+                            <div class="flex flex-col grow">
                                 <h6 class="font-semibold">{{ $thread->item->name }}</h6>
                                 <p class="dark:text-neutral-300 text-neutral-500">
                                     @if (Auth::user()->id === $thread->userGiver->id)
@@ -51,9 +48,15 @@
                                         {{ $thread->userGiver->name }}
                                     @endif
                                 </p>
-                                <p class="truncate">
-                                    {{ $thread->messages[count($thread->messages) - 1]->message }}
-                                </p>
+                                @if ($thread->item->is_given)
+                                    <x-chip>{{ __('item.given') }}</x-chip>
+                                @elseif ($thread->item->trashed())
+                                    <x-chip>{{ __('item.deleted') }}</x-chip>
+                                @else
+                                    <p class="truncate">
+                                        {{ $thread->messages[count($thread->messages) - 1]->message }}
+                                    </p>
+                                @endif
                             </div>
                         </a>
                     </li>

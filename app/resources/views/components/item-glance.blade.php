@@ -6,20 +6,25 @@
 >
     <img
         alt="{{ $item->name }}"
-        class="aspect-square border-2 border-primary dark:border-neutral-400 size-12"
+        class="
+            aspect-square
+            border-2
+            border-primary
+            dark:border-neutral-400
+            @if ($item->is_given || $item->trashed())
+                grayscale
+            @endif
+            size-12"
         src="{{ $item->images[0]->get(32, 32) }}"
     />
-    <div
-        class="
-            @if ($item->is_given || $item->trashed())
-                line-through
-            @endif
-            flex
-            flex-col
-            grow
-            min-w-0"
-    >
+    <div class="flex flex-col grow min-w-0">
         <h5 class="font-bold">{{ $item->name }}</h5>
-        <p class="truncate">{{ $item->description }}</p>
+        @if ($item->is_given)
+            <x-chip>{{ __('item.given') }}</x-chip>
+        @elseif ($item->trashed())
+            <x-chip>{{ __('item.deleted') }}</x-chip>
+        @else
+            <p class="truncate">{{ $item->description }}</p>
+        @endif
     </div>
 </a>
