@@ -29,6 +29,52 @@
         </div>
     </x-page-title>
 
+    <details class="bg-neutral-50 border border-neutral-500 dark:bg-neutral-900 mb-4 rounded-sm">
+        <summary class="cursor-pointer p-4">
+            <span class="pr-2 relative">
+                {{ __('my-items.filter__title') }}
+                @if ($hasFilter)
+                    <x-badge></x-badge>
+                @endif
+            </span>
+        </summary>
+        <form action="{{ route('myItems') }}" class="m-4" method="GET">
+            <div class="gap-4 grid grid-cols-1 md:grid-cols-2">
+                <div>
+                    <label class="flex gap-2 items-center" for="my-items__show-deleted">
+                        <input
+                            @if (app('request')->input('deleted') === '1')
+                                checked
+                            @endif
+                            id="my-items__show-deleted"
+                            name="deleted"
+                            type="checkbox"
+                            value="1"
+                        />
+                        {{ __('my-items.filter__show--deleted') }}
+                    </label>
+                </div>
+                <div>
+                    <label class="flex gap-2 items-center" for="my-items__show-given">
+                        <input
+                            @if (app('request')->input('given') === '1')
+                                checked
+                            @endif
+                            id="my-items__show-given"
+                            name="given"
+                            type="checkbox"
+                            value="1"
+                        />
+                        {{ __('my-items.filter__show--given') }}
+                    </label>
+                </div>
+            </div>
+            <x-button class="mt-2" type="submit">
+                {{ __('my-items.filter__action--filter') }}
+            </x-button>
+        </form>
+    </details>
+
     @if ($items->isEmpty())
         <x-alert>
             <div class="flex flex-row grow justify-between">

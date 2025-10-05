@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AuthenticationProvider;
+use App\Http\Requests\MyItemsRequest;
 use App\Models\User;
 use App\Models\UserReport;
 use Illuminate\Http\Request;
@@ -13,14 +14,38 @@ class UserController extends Controller
     /**
      * The user's items page (GET)
      */
-    public function items(Request $request)
+    public function items(MyItemsRequest $request)
     {
-        $items = $request->user()
+        $validated = $request->safe(['deleted', 'given']);
+        $deleted = $validated['deleted'] ?? null;
+        $given = $validated['given'] ?? null;
+
+        $query = $request->user()
             ->items()
-            ->with(['images'])
+            ->with(['images']);
+
+        if ($deleted) {
+            $query
+                ->withTrashed()
+                ->with([
+                    'images' => fn ($query) => $query->withTrashed(),
+                ]);
+        }
+
+        if (!$given) {
+            $query->where('is_given', false);
+        }
+
+        $items = $query
             ->latest()
             ->paginate(12);
-        return view('pages.my-items', ['items' => $items]);
+        return view(
+            'pages.my-items',
+            [
+                'hasFilter' => $deleted === '1' || $given === '1',
+                'items' => $items,
+            ],
+        );
     }
 
     /**
