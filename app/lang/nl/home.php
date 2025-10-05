@@ -6,7 +6,7 @@ return [
     'give__description' => 'Velen van ons hebben spullen in huis die we niet nodig hebben. Deze kunnen voor anderen een schat zijn.',
     'give__sub-heading' => 'Geef weg wat je niet nodig hebt',
     'give__title' => 'Geef',
-    'issues-suggestions__action' => 'Geef terugvoer',
+    'issues-suggestions__action' => 'Geef feedback',
     'issues-suggestions__description' => 'Een bug gevonden? Wilt u een suggestie doen? Open dan een issue op GitHub.',
     'issues-suggestions__title' => 'Bugs of suggesties?',
     'latest-given-items__title' => 'Laatst gegeven items',
