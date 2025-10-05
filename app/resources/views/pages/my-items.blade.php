@@ -45,19 +45,25 @@
                     <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center">
                         <a class="flex grow gap-4 items-center p-4" href="{{ route('item', $item) }}">
                             <img
-                                class="border border-neutral-500 rounded-sm"
-                                src="{{ $item->images[0]->get(32, 32) }}"
-                            />
-                            <div
                                 class="
+                                    aspect-square
+                                    border
+                                    border-neutral-500
                                     @if ($item->is_given || $item->trashed())
-                                        line-through
+                                        grayscale
                                     @endif
-                                    flex
-                                    grow
-                                    overflow-hidden"
-                            >
+                                    rounded-sm size-16"
+                                src="{{ $item->images[0]->get(64, 64) }}"
+                            />
+                            <div class="flex flex-col gap-2 grow overflow-hidden">
                                 <p class="truncate">{{ $item->name }}</p>
+                                @if ($item->is_given)
+                                    <x-chip>{{ __('item.given') }}</x-chip>
+                                @elseif ($item->trashed())
+                                    <x-chip>{{ __('item.deleted') }}</x-chip>
+                                @else
+                                    <p class="truncate">{{ $item->description }}</p>
+                                @endif
                             </div>
                         </a>
                         <details class="mr-4 my-items__item__menu relative">
