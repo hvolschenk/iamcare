@@ -81,6 +81,7 @@ class ItemController extends Controller
             $language = App::currentLocale();
             $location = Location::fromGooglePlaceID($googlePlaceID, $language);
             Log::debug('Item: Update: Update Location', ['locationID' => $location->id]);
+            $item->googlePlaceID = $location->googlePlaceID;
             $item->location()->associate($location);
         }
 
