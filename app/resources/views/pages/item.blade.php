@@ -118,23 +118,24 @@
         class="bg-neutral-200 dark:bg-neutral-700 flex h-80 justify-center relative"
         id="item__image-carousel"
     >
-        <button class="absolute disabled:cursor-not-allowed hover:bg-white/20 left-0 h-full px-4" type="button">
+        <button class="absolute cursor-pointer disabled:cursor-not-allowed hover:bg-white/20 left-0 h-full px-4 z-10" type="button">
             <span class="material-symbols-outlined">chevron_left</span>
         </button>
         @foreach ($item->images as $image)
-            <div class="h-full relative">
+            <div class="flex h-full items-center relative">
                 <img
                     alt="{{ $item->name }}"
                     class="
                         @if ($item->is_given || $item->trashed())
                             grayscale
                         @endif
-                        h-full"
+                        h-auto
+                        max-h-full"
                     src="{{ $image->get() }}"
                 />
             </div>
         @endforeach
-        <button class="absolute disabled:cursor-not-allowed hover:bg-white/20 h-full px-4 right-0" type="button">
+        <button class="absolute cursor-pointer disabled:cursor-not-allowed hover:bg-white/20 h-full px-4 right-0 z-10" type="button">
             <span class="material-symbols-outlined">chevron_right</span>
         </button>
     </div>
@@ -169,21 +170,21 @@
         @if (!$item->is_given)
             @auth
                 @if (!$isOwner)
-                    <x-link.button class="md:max-w-fit" href="{{ route('threadCreate', $item) }}">
+                    <x-link.button class="md:max-w-fit mt-4" href="{{ route('threadCreate', $item) }}">
                         <span class="material-symbols-outlined">send</span>
                         {{ __('item.actionContactGiver') }}
                     </x-link.button>
                 @endif
             @endauth
             @guest
-                <x-link.button class="md:max-w-fit" href="{{ route('threadCreate', $item) }}">
+                <x-link.button class="md:max-w-fit mt-4" href="{{ route('threadCreate', $item) }}">
                     <span class="material-symbols-outlined">send</span>
                     {{ __('item.actionContactGiver') }}
                 </x-link.button>
             @endguest
         @endif
     @else
-        <x-link.button class="md:max-w-fit" href="{{ route('thread', $thread) }}">
+        <x-link.button class="md:max-w-fit mt-4" href="{{ route('thread', $thread) }}">
             <span class="material-symbols-outlined">send</span>
             {{ __('item.actionOpenThread') }}
         </x-link.button>
