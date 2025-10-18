@@ -118,7 +118,7 @@
         class="bg-neutral-200 dark:bg-neutral-700 flex h-80 justify-center relative"
         id="item__image-carousel"
     >
-        <button class="absolute disabled:cursor-not-allowed hover:bg-white/20 left-0 h-full px-4" type="button">
+        <button class="absolute cursor-pointer disabled:cursor-not-allowed hover:bg-white/20 left-0 h-full px-4" type="button">
             <span class="material-symbols-outlined">chevron_left</span>
         </button>
         @foreach ($item->images as $image)
@@ -134,7 +134,7 @@
                 />
             </div>
         @endforeach
-        <button class="absolute disabled:cursor-not-allowed hover:bg-white/20 h-full px-4 right-0" type="button">
+        <button class="absolute cursor-pointer disabled:cursor-not-allowed hover:bg-white/20 h-full px-4 right-0" type="button">
             <span class="material-symbols-outlined">chevron_right</span>
         </button>
     </div>
