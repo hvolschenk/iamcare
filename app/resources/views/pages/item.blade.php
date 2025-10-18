@@ -169,21 +169,21 @@
         @if (!$item->is_given)
             @auth
                 @if (!$isOwner)
-                    <x-link.button class="md:max-w-fit" href="{{ route('threadCreate', $item) }}">
+                    <x-link.button class="md:max-w-fit mt-4" href="{{ route('threadCreate', $item) }}">
                         <span class="material-symbols-outlined">send</span>
                         {{ __('item.actionContactGiver') }}
                     </x-link.button>
                 @endif
             @endauth
             @guest
-                <x-link.button class="md:max-w-fit" href="{{ route('threadCreate', $item) }}">
+                <x-link.button class="md:max-w-fit mt-4" href="{{ route('threadCreate', $item) }}">
                     <span class="material-symbols-outlined">send</span>
                     {{ __('item.actionContactGiver') }}
                 </x-link.button>
             @endguest
         @endif
     @else
-        <x-link.button class="md:max-w-fit" href="{{ route('thread', $thread) }}">
+        <x-link.button class="md:max-w-fit mt-4" href="{{ route('thread', $thread) }}">
             <span class="material-symbols-outlined">send</span>
             {{ __('item.actionOpenThread') }}
         </x-link.button>
