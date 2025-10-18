@@ -122,14 +122,15 @@
             <span class="material-symbols-outlined">chevron_left</span>
         </button>
         @foreach ($item->images as $image)
-            <div class="h-full relative">
+            <div class="flex h-full items-center relative">
                 <img
                     alt="{{ $item->name }}"
                     class="
                         @if ($item->is_given || $item->trashed())
                             grayscale
                         @endif
-                        h-full"
+                        h-auto
+                        max-h-full"
                     src="{{ $image->get() }}"
                 />
             </div>
