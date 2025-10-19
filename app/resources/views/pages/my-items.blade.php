@@ -89,7 +89,7 @@
             <ul class="dark:divide-neutral-700 divide-y divide-neutral-200 list-none">
                 @foreach ($items as $item)
                     <li class="dark:hover:bg-neutral-700 flex gap-4 hover:bg-neutral-200 items-center">
-                        <a class="flex grow gap-4 items-center p-4" href="{{ route('item', $item) }}">
+                        <a class="flex grow gap-4 items-center p-4 min-w-0" href="{{ route('item', $item) }}">
                             <img
                                 class="
                                     aspect-square
@@ -101,7 +101,7 @@
                                     rounded-sm size-16"
                                 src="{{ $item->images[0]->get(64, 64) }}"
                             />
-                            <div class="flex flex-col gap-2 grow overflow-hidden">
+                            <div class="flex flex-col gap-2 grow min-w-0 overflow-hidden">
                                 <p class="truncate">{{ $item->name }}</p>
                                 @if ($item->is_given)
                                     <x-chip>{{ __('item.given') }}</x-chip>
@@ -112,7 +112,7 @@
                                 @endif
                             </div>
                         </a>
-                        <details class="mr-4 my-items__item__menu relative">
+                        <details class="mr-4 my-items__item__menu relative shrink-0">
                             <summary class="cursor-pointer flex items-center">
                                 <span class="material-symbols-outlined">
                                     menu
