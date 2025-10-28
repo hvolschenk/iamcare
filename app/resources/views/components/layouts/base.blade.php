@@ -84,7 +84,7 @@
         />
 
         <link
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap"
             rel="stylesheet"
         />
 
